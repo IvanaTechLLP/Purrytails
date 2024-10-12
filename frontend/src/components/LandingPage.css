@@ -1,5 +1,5 @@
 /* Base Styles */
-@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@500;700&display=swap');
 .landing-container1 {
     display: flex;
     flex-direction: column;
@@ -21,6 +21,7 @@
     background-color:white;
     background-size: cover;
     background-position: center;
+    width: 100%;
     
     position: relative; /* Ensure proper positioning of the navbar */
     
@@ -43,8 +44,7 @@ body {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
-    margin-top: 130px; /* Adjust based on navbar height */
+    margin-top: 160px; /* Adjust based on navbar height */
   }
   .landing-content {
     position: relative;
@@ -87,7 +87,7 @@ body {
    
   }
   
-  @media (max-width: 400px) {
+  @media (max-width: 480px) {
     h1 {
       font-size: 2rem; /* Adjust font size for smaller screens */
     }
@@ -96,6 +96,30 @@ body {
       font-size: 1rem;
     }
   }
+  @media (max-width: 500px) {
+    .landing-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+      height: 50%;
+    }
+  
+    .nav-logo {
+      text-align: center;
+    }
+  
+    .nav-logo img {
+      width: 150px; /* Adjust the size as necessary */
+    }
+  
+    /* Hide the navigation links */
+    .landing-nav .nav-links {
+      display: none !important;
+  }
+}
+  
   
 
 
@@ -160,19 +184,15 @@ body {
 }
 
 
-/* Center the logo */
-/* General Carousel Styles */
-
-
-/* Carousel Container */
 .carousel {
   margin-top: 160px;
   position: relative;
-  width: 80%;
-  height:80%;
+  width: 100%;
+  height:100%;
   max-height: 600px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
 }
 
 /* Carousel Inner Items */
@@ -210,21 +230,11 @@ body {
   border-radius: 8px; /* Optional: Round the corners of the text box */
   margin-left: 10px;
 }
-/* Carousel Item */
-.carousel-item {
-  display: flex; /* Use flex to align items side by side */
-}
-
-/* Carousel Image */
-.carousel-item img {
-  width: 70%; /* Adjust width as needed */
-  height: auto;
-  object-fit: cover;
-}
 
 /* Caption Container */
 .carousel-caption {
   width: 30%; /* Adjust width as needed */
+  height: 30%;
   padding: 20px;
   color: #fff;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
@@ -234,29 +244,35 @@ body {
   flex-direction: column; /* Align caption text vertically */
   justify-content: center; /* Center the caption content */
 }
+/* Carousel Item */
+.carousel-item {
+  display: flex; /* Use flex to align items side by side */
+}
+
+
 
 /* Optional: Style adjustments for responsiveness */
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .carousel-item {
       flex-direction: column; /* Stack image and caption on smaller screens */
   }
-
-  .carousel-item img,
   .carousel-caption {
-      width: 100%; /* Full width for smaller screens */
-      border-left: none; /* Remove left border */
+    width: 40%; /* Adjust width as needed */
+    height: 65%;
   }
+  .carousel-item img {
+    height: 400px;
+}
 }
 
 
-.carousel-caption h5 {
-  font-size: 2rem; /* Adjust the size of the heading */
-  font-weight: bold;
+/* Maintain sufficient padding and responsive text */
+.carousel-caption {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Adjust text shadow for readability */
+  padding: 10px;
 }
 
-.carousel-caption p {
-  font-size: 1.2rem; /* Adjust the size of the paragraph */
-}
+
 .carousel-control-prev,
 .carousel-control-next {
   width: 5%;
@@ -278,6 +294,24 @@ body {
   padding-bottom: 50px; /* Add some padding at the bottom */
 }
 
+.carousel-caption h5 {
+  font-size: 2rem; /* Size for the heading */
+  font-weight: bold; /* Make the heading bold */
+  margin-bottom: 0.5rem; /* Space between heading and paragraph */
+}
+
+.carousel-caption p {
+  font-size: 1rem; /* Size for the paragraph */
+}
+@media (max-width: 768px) {
+  .carousel-caption h5 {
+    font-size: 1.2rem; /* Adjust font size for smaller devices */
+  }
+
+  .carousel-caption p {
+    font-size: 0.8rem; /* Adjust font size for smaller devices */
+  }
+}
 
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
@@ -310,20 +344,7 @@ body {
   border: 0;
 }
 
-@media (max-width: 400px) {
-  .carousel-caption {
-    bottom: 20px;
-    padding: 10px 20px;
-  }
 
-  .carousel-caption h5 {
-    font-size: 1.5rem;
-  }
-
-  .carousel-caption p {
-    font-size: 0.9rem;
-  }
-}
 
 
 
@@ -347,35 +368,8 @@ body {
 }
 
 /* Mobile Responsive Adjustments */
-@media (max-width: 400px) {
-  .landing-nav {
-    flex-direction: column;
-    padding: 15px;
-  }
 
-  .nav-logo {
-    margin-bottom: 15px;
-  }
 
-  .logo-image {
-    max-width: 100px;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    margin-left: 0;
-    width: 100%;
-  }
-
-  .nav-links li {
-    margin: 10px 0;
-  }
-
-  .nav-links a {
-    padding: 10px 20px;
-    font-size: 1rem;
-  }
-}
 
 
 
@@ -425,7 +419,6 @@ body {
   margin-right: 15px;
   font-size: 18px;
   font-weight: 500;
-  font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
   color: #ffffff;
   text-decoration: none;
@@ -455,45 +448,18 @@ body {
 .nav-links .right:hover::after {
   width: 100%; /* Underline effect on hover */
 }
-
-
-@media (max-width: 400px) {
-  .nav-links {
-    display: none; /* Hide links on mobile */
-  }
-  .hamburger-menu {
-    display: block; /* Add a hamburger icon */
-    font-size: 30px;
-    cursor: pointer;
-  }
-}
-
-  
-  
-  
-  
-  
   
   /* Responsive Design */
   
   /* For tablets and smaller screens */
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .landing-content {
       flex-direction: column;
       margin-top: 120px; /* Increased space for smaller screens */
     }
   
-   
   
-    .nav-links {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .nav-links li {
-      margin-left: 0;
-      margin-bottom: 10px;
-    }
+
   
     .about-us-section {
       padding: 20px;
@@ -517,7 +483,7 @@ body {
   }
   
   /* For mobile screens */
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .landing-content {
       margin-top: 130px;
     }
@@ -528,16 +494,6 @@ body {
   
     .left-side p {
       font-size: 1rem;
-    }
-  
-    .nav-links {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  
-    .nav-links a {
-      font-size: 1rem;
-      padding: 8px 12px;
     }
   
     .about-us-section h1 {
@@ -560,10 +516,11 @@ body {
   .who-are-we-section {
     padding: 50px 20px;
     background-color: rgba(255, 255, 255, 0.9);
-    margin-top: 160px;
+
   }
   
   .who-are-we-content {
+    
     display: flex;
     flex-direction: column; /* Changed to column to stack text above images */
     align-items: center; /* Center content */
@@ -605,7 +562,7 @@ body {
   }
   
   /* Responsive Design for Who Are We Section */
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .who-are-we-content {
       flex-direction: column; /* Maintain column layout for smaller screens */
     }
@@ -625,7 +582,7 @@ body {
     }
   }
   
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .who-are-we-text h1 {
       font-size: 2rem;
     }
@@ -641,6 +598,7 @@ body {
   
   /* Info Boxes Section Styles */
   .info-boxes-section {
+    width: 100%;
     display: flex;
     justify-content: space-around;
     padding: 50px 20px;
@@ -671,7 +629,7 @@ body {
   }
   
   /* Responsive Design for Info Boxes Section */
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .info-boxes-section {
       flex-direction: column;
       align-items: center;
@@ -741,15 +699,7 @@ body {
 }
 
 
-
-/* Responsive Design */
-@media (max-width: 400px) {
-  .perk-item {
-      flex: 1 1 calc(50% - 20px); /* Two items per row on tablet screens */
-  }
-}
-
-@media (max-width: 400px) {
+@media (max-width: 500px) {
   .perk-item {
       flex: 1 1 100%; /* One item per row on small mobile screens */
   }
@@ -768,7 +718,7 @@ body {
 }
 
   
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .info-number {
       font-size: 2.5rem;
     }
@@ -919,7 +869,7 @@ body {
     background-color: #0056b3;
   }
   
-  @media (max-width: 400px) {
+  @media (max-width: 500px) {
     .contact-us-info,
     .contact-us-form {
       width: 100%;
@@ -938,18 +888,5 @@ body {
     margin-bottom: 30px;
 }
 
-.cta-button {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #3D4C9A; /* Button color */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-}
 
-.cta-button:hover {
-    background-color: #2F2C28; /* Darker shade on hover */
-}
 
-/* Other existing styles can remain */

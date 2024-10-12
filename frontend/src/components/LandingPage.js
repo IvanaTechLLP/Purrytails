@@ -6,59 +6,75 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const LandingPage = () => {
   const [activeService, setActiveService] = useState(null);
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 150; // Height of your fixed navbar
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth"
+      });
+    }
+  }
+
 
   const reviews = [
     { author: "Dr. Sarah Johnson", text: "MedDox has revolutionized how we manage patient records. It's intuitive, secure, and incredibly efficient. Highly recommend!" },
     { author: "Dr. Michael Lee", text: "The platform's ease of use and seamless integration with our systems have been game-changers. MedDox has become an essential tool in our practice." },
     { author: "Dr. Emily Davis", text: "A fantastic service that simplifies medical record management. The Smart Health Card feature is particularly useful for emergencies." },
   ];
-  
 
+  
+  
   return (
     <div className="landing-container">
       <nav className="landing-nav">
         <ul className="nav-links left-group">
-          <li><a href="#home" className="left">Home</a></li>
-          <li><a href="#services" className="left">Services</a></li>
+          <li><a onClick={() => scrollToSection("ourmission")} className="left">Our Mission</a></li>
+          <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
         </ul>
 
         <div className="nav-logo">
+        <a href="#">
           <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
+          </a>
         </div>
 
         <ul className="nav-links right-group">
-          <li><a href="#reviews" className="right">Testimonials</a></li>
-          <li><a href="#about" className="right">About Us</a></li>
+          <li><a onClick={() => scrollToSection("reviews")} className="right">Testimonials</a></li>
+          <li><a onClick={() => scrollToSection("about")} className="right">About Us</a></li>
         </ul>
       </nav>
+      
 
       {/* Carousel Section */}
       <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
             <img src="/c1.png" className="d-block w-100" alt="Slide 1" />
-            <div className="carousel-caption d-none d-md-block">
-              <h5>Empowering Your Companion's Health</h5>
-              <p>Keep all your pet's medical history, vaccination records, and important documents in one secure place.</p>
+            <div className="carousel-caption">
+              <h5>Empowering Your Pet's Health</h5>
+              <p>Your pet's medical history, vaccination records, and important documents in one secure place.</p>
             </div>
           </div>
           <div className="carousel-item">
             <img src="/c2.jpeg" className="d-block w-100" alt="Slide 2" />
-            <div className="carousel-caption d-none d-md-block">
+            <div className="carousel-caption">
               <h5>Access Anytime, Anywhere</h5>
               <p>Access your pet's information on-the-go, whether at the vet's office or during travel.</p>
             </div>
           </div>
           <div className="carousel-item">
             <img src="/c3.jpeg" className="d-block w-100" alt="Slide 3" />
-            <div className="carousel-caption d-none d-md-block">
+            <div className="carousel-caption ">
               <h5>Share with Caregivers</h5>
               <p>Easily share your pet's records with vets, pet sitters, and family members for better care.</p>
             </div>
           </div>
           <div className="carousel-item">
             <img src="/Designer.png" className="d-block w-100" alt="Slide 3" />
-            <div className="carousel-caption d-none d-md-block">
+            <div className="carousel-caption ">
               <h5>Join Our Pet Community</h5>
               <p>Connect with fellow pet owners for tips, support, and shared experiences</p>
             </div>
@@ -105,7 +121,7 @@ const LandingPage = () => {
       </div>
       </div>
       <div id="whoweare" className="who-are-we-section">
-        <div className="who-are-we-content">
+        <div id ="ourmission" className="who-are-we-content">
         <div className="who-are-we-text">
             <h1>Medication Errors Happen to Pets, Too</h1>
             <p>Medication errors in pets are a significant concern in veterinary care, often leading to serious health consequences. Many pet owners are unaware of the potential for these errors, and communication breakdowns between veterinarians and owners contribute to the issue.</p>

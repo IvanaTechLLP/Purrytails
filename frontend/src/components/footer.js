@@ -2,6 +2,17 @@ import React from "react";
 import "./footer.css";  // Create a new CSS file for styling the footer
 
 const Footer = () => {
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 150; // Height of your fixed navbar
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth"
+      });
+    }
+  }
   return (
     <footer className="footer">
       <div className="footer-left">
@@ -11,10 +22,10 @@ const Footer = () => {
       <div className="footer-center">
         <div className="footer-nav">
           <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#reviews">Testimnonials</a></li>
-          <li><a href="#about">About Us</a></li>
+          <li><a onClick={() => scrollToSection("ourmission")}>Our Mission</a></li>
+          <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
+          <li><a onClick={() => scrollToSection("reviews")}>Testimnonials</a></li>
+          <li><a onClick={() => scrollToSection("about")}>About Us</a></li>
           </ul>
         </div>
       </div>

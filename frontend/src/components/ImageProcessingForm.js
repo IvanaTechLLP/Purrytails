@@ -1,0 +1,299 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './ImageProcessingForm.css';
+
+const ImageProcessingForm = ({ profile, logOut }) => {
+  const [image, setImage] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
+  const [currentReport, setCurrentReport] = useState(null);
+  const [output, setOutput] = useState(null);
+  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
+  const [qrCodeImage, setQRCodeImage] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [editableDate, setEditableDate] = useState(''); 
+  const [isEditing, setIsEditing] = useState(false); 
+  const navigate = useNavigate();
+
+  const handleImageChange = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+    setError(null); 
+  };
+
+  const handleSubmit = async () => {
+    if (!image) {
+      setError("Please select a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('file', image);
+    formData.append('user_id', profile.user_id);
+
+    setLoading(true); 
+
+    try {
+      const response = await fetch('http://localhost:5000/api/process_file', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to process file');
+      }
+
+      const data = await response.json();
+      setOutput(data);
+      const dates = Object.values(data).map(report => report.date);
+      console.log("DATA:", data);
+    
+      const report_being_edited = dates[currentReport];
+      setEditableDate(report_being_edited); 
+      setImage(null); 
+
+      // Log each report's info after receiving it
+      console.log("Processed Reports:", data); // This will log the entire output data
+
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  const handleDateChange = (event, reportKey) => {
+    const newDate = event.target.value;
+    setOutput((prevOutput) => ({
+      ...prevOutput,
+      [reportKey]: {
+        ...prevOutput[reportKey],
+        editableDate: newDate,
+      },
+    }));
+  };
+
+  const editingCurrentReport = (reportKey, reportData) => {
+    setOutput((prevOutput) => ({
+      ...prevOutput,
+      [reportKey]: { ...reportData, isEditing: true },
+    }));
+    setCurrentReport(reportKey);
+  };
+
+  const handleSaveDate = async () => {
+    const reportId = output[currentReport]?.report_id; 
+    try {
+      const response = await fetch(`http://localhost:5000/update_report_date/${reportId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ new_date: output[currentReport]?.editableDate }),
+      });
+  
+      if (!response.ok) throw new Error('Failed to update date');
+  
+      setOutput((prevOutput) => ({
+        ...prevOutput,
+        [currentReport]: {
+          ...prevOutput[currentReport],
+          date: prevOutput[currentReport].editableDate, // Update original date
+          isEditing: false,
+        },
+      }));
+      setIsEditing(false);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  const handleShowQRCode = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/qr_codes/${profile.user_id}.png`
+      );
+      if (response.ok) {
+        const imageBlob = await response.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setQRCodeImage(imageObjectURL);
+        setShowQRCodePopup(true);
+      } else {
+        const generateResponse = await fetch(
+          `http://localhost:5000/generate_qr_code/${profile.user_id}`,
+          { method: "POST" }
+        );
+        if (generateResponse.ok) {
+          const fetchQRCodeResponse = await fetch(
+            `http://localhost:5000/qr_codes/${profile.user_id}.png`
+          );
+          if (fetchQRCodeResponse.ok) {
+            const imageBlob = await fetchQRCodeResponse.blob();
+            const imageObjectURL = URL.createObjectURL(imageBlob);
+            setQRCodeImage(imageObjectURL);
+            setShowQRCodePopup(true);
+          } else {
+            console.error("Failed to fetch the newly generated QR code.");
+          }
+        } else {
+          console.error("Error generating QR code:", generateResponse.statusText);
+        }
+      }
+    } catch (error) {
+      console.error("Error handling QR code:", error);
+    }
+  };
+
+  const handleCloseQRCodePopup = () => {
+    setShowQRCodePopup(false);
+    setQRCodeImage(null);
+  };
+
+  const handleShowUserDetails = () => {
+    navigate("/profile", { state: { userDetails } });
+  };
+
+  const handleBackToDashboard = () => {
+    navigate("/dashboard", { state: { showPopup: false } });
+  };
+
+  const handleShowCalendar = () => {
+    navigate("/calendar");
+  };
+
+  return (
+    <div className="dashboard-wrapper">
+      <div className="sidebar">
+        <h2>Menu</h2>
+        <ul>
+          <li onClick={handleShowQRCode}>View QR Code</li>
+          <li onClick={handleBackToDashboard}>Go to Dashboard</li>
+          <li onClick={handleShowUserDetails}>View User Details</li>
+          <li onClick={handleShowCalendar}>View Calendar</li>
+        </ul>
+        <ul className="logout-button">
+          <li onClick={logOut} className="logout-button">Log Out</li>
+        </ul>
+      </div>
+
+      <div className="dashboard-content">
+        <h1 className="image-upload-title">Image Upload</h1>
+        
+        <h3 className="instruction-heading">Instructions for Uploading Images</h3>
+        
+        <div className="instruction-cards">
+          <div className="instruction-card">
+            <img src="scan1.png" alt="Choose a file" className="instruction-image" />
+            <h3>Scan the Document</h3>
+            <p>Take a clear photo of the document for the best results.</p>
+          </div>
+          
+          <div className="instruction-card">
+            <img src="upload1.png" alt="File Format" className="instruction-image" />
+            <h3>Upload the Document</h3>
+            <p>Upload the scanned document in image or PDF format. Click "Process Document" to process it.</p>
+          </div>
+          
+          <div className="instruction-card">
+            <img src="edit1.png" alt="Process File" className="instruction-image" />
+            <h3>Edit the Date (if required)</h3>
+            <p>We all know how doctors write, so there's an added edit feature for you to edit the date if it's incorrect. Click on the Save button to save the document.</p>
+          </div>
+        </div>
+
+        <div className="file-upload-container">
+          <h3 className="upload-heading">Upload Your File</h3>
+          <input
+            type="file"
+            accept="image/*,.pdf"
+            id="file-upload"
+            className="file-upload"
+            onChange={handleImageChange}
+          />
+          <label htmlFor="file-upload" className="file-upload-label">
+            {image ? image.name : "Upload a Document"}
+          </label>
+        </div>
+
+        <button className="form-container sexy-button" onClick={handleSubmit} disabled={loading}>
+          {loading ? 'Processing...' : 'Process File'}
+        </button>
+
+        {loading && <div className="loader">Please wait while we process the document...</div>} 
+
+        {error && <p className="error-message">{error}</p>}
+
+        {showQRCodePopup && qrCodeImage && (
+          <div className="qr-code-popup">
+            <div className="qr-code-content">
+              <span className="close-popup" onClick={handleCloseQRCodePopup}>
+                &times;
+              </span>
+              <img src={qrCodeImage} alt="QR Code" />
+            </div>
+          </div>
+        )}
+
+        {output && (
+          <div className="output-container">
+            <h3>Processed Output:</h3>
+            {Object.entries(output).map(([reportKey, reportData]) => {
+              // Log each report's information
+              console.log(`Report Key: ${reportKey}`, reportData);
+
+              return (
+                <div key={reportData.report_id} className="report-container">
+                  <ul>
+                    <li>
+                      <strong>Date:</strong>
+                      {reportData.isEditing ? (
+                        <>
+                          <input
+                            type="date"
+                            value={reportData.editableDate || reportData.date}
+                            onChange={(e) => handleDateChange(e, reportKey)}
+                            style={{ marginRight: '10px' }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <span>{reportData.editableDate || reportData.date}</span>
+                          <button
+                            className="edit-button"
+                            onClick={() => editingCurrentReport(reportKey, reportData)}
+                          >
+                            Edit
+                          </button>
+                        </>
+                      )}
+                    </li>
+                    <li><strong>Type:</strong> {reportData.document}</li>
+                    <li><strong>Diseases:</strong> {reportData.diseases}</li>
+                    <li><strong>Medicines:</strong> {reportData.medicines}</li>
+                    <li><strong>Test Results:</strong> {reportData.results}</li>
+                    <li>
+            <strong>Link:</strong> 
+            <a href={reportData.link} target="_blank" rel="noopener noreferrer">
+              View Report
+            </a>
+          </li>
+                  </ul>
+                  {reportData.isEditing && (
+                    <button
+                      className="save-button"
+                      onClick={handleSaveDate}
+                    >
+                      Save
+                    </button>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default ImageProcessingForm;

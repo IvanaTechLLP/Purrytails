@@ -1,0 +1,114 @@
+/* Wrapper for the entire calendar page */
+.calendar-wrapper {
+  display: flex;
+  flex-direction: row;
+  min-height: 100vh;
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 250px; /* Adjust width as needed */
+  background-color: #3D4C9A;
+  padding: 20px;
+  color: white;
+  height: 100%;
+  position: fixed; /* Fix the sidebar to the left */
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+/* Sidebar heading styling */
+.sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Sidebar links */
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar ul li:hover {
+  text-decoration: underline;
+}
+
+/* Log out button styling */
+.logout-button {
+  margin-top: 50px;
+  color: #ffcccc;
+}
+
+.logout-button li {
+  cursor: pointer;
+}
+
+/* Calendar content area */
+.calendar-content {
+  margin-left: 290px; /* Adjust this to match sidebar width */
+  padding: 20px;
+  width: calc(100% - 250px); /* Adjust the width to account for sidebar */
+}
+
+/* Calendar heading */
+.calendar-content h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Updated styling for event container */
+.event-container {
+  display: flex; /* Enable flexbox for the container */
+  justify-content: space-between; /* Push items to opposite sides */
+  align-items: center; /* Center items vertically */
+  padding: 5px; /* Add some padding */
+}
+
+/* Delete button styling */
+.delete-button {
+  background-color: #ff4d4d; /* Red background */
+  color: white; /* White text */
+  border: none; /* No border */
+  padding: 5px 10px; /* Padding for the button */
+  margin-top: -0.1px;
+  border-radius: 5px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  font-size: 14px; /* Font size */
+}
+
+.qr-code-popup {
+  position: fixed; /* Ensures the popup is always visible */
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full width */
+  height: 100vh; /* Full height */
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensures it's above everything else */
+}
+
+.qr-code-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  position: relative;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+

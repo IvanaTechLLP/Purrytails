@@ -1,0 +1,122 @@
+/* General styles */
+* {
+  box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
+}
+
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif; /* Clean, modern font */
+  background-color: #f0f4f8; /* Light, neutral background */
+}
+
+/* Wrapper for the entire login page */
+.login-wrapper {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+  justify-content: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
+  padding: 20px; /* Spacing inside the wrapper */
+}
+
+/* Container for steps and user type selection */
+.info-container {
+  width: 350px; /* Fixed width for a compact look */
+  padding: 20px; /* Inner padding */
+  background: #ffffff; /* Solid white for a clean look */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for subtle depth */
+  margin-right: 20px; /* Space between info and auth container */
+}
+
+/* Back button styling */
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #007bff; /* Bootstrap primary color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s; /* Smooth background transition */
+}
+
+.back-button:hover {
+  background-color: #0056b3; /* Darker shade for hover */
+}
+
+/* Authentication container */
+.auth-container {
+  width: 350px; /* Fixed width for a compact look */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Center items vertically */
+  align-items: center; /* Center items horizontally */
+  padding: 30px; /* Inner padding */
+  background: #ffffff; /* Solid white background for clarity */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for subtle depth */
+}
+
+/* Login option styling */
+.login-option {
+  margin-top: 20px; /* Spacing above the login option */
+}
+
+.login-option button {
+  display: flex;
+  align-items: center;
+  background-color: #007bff; /* Elegant blue */
+  color: white; /* White text for contrast */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px; /* Slightly rounded corners */
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial shadow for buttons */
+}
+
+.login-option button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.login-option button img {
+  margin-right: 10px; /* Space between image and text */
+  width: 20px; /* Adjusted size for Google logo */
+  height: 20px; /* Consistent logo size */
+}
+
+/* Heading styles */
+h2 {
+  font-size: 24px; /* Font size for headings */
+  margin-bottom: 10px; /* Spacing below headings */
+  color: #333; /* Dark grey color for contrast */
+}
+
+/* Subheading styles */
+h3 {
+  font-size: 20px; /* Font size for subheadings */
+  margin-bottom: 5px; /* Spacing below subheadings */
+  color: #555; /* Medium grey for a softer look */
+}
+
+/* User type selection styles */
+.user-type-selection {
+  margin: 20px 0; /* Spacing above and below user type selection */
+  text-align: left; /* Align text to the left */
+}
+
+.user-type-selection label {
+  display: block; /* Block display for labels */
+  margin: 10px 0; /* Spacing around labels */
+  font-size: 16px; /* Font size for labels */
+  color: #555; /* Medium grey for a softer look */
+}
+
+/* Radio button styling */
+.user-type-selection input[type="radio"] {
+  margin-right: 5px; /* Space between radio and label text */
+}

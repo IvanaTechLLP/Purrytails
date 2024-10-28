@@ -1,0 +1,577 @@
+/* General Dashboard Styles */
+.dashboard-container {
+  padding: 20px;
+  background: linear-gradient(white, #f9f9f9); /* Subtle gradient */
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  max-width: 1200px; /* Increased max-width */
+  margin: 20px auto; /* Added margin for separation from top */
+}
+
+.dashboard-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333; /* Darker text for better readability */
+}
+
+.user-and-reports-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Added gap for spacing */
+}
+
+/* Buttons */
+.upload-file-button, .show-qr-code-button {
+  display: block;
+  width: 100%;
+  padding: 12px; /* Increased padding for better click area */
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+.upload-file-button {
+  background-color: #007bff;
+}
+
+.upload-file-button:hover {
+  background-color: #0056b3;
+}
+
+.show-qr-code-button {
+  background-color: #28a745;
+}
+
+.show-qr-code-button:hover {
+  background-color: #218838;
+}
+
+/* Reports Details */
+.reports-details {
+  overflow-x: auto; /* Allow horizontal scrolling for the reports table */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow effect */
+}
+
+.reports-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px; /* Ensures table doesn't shrink too much */
+}
+
+.reports-table th, .reports-table td {
+  padding: 12px; /* Increased padding for better spacing */
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+.reports-table th {
+  background-color: #f2f2f2;
+}
+
+/* Summary Column */
+.summary-cell {
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.read-more-button {
+  background: none;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  margin-left: 5px;
+}
+
+.read-more-button:hover {
+  color: #0056b3;
+}
+
+/* QR Code Popup */
+.qr-code-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-code-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  position: relative;
+  text-align: center;
+}
+
+.qr-code-image {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.close-popup {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Report Cards */
+.reports-grid {
+  display: grid;
+  gap: 20px;
+    
+  grid-template-columns: repeat(3, 1fr); /* Ensures 3 reports per row */
+
+    margin-top: 10px;
+  
+}
+@media (max-width: 768px) {
+  /* For tablet or smaller screens */
+  .reports-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 reports per row */
+  }
+}
+
+@media (max-width: 500px) {
+  /* For mobile devices */
+  .reports-grid {
+    grid-template-columns: 1fr; /* Only 1 report per row */
+  }
+}
+.report-card {
+  background-color: #f6fbff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Needed for absolute positioning of the delete icon */
+  border: 1px solid #ccc; /* Add a border for visual separation */
+}
+
+.report-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.report-card h3 {
+  margin-top: 0;
+  font-size: 1.2em;
+}
+
+.view-report-link {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.view-report-link:hover {
+  background-color: #0056b3;
+}
+
+/* Delete Icon */
+.delete-icon {
+  position: absolute; /* Position the icon relative to the card */
+  bottom: 10px; /* Distance from the bottom */
+  right: 10px; /* Distance from the right */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.delete-icon:hover {
+  opacity: 0.7; /* Slight opacity change on hover for feedback */
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(135deg, #4b79a1 0%, #283e51 100%);
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  color: white;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.4em;
+  font-weight: bold;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  text-align: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.sidebar ul li:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-5px);
+}
+
+.sidebar ul li.active {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.sidebar ul li i {
+  margin-right: 10px;
+  font-size: 1.2em;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.sidebar ul li:hover i, .sidebar ul li:hover span {
+  color: #007bff;
+}
+
+.sidebar ul li span {
+  font-size: 1.1em;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+  flex-grow: 1;
+  padding: 20px;
+  margin-left: 300px; /* Space between sidebar and content */
+  background-color: #f9f9f9;
+}
+
+/* Dashboard Description */
+.dashboard-description {
+  margin: 20px 0; /* Space above and below the paragraph */
+  font-size: 1.1rem; /* Slightly larger font size for readability */
+  color: #333; /* Dark gray text color */
+  line-height: 1.5; /* Increase line height for better readability */
+  text-align: center; /* Center align the paragraph */
+}
+.dashboard-title {
+  color:  #3D4C9A; /* Change to your desired color */
+}
+
+.highlight {
+  color:  #3D4C9A; /* Change to your desired color */
+  font-weight: bold; /* Make it bold */
+}
+/* Chatbot Button */
+.chatbot-button {
+  position: fixed;
+  bottom: 30px; /* 30px above the bottom of the screen */
+  right: 30px; /* 30px away from the right side */
+  width: 60px; /* Slightly larger button */
+  height: 60px;
+  background-color: #007bff; /* Vibrant blue */
+  border-radius: 50%; /* Circular shape */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* White icon color */
+  font-size: 28px; /* Bigger icon size */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1000; /* Ensures the button stays on top */
+}
+
+.chatbot-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+  transform: scale(1.1); /* Slight scaling effect */
+}
+
+.chatbot-button i {
+  animation: chatbot-icon-pulse 1.5s infinite ease-in-out; /* Adding a pulsing animation to the icon */
+}
+
+/* Pulse animation */
+@keyframes chatbot-icon-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+/* Confirmation Popup */
+.confirmation-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for focus */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it appears on top */
+  transition: opacity 0.3s ease; /* Smooth fade effect */
+}
+
+/* Confirmation Content */
+.confirmation-content {
+  background: white;
+  padding: 30px; /* Increased padding for comfort */
+  border-radius: 10px; /* More rounded corners */
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Strong shadow for depth */
+  animation: fadeIn 0.3s ease; /* Fade-in effect */
+}
+
+/* Popup Title */
+.confirmation-content h3 {
+  margin-bottom: 15px; /* Space below title */
+  font-size: 1.5em; /* Slightly larger title */
+  color: #333; /* Dark text for contrast */
+}
+
+/* Action Buttons */
+.confirmation-button {
+  padding: 10px 20px;
+  margin: 10px; /* Space between buttons */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+}
+
+/* Confirm Button */
+.confirm-button {
+  background-color: #28a745; /* Green for confirm */
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #218838; /* Darker green on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Cancel Button */
+.cancel-button {
+  background-color: #dc3545; /* Red for cancel */
+  color: white;
+}
+
+.cancel-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px); /* Slide down effect */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.logout-button {
+  padding: 12px; /* Padding for the button */
+  background-color: #dc3545; /* Red color for logout */
+  color: white; /* Text color */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  text-align: center; /* Center text */
+  cursor: pointer; /* Pointer on hover */
+  transition: background-color 0.3s ease; /* Smooth transition */
+  margin-top: auto; /* Space above logout button */
+}
+
+.logout-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}.report-card {
+  position: relative;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+}
+/* Share Button */
+.share-button {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #17a2b8; /* Teal color for distinction */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 10px;
+}
+
+.share-button:hover {
+  background-color: #138496; /* Darker teal on hover */
+}
+
+.share-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  padding: 25px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: popupFadeIn 0.3s ease-in-out;
+}
+
+@keyframes popupFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -40%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.popup-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-content h3 {
+  margin-bottom: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.popup-content label {
+  font-size: 14px;
+  color: #555;
+  align-self: flex-start;
+}
+
+.popup-content input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.popup-content input:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+.popup-content button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.popup-content button:hover {
+  background-color: #43a047;
+  transform: scale(1.02);
+}
+
+.close-popup {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 20px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.close-popup:hover {
+  color: #333;
+}
+.user-and-reports-container {
+  position: relative; /* Necessary for positioning child elements */
+  padding: 20px; /* General padding for the container */
+  background-color: #f9f9f9; /* Light background for the entire container */
+  border-radius: 8px; /* Rounded corners for the container */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.filter-container {
+  display: flex; /* Use flexbox for label and dropdown */
+  align-items: center; /* Center align items vertically */
+  margin-bottom: 20px; /* Space below the filter */
+  background-color: #ffffff; /* White background for the filter area */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding around the filter container */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+}
+
+.filter-container label {
+  margin-right: 10px; /* Space between label and dropdown */
+  font-weight: 600; /* Bold label text */
+  font-size: 16px; /* Slightly larger font size for the label */
+  color: #333; /* Darker text for better readability */
+}
+
+.filter-container select {
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 4px; /* Rounded corners for the dropdown */
+  padding: 8px 12px; /* Padding inside the dropdown */
+  font-size: 14px; /* Font size for the dropdown text */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: border-color 0.3s ease, background-color 0.3s ease; /* Smooth transitions */
+  outline: none; /* Remove default outline */
+}
+
+.filter-container select:hover {
+  border-color: #007BFF; /* Change border color on hover */
+}
+
+.filter-container select:focus {
+  border-color: #0056b3; /* Darker blue when focused */
+  background-color: #f1f9ff; /* Light blue background on focus */
+}

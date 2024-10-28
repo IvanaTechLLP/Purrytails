@@ -1,0 +1,7 @@
+__pycache__
+.env
+venv
+uploaded_images
+uploaded_pdfs
+qr_codes
+chromadb_database

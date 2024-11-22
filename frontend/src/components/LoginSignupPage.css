@@ -1,122 +1,206 @@
-/* General styles */
 * {
-  box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif; /* Clean, modern font */
-  background-color: #f0f4f8; /* Light, neutral background */
+  font-family: 'Arial', sans-serif;
+  background-color: #f7f8fc; /* Light background for the whole page */
 }
 
-/* Wrapper for the entire login page */
-.login-wrapper {
+.login-page {
   display: flex;
-  height: 100vh; /* Full height of the viewport */
-  justify-content: center; /* Center items horizontally */
-  align-items: center; /* Center items vertically */
-  padding: 20px; /* Spacing inside the wrapper */
+  height: 100vh; /* Full viewport height */
 }
 
-/* Container for steps and user type selection */
-.info-container {
-  width: 350px; /* Fixed width for a compact look */
-  padding: 20px; /* Inner padding */
-  background: #ffffff; /* Solid white for a clean look */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for subtle depth */
-  margin-right: 20px; /* Space between info and auth container */
-}
-
-/* Back button styling */
-.back-button {
+.logo {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #007bff; /* Bootstrap primary color */
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s; /* Smooth background transition */
+  top: 25px;
+  left: 15px;
+  width: 150px; /* Adjusted width for better fit */
+  height: auto;
 }
 
-.back-button:hover {
-  background-color: #0056b3; /* Darker shade for hover */
-}
-
-/* Authentication container */
-.auth-container {
-  width: 350px; /* Fixed width for a compact look */
+.login-container {
+  width: 50%; /* 50% width for the login container */
   display: flex;
-  flex-direction: column;
-  justify-content: center; /* Center items vertically */
-  align-items: center; /* Center items horizontally */
-  padding: 30px; /* Inner padding */
-  background: #ffffff; /* Solid white background for clarity */
-  border-radius: 10px; /* Rounded corners */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for subtle depth */
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff; /* White background for login container */
+  padding: 40px; /* Padding for spacing */
+  border-top-right-radius: 20px; /* Rounded corners */
+  border-bottom-right-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
 }
 
-/* Login option styling */
-.login-option {
-  margin-top: 20px; /* Spacing above the login option */
+.login-form {
+  width: 100%; /* Full width for the form */
+  max-width: 400px; /* Maximum width for better responsiveness */
+  text-align: center;
+  background-color: #ffffff;
+   border: 1px solid #ddd; /* Light gray border */
+  border-radius: 10px; /* Optional: Rounded corners for a softer look */
+  padding: 20px; /* Padding for inner spacing */
+  z-index: 10; /* Ensure the form is on top */
+  box-shadow: 0 4px 10px rgba(0, 115, 230, 0.2); /* Blue shadow effect */
+}
+.illustration {
+  width: 50%; /* 50% width for the illustration */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #C5A181; /* Dark brown background */
+  padding: 20px; /* Add padding for spacing */
 }
 
-.login-option button {
+.illustration img {
+  width: 80%;
+  height: auto; /* Maintain aspect ratio */
+}
+
+.login-form h1 {
+  font-size: 2rem; /* Slightly larger font size for heading */
+  margin-bottom: 10px;
+  color: #333; /* Darker color for better contrast */
+}
+
+.login-form p {
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 12px; /* Increased padding for comfort */
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 0.9rem;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  margin-bottom: 15px;
+}
+
+.options label {
   display: flex;
   align-items: center;
-  background-color: #007bff; /* Elegant blue */
-  color: white; /* White text for contrast */
+}
+
+.options input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.options a {
+  color: #0073e6; /* Link color */
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.signin-button,
+.google-signin-button {
+  width: 100%;
+  padding: 12px; /* Increased padding for comfort */
+  margin: 5px 0;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px; /* Slightly rounded corners */
+  border-radius: 5px;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effects */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Initial shadow for buttons */
 }
 
-.login-option button:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: translateY(-2px); /* Lift effect on hover */
+.signin-button {
+  background-color: #0073e6; /* Primary button color */
+  color: #ffffff; /* Text color */
 }
 
-.login-option button img {
-  margin-right: 10px; /* Space between image and text */
-  width: 20px; /* Adjusted size for Google logo */
-  height: 20px; /* Consistent logo size */
+.google-signin-button {
+  background-color: #ffffff; /* White background */
+  color: #444; /* Dark text color */
+  border: 1px solid #ddd; /* Light border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Heading styles */
-h2 {
-  font-size: 24px; /* Font size for headings */
-  margin-bottom: 10px; /* Spacing below headings */
-  color: #333; /* Dark grey color for contrast */
+.google-signin-button img {
+  width: 18px; /* Google logo size */
+  margin-right: 8px;
 }
 
-/* Subheading styles */
-h3 {
-  font-size: 20px; /* Font size for subheadings */
-  margin-bottom: 5px; /* Spacing below subheadings */
-  color: #555; /* Medium grey for a softer look */
+.login-form a {
+  color: #0073e6; /* Link color */
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.signin-button {
+  width: 100%;
+  padding: 12px; /* Increased padding for comfort */
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #0073e6; /* Primary button color */
+  color: #ffffff; /* Text color */
+  transition: background-color 0.3s ease, transform 0.2s; /* Transition for hover effect */
 }
 
-/* User type selection styles */
-.user-type-selection {
-  margin: 20px 0; /* Spacing above and below user type selection */
-  text-align: left; /* Align text to the left */
+.signin-button:hover {
+  background-color: #005bb5; /* Darker shade for hover effect */
+  transform: translateY(-2px); /* Slight lift effect on hover */
 }
 
-.user-type-selection label {
-  display: block; /* Block display for labels */
-  margin: 10px 0; /* Spacing around labels */
-  font-size: 16px; /* Font size for labels */
-  color: #555; /* Medium grey for a softer look */
+.google-signin-button {
+  width: 100%;
+  padding: 12px; /* Increased padding for comfort */
+  margin: 5px 0;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #ffffff; /* White background */
+  color: #444; /* Dark text color */
+  border: 1px solid #ddd; /* Light border */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s; /* Transition for hover effect */
 }
 
-/* Radio button styling */
-.user-type-selection input[type="radio"] {
-  margin-right: 5px; /* Space between radio and label text */
+.google-signin-button:hover {
+  background-color: #f0f0f0; /* Light gray for hover effect */
+  transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px; /* Space below the toggle */
+}
+
+.toggle-container label {
+  margin: 0 15px; /* Space between radio buttons */
+  cursor: pointer; /* Change cursor on hover */
+  font-size: 1rem; /* Font size for toggle label */
+  color: #333; /* Darker color for contrast */
+}
+
+/* Optional: Style radio buttons */
+.toggle-container input[type="radio"] {
+  margin-right: 5px; /* Space between radio button and label */
+}
+@media (max-width: 500px) {
+  .illustration {
+    display: none !important;
+  }
+  .login-container{
+    width: 100%!important;
+  }
+
 }

@@ -1,590 +1,977 @@
 /* Base Styles */
-.landing-container {
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@500;700&display=swap');
+.landing-container1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:#302C28;
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    position: relative; /* Ensure proper positioning of the navbar */
+    width: 100%;
+    
+  }
+  .landing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color:white;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    
+    position: relative; /* Ensure proper positioning of the navbar */
+    
+  }
+  /* Navigation Bar Styles */
+ /* Basic reset for margins and paddings */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+}
+
+  /* Landing Content Styles */
+  .landing-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-top: 160px; /* Adjust based on navbar height */
+  }
+  .landing-content {
+    position: relative;
+    height: 100vh; /* Full page height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden; /* Ensure no scrollbars from blur */
+  }
+  
+  .landing-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure the image covers the whole container */
+    filter: blur(4px); /* Blur effect */
+    z-index: 1; /* Ensure the image is behind the text */
+  }
+  
+  .left-side {
+    z-index: 4; /* Place the text on top of the image */
+    color: white; /* White text */
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.4); /* Optional semi-transparent background to improve readability */
+    border-radius: 10px; /* Soft rounded corners */
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+    font-family: 'Playfair Display', serif; /* An elegant font */
+    margin-bottom: 2rem;
+    color: white;
+  }
+  
+  p {
+    font-size: 1.5rem;
+   
+  }
+  
+  @media (max-width: 480px) {
+    h1 {
+      font-size: 2rem; /* Adjust font size for smaller screens */
+    }
+  
+    p {
+      font-size: 1rem;
+    }
+  }
+  @media (max-width: 500px) {
+    .landing-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+      height: 80px !important;
+    }
+  
+    .nav-logo {
+      text-align: center;
+    }
+  
+    .nav-logo img {
+      width: 120px; /* Adjust the size as necessary */
+    }
+  
+    /* Hide the navigation links */
+    .landing-nav .nav-links {
+      display: none !important;
+  }
+}
+
+  
+
+
+  /* About Us Section Styles */
+  .about-us-section {
+    padding: 50px 100px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-top: 80px; /* Adjust to create space between landing content and About Us section */
+  }
+  
+  .about-us-section h1 {
+    color: #000000;
+    margin-bottom: 40px;
+  }
+  
+  .founders {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  
+  .founder {
+    margin: 20px;
+    text-align: center;
+    max-width: 300px;
+  }
+  
+  .founder-image {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-us-section h2 {
+    font-size:2rem;
+    color: #333;
+  }
+  
+  .about-us-section p {
+    font-size:1.2rem;
+    color: #555;
+  }
+  /* Navigation Bar Styles */
+.landing-nav {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: fixed; /* Fixes the navbar to the top */
+  top: 0; /* Positions it at the very top */
+  left: 0; 
+  justify-content: space-between;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  background-size: cover;
-  background-position: center;
-  padding: 20px;
-  position: relative; /* Ensure proper positioning of the navbar */
+  background-color: #C5A181; /* Richer, deeper color */
+  padding: 20px 40px; /* Increase padding for a larger feel */
+  width: 100%;
+  position: fixed;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Classy shadow for a premium feel */
+  font-family: 'Montserrat', sans-serif;
+  height: 135px; /* Set the desired height of the navbar */
+  z-index: 1000;
   
 }
 
-/* Navigation Bar Styles */
-.landing-nav {
+
+.carousel {
+  margin-top: 160px;
+  position: relative;
   width: 100%;
+  height:100%;
+  max-height: 600px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 50px;
+}
+
+/* Carousel Inner Items */
+.carousel-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Carousel Image Styling */
+.carousel-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.5s ease-in-out;
+}
+
+/* Smooth Zoom on Hover */
+.carousel-item:hover img {
+  transform: scale(1.05);
+}
+
+
+/* Ensure the carousel-caption is positioned correctly */
+.carousel-caption {
+  position: absolute;
+  top: 50%; /* Vertically center the text */
+  right: auto; /* Horizontally center the text */
+  transform: translate(-50%, -50%); /* Center the text exactly */
+  color: #fff; /* Make text white */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Add shadow for readability */
+  text-align: center;
+  background: rgba(0, 0, 0, 0.5); /* Optional: Add a semi-transparent background for better visibility */
+  padding: 20px; /* Add padding for some space around the text */
+  border-radius: 8px; /* Optional: Round the corners of the text box */
+  margin-left: 10px;
+}
+
+/* Caption Container */
+.carousel-caption {
+  width: 30%; /* Adjust width as needed */
+  height: 30%;
+  padding: 20px;
+  color: #fff;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.5); /* Optional for better visibility */
+  border-left: 5px solid #C5A181; /* Left border shared with image */
+  display: flex;
+  flex-direction: column; /* Align caption text vertically */
+  justify-content: center; /* Center the caption content */
+}
+/* Carousel Item */
+.carousel-item {
+  display: flex; /* Use flex to align items side by side */
+}
+
+
+
+/* Optional: Style adjustments for responsiveness */
+@media (max-width: 500px) {
+  .carousel {
+    margin-top: 90px !important;
+  }
+  .carousel-item {
+      flex-direction: column; /* Stack image and caption on smaller screens */
+  }
+  .carousel-caption {
+    width: 40%; /* Adjust width as needed */
+    height: 65%;
+  }
+  .carousel-item img {
+    height: 400px;
+}
+}
+
+
+/* Maintain sufficient padding and responsive text */
+.carousel-caption {
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Adjust text shadow for readability */
+  padding: 10px;
+}
+
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  position: absolute; /* Position them absolutely */
+  bottom: 20px; /* Position them at the bottom */
+  
+}
+
+.carousel-control-prev {
+  left: 10px; /* Adjust left position */
+}
+
+.carousel-control-next {
+  right: 10px; /* Adjust right position */
+}
+
+.carousel-caption {
+  z-index: 5; /* Ensure captions are below the controls */
+  padding-bottom: 50px; /* Add some padding at the bottom */
+}
+
+.carousel-caption h5 {
+  font-size: 2rem; /* Size for the heading */
+  font-weight: bold; /* Make the heading bold */
+  margin-bottom: 0.5rem; /* Space between heading and paragraph */
+}
+
+.carousel-caption p {
+  font-size: 1rem; /* Size for the paragraph */
+}
+@media (max-width: 768px) {
+  .carousel-caption h5 {
+    font-size: 1.2rem; /* Adjust font size for smaller devices */
+  }
+
+  .carousel-caption p {
+    font-size: 0.8rem; /* Adjust font size for smaller devices */
+  }
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%);
+  z-index: 10;
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10;
+}
+
+
+
+
+/* Accessibility improvements */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+
+
+
+
+
+
+
+
+.logo-image {
+  max-width: 250px; /* Increase the logo size */
+  transition: transform 0.3s ease;
+}
+
+/* Enlarge and style navigation links */
+
+
+
+
+
+.nav-logo:hover .logo-image {
+  transform: scale(1.1); /* Slight zoom effect for logo on hover */
+}
+
+/* Mobile Responsive Adjustments */
+
+
+
+
+
+
+.landing-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  border-bottom: 3px solid #3D4C9A;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  border-radius: 0 0 10px 10px; /* Rounded bottom corners */
-  padding-right: 20px;
-  padding-left: 20px;
-  height: 125px; /* Adjust based on your navbar height */
-  
-}
-
-.name {
-  font-size: 24px;
-  color: #3D4C9A;
-  margin-left: 10px;
+  padding: 0 20px;
 }
 
 .nav-logo {
-  display: flex;
-  align-items: center;
-  margin-right: -45px;
-}
-
-.logo-image {
-  height: 60px;
-  width: auto;
-  margin-left: 10px;
-  margin-right: -10px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .nav-links {
   display: flex;
   list-style: none;
-  margin-left: auto;
-}
-
-.nav-links li {
-  margin-left: 20px;
-}
-
-.nav-links a {
-  text-decoration: none;
-  font-size: 1.3rem;
-  color: #333;  /* Default link color */
-  padding: 10px 35px;
-  border-radius: 25px;
-  transition: color 0.3s ease, background-color 0.3s ease;  /* Smooth transition */
-  margin-right: 50px;
-  
-}
-
-.nav-links a:hover {
-  color: #fff;  /* Change text color on hover */
-  background-color: #3D4C9A;  /* Background color on hover */
-}
-@media (max-width: 768px) {
-  .landing-nav {
-    flex-direction: column;
-    height: auto;
-    padding: 10px;
-  }
-
-  .nav-logo {
-    margin-right: 0;
-    justify-content: center;
-  }
-
-  .logo-image {
-    height: 50px; /* Adjust size for smaller screens */
-  }
-
-  .nav-links {
-    flex-direction: column;
-    margin-left: 0;
-    margin-top: 10px;
-    width: 100%;
-    align-items: center;
-  }
-
-  .nav-links li {
-    margin: 10px 0;
-  }
-
-  .nav-links a {
-    padding: 10px 20px;
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .name {
-    font-size: 20px; /* Smaller font size for very small screens */
-  }
-
-  .logo-image {
-    height: 40px; /* Further adjustment for very small screens */
-  }
-
-  .nav-links a {
-    padding: 8px 15px;
-    font-size: 1rem;
-  }
-}
-/* Landing Content Styles */
-.landing-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  max-width: 1200px;
-  margin-top: 100px; /* Adjust based on navbar height */
-}
-
-.left-side {
-  flex: 1;
-  text-align: left;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-}
-
-.right-side {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  margin-right: 0;
-}
-
-.landing-image {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.left-side h1 {
-  font-family: 'Montserrat', sans-serif;
-  font-size: 4rem;
-  margin-bottom: 20px;
-  color: #3D4C9A; /* Bold color */
-  font-weight: bold; /* Bold font */
-}
-
-.left-side p {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-  color: #555; /* Normal text color */
-}
-
-/* About Us Section Styles */
-.about-us-section {
-  padding: 50px 100px;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.9);
-  margin-top: 80px; /* Adjust to create space between landing content and About Us section */
-}
-
-.about-us-section h1 {
-  font-family: 'Montserrat', sans-serif;
-  color: #3D4C9A;
-  margin-bottom: 40px;
-}
-
-.founders {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-}
-
-.founder {
-  margin: 20px;
-  text-align: center;
-  max-width: 300px;
-}
-
-.founder-image {
-  width: 100%;
-  height: auto;
-  border-radius: 50%;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.about-us-section h2 {
-  font-family: 'Montserrat', sans-serif;
-  color: #333;
-}
-
-.about-us-section p {
-  font-family: 'Roboto', sans-serif;
-  color: #555;
-}
-
-
-
-
-
-
-/* Responsive Design */
-
-/* For tablets and smaller screens */
-@media (max-width: 768px) {
-  .landing-content {
-    flex-direction: column;
-    margin-top: 120px; /* Increased space for smaller screens */
-  }
-
-  .left-side,
-  .right-side {
-    flex: none;
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  .left-side h1 {
-    font-size: 3rem;
-  }
-
-  .left-side p {
-    font-size: 1.2rem;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-links li {
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-
-  .about-us-section {
-    padding: 20px;
-  }
-
-  .founders {
-    flex-direction: column;
-  }
-
-  .founder {
-    margin: 20px 0;
-  }
-
-  .services-grid {
-    justify-content: center;
-  }
-
-  .service-box {
-    width: 100%;
-  }
-}
-
-/* For mobile screens */
-@media (max-width: 480px) {
-  .landing-content {
-    margin-top: 130px;
-  }
-
-  .left-side h1 {
-    font-size: 2.5rem;
-  }
-
-  .left-side p {
-    font-size: 1rem;
-  }
-
-  .nav-links {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .nav-links a {
-    font-size: 1rem;
-    padding: 8px 12px;
-  }
-
-  .about-us-section h1 {
-    font-size: 1.8rem;
-  }
-
-  .about-us-section p {
-    font-size: 0.9rem;
-  }
-
-  .services-grid {
-    flex-direction: column;
-  }
-
-  .service-box {
-    width: 100%;
-  }
-}
-/* Who Are We Section Styles */
-.who-are-we-section {
-  padding: 50px 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  margin-top: 50px;
-}
-
-.who-are-we-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.who-are-we-image {
-  flex: 1;
-  padding: 20px;
-}
-
-.who-are-we-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 10px;
-}
-
-.who-are-we-text {
-  flex: 2;
-  padding: 20px;
-}
-
-.who-are-we-text h1 {
-  font-family: 'Montserrat', sans-serif;
-  color: #3D4C9A;
-  margin-bottom: 20px;
-}
-
-.who-are-we-text p {
-  font-family: 'Roboto', sans-serif;
-  color: #555;
-  font-size: 1.2rem;
-}
-
-/* Responsive Design for Who Are We Section */
-@media (max-width: 768px) {
-  .who-are-we-content {
-    flex-direction: column;
-  }
-
-  .who-are-we-image,
-  .who-are-we-text {
-    flex: none;
-    width: 100%;
-  }
-
-  .who-are-we-text h1 {
-    font-size: 2.5rem;
-  }
-
-  .who-are-we-text p {
-    font-size: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .who-are-we-text h1 {
-    font-size: 2rem;
-  }
-
-  .who-are-we-text p {
-    font-size: 0.9rem;
-  }
-}
-
-/* Info Boxes Section Styles */
-.info-boxes-section {
-  display: flex;
-  justify-content: space-around;
-  padding: 50px 20px;
-  background-color: #ffffff;
-}
-
-.info-box {
-  text-align: center;
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  width: 30%;
-  box-shadow: 0  8px 16px rgba(0, 0, 0, 0.2);;
-  margin-left: 25px;
-  margin-right: 25px;
-}
-
-.info-number {
-  font-size: 3rem;
-  color: #3D4C9A;
   margin: 0;
-}
-
-.info-text {
-  font-size: 1.2rem;
-  color: #555;
-  margin-top: 10px;
-}
-
-/* Responsive Design for Info Boxes Section */
-@media (max-width: 768px) {
-  .info-boxes-section {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .info-box {
-    width: 80%;
-    margin-bottom: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .info-number {
-    font-size: 2.5rem;
-  }
-
-  .info-text {
-    font-size: 1rem;
-  }
-}
-/* Reviews Section Styles */
-.reviews-section {
-  padding: 50px 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  margin-top: 50px; /* Adjust to create space between the previous section and reviews */
-  text-align: center;
-}
-
-.reviews-section h1 {
-  font-family: 'Montserrat', sans-serif;
-  color: #3D4C9A;
-  margin-bottom: 70px;
-
-}
-
-.reviews-container {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 35px; /* Adjust gap between boxes */
-}
-
-.review-box {
-  background-color: #e0f7fa; /* Lighter blue color */
-  border-radius: 10px;
-  padding: 20px;
-  width: 300px; /* Width of the review boxes */
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More shadow for a lifted effect */
-  text-align: left;
-}
-
-.review-box-highlight {
-  margin-top: -30px; /* Moves the highlighted box up */
-  position: relative;
-  z-index: 1; /* Ensures the highlighted box is above others */
-}
-
-.review-text {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem; /* Normal size for review text */
-  color: #333;
-}
-
-.review-author {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.2rem; /* Larger size for author name */
-  color: #3D4C9A;;
-  margin-top: 10px;
-  font-weight: bold; /* Optional: make the author name bold */
-  font-style: italic; /* Optional: italicize the author name */
-}
-/* Existing styles here... */
-
-/* Existing styles here... */
-
-/* Existing styles here... */
-
-.footer {
-  background-color:007bff ;
-  color: #ffffff;
-  padding: 40px 20px;
-  text-align: center;
-  width: 100%;
-  position: relative;
-  bottom: 0;
-}
-
-.contact-us-section {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #ffffff;
-  color: #333;
-  border-radius: 8px;
-}
-
-.contact-us-content {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.contact-us-info,
-.contact-us-form {
-  width: 45%;
-  background: #ffffff;
-  color: #333;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.contact-us-info h2,
-.contact-us-form h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.contact-us-info ul {
-  list-style: none;
   padding: 0;
 }
 
-.contact-us-info li {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 10px;
+.nav-links .left {
+  margin-right: 40px;
+  margin-left: 60px;
+
 }
 
-.contact-us-form .form-group {
+.nav-links .right {
+  margin-left: 40px;
+  margin-right: 60px;
+  
+
+}
+
+.nav-links .left-group {
+  margin-right: auto;
+}
+
+.nav-links .right-group {
+  margin-left: auto;
+}
+.nav-links .left,
+.nav-links .right {
+  margin-right: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  position: relative;
+  padding: 5px 0;
+  transition: color 0.3s ease-in-out;
+}
+.nav-links .left::after,
+.nav-links .right::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background-color: #000000;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: width 0.3s ease-in-out;
+}
+
+.nav-links .left:hover,
+.nav-links .right:hover {
+  color: #000000; /* Darker blue on hover */
+}
+
+.nav-links .left:hover::after,
+.nav-links .right:hover::after {
+  width: 100%; /* Underline effect on hover */
+}
+  
+  /* Responsive Design */
+  
+  /* For tablets and smaller screens */
+  @media (max-width: 500px) {
+    .landing-content {
+      flex-direction: column;
+      margin-top: 120px; /* Increased space for smaller screens */
+    }
+  
+  
+
+  
+    .about-us-section {
+      padding: 20px;
+    }
+  
+    .founders {
+      flex-direction: column;
+    }
+  
+    .founder {
+      margin: 20px 0;
+    }
+  
+    .services-grid {
+      justify-content: center;
+    }
+  
+    .service-box {
+      width: 100%;
+    }
+  }
+  
+  /* For mobile screens */
+  @media (max-width: 500px) {
+    .landing-content {
+      margin-top: 130px;
+    }
+  
+    .left-side h1 {
+      font-size: 2.5rem;
+    }
+  
+    .left-side p {
+      font-size: 1rem;
+    }
+  
+    .about-us-section h1 {
+      font-size: 1.8rem;
+    }
+  
+    .about-us-section p {
+      font-size: 0.9rem;
+    }
+  
+    .services-grid {
+      flex-direction: column;
+    }
+  
+    .service-box {
+      width: 100%;
+    }
+  }
+  /* Who Are We Section Styles */
+  .who-are-we-section {
+    padding: 50px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+
+  }
+  
+  .who-are-we-content {
+    
+    display: flex;
+    flex-direction: column; /* Changed to column to stack text above images */
+    align-items: center; /* Center content */
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .who-are-we-text {
+    flex: 1; /* Allow text to take necessary space */
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .who-are-we-text h1 {
+  
+    color: #3D4C9A;
+    margin-bottom: 20px;
+  }
+  
+  .who-are-we-text p {
+    
+    color: #555;
+    font-size: 1.2rem;
+  }
+  
+  .who-are-we-images {
+    display: flex; /* Use flex to stack images vertically */
+    flex-direction: column; /* Stack images on top of each other */
+    gap: 20px; /* Space between images */
+    margin-top: 20px; /* Adds space above the images */
+    justify-content: center; /* Center images horizontally */
+  }
+  
+  .who-are-we-image img {
+    width: 100%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: adds rounded corners */
+  }
+  
+  /* Responsive Design for Who Are We Section */
+  @media (max-width: 500px) {
+    .who-are-we-content {
+      flex-direction: column; /* Maintain column layout for smaller screens */
+    }
+  
+    .who-are-we-image,
+    .who-are-we-text {
+      flex: none;
+      width: 100%;
+    }
+  
+    .who-are-we-text h1 {
+      font-size: 2.5rem;
+    }
+  
+    .who-are-we-text p {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (max-width: 500px) {
+    .who-are-we-text h1 {
+      font-size: 2rem;
+    }
+  
+    .who-are-we-text p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .first {
+    background-color: #2F2C28;
+  }
+  
+  /* Info Boxes Section Styles */
+  .info-boxes-section {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    padding: 50px 20px;
+  }
+  
+  
+  .info-box {
+    text-align: center;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 30%;
+    box-shadow: 0  8px 16px rgba(0, 0, 0, 0.2);;
+    margin-left: 25px;
+    margin-right: 25px;
+  }
+  
+  .info-number {
+    font-size: 3rem;
+    color: #C5A181;
+    margin: 0;
+  }
+  
+  .info-text {
+    font-size: 1.2rem;
+    color: #000000;
+    margin-top: 10px;
+  }
+  
+  /* Responsive Design for Info Boxes Section */
+  @media (max-width: 500px) {
+    .info-boxes-section {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .info-box {
+      width: 80%;
+      margin-bottom: 20px;
+    }
+  }
+
+ 
+/* Perks Section Styles */
+.perks-section {
+  padding: 50px 20px;
+  background-color: #302C28;
+  text-align: center;
+}
+
+.perks-section h1 {
+  font-size: 2.5rem;
+  color: #ffffff;
+  margin-bottom: 40px;
+  
+}
+
+.perks-content {
+  display: flex;
+  flex-wrap: wrap; /* Allows items to wrap into rows */
+  justify-content: space-between; /* Even spacing between the items */
+  max-width: 1200px;
+  margin: 0 auto; /* Centers the perks section */
+}
+
+.perk-item {
+  flex: 1 1 calc(33.33% - 20px); /* Three items per row, with space between them */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 10px; /* Adds space around each item */
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+}
+
+.perk-item:hover {
+  transform: translateY(-5px); /* Adds a subtle hover effect */
+}
+
+.perk-icon img {
+  max-width: 100px; /* Image size can be adjusted as per requirement */
+  height: auto;
   margin-bottom: 15px;
 }
 
-.contact-us-form label {
-  display: block;
-  font-size: 16px;
-  margin-bottom: 5px;
+.perk-item h2 {
+  font-size: 2.2rem;
+  color: #C5A181;
+  margin-bottom: 10px;
 }
 
-.contact-us-form input,
-.contact-us-form textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.perk-item p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 15px;
+  
 }
 
-.contact-us-form button {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+
+@media (max-width: 500px) {
+  .perk-item {
+      flex: 1 1 100%; /* One item per row on small mobile screens */
+  }
+
+  .perks-section h1 {
+      font-size: 2rem;
+  }
+
+  .perk-item h2 {
+      font-size: 1.2rem;
+  }
+
+  .perk-item p {
+      font-size: 0.9rem;
+  }
 }
 
-.contact-us-form button:hover {
-  background-color: #0056b3;
-}
-
-@media (max-width: 768px) {
+  
+  @media (max-width: 500px) {
+    .info-number {
+      font-size: 2.5rem;
+    }
+  
+    .info-text {
+      font-size: 1rem;
+    }
+  }
+  /* Reviews Section Styles */
+  .reviews-section {
+    margin-top: 160px;
+    padding: 50px 20px;
+    background-color: #302C28;
+    margin-top: 50px; /* Adjust to create space between the previous section and reviews */
+    text-align: center;
+  }
+  
+  .reviews-section h1 {
+    
+    color: #ffffff;
+    margin-bottom: 70px;
+  
+  }
+  
+  .reviews-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 35px; /* Adjust gap between boxes */
+  }
+  
+  .review-box {
+    background-color: #ffffff; /* Lighter blue color */
+    border-radius: 10px;
+    padding: 20px;
+    width: 300px; /* Width of the review boxes */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More shadow for a lifted effect */
+    text-align: left;
+  }
+  
+  .review-box-highlight {
+    margin-top: -30px; /* Moves the highlighted box up */
+    position: relative;
+    z-index: 1; /* Ensures the highlighted box is above others */
+  }
+  
+  .review-text {
+   
+    font-size: 1rem; /* Normal size for review text */
+    color: #333;
+  }
+  
+  .review-author {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem; /* Larger size for author name */
+    color:  #C5A181;
+    margin-top: 10px;
+    font-weight: bold; /* Optional: make the author name bold */
+    font-style: italic; /* Optional: italicize the author name */
+  }
+  /* Existing styles here... */
+  
+  /* Existing styles here... */
+  
+  /* Existing styles here... */
+  
+  .footer {
+    background-color:007bff ;
+    color: #ffffff;
+    padding: 40px 20px;
+    text-align: center;
+    width: 100%;
+    position: relative;
+    bottom: 0;
+  }
+  
+  .contact-us-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    color: #333;
+    border-radius: 8px;
+  }
+  
+  .contact-us-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
   .contact-us-info,
   .contact-us-form {
-    width: 100%;
+    width: 45%;
+    background: #ffffff;
+    color: #333;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact-us-info h2,
+  .contact-us-form h2 {
+    font-size: 24px;
     margin-bottom: 20px;
+  }
+  
+  .contact-us-info ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .contact-us-info li {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .contact-us-form .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .contact-us-form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .contact-us-form input,
+  .contact-us-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .contact-us-form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .contact-us-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  @media (max-width: 500px) {
+    .contact-us-info,
+    .contact-us-form {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }
+
+  .services-section {
+    padding: 50px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-top: 160px;
+    text-align: center; /* Center text for a more engaging look */
+}
+
+.services-intro {
+    margin-bottom: 30px;
+}
+
+/* Contact Us Button Style */
+.contact-us-button {
+  position: fixed; /* Keeps the button in a fixed position */
+  bottom: 20px; /* 20px from the bottom */
+  right: 20px; /* 20px from the right */
+  padding: 10px 20px;
+  background-color: #302C28; /* Blue background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 50px; /* Rounded button */
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+  z-index: 1000; /* Ensures the button stays above other elements */
+}
+
+.contact-us-button:hover {
+  background-color: #C5A181; 
+  
+}
+@media (max-width: 500px) {
+  contact-us-button {
+
+    position: fixed; /* Keeps the button in a fixed position */
+    bottom: 20px; /* 20px from the bottom */
+    right: 20px; /* 20px from the right */
+    padding: 10px 20px;
+    background-color: #302C28; /* Blue background */
+    color: white; /* White text */
+    border: none;
+    border-radius: 50px; /* Rounded button */
+    font-size: 12px !important;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+    z-index: 1000;
+  }
+}
+
+.hamburger-icon {
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  margin-right: auto; /* Align to the left */
+  margin-top: 25px; /* Adjust this value to move the icon lower */
+}
+
+.hamburger-icon .bar {
+  width: 25px;
+  height: 3px;
+  background-color: black;
+  transition: 0.3s;
+}
+
+
+/* Mobile menu */
+.nav-links.open {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  padding: 20px 0;
+  gap: 15px;
+  align-items: center;
+}
+
+.nav-links.open li {
+  width: 100%;
+  text-align: center;
+}
+
+/* Media query for mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide nav links by default */
+  }
+
+  .hamburger-icon {
+    display: flex; /* Show hamburger icon on small screens */
   }
 }

@@ -13,10 +13,11 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import Dashboard from "./components/Dashboard";
 import LandingPage from "./components/LandingPage";
 import QR_Dashboard from "./components/QR_Dashboard";
-import UserProfilePage from "./components/UserProfilePage";
+import UserProfilePage from "./components/UserPage";
 import Doctor from "./components/Doctor";
 import Calendar from "./components/Calendar";
 import QrScanner from "./components/QrScanner";
+import Home from "./components/Home";
 
 
 function FileUploadPage({ profile }) {
@@ -34,6 +35,21 @@ function DashboardPage({ profile, logOut, reports, setReports }) {
     <div className="app-container">
       <div className="left-panel">
         <Dashboard
+          profile={profile}
+          logOut={logOut}
+          reports={reports}
+          setReports={setReports}
+        />
+      </div>
+    </div>
+  );
+}
+
+function HomePage({ profile, logOut, reports, setReports }) {
+  return (
+    <div className="app-container">
+      <div className="left-panel">
+        <Home
           profile={profile}
           logOut={logOut}
           reports={reports}
@@ -117,6 +133,21 @@ function App() {
               element={
                 isAuthenticated ? (
                   <DashboardPage
+                    profile={profile}
+                    logOut={logOut}
+                    reports={reports}
+                    setReports={setReports}
+                  />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                isAuthenticated ? (
+                  <Home
                     profile={profile}
                     logOut={logOut}
                     reports={reports}

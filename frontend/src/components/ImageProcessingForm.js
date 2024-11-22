@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ImageProcessingForm.css';
 
+
 const ImageProcessingForm = ({ profile, logOut }) => {
   const [image, setImage] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
@@ -14,6 +15,13 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const [editableDate, setEditableDate] = useState(''); 
   const [isEditing, setIsEditing] = useState(false); 
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const totalSteps = 3; 
+  const [currentStep, setCurrentStep] = useState(0); 
+
+
+
+  
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
@@ -152,34 +160,66 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const handleShowUserDetails = () => {
     navigate("/profile", { state: { userDetails } });
   };
-
-  const handleBackToDashboard = () => {
-    navigate("/dashboard", { state: { showPopup: false } });
+  const instructions = [
+    {
+      imgSrc: "scan1.png",
+      title: "1. Scan the Document",
+      description: "Take a clear photo of the document for the best results.",
+    },
+    {
+      imgSrc: "upload1.png",
+      title: "2. Upload the Document",
+      description: "Upload the scanned document in image or PDF format.",
+    },
+    {
+      imgSrc: "edit1.png",
+      title: "3. Edit the Date",
+      description: "Edit the date if it's incorrect. Click on the Save button.",
+    },
+  ];
+  const nextStep = () => {
+    setCurrentStep((prevStep) => Math.min(prevStep + 1, totalSteps - 1));
   };
 
-  const handleShowCalendar = () => {
-    navigate("/calendar");
+  const prevStep = () => {
+    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
   };
 
+
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+  
   return (
     <div className="dashboard-wrapper">
-      <div className="sidebar">
+        <div classname="dashboard-left">
+      <button className="hamburger" onClick={handleToggle}>
+        &#9776; {/* Hamburger icon */}
+      </button>
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <button className="back-arrow" onClick={closeMenu}>
+            &larr; {/* Back arrow icon */}
+        </button>
         <h2>Menu</h2>
         <ul>
-          <li onClick={handleShowQRCode}>View QR Code</li>
-          <li onClick={handleBackToDashboard}>Go to Dashboard</li>
-          <li onClick={handleShowUserDetails}>View User Details</li>
-          <li onClick={handleShowCalendar}>View Calendar</li>
+          <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}> Dashboard</li>
+          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+          <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
         </ul>
-        <ul className="logout-button">
-          <li onClick={logOut} className="logout-button">Log Out</li>
+        <ul>
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
         </ul>
+      </div>
       </div>
 
       <div className="dashboard-content">
         <h1 className="image-upload-title">Image Upload</h1>
         
-        <h3 className="instruction-heading">Instructions for Uploading Images</h3>
+      <h3 className="instruction-heading">Instructions for Uploading Images</h3>
         
         <div className="instruction-cards">
           <div className="instruction-card">
@@ -197,10 +237,33 @@ const ImageProcessingForm = ({ profile, logOut }) => {
           <div className="instruction-card">
             <img src="edit1.png" alt="Process File" className="instruction-image" />
             <h3>Edit the Date (if required)</h3>
-            <p>We all know how doctors write, so there's an added edit feature for you to edit the date if it's incorrect. Click on the Save button to save the document.</p>
+            <p>Edit the date if it's incorrect. Click on the Save button.</p>
+          </div>
+        </div>
+          <div className="mobile-instruction-cards">
+          <div className="mobile-instruction-card">
+            <img src={instructions[currentStep].imgSrc} alt={instructions[currentStep].title} className="instruction-image" />
+            <h3>{instructions[currentStep].title}</h3>
+            <p>{instructions[currentStep].description}</p>
           </div>
         </div>
 
+        <div className="navigation-buttons">
+        {currentStep > 0 && (
+          <span className="arrow prev-arrow" onClick={prevStep}>
+            &#8592; {/* Left arrow */}
+          </span>
+          )}
+          {currentStep < totalSteps - 1 && (
+            <span className="arrow next-arrow" onClick={nextStep}>
+              &#8594; {/* Right arrow */}
+            </span>
+          )}
+        </div>
+
+        
+
+        
         <div className="file-upload-container">
           <h3 className="upload-heading">Upload Your File</h3>
           <input
@@ -267,10 +330,11 @@ const ImageProcessingForm = ({ profile, logOut }) => {
                         </>
                       )}
                     </li>
+                    <li><strong>Doctor:</strong> {reportData.doctor}</li>
                     <li><strong>Type:</strong> {reportData.document}</li>
                     <li><strong>Diseases:</strong> {reportData.diseases}</li>
                     <li><strong>Medicines:</strong> {reportData.medicines}</li>
-                    <li><strong>Test Results:</strong> {reportData.results}</li>
+                    <li><strong>Domain:</strong> {reportData.doctor}</li>
                     <li>
             <strong>Link:</strong> 
             <a href={reportData.link} target="_blank" rel="noopener noreferrer">

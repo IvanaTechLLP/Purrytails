@@ -19,6 +19,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
   const [filteredReports, setFilteredReports] = useState([]);
   const [showMeetingPopup, setShowMeetingPopup] = useState(false);
   const [meetLink, setMeetLink] = useState(null); // State to store the Meet link
+  const [isOpen, setIsOpen] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -110,6 +111,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
     setConfirmDelete(false);
     setReportToDelete(null);
   };
+  
 
   const handleShowQRCode = async () => {
     try {
@@ -267,24 +269,37 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
     // Close the popup after sending
     // setShowMeetingPopup(false);
   };
-  
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
 
   return (
     <div className="dashboard-wrapper">
-      <div className="sidebar">
+      <div classname="dashboard-left">
+      <button className="hamburger" onClick={handleToggle}>
+        &#9776; 
+      </button>
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <button className="back-arrow" onClick={closeMenu}>
+            &larr; 
+        </button>
         <h2>Menu</h2>
         <ul>
-          <li onClick={handleShowQRCode}>View QR Code</li>
-          <li onClick={handleUploadFile}>Upload Reports</li>
-          <li onClick={handleShowUserDetails}>View User Details</li>
-          <li onClick={() => navigate("/calendar")}>Calendar</li>
+          <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+          <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
+          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+          <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
         </ul>
-        <ul className="logout-button">
-          <li onClick={logOut} className="logout-button">Log Out</li>
+        <ul>
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
         </ul>
       </div>
-
-      <div className="dashboard-content">
+      </div>
+        
+        <div classname="dashboard-right">
         {showPopup && profile && (
           <UserPopup onClose={handleClosePopup} profile={profile} logOut={logOut} />
         )}
@@ -293,8 +308,9 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
           This dashboard serves as a centralized storage for all your medical reports, enabling you to easily access, manage, and review your health information. 
           Keep track of your medical history, including diseases, prescribed medicines, and doctor consultations, all in one secure place. 
           You can upload new reports, view existing ones, and even generate a QR code for quick access to your medical data. 
-          <span className="highlight">Your health information is always at your fingertips!</span>
+          
         </p>
+        <p className="highlight">Your health information is always at your fingertips!</p>
 
         {userDetails ? (
           <div className="user-and-reports-container">
@@ -304,7 +320,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
                 <option value="latest">Latest</option>
                 <option value="chronology">Chronological</option>
                 <option value="domain">Domain (A-Z)</option>
-                {/* Add more filter options as needed */}
+              
               </select>
             </div>
             <div className="reports-details">
@@ -314,8 +330,8 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
                     <div key={report.report_id} className="report-card">
                       <p><strong>Date:</strong> {report.date}</p>
                       <p><strong>Doctor:</strong> {report.doctor}</p>
-                      <button onClick={() => toggleDetails(report.report_id)}>
-                        {showDetails[report.report_id] ? "Hide Details" : "Detailed Information"}
+                      <button className="report-details-button" onClick={() => toggleDetails(report.report_id)}>
+                        {showDetails[report.report_id] ? "Conceal Details" : "Key Details"}
                       </button>
 
                       {showDetails[report.report_id] && (
@@ -430,7 +446,8 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
 
       </div>
-    </div>
+      </div>
+    
   );
 };
 

@@ -2,19 +2,30 @@ import React from "react";
 import "./footer.css";  // Create a new CSS file for styling the footer
 
 const Footer = () => {
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 150; // Height of your fixed navbar
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth"
+      });
+    }
+  }
   return (
     <footer className="footer">
       <div className="footer-left">
-      <img src="/dd.png" alt="Instagram" className="footer-logo"/>
+      <img src="/PT.png" alt="Instagram" className="footer-logo"/>
         
       </div>
       <div className="footer-center">
         <div className="footer-nav">
           <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#reviews">Reviews</a></li>
-          <li><a href="#about">About Us</a></li>
+          <li><a onClick={() => scrollToSection("ourmission")}>Our Mission</a></li>
+          <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
+          <li><a onClick={() => scrollToSection("reviews")}>Testimonials</a></li>
+          <li><a onClick={() => scrollToSection("about")}>About Us</a></li>
           </ul>
         </div>
       </div>
@@ -25,7 +36,7 @@ const Footer = () => {
           <button>➤</button>
         </div>
         <div className="footer-social-icons">
-          <a href="https://www.instagram.com/_.med_docs._?igsh=MTZrYzk4b3Z1bzc1MA=="><img src="/insta.png" alt="Instagram" /></a>
+          <a href="https://www.instagram.com/purry.tails?igsh=MWZnOW16NjY1anZidA=="><img src="/insta1.png" alt="Instagram" /></a>
         </div>
       </div>
     </footer>

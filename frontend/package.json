@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-qr-reader": "^2.1.7",
     "axios": "^1.7.4",
+    "bootstrap": "^5.3.3",
     "date-fns": "^4.1.0",
     "react": "^18.2.0",
     "react-big-calendar": "^1.15.0",

@@ -5,7 +5,32 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh; /* Center vertically */
-  background-color: #f3f4f6; /* Light background for contrast */
+  background-color: white; /* Light background for contrast */
+}
+.dashboard-content {
+  background-color: white ;
+  margin-left: 20px !important;
+}
+
+.mobile-instruction-cards{
+  display:none !important;
+}
+.navigation-buttons{
+  display: none !important;
+}
+@media (max-width: 500px) { /* For smaller screens */
+  .instruction-cards{
+    display:none !important;
+
+  }
+  .mobile-instruction-cards{
+    display:block !important;
+  }
+  .navigation-buttons{
+    display: block !important;
+  }
+
+
 }
 
 .form-container {
@@ -141,7 +166,7 @@
 }
 
 .image-upload-title {
-  color: #3D4C9A;
+  color: #302C28; 
 }
 
 .instruction-heading {
@@ -149,7 +174,7 @@
   font-size: 1.5rem; /* Adjust font size as needed */
   font-weight: bold; /* Make the heading bold */
   text-align: center; /* Center the heading */
-  color: #3D4C9A;
+  color:#302C28; 
 }
 
 .instruction-cards {
@@ -157,13 +182,26 @@
   justify-content: space-between;
   margin-top: 20px;
 }
-
+.mobile-instruction-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
 .instruction-card {
   background-color: #f9f9f9;
-  border: 1px solid #3D4C9A;
+  border: 1px solid#302C28; 
   border-radius: 8px;
   padding: 15px;
   width: 30%; /* Adjust width as needed */
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.mobile-instruction-card{
+  background-color: #f9f9f9;
+  border: 1px solid#302C28; 
+  border-radius: 8px;
+  padding: 15px;
+  width: 90%; /* Adjust width as needed */
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -172,7 +210,7 @@
   max-width: 170px; /* Set a maximum width for the images */
   margin-bottom: 10px;
   border-radius: 3px;
-  border-color: #3D4C9A;
+  border-color: #302C28; 
 }
 
 .instruction-card h3 {
@@ -288,3 +326,19 @@ input[type="date"]:focus {
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
 }
 
+.next-arrow {
+  margin-left: auto; /* Aligns save button to the right */
+}
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Adjust as needed */
+}
+
+.prev-arrow,
+.next-arrow {
+  cursor: pointer;
+  font-size: 24px; /* Adjust size as needed */
+  padding: 10px; /* Add spacing for better click area */
+}

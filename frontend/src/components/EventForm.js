@@ -15,9 +15,10 @@ const EventForm = ({ onAddEvent }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="event-form" onSubmit={handleSubmit}>
       <input 
         type="text" 
+        className="event-input-title"
         value={title} 
         onChange={(e) => setTitle(e.target.value)} 
         placeholder="Event Title" 
@@ -25,19 +26,17 @@ const EventForm = ({ onAddEvent }) => {
       />
       <input 
         type="datetime-local" 
+        className="event-input-start"
         value={start.toISOString().substring(0, 16)} 
         onChange={(e) => setStart(new Date(e.target.value))} 
         required 
       />
-      <input 
-        type="datetime-local" 
-        value={end.toISOString().substring(0, 16)} 
-        onChange={(e) => setEnd(new Date(e.target.value))} 
-        required 
-      />
-      <button type="submit">Add Event</button>
+      
+      <button type="submit" className="event-submit-button">Add Event</button>
     </form>
   );
+  
+
 };
 
 export default EventForm;

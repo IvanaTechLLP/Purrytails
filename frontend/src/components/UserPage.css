@@ -1,14 +1,53 @@
 /* Main Profile Page Styles */
 .profile-page {
     padding: 30px; /* Increased padding for spaciousness */
-    background: linear-gradient(to right, #e0f7fa, #ffffff); /* Gradient background */
+    width: 70%;
     border-radius: 15px; /* Rounded corners */
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15); /* Deeper shadow for depth */
     max-width: 900px; /* Increased max width for larger screens */
     margin: 20px auto; /* Center the profile page with margin */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Smooth font */
 }
+.profile-image-container {
+  display: flex;
+  justify-content: center; /* Horizontally center the image */
+  align-items: center;     /* Vertically center the image */
+  height: 100%;            /* Ensures the container has height to center vertically */
+}
 
+.profile-image {
+  width: 160px; /* Increased size for better visibility */
+  height: 160px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+  border: 2px solid #007BFF; /* Thicker blue border */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s; /* Smooth scaling */
+}
+.profile-image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  margin-top: -75px; /* Adjust space between image and line */
+  z-index: 10;
+}
+
+.profile-image {
+  width: 150px; /* Adjust the profile image size */
+  height: 150px; /* Adjust the profile image size */
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.additional-details {
+  background-color: #e0f7fa; /* Background color below the line */
+  padding: 20px; /* Add padding to make the section more visually appealing */
+}
+.profile-header{
+  height: 150px;
+  width: 100%;
+  background-color: #C5A181;
+}
 
 
 
@@ -42,20 +81,7 @@
 }
 
 /* Buttons */
-button {
-  padding: 0.75rem 1.5rem;
-  background-color: #28a745;
-  border: none;
-  border-radius: 6px;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
 
-button:hover {
-  background-color: #218838;
-}
 
 /* Image Preview */
 .pet-photo-preview {
@@ -135,8 +161,324 @@ button:hover {
   }
   
   .pet-preview-image {
-    width: 100px; /* Adjust size as necessary */
-    height: auto; /* Maintain aspect ratio */
-    border-radius: 10px; /* Rounded corners for image */
+    width: 100px; 
+    height: auto; 
+    border-radius: 10px; 
   }
+.pet-type-selection {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 20px;
+  gap: 20px; /* Adds space between the items */
+}
+
+/* Style for each pet option */
+.pet-option {
+  cursor: pointer;
+  text-align: center;
+  padding: 15px;
+  border: 2px solid #ddd; /* Subtle border for unselected options */
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  width: 280px;
+  height: auto;
+  background-color: #fafafa; /* Light background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+/* Highlighting the selected option */
+.pet-option.selected {
+  border-color: #007BFF; /* Blue border for selected */
+  transform: scale(1.1); /* Slightly enlarge the selected option */
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Soft shadow effect */
+}
+
+/* Style for the pet image */
+.pet-option img {
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover; /* Ensures the image covers the space without distorting */
+  transition: transform 0.3s ease;
+}
+
+/* Text below the image */
+.pet-option p {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Add hover effect for better interactivity */
+.pet-option:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow on hover */
+}
+
+/* Optional: Add a smooth transition for images when hovered */
+.pet-option img:hover {
+  transform: rotate(3deg); /* Small rotation on hover for a dynamic effect */
+}
+/* Container for sex selection */
+.sex-selection {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 15px;
+  gap: 20px; /* Adds space between the options */
+}
+
+/* Style for each sex option */
+.sex-option {
+  cursor: pointer;
+  text-align: center;
+  padding: 15px;
+  border: 2px solid #ddd; /* Light border for unselected options */
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  width: 280px;
+  height: auto;
+  background-color: #fafafa; /* Light background */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+
+
+/* Style for the sex option image */
+.sex-option img {
+  width: 30px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover; /* Ensures the image covers the space without distorting */
+  transition: transform 0.3s ease;
+}
+
+/* Text below the image */
+
+
+/* Add hover effect for better interactivity */
+.sex-option:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow on hover */
+}
+
+/* Optional: Add a smooth transition for images when hovered */
+.sex-option img:hover {
+  transform: rotate(3deg); /* Small rotation on hover for a dynamic effect */
+}
+.sex-option.male.selected {
+  background-color: #92bff0; /* Blue background for Male */
+  color: white; /* White text for Male */
+}
+
+.sex-option.female.selected {
+  background-color: #ffc9e4; /* Pink background for Female */
+  color: white; /* White text for Female */
+}
+
+.breed-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.breed-option {
+  position: relative;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 15px;
+  transition: border 0.3s, box-shadow 0.3s;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.breed-option img {
+  width: 100%;
+  height: 150px; /* Fixed height for uniform image size */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.breed-option p {
+  margin: 0;
+  padding: 10px 0 5px 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  background-color: #ffffff;
+  border-top: 1px solid #ddd;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.breed-option.selected {
+  border: 2px solid; /* Highlight border color dynamically set in React */
+  box-shadow: 0 0 15px rgba(0, 0, 255, 0.2); /* Subtle shadow effect */
+  background-color: #f0faff; /* Light blue background for selected option */
+}
+
+.breed-option:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.age-picker {
+  text-align: center;
+  margin: 20px;
+}
+
+.scroller-container {
+  display: flex;
+  justify-content: space-around;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.year-scroller, .month-scroller {
+  width: 45%;
+  height: 150px;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
   
+}
+
+/* Hide scrollbars */
+.year-scroller::-webkit-scrollbar,
+.month-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+.year-scroller {
+  scrollbar-width: none;
+}
+.month-scroller {
+  scrollbar-width: none;
+}
+
+/* Styling for the scrollable items */
+.scroller-item {
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  scroll-snap-align: start;
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Add a shadow and scale effect when an item is selected */
+.scroller-item.selected {
+  background-color: #b1bfbf; /* Light pink for selected */
+  font-weight: bold;
+  border-radius: 5px;
+  transform: scale(1.1); /* Makes the selected item appear larger */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Adds shadow for a 3D pop effect */
+}
+
+/* Optional: add a hover effect for more interactivity */
+.scroller-item:hover {
+  transform: scale(1.05);
+  background-color: #f2f2f2;
+}
+/* Container for progress bar and paw icons */
+.progress-bar-container {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: #76c7c0; /* Greenish color */
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.paw-icons-container {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.paw-icon {
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.3s ease;
+}
+
+.paw-icon-img {
+  width: 100%;
+  height: 100%;
+}
+
+.paw-icon.completed img {
+  opacity: 1;
+}
+
+.paw-icon img {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+.step-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%; /* Adjust as needed */
+}
+
+.prev-arrow,
+.next-arrow {
+  cursor: pointer;
+  font-size: 24px; /* Adjust size as needed */
+  padding: 10px; /* Add spacing for better click area */
+}
+
+.save-button {
+  margin-left: auto; /* Aligns save button to the right */
+}
+.next-arrow {
+  margin-left: auto; /* Aligns save button to the right */
+}
+.prev-arrow:hover,
+.next-arrow:hover {
+ color: #76c7c0; /* Change color on hover */
+  transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+@media (max-width: 500px) {
+  
+.profile-page{
+  width: 100%;
+}
+.breed-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+.sex-option {
+  width: 100%;
+
+ }
+}

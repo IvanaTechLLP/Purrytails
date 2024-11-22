@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Calendar as BigCalendar, dateFnsLocalizer } from "react-big-calendar";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import EventForm from './EventForm'; // Import the event form
+import EventForm from './EventForm'; 
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "./Calendar.css";
 
@@ -26,6 +26,17 @@ const Calendar = ({ logOut, profile }) => {
   const [qrCodeImage, setQRCodeImage] = useState(null);
   const [inputText, setInputText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
+  const [isOpen, setIsOpen] = useState(false);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState(null); // State for selected event
+
+  const handleSelectEvent = (event) => {
+    setSelectedEvent(event); // Set the clicked event as the selected event
+  };
+
+  const handleClosePopup = () => {
+    setSelectedEvent(null); // Close the popup
+  };
 
   useEffect(() => {
 
@@ -192,81 +203,135 @@ const Calendar = ({ logOut, profile }) => {
     }
   };
 
-  const handleCloseQRCodePopup = () => {
-    setShowQRCodePopup(false);
-    setQRCodeImage(null);
-  };
 
   const handleShowUserDetails = () => {
     navigate("/profile");
   };
 
-  const handleShowDashboard = () => {
-    navigate("/dashboard", { state: { showPopup: false } });
-  }
 
 
-  const CustomEvent = ({ event }) => {
-    return (
-      <div className="event-container"> {/* New container for flex layout */}
-        <strong>{event.title}</strong>
-        <button className="delete-button" onClick={() => handleDeleteEvent(event.event_id, event.title)}>Delete</button>
-      </div>
-    );
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
   };
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+  const handleToggleForm = () => {
+    setIsFormOpen(!isFormOpen); // Toggle the visibility of the event form
+  };
+  const localizer = dateFnsLocalizer({
+    format,
+    parse,
+    startOfWeek: () => startOfWeek(new Date(), { weekStartsOn: 0 }), // Ensure this returns a valid date object
+    getDay,
+    locales: {
+      'en-US': require('date-fns/locale/en-US'),
+    },
+  });
   
   return (
     <div className="calendar-wrapper">
-      <div className="sidebar">
+      <div classname="dashboard-left">
+      <button className="hamburger" onClick={handleToggle}>
+        &#9776; {/* Hamburger icon */}
+      </button>
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <button className="back-arrow" onClick={closeMenu}>
+            &larr; {/* Back arrow icon */}
+        </button>
         <h2>Menu</h2>
         <ul>
-          <li onClick={handleShowQRCode}>View QR Code</li>
-          <li onClick={handleUploadFile}>Upload Reports</li>
-          <li onClick={handleShowUserDetails}>View User Details</li>
-          <li onClick={handleShowDashboard}>Dashboard</li>
+          <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+          <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
+          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
         </ul>
-        <ul className="logout-button">
-          <li onClick={logOut} className="logout-button">Log Out</li>
+        <ul>
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
+        </ul>
+      </div>
+      </div>
+      <div className="calendar-container">
+    <div className="sidebar-left">
+      <div className="date-display">
+        <h1>{format(new Date(), 'dd')}</h1>
+        <p>{format(new Date(), 'EEEE').toUpperCase()}</p>
+      </div>
+      <form onSubmit={handleSubmit}>
+    <input
+      type="text"
+      value={inputText}
+      onChange={handleInputChange}
+      placeholder="Enter your calendar request"
+    />
+    <button className="calendar-submit-button" type="submit">Submit</button>
+  </form>
+      <div className="current-events">
+        <h3>Current Events</h3>
+        <ul>
+          {events.map((event) => (
+            <li key={event.id}>
+              <strong>{format(event.start, 'EEEE, dd/MM/yyyy')}</strong>
+              <p>{event.title}</p>
+            </li>
+          ))}
         </ul>
       </div>
       
-      <div className="calendar-content">
-        <h2>Google Calendar Events</h2> 
-        {/* Text input and submit button */}
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            value={inputText}
-            onChange={handleInputChange}
-            placeholder="Enter your calendar request"
-          />
-          <button type="submit">Submit</button>
-        </form>
-        <BigCalendar
-          localizer={dateFnsLocalizerVariable}
-          events={events}
-          startAccessor="start"
-          endAccessor="end"
-          style={{ height: 500, margin: "50px" }}
-          components={{
-            event: CustomEvent,
-          }}
-          views={["agenda"]}
-          defaultView="agenda"
-        />
-        <EventForm onAddEvent={handleAddEvent} />
-        {showQRCodePopup && qrCodeImage && (
-          <div className="qr-code-popup">
-            <div className="qr-code-content">
-              <span className="close-popup" onClick={handleCloseQRCodePopup}>
-                &times;
-              </span>
-              <img src={qrCodeImage} alt="QR Code" />
-            </div>
-          </div>
-        )}
-      </div>
+      <button className="add-event-button" onClick={handleToggleForm}>+</button>
+
+{}
+{isFormOpen && (
+  <div className="popup">
+    <div className="popup-content">
+      <h4>Create an Event</h4>
+      <EventForm onAddEvent={handleAddEvent} />
+      <button className="close-popup" onClick={handleToggleForm}>&#10006;</button>
     </div>
+  </div>
+)}
+
+    </div> 
+      
+  </div>
+  <div className="calendar-content">
+  <div className="calendar-content">
+        <BigCalendar
+        localizer={localizer}
+        events={events}
+        startAccessor="start"
+        endAccessor="end"
+        style={{ height: '500px', width: '90%', margin: '20px 0', borderRadius: '10px', border: '1px solid #ccc' }}
+        views={['month']}
+        selectable
+        onSelectEvent={handleSelectEvent}
+        dayPropGetter={(date) => {
+          const hasEvent = events.some((event) =>
+            format(event.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+          );
+          return { className: hasEvent ? 'highlighted-day' : '' };
+        }}
+      />
+          {selectedEvent && (
+            <div className="eventpopup">
+              <div className="eventpopup-content">
+                <h4>Event Details</h4>
+                <button className="close" onClick={handleClosePopup}>&#10006;</button>
+                <p><strong>Title:</strong> {selectedEvent.title}</p>
+                <p><strong>Start:</strong> {format(selectedEvent.start, 'dd/MM/yyyy HH:mm')}</p>
+                <p><strong>End:</strong> {format(selectedEvent.end, 'dd/MM/yyyy HH:mm')}</p>
+                <button className="delete" onClick={() => handleDeleteEvent(selectedEvent.id, selectedEvent.title)}>Delete</button>
+                
+              </div>
+            </div>
+          )}
+      
+      </div>
+</div>
+      
+      
+      </div>
+   
   );
 };
 

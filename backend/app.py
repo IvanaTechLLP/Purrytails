@@ -7,7 +7,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from utils import process_image, process_pdf, llm_model, llm_calendar_response, create_google_meet_event, send_email
 from calendar_task import authenticate, add_event, delete_event_by_name
 from pydantic import BaseModel, EmailStr
-from typing import List
+from typing import List, Dict
 import json
 import ast
 import uuid
@@ -811,6 +811,41 @@ async def send_meeting_invite(meeting_request: dict):
         return {"message": "Google Meet invite sent successfully", "meet_link": meet_link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error sending invite: {str(e)}")
+    
+
+class PetDetails(BaseModel):
+    user_id: str
+    petDetails: Dict
+        
+@app.post("/api/store_pet_details")
+async def store_pet_details(data: PetDetails):
+    try:
+        # Extract data from request
+        user_id = data.user_id
+        pet_details = data.petDetails
+        owner_address = pet_details.get("ownerAddress", "")
+        pet_details.pop("ownerAddress")
+
+        
+        print("userid:", user_id)
+        print("pet details:", pet_details)
+        
+        user = users_collection.get(ids=[user_id])
+        user_metadata = user["metadatas"][0]
+        print(user_metadata)
+
+        # Store data in ChromaDB under the user's ID
+        users_collection.update(
+            ids=[user_id],  # Unique identifier for the user
+            metadatas={"pet_details": json.dumps(pet_details), "owner_address": owner_address},  # Metadata contains the pet details
+        )
+
+        return {"message": "Pet details saved successfully in ChromaDB!"}
+
+    except Exception as e:
+        print(f"Error storing pet details: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while saving data.")
+    
 
 if __name__ == "__main__":
     import uvicorn

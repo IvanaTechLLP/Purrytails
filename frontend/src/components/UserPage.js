@@ -42,19 +42,44 @@ const UserProfilePage = ({ profile, logOut }) => {
     setBreed(''); 
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newPetDetails = {
       petName,
       breed,
       sex,
-      ownerName,
       phoneNumber,
       ownerAddress,
       petPhoto,
       petType // Add pet type to saved details
     };
     setPetDetails(newPetDetails);
+    console.log('Pet and owner details:', profile.user_id);
     alert('Pet and owner details saved successfully!');
+
+    try {
+      // Send details to backend API
+      const response = await fetch('http://localhost:5000/api/store_pet_details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: profile.user_id, // Replace with actual user ID
+          petDetails: newPetDetails,
+        }),
+      });
+  
+      if (response.ok) {
+        alert('Pet and owner details saved successfully and sent to the database!');
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to save data:', errorData);
+        alert('Failed to send data to the database. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending data to the backend:', error);
+      alert('An error occurred while sending data. Please try again.');
+    }
   };
   
 

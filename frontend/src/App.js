@@ -18,6 +18,7 @@ import Doctor from "./components/Doctor";
 import Calendar from "./components/Calendar";
 import QrScanner from "./components/QrScanner";
 import Home from "./components/Home";
+import ChatWindow from "./components/ChatWindow";
 
 
 function FileUploadPage({ profile }) {
@@ -187,6 +188,16 @@ function App() {
               element={
                 isAuthenticated ? (
                   <UserProfilePage profile={profile} logOut={logOut} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/chat"
+              element={
+                isAuthenticated ? (
+                  <ChatWindow profile={profile} logOut={logOut} />
                 ) : (
                   <Navigate to="/" />
                 )

@@ -847,6 +847,110 @@ async def store_pet_details(data: PetDetails):
         raise HTTPException(status_code=500, detail="An error occurred while saving data.")
     
 
+@app.get("/chats/{user_id}")
+async def chats(user_id: str):
+    print(user_id)
+    user = users_collection.get(ids=[user_id])
+    user_metadata = user["metadatas"][0]
+    if "chats" in user_metadata:
+        chats = user_metadata["chats"]
+        return chats
+    else:
+        return []
+    
+
+@app.post("/start_chat")
+async def start_chat(data: dict):
+    user_id = data.get("user_id")
+    email = data.get("email")
+    # Logic to add a new chat (mock or database operation)
+    # Example: Update the user's chat list in the database
+    try:
+        user = users_collection.get(ids=[user_id])
+        user_metadata = user["metadatas"][0]
+        if "chats" in user_metadata:
+            chats = json.loads(user_metadata["chats"])
+        else:
+            chats = {}
+        chats[email] = []
+        users_collection.update(
+            ids=[user_id],
+            metadatas={"chats": json.dumps(chats)}
+        )
+        
+        return {"message": "Chat added successfully!"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to add chat: {str(e)}")   
+
+
+@app.get("/messages/{user_id}/{email}")
+def get_messages_by_user_and_name(user_id: str, email: str):
+    user = users_collection.get(ids=[user_id])
+    user_metadata = user["metadatas"][0]
+    if "chats" in user_metadata:
+        chats = json.loads(user_metadata["chats"])
+        if email in chats:
+            messages = chats[email]
+            return messages
+    else:
+        return []
+    return messages
+
+
+class SentMessage(BaseModel):
+    user_id: str
+    email: str
+    message: str
+    
+@app.post("/send_chat")
+def send_chat(data: SentMessage):
+    user_id = data.user_id
+    receiver_email = data.email
+    message = data.message
+    
+    user = users_collection.get(ids=[user_id])
+    user_metadata = user["metadatas"][0]
+    sender_email = user_metadata["email"]
+    sender_chats = json.loads(user_metadata["chats"])
+    
+    sender_message = {"sender": "you", "content": message}
+    receiver_message = {"sender": "them", "content": message}
+    
+    try:  
+        receiver = users_collection.get(where={"email": receiver_email})
+        receiver_metadata = receiver["metadatas"][0]
+        receiver_id = receiver["ids"][0]
+        print(receiver_id)
+        if "chats" in receiver_metadata:
+            receiver_chats = json.loads(receiver_metadata["chats"])
+        else:
+            receiver_chats = {}
+            receiver_chats[sender_email] = []
+        if sender_email in receiver_chats:
+            messages = receiver_chats[sender_email]
+            messages.append(receiver_message)
+            receiver_chats[sender_email] = messages
+            users_collection.update(
+                ids=[receiver_id],
+                metadatas={"chats": json.dumps(receiver_chats)}
+            )
+        
+    except:
+        raise HTTPException(status_code=404, detail="Receiver is not registered")
+    
+    
+    if receiver_email in sender_chats:
+        messages = sender_chats[receiver_email]
+        messages.append(sender_message)
+        sender_chats[receiver_email] = messages
+        users_collection.update(
+            ids=[user_id],
+            metadatas={"chats": json.dumps(sender_chats)}
+        )
+    
+    
+    return "done"
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5000)

@@ -196,6 +196,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
             <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
             <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
             <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+            <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
           </ul>
           <ul>
             <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>

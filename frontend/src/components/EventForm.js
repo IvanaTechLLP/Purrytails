@@ -31,6 +31,13 @@ const EventForm = ({ onAddEvent }) => {
         onChange={(e) => setStart(new Date(e.target.value))} 
         required 
       />
+      <input 
+        type="datetime-local" 
+        className="event-input-start"
+        value={end.toISOString().substring(0, 16)} 
+        onChange={(e) => setEnd(new Date(e.target.value))} 
+        required 
+      />
       
       <button type="submit" className="event-submit-button">Add Event</button>
     </form>

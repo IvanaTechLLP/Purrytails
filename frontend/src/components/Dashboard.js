@@ -386,10 +386,10 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         {showQRCodePopup && qrCodeImage && (
           <div className="qr-code-popup">
             <div className="qr-code-content">
-              <span className="close-popup" onClick={handleCloseQRCodePopup}>
+              <span className="qr-close-popup" onClick={handleCloseQRCodePopup}>
                 &times;
               </span>
-              <img src={qrCodeImage} alt="QR Code" />
+              <img  className="qr-code-image" src={qrCodeImage} alt="QR Code" />
             </div>
           </div>
         )}

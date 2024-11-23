@@ -73,32 +73,83 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.7); /* Dark background */
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 9999;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards; /* Smooth fade-in animation */
 }
 
 .qr-code-content {
   background-color: white;
-  padding: 20px;
-  border-radius: 10px;
+  padding: 30px;
+  border-radius: 15px;
   position: relative;
   text-align: center;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
+  box-sizing: border-box;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .qr-code-image {
-  max-width: 300px;
-  max-height: 300px;
+  max-width: 100%; /* Ensures the image scales with container */
+  max-height: 300px; /* Limits the height to ensure the QR code stays within view */
+  object-fit: contain; /* Ensures the image is fully visible without cropping */
+  margin-bottom: 20px; /* Adds space between image and close button */
+  border-radius: 10px; /* Slight rounding for image corners */
 }
 
-.close-popup {
+.qr-close-popup {
   position: absolute;
-  top: 10px;
+  top: 5px;
   right: 10px;
-  font-size: 24px;
+  font-size: 25px;
+  color: #333;
+  font-weight: bold;
   cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.8); /* Slight background for the close button */
+  border-radius: 50%;
+  padding: 5px 10px;
+  transition: background-color 0.3s;
 }
+
+.qr-close-popup:hover {
+  color: rgba(255, 0, 0, 0.8); /* Red background on hover */
+   /* Changes the close button color */
+}
+
+/* Animation for fading in the popup */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Media Queries for smaller screens */
+@media (max-width: 768px) {
+  .qr-code-content {
+    width: 80% !important; /* Reduces width for smaller screens */
+    padding: 20px; /* Reduces padding */
+  }
+
+  .qr-code-image {
+    height: 80% !important; /* Limits image height on smaller screens */
+    
+  }
+}
+
+
 
 /* Report Cards */
 .reports-grid {
@@ -115,6 +166,7 @@
   .reports-grid {
     grid-template-columns: repeat(2, 1fr); /* 2 reports per row */
   }
+
 }
 
 @media (max-width: 500px) {

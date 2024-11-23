@@ -51,6 +51,12 @@
   align-items: center;
 }
 
+@media (max-width: 480px) {
+  .chat-container {
+    height: 50%;
+    width: auto;
+  }
+}
 /* Header text and icon */
 .chat-header-content {
   display: flex;

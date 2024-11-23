@@ -233,11 +233,11 @@ const Calendar = ({ logOut, profile }) => {
     <div className="calendar-wrapper">
       <div classname="dashboard-left">
       <button className="hamburger" onClick={handleToggle}>
-        &#9776; {/* Hamburger icon */}
+        &#9776; 
       </button>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <button className="back-arrow" onClick={closeMenu}>
-            &larr; {/* Back arrow icon */}
+            &larr; 
         </button>
         <h2>Menu</h2>
         <ul>

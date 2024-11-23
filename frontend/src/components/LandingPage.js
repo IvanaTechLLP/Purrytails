@@ -228,18 +228,18 @@ const LandingPage = () => {
         <h1>Meet Our Founders</h1>
         <div className="founders">
           <div className="founder">
-            <img src="/darsh.png" alt="Founder 1" className="founder-image" />
+            <img src="/darsh-1.png" alt="Founder 1" className="founder-image" />
             <h2>Darsh Thakkar</h2>
             <p>A dedicated pet parent for over 10 years and passionate animal lover. Manages business development and technology integration for Purry Tails.</p>
                   
                   </div>
           <div className="founder">
-            <img src="/mahir.png" alt="Founder 2" className="founder-image" />
+            <img src="/mahir-1.png" alt="Founder 2" className="founder-image" />
             <h2>Mahir Madhani</h2>
             <p>Compassionate advocate for pets and their well-being. Manages finance and marketing, ensuring Purry Tails' financial health and market presence.</p>
           </div>
           <div className="founder">
-            <img src="/abhay.png" alt="Founder 3" className="founder-image" />
+            <img src="/abhay-1.png" alt="Founder 3" className="founder-image" />
             <h2>Abhay Mathur</h2>
             <p>A devoted pet lover. Drives technological innovation, ensuring Purry Tails leverages the latest advancements for a cutting-edge platform. </p>
           </div>

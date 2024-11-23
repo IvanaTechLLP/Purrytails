@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UserPage.css"; // Ensure your CSS is imported
+import Cropper from "cropperjs";
+import "cropperjs/dist/cropper.css";
 
 const UserProfilePage = ({ profile, logOut }) => {
   const navigate = useNavigate();
@@ -11,13 +13,18 @@ const UserProfilePage = ({ profile, logOut }) => {
   const [ownerName, setOwnerName] = useState(profile?.name || '');
   const [phoneNumber, setPhoneNumber] = useState(profile?.phoneNumber || '');
   const [ownerAddress, setOwnerAddress] = useState(profile?.address || '');
-  const [petPhoto, setPetPhoto] = useState(null);
   const [petDetails, setPetDetails] = useState(null);
   const [weight, setWeight] = useState(20); // Initial weight state
   const [petType, setPetType] = useState(''); // New state for pet type selection
   const [ageYears, setAgeYears] = useState(0);
   const [ageMonths, setAgeMonths] = useState(0);
   const totalSteps = 5; 
+  const [petPhoto, setPetPhoto] = useState(null); // Original uploaded image
+  const [croppedPhoto, setCroppedPhoto] = useState(null); // Final cropped photo
+  const imageRef = useRef(null); // Reference for the uploaded image element
+  const cropperRef = useRef(null); // Reference for Cropper instance
+
+  
 
   const [currentStep, setCurrentStep] = useState(1); // New state to track the step
 
@@ -25,17 +32,6 @@ const UserProfilePage = ({ profile, logOut }) => {
   const maxMonths = 12;
   const yearScrollerRef = useRef(null);
   const monthScrollerRef = useRef(null);
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPetPhoto(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handlePetTypeSelection = (type) => {
     setPetType(type);
@@ -146,6 +142,41 @@ const UserProfilePage = ({ profile, logOut }) => {
   };
    // Calculate the progress as a percentage
    const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+   const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        setPetPhoto(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const initializeCropper = () => {
+    if (imageRef.current) {
+      cropperRef.current = new Cropper(imageRef.current, {
+        aspectRatio: 1, // Square crop for circular shape
+        viewMode: 1, // Restrict crop box within the image
+        movable: false,
+        zoomable: false,
+        scalable: false,
+      });
+    }
+  };
+
+  const handleCrop = () => {
+    const cropper = cropperRef.current;
+    if (cropper) {
+      const canvas = cropper.getCroppedCanvas({
+        width: 300, // Desired width for the cropped image
+        height: 300, // Desired height
+      });
+      setCroppedPhoto(canvas.toDataURL("image/png"));
+    
+    }
+  };
+  const profilePicture = profile.picture;
 
   return (
     <div className="dashboard-wrapper">
@@ -165,7 +196,7 @@ const UserProfilePage = ({ profile, logOut }) => {
       <div className="profile-page">
         <div className="profile-header"></div>
       <div class="profile-image-container">
-        <img src={profile.picture} alt="user" className="profile-image" />
+        <img src={profilePicture} alt="user" className="profile-image" />
         </div>
         
         <div className="additional-details">
@@ -375,22 +406,34 @@ const UserProfilePage = ({ profile, logOut }) => {
 
 {currentStep === 4 && (
             <div>
-                <label>
+            <label>
               Upload a Cute Photo of Your Pet:
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoChange}
-              />
+              <input type="file" accept="image/*" onChange={handlePhotoChange} />
             </label>
-            {petPhoto && (
-              <div className="pet-photo-preview">
-                <h4>Preview:</h4>
-                <img src={petPhoto} alt="Pet Preview" />
+      
+            {petPhoto && !croppedPhoto && (
+              <div>
+                <h4>Adjust your photo:</h4>
+                <div>
+                  <img
+                    ref={imageRef}
+                    src={petPhoto}
+                    alt="Pet Preview"
+                    onLoad={initializeCropper}
+                    style={{ maxWidth: "100%" }}
+                  />
+                </div>
+                <button onClick={handleCrop}>Crop Image</button>
               </div>
             )}
-
+      
+            {croppedPhoto && (
+              <div>
+                <h4>Cropped Image:</h4>
+                <img src={croppedPhoto} alt="Cropped Pet" />
               </div>
+            )}
+          </div>
           )}
 
           {/* Navigation Buttons */}

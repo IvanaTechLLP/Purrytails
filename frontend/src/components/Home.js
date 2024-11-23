@@ -177,11 +177,6 @@ const Home = ({ profile, logOut, reports, setReports }) => {
     //   .catch(error => console.error('Error uploading file:', error));
   };
 
-  const handleGoToCalendar = () => {
-    // Logic to route to calendar page, e.g., using React Router
-    navigate('/calendar'); // Assuming you're using React Router
-  };
-
   
   
 
@@ -198,6 +193,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           <h2>Menu</h2>
           <ul>
             <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
+            <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
             <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
             <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
           </ul>

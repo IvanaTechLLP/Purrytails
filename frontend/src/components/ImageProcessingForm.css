@@ -176,6 +176,12 @@
   text-align: center; /* Center the heading */
   color:#302C28; 
 }
+.upload-heading {
+  margin-top: 20px; /* Space above the instruction heading */
+  font-size: 1.5rem; /* Adjust font size as needed */
+  font-weight: bold; /* Make the heading bold */
+  color:#302C28; 
+}
 
 .instruction-cards {
   display: flex;
@@ -195,6 +201,7 @@
   width: 30%; /* Adjust width as needed */
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
 }
 .mobile-instruction-card{
   background-color: #f9f9f9;
@@ -204,6 +211,7 @@
   width: 90%; /* Adjust width as needed */
   text-align: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
 }
 
 .instruction-image {
@@ -219,6 +227,7 @@
 
 .instruction-card p {
   color: #555;
+  font-size: 17px; 
 }
 
 /* Sexy Edit and Save Buttons */

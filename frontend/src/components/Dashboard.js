@@ -4,6 +4,8 @@ import "./Dashboard.css";
 import UserPopup from "./UserLoginPopup.js";
 import Chatbot from "./Chatbot.js";
 import Meeting from './Meeting';
+import { FaSignOutAlt } from 'react-icons/fa';
+
 
 const Dashboard = ({ profile, logOut, reports, setReports }) => {
   const [userDetails, setUserDetails] = useState(null);
@@ -286,16 +288,26 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         <button className="back-arrow" onClick={closeMenu}>
             &larr; 
         </button>
+        
         <h2>Menu</h2>
-        <ul>
-          <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
-          <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
-          <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+        <ul className="menu-items">
+        <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
+        <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+        <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+        
+          
+        <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+          
         </ul>
+        <div className="logout-container-dash">
         <ul>
-          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
+          
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+            <FaSignOutAlt />
+          </li>
         </ul>
+        </div>
       </div>
       </div>
         
@@ -304,7 +316,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
           <UserPopup onClose={handleClosePopup} profile={profile} logOut={logOut} />
         )}
         <h1 className="dashboard-title">Welcome to your Health Locker!</h1>
-        <p className="dashboard-description">
+        <p className="dashboard-description-one">
           This dashboard serves as a centralized storage for all your medical reports, enabling you to easily access, manage, and review your health information. 
           Keep track of your medical history, including diseases, prescribed medicines, and doctor consultations, all in one secure place. 
           You can upload new reports, view existing ones, and even generate a QR code for quick access to your medical data. 

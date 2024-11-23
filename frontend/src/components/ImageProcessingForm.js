@@ -116,41 +116,6 @@ const ImageProcessingForm = ({ profile, logOut }) => {
     }
   };
 
-  const handleShowQRCode = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/qr_codes/${profile.user_id}.png`
-      );
-      if (response.ok) {
-        const imageBlob = await response.blob();
-        const imageObjectURL = URL.createObjectURL(imageBlob);
-        setQRCodeImage(imageObjectURL);
-        setShowQRCodePopup(true);
-      } else {
-        const generateResponse = await fetch(
-          `http://localhost:5000/generate_qr_code/${profile.user_id}`,
-          { method: "POST" }
-        );
-        if (generateResponse.ok) {
-          const fetchQRCodeResponse = await fetch(
-            `http://localhost:5000/qr_codes/${profile.user_id}.png`
-          );
-          if (fetchQRCodeResponse.ok) {
-            const imageBlob = await fetchQRCodeResponse.blob();
-            const imageObjectURL = URL.createObjectURL(imageBlob);
-            setQRCodeImage(imageObjectURL);
-            setShowQRCodePopup(true);
-          } else {
-            console.error("Failed to fetch the newly generated QR code.");
-          }
-        } else {
-          console.error("Error generating QR code:", generateResponse.statusText);
-        }
-      }
-    } catch (error) {
-      console.error("Error handling QR code:", error);
-    }
-  };
 
   const handleCloseQRCodePopup = () => {
     setShowQRCodePopup(false);
@@ -205,10 +170,10 @@ const ImageProcessingForm = ({ profile, logOut }) => {
         </button>
         <h2>Menu</h2>
         <ul>
-          <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
           <li onClick={() => { navigate("/dashboard"); closeMenu(); }}> Dashboard</li>
-          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
           <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+          
         </ul>
         <ul>
           <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
@@ -217,9 +182,9 @@ const ImageProcessingForm = ({ profile, logOut }) => {
       </div>
 
       <div className="dashboard-content">
-        <h1 className="image-upload-title">Image Upload</h1>
+        <h1 className="image-upload-title">Document Upload</h1>
         
-      <h3 className="instruction-heading">Instructions for Uploading Images</h3>
+      <h3 className="instruction-heading">Instructions for Uploading Documents</h3>
         
         <div className="instruction-cards">
           <div className="instruction-card">

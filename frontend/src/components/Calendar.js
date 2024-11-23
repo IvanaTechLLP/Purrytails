@@ -22,8 +22,6 @@ const dateFnsLocalizerVariable = dateFnsLocalizer({
 const Calendar = ({ logOut, profile }) => {
   const [events, setEvents] = useState([]);
   const navigate = useNavigate(); // Initialize navigate for routing
-  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
-  const [qrCodeImage, setQRCodeImage] = useState(null);
   const [inputText, setInputText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
   const [isOpen, setIsOpen] = useState(false);
@@ -167,41 +165,6 @@ const Calendar = ({ logOut, profile }) => {
     navigate("/file_upload");
   };
 
-  const handleShowQRCode = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/qr_codes/${profile.user_id}.png`
-      );
-      if (response.ok) {
-        const imageBlob = await response.blob();
-        const imageObjectURL = URL.createObjectURL(imageBlob);
-        setQRCodeImage(imageObjectURL);
-        setShowQRCodePopup(true);
-      } else {
-        const generateResponse = await fetch(
-          `http://localhost:5000/generate_qr_code/${profile.user_id}`,
-          { method: "POST" }
-        );
-        if (generateResponse.ok) {
-          const fetchQRCodeResponse = await fetch(
-            `http://localhost:5000/qr_codes/${profile.user_id}.png`
-          );
-          if (fetchQRCodeResponse.ok) {
-            const imageBlob = await fetchQRCodeResponse.blob();
-            const imageObjectURL = URL.createObjectURL(imageBlob);
-            setQRCodeImage(imageObjectURL);
-            setShowQRCodePopup(true);
-          } else {
-            console.error("Failed to fetch the newly generated QR code.");
-          }
-        } else {
-          console.error("Error generating QR code:", generateResponse.statusText);
-        }
-      }
-    } catch (error) {
-      console.error("Error handling QR code:", error);
-    }
-  };
 
 
   const handleShowUserDetails = () => {
@@ -241,9 +204,9 @@ const Calendar = ({ logOut, profile }) => {
         </button>
         <h2>Menu</h2>
         <ul>
-          <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+          <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
           <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>User Settings</li>
           <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
         </ul>
         <ul>

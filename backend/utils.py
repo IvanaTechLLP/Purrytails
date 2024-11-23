@@ -96,48 +96,43 @@ def process_image(filepath):
 
     prompt1 = """
         You have 2 tasks:
-        1. Extract the accurate date given in the image. MAKE SURE THE DATE IS ACCURATE, THE DATE IS THE MOST IMPORTANT PART OF THE TASK. Identify and extract the accurate date from the following medical document. The date could appear in various formats (e.g., DD/MM/YYYY, MM/DD/YYYY, Month Day, Year, etc.), so ensure to capture it correctly regardless of the format used. IF IT IS NOT GIVEN MAKE SURE YOU WRITE IT AS 'NONE'. 
-        2. Write a short summary of the text given in the image. Make sure to specify the what diseases he is suffering from. Also specify other details given in the image like the medicines prescribed.
-        
+        1. Extract the accurate date given in the image. MAKE SURE THE DATE IS ACCURATE, THE DATE IS THE MOST IMPORTANT PART OF THE TASK. Identify and extract the accurate date from the following veterinary document. The date could appear in various formats (e.g., DD/MM/YYYY, MM/DD/YYYY, Month Day, Year, etc.), so ensure to capture it correctly regardless of the format used. IF IT IS NOT GIVEN MAKE SURE YOU WRITE IT AS 'NONE'. 
+        2. Write a short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.
+
         Give your output STRICTLY in this format:
         {
-        "date": "Extract the date from the medical report. The date may be handwritten and can appear in various formats, such as DD/MM/YYYY, DD-MM-YYYY, MM/DD/YYYY, DD/MM/YY, or even written in words (e.g., 1st January 2023).UNDERSTAND WHICH TYPE HAS BEEN GIVEN AND EXTRACT ACCORDINGLY.IF IT IS DD/MM/YY format convert via DD/MM/20YY. Ensure that the extracted date is strictly converted to the format DD/MM/YYYY. If the date is not present or if there are any errors in the extraction (e.g., illegible handwriting, incorrect format), return 'None'. Pay attention to the top half of the document, as dates are often found there.If none found give output as "NONE"",
-        "document": "Classify the following medical document as either a medical prescription (includes doctor's name, prescribed medications, and dosage) or a medical report (contains diagnostic results and patient analysis), or a medical bill (itemized list of services with costs and billing details) ",
-        "diseases": "Extract any symptoms or diseases mentioned in the following medical document. Look for common medical terms or descriptions related to the patient's condition, including specific diseases or symptoms, such as pain, fever, fatigue, or medical diagnoses.If not given write 'None'",
-        "medicines": "Extract the names of any medicines mentioned in the following medical document, including prescribed drugs, dosages, and any related instructions for their use., if any (if none, write 'None')",
-        "doctor": "Extract the name of the doctor mentioned in the following medical document, considering any titles (e.g., Dr.) and full name formats that may be used, if given. If not given write 'None'",
-        "summary": "A short summary of the text given in the image. Make sure to specify the what diseases he is suffering from. Also specify other details given in the image like the medicines prescribed.",
-        "domain": "Given the following medical report, determine which medical domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately and ONLY IF document uploaded does match any domain descriptions then analyse according to own. In the output, provide both the domain name and a one-line description. Output for this attribute should be like "domain": "domain_name: description". The possible domains are:
+        "date": "Extract the date from the veterinary document. The date may be handwritten and can appear in various formats, such as DD/MM/YYYY, DD-MM-YYYY, MM/DD/YYYY, DD/MM/YY, or even written in words (e.g., 1st January 2023). UNDERSTAND WHICH TYPE HAS BEEN GIVEN AND EXTRACT ACCORDINGLY. IF IT IS DD/MM/YY format, convert via DD/MM/20YY. Ensure that the extracted date is strictly converted to the format DD/MM/YYYY. If the date is not present or if there are any errors in the extraction (e.g., illegible handwriting, incorrect format), return 'None'. Pay attention to the top half of the document, as dates are often found there. If none found give output as 'NONE'.",
+        "document": "Classify the following veterinary document as either a prescription (includes veterinarian's name, prescribed medications, and dosage), a medical report (contains diagnostic results and pet analysis), or a medical bill (itemized list of services with costs and billing details).",
+        "diseases": "Extract any symptoms or diseases mentioned in the following veterinary document. Look for common veterinary terms or descriptions related to the pet's condition, including specific diseases or symptoms such as 'fleas,' 'diarrhea,' 'vomiting,' or medical diagnoses. If not given, write 'None'.",
+        "medicines": "Extract the names of any medicines mentioned in the following veterinary document, including prescribed drugs, dosages, and any related instructions for their use. If none, write 'None'.",
+        "doctor": "Extract the name of the veterinarian mentioned in the following veterinary document, considering any titles (e.g., Dr., Vet.) and full name formats that may be used, if given. If not given, write 'None'.",
+        "summary": "A short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "domain": "Given the following veterinary report, determine which veterinary domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately. In the output, provide both the domain name and a one-line description. Output for this attribute should be like 'domain': 'domain_name: description'. The possible domains are:
 
-                    General Medicine: Comprehensive care for adult patients with various diseases.
-                    Surgery: Treatment of diseases, injuries, or deformities via operations.
-                    Pediatrics: Medical care for infants, children, and adolescents.
-                    Obstetrics and Gynecology: Focus on women's reproductive health, pregnancy, and childbirth.
-                    Psychiatry: Diagnosis and treatment of mental health and psychological conditions.
-                    Dermatology: Treatment of skin, hair, and nail disorders.
-                    Neurology: Care for diseases of the nervous system (brain, spinal cord).
-                    Cardiology: Diagnosis and treatment of heart and blood vessel conditions.
-                    Oncology: Diagnosis and treatment of cancer.
-                    Orthopedics: Care for conditions affecting the bones, joints, and muscles.
-                    Radiology: Use of imaging technologies for diagnosis (X-ray, MRI, CT scans).
-                    Anesthesiology: Management of pain and anesthesia during surgeries.
-                    Ophthalmology: Diagnosis and treatment of eye disorders.
-                    ENT (Otolaryngology): Care for ear, nose, and throat conditions.
-                    Urology: Care for urinary tract diseases and male reproductive health.
-                    Endocrinology: Focus on hormone-related diseases (e.g., diabetes, thyroid disorders).
-                    Nephrology: Care for kidney-related diseases and disorders.
-                    Hematology: Diagnosis and treatment of blood disorders.
-                    Pulmonology: Care for respiratory system diseases (lungs, airways).
-                    Gastroenterology: Treatment of digestive system conditions.
-                    Pathology: Study of diseases through laboratory examination of tissues and fluids.
-                    Immunology: Focus on immune system disorders and conditions.
-                    Rheumatology: Care for autoimmune and musculoskeletal disorders (e.g., arthritis).
-                    Infectious Diseases: Diagnosis and treatment of infections caused by bacteria, viruses, fungi, and parasites.
-                    Geriatrics: Specialized care for elderly patients and age-related conditions."
+                    General Veterinary Medicine: Comprehensive care for animals and pets with various conditions.
+                    Veterinary Surgery: Treatment of diseases, injuries, or deformities via operations in animals.
+                    Veterinary Dermatology: Treatment of skin, hair, and fur-related disorders in animals.
+                    Veterinary Neurology: Care for diseases of the nervous system (brain, spinal cord) in animals.
+                    Veterinary Cardiology: Diagnosis and treatment of heart conditions in pets and animals.
+                    Veterinary Oncology: Diagnosis and treatment of cancer in animals.
+                    Veterinary Orthopedics: Care for conditions affecting the bones, joints, and muscles of animals.
+                    Veterinary Radiology: Use of imaging technologies for diagnosis (X-ray, MRI, CT scans) in animals.
+                    Veterinary Anesthesiology: Management of pain and anesthesia during surgeries in animals.
+                    Veterinary Ophthalmology: Diagnosis and treatment of eye disorders in animals.
+                    Veterinary ENT: Care for ear, nose, and throat conditions in pets and animals.
+                    Veterinary Endocrinology: Focus on hormone-related diseases (e.g., diabetes, thyroid disorders) in animals.
+                    Veterinary Nephrology: Care for kidney-related diseases and disorders in animals.
+                    Veterinary Hematology: Diagnosis and treatment of blood disorders in animals.
+                    Veterinary Pulmonology: Care for respiratory system diseases (lungs, airways) in animals.
+                    Veterinary Gastroenterology: Treatment of digestive system conditions in animals.
+                    Veterinary Pathology: Study of diseases through laboratory examination of tissues and fluids in animals.
+                    Veterinary Immunology: Focus on immune system disorders and conditions in animals.
+                    Veterinary Infectious Diseases: Diagnosis and treatment of infections in animals caused by bacteria, viruses, fungi, and parasites."
         }
        
-        IF YOU DONT FIND ANY OF THE ABOVE INFORMATION IN THE GIVEN IMAGE, WRITE 'None' IN ALL THE PLACES. DO NOT MAKE UP YOUR OWN INFORMATION
+        IF YOU DON'T FIND ANY OF THE ABOVE INFORMATION IN THE GIVEN IMAGE, WRITE 'None' IN ALL THE PLACES. DO NOT MAKE UP YOUR OWN INFORMATION.
     """
+
 
     response1 = vision_model.generate_content([file, prompt1])
     print(response1.text)
@@ -230,56 +225,45 @@ def process_pdf(filename):
     count = 1 
     for  report in reports_json.items():
         prompt1 = [
-            """
+         """
         You have 2 tasks:
-           
-            
-            Give your output STRICTLY in this format:
-            {
-            You have 2 tasks:
-        1. Extract the accurate date given in the image. MAKE SURE THE DATE IS ACCURATE, THE DATE IS THE MOST IMPORTANT PART OF THE TASK. Identify and extract the accurate date from the following medical document. The date could appear in various formats (e.g., DD/MM/YYYY, MM/DD/YYYY, Month Day, Year, etc.), so ensure to capture it correctly regardless of the format used. IF IT IS NOT GIVEN MAKE SURE YOU WRITE IT AS 'NONE'. 
-        2. Write a short summary of the text given in the image. Make sure to specify the what diseases he is suffering from. Also specify other details given in the image like the medicines prescribed.
-        
+        1. Extract the accurate date given in the image. MAKE SURE THE DATE IS ACCURATE, THE DATE IS THE MOST IMPORTANT PART OF THE TASK. Identify and extract the accurate date from the following veterinary document. The date could appear in various formats (e.g., DD/MM/YYYY, MM/DD/YYYY, Month Day, Year, etc.), so ensure to capture it correctly regardless of the format used. IF IT IS NOT GIVEN MAKE SURE YOU WRITE IT AS 'NONE'. 
+        2. Write a short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.
+
         Give your output STRICTLY in this format:
         {
-        "date": "Extract the date from the medical report. The date may be handwritten and can appear in various formats, such as DD/MM/YYYY, DD-MM-YYYY, MM/DD/YYYY, DD/MM/YY, or even written in words (e.g., 1st January 2023).UNDERSTAND WHICH TYPE HAS BEEN GIVEN AND EXTRACT ACCORDINGLY.IF IT IS DD/MM/YY format convert via DD/MM/20YY. Ensure that the extracted date is strictly converted to the format DD/MM/YYYY. If the date is not present or if there are any errors in the extraction (e.g., illegible handwriting, incorrect format), return 'None'. Pay attention to the top half of the document, as dates are often found there.If none found give output as "NONE"",
-            "document": "Classify the following medical document as either a medical prescription (includes doctor's name, prescribed medications, and dosage) or a medical report (contains diagnostic results and patient analysis), or a medical bill (itemized list of services with costs and billing details) ",
-            "diseases": "Extract any symptoms or diseases mentioned in the following medical document. Look for common medical terms or descriptions related to the patient's condition, including specific diseases or symptoms, such as pain, fever, fatigue, or medical diagnoses.If not given write 'None'",
-            "medicines": "Extract the names of any medicines mentioned in the following medical document, including prescribed drugs, dosages, and any related instructions for their use., if any (if none, write 'None')",
-            "doctor": "Extract the name of the doctor mentioned in the following medical document, considering any titles (e.g., Dr.) and full name formats that may be used, if given. If not given write 'None'",
-            "summary": "A short summary of the text given in the image. Make sure to specify the what diseases he is suffering from. Also specify other details given in the image like the medicines prescribed.",
-            "domain": "Given the following medical report, determine which medical domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately and ONLY IF document uploaded does match any domain descriptions then analyse according to own. In the output, provide both the domain name and a one-line description. Output for this attribute should be like "domain": "domain_name: description". The possible domains are:
+        "date": "Extract the date from the veterinary document. The date may be handwritten and can appear in various formats, such as DD/MM/YYYY, DD-MM-YYYY, MM/DD/YYYY, DD/MM/YY, or even written in words (e.g., 1st January 2023). UNDERSTAND WHICH TYPE HAS BEEN GIVEN AND EXTRACT ACCORDINGLY. IF IT IS DD/MM/YY format, convert via DD/MM/20YY. Ensure that the extracted date is strictly converted to the format DD/MM/YYYY. If the date is not present or if there are any errors in the extraction (e.g., illegible handwriting, incorrect format), return 'None'. Pay attention to the top half of the document, as dates are often found there. If none found give output as 'NONE'.",
+        "document": "Classify the following veterinary document as either a prescription (includes veterinarian's name, prescribed medications, and dosage), a medical report (contains diagnostic results and pet analysis), or a medical bill (itemized list of services with costs and billing details).",
+        "diseases": "Extract any symptoms or diseases mentioned in the following veterinary document. Look for common veterinary terms or descriptions related to the pet's condition, including specific diseases or symptoms such as 'fleas,' 'diarrhea,' 'vomiting,' or medical diagnoses. If not given, write 'None'.",
+        "medicines": "Extract the names of any medicines mentioned in the following veterinary document, including prescribed drugs, dosages, and any related instructions for their use. If none, write 'None'.",
+        "doctor": "Extract the name of the veterinarian mentioned in the following veterinary document, considering any titles (e.g., Dr., Vet.) and full name formats that may be used, if given. If not given, write 'None'.",
+        "summary": "A short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "domain": "Given the following veterinary report, determine which veterinary domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately. In the output, provide both the domain name and a one-line description. Output for this attribute should be like 'domain': 'domain_name: description'. The possible domains are:
 
-                        General Medicine: Comprehensive care for adult patients with various diseases.
-                        Surgery: Treatment of diseases, injuries, or deformities via operations.
-                        Pediatrics: Medical care for infants, children, and adolescents.
-                        Obstetrics and Gynecology: Focus on women's reproductive health, pregnancy, and childbirth.
-                        Psychiatry: Diagnosis and treatment of mental health and psychological conditions.
-                        Dermatology: Treatment of skin, hair, and nail disorders.
-                        Neurology: Care for diseases of the nervous system (brain, spinal cord).
-                        Cardiology: Diagnosis and treatment of heart and blood vessel conditions.
-                        Oncology: Diagnosis and treatment of cancer.
-                        Orthopedics: Care for conditions affecting the bones, joints, and muscles.
-                        Radiology: Use of imaging technologies for diagnosis (X-ray, MRI, CT scans).
-                        Anesthesiology: Management of pain and anesthesia during surgeries.
-                        Ophthalmology: Diagnosis and treatment of eye disorders.
-                        ENT (Otolaryngology): Care for ear, nose, and throat conditions.
-                        Urology: Care for urinary tract diseases and male reproductive health.
-                        Endocrinology: Focus on hormone-related diseases (e.g., diabetes, thyroid disorders).
-                        Nephrology: Care for kidney-related diseases and disorders.
-                        Hematology: Diagnosis and treatment of blood disorders.
-                        Pulmonology: Care for respiratory system diseases (lungs, airways).
-                        Gastroenterology: Treatment of digestive system conditions.
-                        Pathology: Study of diseases through laboratory examination of tissues and fluids.
-                        Immunology: Focus on immune system disorders and conditions.
-                        Rheumatology: Care for autoimmune and musculoskeletal disorders (e.g., arthritis).
-                        Infectious Diseases: Diagnosis and treatment of infections caused by bacteria, viruses, fungi, and parasites.
-                        Geriatrics: Specialized care for elderly patients and age-related conditions."
-            }
-            
-            
-            IF YOU DONT FIND ANY OF THE ABOVE INFORMATION IN THE GIVEN TEXT, WRITE 'None' IN ALL THE PLACES. DO NOT MAKE UP YOUR OWN INFORMATION
-            
+                    General Veterinary Medicine: Comprehensive care for animals and pets with various conditions.
+                    Veterinary Surgery: Treatment of diseases, injuries, or deformities via operations in animals.
+                    Veterinary Dermatology: Treatment of skin, hair, and fur-related disorders in animals.
+                    Veterinary Neurology: Care for diseases of the nervous system (brain, spinal cord) in animals.
+                    Veterinary Cardiology: Diagnosis and treatment of heart conditions in pets and animals.
+                    Veterinary Oncology: Diagnosis and treatment of cancer in animals.
+                    Veterinary Orthopedics: Care for conditions affecting the bones, joints, and muscles of animals.
+                    Veterinary Radiology: Use of imaging technologies for diagnosis (X-ray, MRI, CT scans) in animals.
+                    Veterinary Anesthesiology: Management of pain and anesthesia during surgeries in animals.
+                    Veterinary Ophthalmology: Diagnosis and treatment of eye disorders in animals.
+                    Veterinary ENT: Care for ear, nose, and throat conditions in pets and animals.
+                    Veterinary Endocrinology: Focus on hormone-related diseases (e.g., diabetes, thyroid disorders) in animals.
+                    Veterinary Nephrology: Care for kidney-related diseases and disorders in animals.
+                    Veterinary Hematology: Diagnosis and treatment of blood disorders in animals.
+                    Veterinary Pulmonology: Care for respiratory system diseases (lungs, airways) in animals.
+                    Veterinary Gastroenterology: Treatment of digestive system conditions in animals.
+                    Veterinary Pathology: Study of diseases through laboratory examination of tissues and fluids in animals.
+                    Veterinary Immunology: Focus on immune system disorders and conditions in animals.
+                    Veterinary Infectious Diseases: Diagnosis and treatment of infections in animals caused by bacteria, viruses, fungi, and parasites."
+        }
+       
+        IF YOU DON'T FIND ANY OF THE ABOVE INFORMATION IN THE GIVEN IMAGE, WRITE 'None' IN ALL THE PLACES. DO NOT MAKE UP YOUR OWN INFORMATION.
+  
+
             Given text:
             """,
             json.dumps(report)

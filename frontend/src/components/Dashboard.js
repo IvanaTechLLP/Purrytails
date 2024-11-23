@@ -10,8 +10,7 @@ import { FaSignOutAlt } from 'react-icons/fa';
 const Dashboard = ({ profile, logOut, reports, setReports }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
-  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
-  const [qrCodeImage, setQRCodeImage] = useState(null);
+
   const [showChatbot, setShowChatbot] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [reportToDelete, setReportToDelete] = useState(null);
@@ -115,46 +114,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
   };
   
 
-  const handleShowQRCode = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:5000/qr_codes/${profile.user_id}.png`
-      );
-      if (response.ok) {
-        const imageBlob = await response.blob();
-        const imageObjectURL = URL.createObjectURL(imageBlob);
-        setQRCodeImage(imageObjectURL);
-        setShowQRCodePopup(true);
-      } else {
-        const generateResponse = await fetch(
-          `http://localhost:5000/generate_qr_code/${profile.user_id}`,
-          { method: "POST" }
-        );
-        if (generateResponse.ok) {
-          const fetchQRCodeResponse = await fetch(
-            `http://localhost:5000/qr_codes/${profile.user_id}.png`
-          );
-          if (fetchQRCodeResponse.ok) {
-            const imageBlob = await fetchQRCodeResponse.blob();
-            const imageObjectURL = URL.createObjectURL(imageBlob);
-            setQRCodeImage(imageObjectURL);
-            setShowQRCodePopup(true);
-          } else {
-            console.error("Failed to fetch the newly generated QR code.");
-          }
-        } else {
-          console.error("Error generating QR code:", generateResponse.statusText);
-        }
-      }
-    } catch (error) {
-      console.error("Error handling QR code:", error);
-    }
-  };
-
-  const handleCloseQRCodePopup = () => {
-    setShowQRCodePopup(false);
-    setQRCodeImage(null);
-  };
+  
 
   const handleShowUserDetails = () => {
     navigate("/profile", { state: { userDetails } });
@@ -294,7 +254,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
         <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
         <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
-        <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+        
         
           
         <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
@@ -395,16 +355,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
           <p>Loading user details...</p>
         )}
 
-        {showQRCodePopup && qrCodeImage && (
-          <div className="qr-code-popup">
-            <div className="qr-code-content">
-              <span className="qr-close-popup" onClick={handleCloseQRCodePopup}>
-                &times;
-              </span>
-              <img  className="qr-code-image" src={qrCodeImage} alt="QR Code" />
-            </div>
-          </div>
-        )}
+      
 
         {confirmDelete && (
           <div className="confirmation-popup">

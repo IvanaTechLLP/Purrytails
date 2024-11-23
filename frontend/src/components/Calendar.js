@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventForm from './EventForm'; 
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "./Calendar.css";
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const locales = {
   'en-US': require('date-fns/locale/en-US'),
@@ -205,12 +206,15 @@ const Calendar = ({ logOut, profile }) => {
         <h2>Menu</h2>
         <ul>
           <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
+          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
           <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
           <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>User Settings</li>
-          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
+          
         </ul>
         <ul>
-          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
+        <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+            <FaSignOutAlt />
+          </li>
         </ul>
       </div>
       </div>

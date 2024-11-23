@@ -58,8 +58,10 @@ const ChatWindow = ({ profile }) => {
         setIsPopupOpen(false);
         setNewChatEmail("");
         // Refresh the chat list
-        const updatedChats = await fetch(`http://localhost:5000/chats/${profile.user_id}`);
-        setChats(await updatedChats.json());
+        const response = await fetch(`http://localhost:5000/chats/${profile.user_id}`);
+        const data = await response.json();
+        const keys = Object.keys(JSON.parse(data));
+        setChats(keys);
       } else {
         alert("Failed to add chat.");
       }

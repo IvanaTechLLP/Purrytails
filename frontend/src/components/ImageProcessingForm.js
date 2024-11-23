@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ImageProcessingForm.css';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 
 const ImageProcessingForm = ({ profile, logOut }) => {
@@ -170,13 +171,16 @@ const ImageProcessingForm = ({ profile, logOut }) => {
         </button>
         <h2>Menu</h2>
         <ul>
+        <li onClick={() => { navigate("/home"); closeMenu(); }}> Home</li>
           <li onClick={() => { navigate("/dashboard"); closeMenu(); }}> Dashboard</li>
           <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
           <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
           
         </ul>
         <ul>
-          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
+        <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+            <FaSignOutAlt />
+          </li>
         </ul>
       </div>
       </div>

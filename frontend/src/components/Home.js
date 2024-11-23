@@ -4,6 +4,7 @@ import "./Home.css";
 import UserPopup from "./UserLoginPopup.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 
 const Home = ({ profile, logOut, reports, setReports }) => {
@@ -14,6 +15,8 @@ const Home = ({ profile, logOut, reports, setReports }) => {
   const [filteredReports, setFilteredReports] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [numberOfReminders, setNumberOfReminders] = useState(3); // Default to 3 reminders
+  const [showQRCodePopup, setShowQRCodePopup] = useState(false);
+  const [qrCodeImage, setQRCodeImage] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -176,7 +179,45 @@ const Home = ({ profile, logOut, reports, setReports }) => {
     //   })
     //   .catch(error => console.error('Error uploading file:', error));
   };
-
+  const handleShowQRCode = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/qr_codes/${profile.user_id}.png`
+      );
+      if (response.ok) {
+        const imageBlob = await response.blob();
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setQRCodeImage(imageObjectURL);
+        setShowQRCodePopup(true);
+      } else {
+        const generateResponse = await fetch(
+          `http://localhost:5000/generate_qr_code/${profile.user_id}`,
+          { method: "POST" }
+        );
+        if (generateResponse.ok) {
+          const fetchQRCodeResponse = await fetch(
+            `http://localhost:5000/qr_codes/${profile.user_id}.png`
+          );
+          if (fetchQRCodeResponse.ok) {
+            const imageBlob = await fetchQRCodeResponse.blob();
+            const imageObjectURL = URL.createObjectURL(imageBlob);
+            setQRCodeImage(imageObjectURL);
+            setShowQRCodePopup(true);
+          } else {
+            console.error("Failed to fetch the newly generated QR code.");
+          }
+        } else {
+          console.error("Error generating QR code:", generateResponse.statusText);
+        }
+      }
+    } catch (error) {
+      console.error("Error handling QR code:", error);
+    }
+  };
+  const handleCloseQRCodePopup = () => {
+    setShowQRCodePopup(false);
+    setQRCodeImage(null);
+  };
   
   
 
@@ -192,17 +233,31 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           </button>
           <h2>Menu</h2>
           <ul>
+            
+          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
             <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-            <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
-            <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
             <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+            <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+            <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+            
           </ul>
           <ul>
-            <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">Log Out</li>
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+            <FaSignOutAlt />
+          </li>
           </ul>
         </div>
       </div>
-
+      {showQRCodePopup && qrCodeImage && (
+          <div className="qr-code-popup">
+            <div className="qr-code-content">
+              <span className="qr-close-popup" onClick={handleCloseQRCodePopup}>
+                &times;
+              </span>
+              <img  className="qr-code-image" src={qrCodeImage} alt="QR Code" />
+            </div>
+          </div>
+        )}
       <div className="dashboard-right">
         {showPopup && profile && (
           <UserPopup onClose={handleClosePopup} profile={profile} logOut={logOut} />
@@ -312,6 +367,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
                   <p>No upcoming reminders. Don't forget to add some!</p>
                 )}
               </div>
+              
 
               <div className="add-reminder-container">
                 <p>Want to add New Reminders?</p>

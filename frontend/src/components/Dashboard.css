@@ -14,7 +14,7 @@
   
   }
 
-  .dashboard-description{
+  .dashboard-description-one{
     display: none !important;
 
   }
@@ -271,9 +271,6 @@
   transform: translateX(0);
 }
 }
-
-
-
  
   .sidebar {
     width: 250px;
@@ -350,7 +347,7 @@
 }
 
 /* Dashboard Description */
-.dashboard-description {
+.dashboard-description-one {
   margin-top: 20px; 
   margin-bottom: 5px; /* Space above and below the paragraph */
   font-size: 1.1rem; /* Slightly larger font size for readability */

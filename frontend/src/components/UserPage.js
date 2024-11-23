@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./UserPage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
+import { FaSignOutAlt } from 'react-icons/fa';
 
 const UserProfilePage = ({ profile, logOut }) => {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ const UserProfilePage = ({ profile, logOut }) => {
   const [croppedPhoto, setCroppedPhoto] = useState(null); // Final cropped photo
   const imageRef = useRef(null); // Reference for the uploaded image element
   const cropperRef = useRef(null); // Reference for Cropper instance
+  const [isOpen, setIsOpen] = useState(false);
 
   
 
@@ -173,24 +175,49 @@ const UserProfilePage = ({ profile, logOut }) => {
         height: 300, // Desired height
       });
       setCroppedPhoto(canvas.toDataURL("image/png"));
-    
+      
     }
   };
   const profilePicture = profile.picture;
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+  const handleUploadFile = () => {
+    navigate("/file_upload", { state: { showPopup: false } });
+  };
+ 
 
   return (
     <div className="dashboard-wrapper">
-      <div className="sidebar">
+      <div classname="dashboard-left">
+      <button className="hamburger" onClick={handleToggle}>
+        &#9776; 
+      </button>
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+        <button className="back-arrow" onClick={closeMenu}>
+            &larr; 
+        </button>
+        
         <h2>Menu</h2>
+        <ul className="menu-items">
+        <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
+        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Report Dashboard</li>
+        <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+          
+        </ul>
+        <div className="logout-container-dash">
         <ul>
-          <li onClick={() => navigate("/dashboard")}>Dashboard</li>
-          <li>View QR Code</li>
-          <li onClick={() => navigate("/file_upload")}>Upload Reports</li>
-          <li onClick={() => navigate("/calendar")}>Calendar</li>
+          
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+            <FaSignOutAlt />
+          </li>
         </ul>
-        <ul className="logout-button">
-          <li onClick={logOut}>Log Out</li>
-        </ul>
+        </div>
+      </div>
       </div>
 
       <div className="profile-page">

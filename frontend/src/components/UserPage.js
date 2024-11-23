@@ -207,6 +207,7 @@ const UserProfilePage = ({ profile, logOut }) => {
         <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Report Dashboard</li>
         <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
         <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
           
         </ul>
         <div className="logout-container-dash">

@@ -174,6 +174,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
         <li onClick={() => { navigate("/home"); closeMenu(); }}> Home</li>
           <li onClick={() => { navigate("/dashboard"); closeMenu(); }}> Dashboard</li>
           <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+          <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
           <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
           
         </ul>

@@ -208,6 +208,7 @@ const Calendar = ({ logOut, profile }) => {
           <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
           <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
           <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
+          <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
           <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>User Settings</li>
           
         </ul>

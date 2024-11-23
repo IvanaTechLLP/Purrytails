@@ -5,6 +5,13 @@
 .chat-list {
   width: 30%;
   padding: 10px;
+  margin-left: 260px;
+  background: #80766F;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 100vh;
+  
 }
 
 .chat-item {
@@ -19,53 +26,80 @@
   width: 70%;
   padding: 20px;
   border-left: 1px solid #ccc;
+  position: relative;
 }
 
 .messages {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 60px;
+  max-height: 75vh !important; /* Adjust the max height */
+  background-color: #fffcff;
+  flex-grow: 1; /* Allows the messages container to grow and fill available space */
+  overflow-y: auto; /* Adds vertical scroll */
+  padding-right: 10px; /* To prevent text overlap with scrollbar */
+  max-height: calc(100vh - 160px); /* Adjust height, subtract header and input sections */
 }
+
 
 .message {
   max-width: 60%;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
+  /* Adjust the font size here */
+ 
 }
 
 .message.self {
   background-color: #dcf8c6;
   align-self: flex-end;
+  
+  
 }
 
 .message.them {
-  background-color: #fff;
+  background-color: #959ba1c1 ;
   align-self: flex-start;
+  
 }
-
 .chat-input {
+  position: absolute; /* Fix the position at the bottom of the screen */
+  bottom: 0; /* Positions it at the bottom */
+  right: 0; /* Ensures it starts from the left */
+  width: 100%;
+  
+  padding: 10px;
+  background-color: #fff; /* Optionally, set a background color */
+  border-top: 1px solid #ccc; /* Optional border to separate the input from the chat */
   display: flex;
-  margin-top: 20px;
+  align-items: center;
+  justify-content: space-between; /* Ensures space between input and button */
+  box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1); /* Optional, adds a shadow effect */
+  z-index: 10; /* Keeps it above other elements */
 }
 
 .chat-input input {
-  width: 80%;
+  width: 85%; /* Allows the input to take up most of the space */
   padding: 10px;
-  border: 1px solid #ccc;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .chat-input button {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: none;
   background-color: #4CAF50;
   color: white;
   cursor: pointer;
+  border-radius: 5px;
 }
 
 .chat-input button:hover {
-  background-color: #45a049;
+  background-color: #4e8d51;
 }
+
 
 .popup {
   position: fixed;
@@ -90,4 +124,233 @@
 .popup-actions {
   display: flex;
   justify-content: space-between;
+}
+.add-chat-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #0056b3; /* A sleek blue color */
+  color: #fff; /* White icon */
+  border: none;
+  display: flex;
+  align-items: center ;
+  justify-content: center;
+  font-size: 24px; /* Slightly larger font for the "+" */
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  margin-top: 15px;
+}
+
+.add-chat-btn:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.add-chat-btn:active {
+  transform: scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.plus-icon {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.chat-header {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  background: #80766F;
+  color: #fff;
+}
+
+.chat-header h2 {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.chat-header {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  
+  color: #fff;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+.search-icon {
+  margin-right: 8px;
+  font-size: 18px;
+  color: #888;
+}
+
+.search-bar {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  color: #333;
+  background-color: transparent;
+  
+}
+
+
+
+.chat-item {
+  padding: 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  transition: background 0.3s ease;
+}
+
+.chat-item:hover {
+  background: #6B6159;
+}
+
+.chat-item.active {
+  background: #6B6159;
+  border-left: 4px solid #5A514A;
+}
+
+.chat-item h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #fffcfc;
+}
+.chat-window {
+  width: 70%;
+  padding: 20px;
+  border-left: 1px solid #ccc;
+}
+
+.chat-header-one {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  color: #fff;
+  border-bottom: 6px solid #80766F;
+}
+
+.chat-header-one h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color:#5A514A;
+}
+
+.video-call-btn {
+  background-color: transparent; /* No background for the image */
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.video-call-btn img {
+  width: 80px; /* Adjust based on your image size */
+  height: auto;
+}
+
+.video-call-btn:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.video-call-btn:active {
+  transform: scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+.chat-input button {
+  padding: 12px; /* Adjusted padding for a larger button */
+  border: none;
+  background-color: transparent; /* No background as the image will be the background */
+  color: transparent; /* Hide text */
+  cursor: pointer;
+  border-radius: 50%; /* Circular button for sleekness */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth hover effect */
+}
+
+.chat-input button:hover {
+  transform: scale(1.1); /* Slight grow effect on hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+}
+
+.chat-input button:active {
+  transform: scale(0.95); /* Shrink when clicked for interaction */
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); /* Lighter shadow on click */
+}
+
+.send-icon {
+  width: 100px; /* Adjust width to match the size of the button */
+  height: auto; /* Adjust height to maintain aspect ratio */
+}
+/* Default layout for larger screens */
+.chat-page {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.chat-list {
+  width: 30%;
+  overflow-y: auto;
+}
+
+.chat-window {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  max-width: 60%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.message.self {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+}
+
+.message.them {
+  background-color: #959ba1c1;
+  align-self: flex-start;
+}
+
+/* Mobile (smaller screen) layout */
+@media (max-width: 768px) {
+  .chat-page {
+    flex-direction: column; /* Stack chat list and chat window */
+  }
+
+  .chat-list {
+    width: 100%; /* Take up full screen */
+    display: block;
+    margin-bottom: 20px; /* Space below chat list */
+    margin-left: 0px;
+  }
+
+  .chat-window {
+    width: 100%;
+    
+  }
+
+  
 }

@@ -254,6 +254,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
         <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
         <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
         
         
           

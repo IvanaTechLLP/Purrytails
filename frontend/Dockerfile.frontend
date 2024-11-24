@@ -1,7 +1,7 @@
 FROM node:20.11-alpine
 WORKDIR /app/frontend
-COPY frontend/package*.json ./
+COPY package*.json ./
 RUN npm i --legacy-peer-deps
-COPY frontend ./
+COPY . ./
 
 CMD ["npm", "start"]

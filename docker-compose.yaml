@@ -3,7 +3,7 @@ version: '3.8'
 services:
   frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.frontend
     ports:
       - "0.0.0.0:3000:3000"  # Adjust the port as needed
@@ -14,7 +14,7 @@ services:
 
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.backend
     ports:
       - "0.0.0.0:5000:5000"  # Adjust the port as needed
@@ -30,8 +30,3 @@ services:
       FERNET_KEY: "ZC1bXy5zTWrS6IwnJhWNOmtMfZ2GEyzjI5Z7zXbrE9I="
       SMTP_USER: "meddoc001@gmail.com"
       SMTP_PASSWORD: "daol ubbo gqpc qtkx"
-    volumes:
-      - ./backend:/app/backend
- 
-volumes:
-  data:

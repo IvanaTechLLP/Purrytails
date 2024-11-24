@@ -4,7 +4,7 @@ WORKDIR /app/backend
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install gunicorn
-COPY backend .
+COPY . ./
 
 FROM build-flask as final
 EXPOSE 8000

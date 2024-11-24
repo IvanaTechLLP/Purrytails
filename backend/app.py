@@ -68,9 +68,9 @@ os.makedirs(uploaded_pdfs_folder, exist_ok=True)
 os.makedirs(uploaded_images_folder, exist_ok=True)
 os.makedirs(qr_codes_folder, exist_ok=True)
 
-app.mount("/uploaded_pdfs", StaticFiles(directory="backend/uploaded_pdfs"), name="uploaded_pdfs")
-app.mount("/uploaded_images", StaticFiles(directory="backend/uploaded_images"), name="uploaded_images")
-app.mount("/qr_codes", StaticFiles(directory="backend/qr_codes"), name="qr_codes")
+app.mount("/uploaded_pdfs", StaticFiles(directory=uploaded_pdfs_folder), name="uploaded_pdfs")
+app.mount("/uploaded_images", StaticFiles(directory=uploaded_images_folder), name="uploaded_images")
+app.mount("/qr_codes", StaticFiles(directory=qr_codes_folder), name="qr_codes")
     
 class GoogleLoginModel(BaseModel):
     email: EmailStr

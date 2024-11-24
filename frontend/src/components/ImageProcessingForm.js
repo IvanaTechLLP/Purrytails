@@ -43,7 +43,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
     setLoading(true); 
 
     try {
-      const response = await fetch('http://localhost:5000/api/process_file', {
+      const response = await fetch('/api/process_file', {
         method: 'POST',
         body: formData,
       });
@@ -93,7 +93,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const handleSaveDate = async () => {
     const reportId = output[currentReport]?.report_id; 
     try {
-      const response = await fetch(`http://localhost:5000/update_report_date/${reportId}`, {
+      const response = await fetch(`/update_report_date/${reportId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

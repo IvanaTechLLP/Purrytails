@@ -62,7 +62,7 @@ const UserProfilePage = ({ profile, logOut }) => {
 
     try {
       // Send details to backend API
-      const response = await fetch('http://localhost:5000/api/store_pet_details', {
+      const response = await fetch('/api/store_pet_details', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

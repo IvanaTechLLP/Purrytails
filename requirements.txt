@@ -101,7 +101,6 @@ prompt_toolkit==3.0.48
 proto-plus==1.23.0
 protobuf==4.25.3
 psutil==6.0.0
-psycopg2==2.9.9
 pure_eval==0.2.3
 pyasn1==0.6.0
 pyasn1_modules==0.4.0
@@ -121,7 +120,6 @@ python-dotenv==1.0.1
 python-jose==3.3.0
 python-multipart==0.0.9
 pytz==2024.1
-pywin32==308
 PyYAML==6.0.1
 pyzmq==26.2.0
 qrcode==7.4.2

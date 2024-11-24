@@ -36,24 +36,45 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
       <nav className="landing-nav">
-  
-        <ul className="nav-links left-group">
-          <li><a onClick={() => scrollToSection("ourmission")} className="left">Our Mission</a></li>
-          <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
-        </ul>
+  <div className="dashboard-left">
+    <button className="hamburger" onClick={handleToggle}>
+      &#9776;
+    </button>
+    <div className={`sidebar-one ${isOpen ? 'open' : ''}`}>
+      <button className="back-arrow" onClick={closeMenu}>
+        &larr;
+      </button>
+      <h2>Menu</h2>
+      <ul className="menu-items">
+        <li><a onClick={() => scrollToSection("ourmission")} className="left">Our Mission</a></li>
+        <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
+        <li><a onClick={() => scrollToSection("reviews")} className="right">Testimonials</a></li>
+        <li><a onClick={() => scrollToSection("about")} className="right">About Us</a></li>
+        <li onClick={handleLoginClick}><a href="/login" className="right">Login</a></li>
+      </ul>
+    </div>
+  </div>
 
-        <div className="nav-logo">
-        <a href="#">
-          <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
-          </a>
-        </div>
+  <ul className="nav-links left-group">
+    <li><a onClick={() => scrollToSection("ourmission")} className="left">Our Mission</a></li>
+    <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
+  </ul>
 
-        <ul className="nav-links right-group">
-          <li><a onClick={() => scrollToSection("reviews")} className="right">Testimonials</a></li>
-          <li><a onClick={() => scrollToSection("about")} className="right">About Us</a></li>
-          <li onClick={handleLoginClick}><a href="/login" className="right">Login</a></li>
-        </ul>
-      </nav>
+  <div className="nav-logo">
+    <a href="#">
+      <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
+    </a>
+  </div>
+
+  <ul className="nav-links right-group">
+
+  <li><a onClick={() => scrollToSection("perks")} className="right">Our Perks</a></li>
+    <li><a onClick={() => scrollToSection("reviews")} className="right">Testimonials</a></li>
+    <li><a onClick={() => scrollToSection("about")} className="right">About Us</a></li>
+    <li onClick={handleLoginClick}><a href="/login" className="right">Login</a></li>
+  </ul>
+</nav>
+
       <a href="https://forms.gle/4TisKeNinVJcxGS9A" target="_blank" rel="noopener noreferrer">
       <button className="contact-us-button">
         Contact Us

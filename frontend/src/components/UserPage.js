@@ -4,10 +4,13 @@ import "./UserPage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import { FaSignOutAlt } from 'react-icons/fa';
+import { set } from "date-fns";
 
 const UserProfilePage = ({ profile, logOut }) => {
   const navigate = useNavigate();
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
 
+  const [profilePicture, setProfilePicture] = useState(profile?.picture);
   const [petName, setPetName] = useState(profile?.petName || '');
   const [breed, setBreed] = useState(profile?.breed || '');
   const [sex, setSex] = useState(profile?.sex || '');
@@ -39,6 +42,9 @@ const UserProfilePage = ({ profile, logOut }) => {
     setPetType(type);
     setBreed(''); 
   };
+
+  
+  
 
   const handleSave = async () => {
     const newPetDetails = {
@@ -111,28 +117,39 @@ const UserProfilePage = ({ profile, logOut }) => {
     { name: 'Indie', imgSrc: 'indiecat.png' },
   ]
 
-  useEffect(() => {
-    const scrollToSelected = (scrollerRef, selectedIndex) => {
-      const scroller = scrollerRef.current;
-      if (scroller) {
-        const item = scroller.children[selectedIndex];
-        if (item) {
-          const offset = item.offsetLeft - (scroller.clientWidth / 2) + (item.clientWidth / 2);
-          scroller.scrollTo({
-            left: offset,
-            behavior: "smooth"
-          });
-        }
+  const scrollToSelected = (scrollerRef, selectedIndex) => {
+    const scroller = scrollerRef.current;
+    if (scroller) {
+      const item = scroller.children[selectedIndex];
+      if (item) {
+        const offset = item.offsetLeft - (scroller.clientWidth / 2) + (item.clientWidth / 2);
+        scroller.scrollTo({
+          left: offset,
+          behavior: "smooth"
+        });
       }
-    };
+    }
+  };
 
-    // Scroll the year scroller
-    scrollToSelected(yearScrollerRef, ageYears);
+  useEffect(() => {
 
-    // Scroll the month scroller
-    scrollToSelected(monthScrollerRef, ageMonths);
+    if (!accessToken) {
+      console.log("No access token found. Redirect to login.");
+      return;
+    }
 
-  }, [ageYears, ageMonths]);
+    if (profile?.user_id) {
+      // Scroll the year scroller
+      scrollToSelected(yearScrollerRef, ageYears);
+
+      // Scroll the month scroller
+      scrollToSelected(monthScrollerRef, ageMonths);
+
+      setProfilePicture(profile.picture);
+      setOwnerName(profile.name);
+    }
+
+  }, [ageYears, ageMonths, accessToken,  profile?.user_id]);
 
   // Handle Step Navigation
   const nextStep = () => {
@@ -143,8 +160,8 @@ const UserProfilePage = ({ profile, logOut }) => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 1)); // Prevent going below 1
   };
    // Calculate the progress as a percentage
-   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
-   const handlePhotoChange = (e) => {
+  const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
+  const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -178,7 +195,7 @@ const UserProfilePage = ({ profile, logOut }) => {
       
     }
   };
-  const profilePicture = profile.picture;
+  
   const handleToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };

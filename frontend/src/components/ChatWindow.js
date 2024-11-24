@@ -11,6 +11,7 @@ const ChatWindow = ({ profile,logOut }) => {
   const [newChatEmail, setNewChatEmail] = useState("");
   const [messageText, setMessageText] = useState(""); // State to track the message input
   const [isOpen, setIsOpen] = useState(false);
+  const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
 
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ const ChatWindow = ({ profile,logOut }) => {
       }
     };
     fetchChats();
-  }, [profile.user_id]);
+  }, [accessToken, profile?.user_id]);
 
   // Fetch messages for the selected chat
   useEffect(() => {
@@ -45,7 +46,7 @@ const ChatWindow = ({ profile,logOut }) => {
       }
     };
     fetchMessages();
-  }, [profile.user_id, selectedChat]);
+  }, [accessToken, profile?.user_id, selectedChat]);
 
   // Add a new chat
   const handleAddChat = async () => {

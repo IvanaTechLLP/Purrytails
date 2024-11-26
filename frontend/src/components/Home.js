@@ -67,7 +67,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
     if (!profile?.user_id) return;
 
     try {
-      const response = await fetch(`/user_dashboard/${profile.user_id}`);
+      const response = await fetch(`/api/user_dashboard/${profile.user_id}`);
       const data = await response.json();
       setUserDetails(data);
     } catch (error) {
@@ -79,7 +79,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
     if (!profile?.user_id) return;
 
     try {
-      const response = await fetch(`/reports_dashboard/${profile.user_id}`);
+      const response = await fetch(`/api/reports_dashboard/${profile.user_id}`);
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -89,7 +89,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
 
   const fetchNextReminders = async () => {
     try {
-      const response = await fetch(`/get_user_events/${profile.user_id}`, {
+      const response = await fetch(`/api/get_user_events/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -182,7 +182,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
   const handleShowQRCode = async () => {
     try {
       const response = await fetch(
-        `/qr_codes/${profile.user_id}.png`
+        `/api/qr_codes/${profile.user_id}.png`
       );
       if (response.ok) {
         const imageBlob = await response.blob();
@@ -191,12 +191,12 @@ const Home = ({ profile, logOut, reports, setReports }) => {
         setShowQRCodePopup(true);
       } else {
         const generateResponse = await fetch(
-          `/generate_qr_code/${profile.user_id}`,
+          `/api/generate_qr_code/${profile.user_id}`,
           { method: "POST" }
         );
         if (generateResponse.ok) {
           const fetchQRCodeResponse = await fetch(
-            `/qr_codes/${profile.user_id}.png`
+            `/api/qr_codes/${profile.user_id}.png`
           );
           if (fetchQRCodeResponse.ok) {
             const imageBlob = await fetchQRCodeResponse.blob();

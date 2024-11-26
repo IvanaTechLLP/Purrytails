@@ -37,8 +37,8 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
 
           const backendUrl =
             userType === "doctor"
-              ? "/doctor_google_login"
-              : "/google_login";
+              ? "/api/doctor_google_login"
+              : "/api/google_login";
 
           axios
             .post(backendUrl, {

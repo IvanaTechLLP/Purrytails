@@ -77,7 +77,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
     setLoading(true);
 
     try {
-      const response = await fetch("/llm_chatbot", {
+      const response = await fetch("/api/llm_chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: userInput, user_id: profile.user_id, user_type: profile.user_type }),

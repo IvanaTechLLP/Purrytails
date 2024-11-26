@@ -19,7 +19,7 @@ const DoctorDashboard = ({ profile, logOut }) => {
 
       try {
         const response = await fetch(
-          `/doctor_dashboard/${profile.user_id}`
+          `/api/doctor_dashboard/${profile.user_id}`
         );
         const data = await response.json();
         const reportObject = data.map((item) => {
@@ -48,7 +48,7 @@ const DoctorDashboard = ({ profile, logOut }) => {
     console.log("deleting report");
     try {
       const response = await fetch(
-        `/doctor_delete_report?report_id=${reportToDelete}&user_id=${profile.user_id}`,
+        `/api/doctor_delete_report?report_id=${reportToDelete}&user_id=${profile.user_id}`,
         {
           method: "DELETE",
         }
@@ -102,7 +102,7 @@ const DoctorDashboard = ({ profile, logOut }) => {
 
     try {
       const response = await fetch(
-        `/save_doctor_notes`,
+        `/api/save_doctor_notes`,
         {
           method: "POST",
           headers: {

@@ -17,7 +17,7 @@ const QR_Dashboard = ({ reports, setReports, profile, setProfile }) => {
 
       try {
         const response = await fetch(
-          `/user_dashboard/${user_id}`
+          `/api/user_dashboard/${user_id}`
         );
         const data = await response.json();
         console.log(data);
@@ -38,7 +38,7 @@ const QR_Dashboard = ({ reports, setReports, profile, setProfile }) => {
 
       try {
         const response = await fetch(
-          `/reports_dashboard/${user_id}`
+          `/api/reports_dashboard/${user_id}`
         );
         const data = await response.json();
         setReports(Array.isArray(data) ? data : []);

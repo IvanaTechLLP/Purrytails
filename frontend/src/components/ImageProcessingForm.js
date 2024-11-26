@@ -93,7 +93,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const handleSaveDate = async () => {
     const reportId = output[currentReport]?.report_id; 
     try {
-      const response = await fetch(`/update_report_date/${reportId}`, {
+      const response = await fetch(`/api/update_report_date/${reportId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

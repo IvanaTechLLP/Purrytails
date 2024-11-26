@@ -83,13 +83,13 @@ class UserResponse(BaseModel):
     name: str
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/api", response_class=HTMLResponse)
 async def index(request: Request):
     
     return "Welcome to the Medocs Backend"
 
 
-@app.post("/google_login")
+@app.post("/api/google_login")
 async def google_login(data: GoogleLoginModel):
     email = data.email
     print(data)
@@ -151,7 +151,7 @@ async def google_login(data: GoogleLoginModel):
             detail={"status": False, "message": f"Failed to process request: {str(e)}"},
         )
     
-@app.post("/doctor_google_login")
+@app.post("/api/doctor_google_login")
 async def google_login(data: GoogleLoginModel):
     email = data.email
     print(data)
@@ -354,7 +354,7 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
 
 
 
-@app.post("/llm_chatbot")
+@app.post("/api/llm_chatbot")
 async def llm_chatbot(request: Request):
     data = await request.json()
     input_string = data.get('message')
@@ -416,7 +416,7 @@ async def llm_chatbot(request: Request):
 
     return JSONResponse(content={"response": response_text, "relevant_reports": relevant_reports})
 
-@app.get("/user_dashboard/{user_id}", response_model=UserResponse)
+@app.get("/api/user_dashboard/{user_id}", response_model=UserResponse)
 async def get_user_details(user_id: str):
     print(user_id)
     try:
@@ -447,7 +447,7 @@ class ReportResponse(BaseModel):
     report_data: str
     doctor_note: str
            
-@app.get("/doctor_dashboard/{doctor_id}")
+@app.get("/api/doctor_dashboard/{doctor_id}")
 async def fetch_reports_for_doctor(doctor_id: str) -> List[ReportResponse]:
     # Fetch doctor data based on doctor_id
     doctor = doctor_collection.get(ids=[doctor_id], include=["metadatas"])
@@ -504,7 +504,7 @@ async def fetch_reports_for_doctor(doctor_id: str) -> List[ReportResponse]:
     return report_list
 
         
-@app.get("/reports_dashboard/{user_id}")
+@app.get("/api/reports_dashboard/{user_id}")
 async def get_reports(user_id: str):
     print(user_id)
     try:
@@ -540,7 +540,7 @@ async def get_reports(user_id: str):
         )
 
 
-@app.delete("/delete_report/{report_id}")
+@app.delete("/api/delete_report/{report_id}")
 async def delete_report(report_id: str):
     try:
         # Fetch the report by its report_id
@@ -559,7 +559,7 @@ async def delete_report(report_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete report: {str(e)}")
 
-@app.delete("/doctor_delete_report")
+@app.delete("/api/doctor_delete_report")
 async def doctor_delete_report(report_id: str, user_id: str):
     print(f"Deleting report {report_id} for user {user_id}")
     
@@ -628,7 +628,7 @@ async def decrypt_data(request: DecryptRequest):
             detail={"status": False, "message": f"Decryption Failed: {str(e)}"},
         )
     
-@app.post("/generate_qr_code/{user_id}")
+@app.post("/api/generate_qr_code/{user_id}")
 async def generate_qr_code(user_id: str):
     try:
         # Generate QR code
@@ -668,7 +668,7 @@ async def generate_qr_code(user_id: str):
 class UpdateReportDateRequest(BaseModel):
     new_date: str
               
-@app.put("/update_report_date/{report_id}")
+@app.put("/api/update_report_date/{report_id}")
 async def update_report_date(report_id: str, request: UpdateReportDateRequest):
     try:
         # Fetch the report to update using the report_id
@@ -693,7 +693,7 @@ async def update_report_date(report_id: str, request: UpdateReportDateRequest):
         raise HTTPException(status_code=500, detail=f"Failed to update report date: {str(e)}")
     
     
-@app.post("/calendar_request")
+@app.post("/api/calendar_request")
 async def calendar_request(request: Request):
     data = await request.json()
     print(data)
@@ -710,7 +710,7 @@ async def calendar_request(request: Request):
     return {"status": "success", "message": response}
 
 
-@app.post("/create_event_directly")
+@app.post("/api/create_event_directly")
 async def create_event(event_data: dict):
     access_token = event_data["access_token"]
     event_name = event_data["title"]
@@ -724,7 +724,7 @@ async def create_event(event_data: dict):
     return {"status": "success", "message": response}
 
     
-@app.delete("/delete_event")
+@app.delete("/api/delete_event")
 async def delete_event(event_data: dict):
 
     access_token = event_data["access_token"]
@@ -738,7 +738,7 @@ async def delete_event(event_data: dict):
     return {"message": "Event deleted successfully."}
 
 
-@app.get("/get_user_events/{user_id}")
+@app.get("/api/get_user_events/{user_id}")
 async def get_user_events(user_id: str):
     user_metadata = users_collection.get(ids=[user_id], include=["metadatas"])["metadatas"][0]
     
@@ -755,7 +755,7 @@ class SaveDoctorNotesRequest(BaseModel):
     doctor_id: str
     notes: str
 
-@app.post("/save_doctor_notes")
+@app.post("/api/save_doctor_notes")
 async def save_doctor_notes(request: SaveDoctorNotesRequest):
     try:
         # Fetch doctor's record from the collection by doctor_id
@@ -795,7 +795,7 @@ async def save_doctor_notes(request: SaveDoctorNotesRequest):
     
     
            
-@app.post("/send_meeting_invite")
+@app.post("/api/send_meeting_invite")
 async def send_meeting_invite(meeting_request: dict):
     try:
         email = meeting_request["email"]
@@ -847,7 +847,7 @@ async def store_pet_details(data: PetDetails):
         raise HTTPException(status_code=500, detail="An error occurred while saving data.")
     
 
-@app.get("/chats/{user_id}")
+@app.get("/api/chats/{user_id}")
 async def chats(user_id: str):
     print(user_id)
     user = users_collection.get(ids=[user_id])
@@ -859,7 +859,7 @@ async def chats(user_id: str):
         return []
     
 
-@app.post("/start_chat")
+@app.post("/api/start_chat")
 async def start_chat(data: dict):
     user_id = data.get("user_id")
     email = data.get("email")
@@ -883,7 +883,7 @@ async def start_chat(data: dict):
         raise HTTPException(status_code=500, detail=f"Failed to add chat: {str(e)}")   
 
 
-@app.get("/messages/{user_id}/{email}")
+@app.get("/api/messages/{user_id}/{email}")
 def get_messages_by_user_and_name(user_id: str, email: str):
     user = users_collection.get(ids=[user_id])
     user_metadata = user["metadatas"][0]
@@ -902,7 +902,7 @@ class SentMessage(BaseModel):
     email: str
     message: str
     
-@app.post("/send_chat")
+@app.post("/api/send_chat")
 def send_chat(data: SentMessage):
     user_id = data.user_id
     receiver_email = data.email

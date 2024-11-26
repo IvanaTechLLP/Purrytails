@@ -51,7 +51,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
     try {
       const response = await fetch(
-        `/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setUserDetails(data);
@@ -65,7 +65,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
     try {
       const response = await fetch(
-        `/reports_dashboard/${profile.user_id}`
+        `/api/reports_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);
@@ -91,7 +91,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
     if (!reportToDelete) return;
 
     try {
-      const response = await fetch(`/delete_report/${reportToDelete}`, {
+      const response = await fetch(`/api/delete_report/${reportToDelete}`, {
         method: "DELETE",
       });
 
@@ -204,7 +204,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
       const accessToken = localStorage.getItem('access_token'); // Modify based on where you store the token
   
       // Make the API request to send the Google Meet invite
-      const response = await fetch('/send_meeting_invite', {
+      const response = await fetch('/api/send_meeting_invite', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

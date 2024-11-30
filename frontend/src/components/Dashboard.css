@@ -233,9 +233,9 @@
 
 @media (max-width: 500px) {
 .hamburger {
-  font-size: 20px;
+  font-size: 12px  !important;
   cursor: pointer;
-  margin: 10px;
+  
   color:  #C5A181; /* Brown color */
   background: #302C28; /* Remove blue background */
   display: block !important;
@@ -247,9 +247,9 @@
   background: #C5A181;/* Remove blue background *//* Lighter shade for hover effect */
 }
 .back-arrow{
-  font-size: 20px;
+  font-size: 12px  !important;
   cursor: pointer;
-  margin: 10px;
+
   color:  #C5A181; /* Brown color */
   background: #302C28; /* Remove blue background */
   color: #302C28;
@@ -265,7 +265,9 @@
   transform: translateX(-100%);
     transition: transform 0.5s ease;
     z-index: 1000;
+   
 }
+
 
 .sidebar.open {
   transform: translateX(0);
@@ -273,7 +275,7 @@
 }
  
   .sidebar {
-    width: 250px;
+    width: 180px !important;
     background: linear-gradient(135deg, #6B5E58 0%, #302C28 100%)!important;
     padding: 20px;
     position: fixed;
@@ -309,6 +311,8 @@
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    font-size: 22px !important; /* Increased font size for larger text */
+    width: 120px !important; /* Optional: Set width to make button wider */
   }
   
   .sidebar ul li:hover {
@@ -492,7 +496,7 @@
 }
 .logout-button {
   padding: 12px; /* Padding for the button */
-  background-color: #dc3545; /* Red color for logout */
+  background-color: #dc3545 !important; /* Red color for logout */
   color: white; /* Text color */
   border: none; /* No border */
   border-radius: 5px; /* Rounded corners */
@@ -500,11 +504,14 @@
   cursor: pointer; /* Pointer on hover */
   transition: background-color 0.3s ease; /* Smooth transition */
   margin-top: auto; /* Space above logout button */
+  font-size: 22px !important; /* Increased font size for larger text */
+  width: 200px !important; /* Optional: Set width to make button wider */
 }
 
-.logout-button:hover {
-  background-color: #c82333; /* Darker red on hover */
-}.report-card {
+
+
+
+.report-card {
   position: relative;
   padding: 15px;
   background-color: #f9f9f9;

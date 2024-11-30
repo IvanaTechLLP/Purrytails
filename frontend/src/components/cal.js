@@ -22,7 +22,6 @@ const dateFnsLocalizerVariable = dateFnsLocalizer({
 
 const Calendar = ({ logOut, profile }) => {
   const [events, setEvents] = useState([]);
-  const [currentEvents, setCurrentEvents] = useState([]);
   const navigate = useNavigate(); // Initialize navigate for routing
   const [inputText, setInputText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
@@ -56,36 +55,30 @@ const Calendar = ({ logOut, profile }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`,
+          "Authorization": `Bearer ${accessToken}`, // Include token if needed
         },
       });
-
+  
       if (!response.ok) {
         throw new Error("Failed to fetch events from the server");
       }
-
+  
       const fetched_events = await response.json();
       const eventsList = JSON.parse(fetched_events);
       
       const formattedEvents = eventsList.map((fetched_event) => ({
-        id: fetched_event.event_id,
-        title: fetched_event.event_name,
-        start: new Date(fetched_event.start_datetime),
-        end: new Date(fetched_event.end_datetime),
+        id: fetched_event.event_id, // Ensure your event object has an 'id'
+        title: fetched_event.event_name, // Adjust based on your event structure
+        start: new Date(fetched_event.start_datetime), // Adjust date format if necessary
+        end: new Date(fetched_event.end_datetime), // Adjust date format if necessary
       }));
-
+  
       setEvents(formattedEvents);
-
-      // Filter the next 3 events starting from today
-      const today = new Date();
-      const upcomingEvents = formattedEvents.filter((event) => event.start >= today);
-      const nextThreeEvents = upcomingEvents.slice(0, 3); // Limit to 3 events
-      setCurrentEvents(nextThreeEvents);
-
     } catch (error) {
       console.error("Error fetching events:", error);
     }
   };
+
   const handleAddEvent = async (event) => {
     const response = await fetch("http://localhost:5000/create_event_directly", {
         method: "POST",
@@ -175,6 +168,12 @@ const Calendar = ({ logOut, profile }) => {
 
 
 
+  const handleShowUserDetails = () => {
+    navigate("/profile");
+  };
+
+
+
   const handleToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -182,7 +181,7 @@ const Calendar = ({ logOut, profile }) => {
     setIsOpen(false);
   };
   const handleToggleForm = () => {
-    setIsFormOpen(!isFormOpen); 
+    setIsFormOpen(!isFormOpen); // Toggle the visibility of the event form
   };
   const localizer = dateFnsLocalizer({
     format,
@@ -252,7 +251,7 @@ const Calendar = ({ logOut, profile }) => {
       <div className="current-events">
         <h3>Current Events</h3>
         <ul>
-          {currentEvents.map((event) => (
+          {events.map((event) => (
             <li key={event.id}>
               <strong>{format(event.start, 'EEEE, dd/MM/yyyy')}</strong>
               <p>{event.title}</p>

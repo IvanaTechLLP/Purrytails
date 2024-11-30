@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Dashboard.css";
-import UserPopup from "./UserLoginPopup.js";
+
 import Chatbot from "./Chatbot.js";
 import Meeting from './Meeting';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt,FaComments,FaHome, FaFileUpload, FaCalendarAlt, FaUser,  } from 'react-icons/fa';
 
 
 const Dashboard = ({ profile, logOut, reports, setReports }) => {
@@ -250,16 +250,27 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         </button>
         
         <h2>Menu</h2>
+        
         <ul className="menu-items">
-        <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
-        <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
-        <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
-        
-        
+                <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
+          <FaHome />
           
-        <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
-          
+        </li>
+        
+        <li onClick={() => { navigate("/file_upload"); closeMenu(); }}className='menu-button'  title="Upload Reports">
+          <FaFileUpload /> 
+        </li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+          <FaCalendarAlt /> 
+        </li>
+        <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
+          <FaUser /> 
+        </li>
+       
+        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+        <FaComments /> 
+      </li>
+            
         </ul>
         <div className="logout-container-dash">
         <ul>
@@ -273,9 +284,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
       </div>
         
         <div classname="dashboard-right">
-        {showPopup && profile && (
-          <UserPopup onClose={handleClosePopup} profile={profile} logOut={logOut} />
-        )}
+        
         <h1 className="dashboard-title">Welcome to your Health Locker!</h1>
         <p className="dashboard-description-one">
           This dashboard serves as a centralized storage for all your medical reports, enabling you to easily access, manage, and review your health information. 
@@ -406,9 +415,6 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         {showMeetingPopup && 
           <Meeting onClose={() => setShowMeetingPopup(false)} onSubmit={handleSendInvite} meetLink={meetLink}/>
         }
-
-
-
       </div>
       </div>
     

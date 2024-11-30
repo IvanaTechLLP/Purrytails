@@ -1,19 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // Added useRef
 import './ChatWindow.css';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaHome, FaTachometerAlt, FaFileUpload, FaCalendarAlt, FaUser, FaSignOutAlt } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
 
-const ChatWindow = ({ profile,logOut }) => {
+const ChatWindow = ({ profile, logOut }) => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newChatEmail, setNewChatEmail] = useState("");
-  const [messageText, setMessageText] = useState(""); // State to track the message input
+  const [messageText, setMessageText] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
-
   const navigate = useNavigate();
+ 
+  const messagesEndRef = useRef(null); // Ref to track the messages container
+
+  // Function to scroll to the bottom of the messages container
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Scroll to the latest message whenever messages update
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   // Fetch chats from the backend
   useEffect(() => {
@@ -22,7 +35,6 @@ const ChatWindow = ({ profile,logOut }) => {
         const response = await fetch(`http://localhost:5000/chats/${profile.user_id}`);
         const data = await response.json();
         const keys = Object.keys(JSON.parse(data));
-        console.log(keys)
         setChats(keys);
       } catch (error) {
         console.error('Error fetching chats:', error);
@@ -39,7 +51,6 @@ const ChatWindow = ({ profile,logOut }) => {
       try {
         const response = await fetch(`http://localhost:5000/messages/${profile.user_id}/${selectedChat}`);
         const data = await response.json();
-        console.log(data)
         setMessages(data);
       } catch (error) {
         console.error('Error fetching messages:', error);
@@ -48,7 +59,6 @@ const ChatWindow = ({ profile,logOut }) => {
     fetchMessages();
   }, [accessToken, profile?.user_id, selectedChat]);
 
-  // Add a new chat
   const handleAddChat = async () => {
     if (!newChatEmail) return;
 
@@ -65,7 +75,7 @@ const ChatWindow = ({ profile,logOut }) => {
         alert("Chat added successfully!");
         setIsPopupOpen(false);
         setNewChatEmail("");
-        // Refresh the chat list
+
         const response = await fetch(`http://localhost:5000/chats/${profile.user_id}`);
         const data = await response.json();
         const keys = Object.keys(JSON.parse(data));
@@ -78,9 +88,8 @@ const ChatWindow = ({ profile,logOut }) => {
     }
   };
 
-  // Handle sending the chat message
   const handleSendChat = async () => {
-    if (!messageText || !selectedChat) return; // Don't send empty or undefined messages
+    if (!messageText || !selectedChat) return;
 
     try {
       const response = await fetch("http://localhost:5000/send_chat", {
@@ -96,10 +105,9 @@ const ChatWindow = ({ profile,logOut }) => {
       });
 
       if (response.ok) {
-        // Once the message is sent, clear the input field and update the message list
-        setMessageText(""); // Clear the message input
+        setMessageText("");
         const updatedMessages = await fetch(`http://localhost:5000/messages/${profile.user_id}/${selectedChat}`);
-        setMessages(await updatedMessages.json()); // Update the message list
+        setMessages(await updatedMessages.json());
       } else {
         alert("Failed to send message.");
       }
@@ -107,6 +115,7 @@ const ChatWindow = ({ profile,logOut }) => {
       console.error("Error sending chat:", error);
     }
   };
+
   const handleToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -115,50 +124,54 @@ const ChatWindow = ({ profile,logOut }) => {
   };
 
   return (
-    
     <div className="chat-page">
       <div classname="dashboard-left">
-      <button className="hamburger" onClick={handleToggle}>
-        &#9776; 
-      </button>
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <button className="back-arrow" onClick={closeMenu}>
-            &larr; 
+        <button className="hamburger" onClick={handleToggle}>
+          &#9776;
         </button>
-        
-        <h2>Menu</h2>
-        <ul className="menu-items">
-        <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
-        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
-        <li onClick={() => { navigate("/file_upload"); closeMenu(); }}>Upload Reports</li>
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
-        
-        
+        <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+          <button className="back-arrow" onClick={closeMenu}>
+            &larr;
+          </button>
+          <h2>Menu</h2>
+          <ul className="menu-items">
+                <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
+          <FaHome />
           
-        <li onClick={() => { navigate("/profile"); closeMenu(); }}>View User Details</li>
-          
-        </ul>
-        <div className="logout-container-dash">
-        <ul>
-          
-          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
-            <FaSignOutAlt />
-          </li>
-        </ul>
+        </li>
+        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}  className='menu-button' title="Dashboard">
+          <FaTachometerAlt /> 
+        </li>
+        <li onClick={() => { navigate("/file_upload"); closeMenu(); }}className='menu-button'  title="Upload Reports">
+          <FaFileUpload /> 
+        </li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+          <FaCalendarAlt /> 
+        </li>
+        <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
+          <FaUser /> 
+        </li>
+          </ul>
+          <div className="logout-container-dash">
+            <ul>
+              <li onClick={() => { logOut(); closeMenu(); }} className="logout-button" title="Log Out">
+                <FaSignOutAlt />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-      </div>
-      <div className="chat-list">
+      <div className={`chat-list ${selectedChat ? "deactivated" : ""}`}>
         <div className="chat-header">
           <h2>Chats</h2>
           <div className="search-container">
-          <span className="search-icon"></span>
-          <input 
-            type="text" 
-            className="search-bar" 
-            placeholder="Search chats..." 
-          />
-        </div>
+            <span className="search-icon"></span>
+            <input
+              type="text"
+              className="search-bar"
+              placeholder="Search chats..."
+            />
+          </div>
         </div>
         {chats.map((chat) => (
           <div
@@ -167,22 +180,29 @@ const ChatWindow = ({ profile,logOut }) => {
             onClick={() => setSelectedChat(chat)}
           >
             <h4>{chat}</h4>
+            <p>Tap here to chat</p>
           </div>
         ))}
         <button className="add-chat-btn" onClick={() => setIsPopupOpen(true)}>
-        <span className="plus-icon">+</span>
+          <span className="plus-icon">+</span>
         </button>
       </div>
-        
+
       <div className="chat-window">
         {selectedChat ? (
           <div>
             <div className="chat-header-one">
-        <h3>{selectedChat}</h3>
-        <button className="video-call-btn">
-          <img src="video.png" alt="Video Call" />
-        </button>
-      </div>
+            
+              
+              <button className="back-arrow-btn" onClick={() => setSelectedChat(null)}>
+            &larr;
+          
+            </button>
+              <h4>{selectedChat}</h4>
+              <button className="video-call-btn">
+                <img src="video.png" alt="Video Call" />
+              </button>
+            </div>
             <div className="messages">
               {messages.map((msg, idx) => (
                 <div
@@ -190,26 +210,26 @@ const ChatWindow = ({ profile,logOut }) => {
                   className={`message ${msg.sender === "you" ? "self" : "them"}`}
                 >
                   <p>{msg.content}</p>
-                  <span>{msg.time}</span>
+                  
                 </div>
               ))}
+              {/* Ref element to scroll */}
+              <div ref={messagesEndRef} />
             </div>
             <div className="chat-input">
               <input
                 type="text"
                 placeholder="Type a message..."
                 value={messageText}
-                onChange={(e) => setMessageText(e.target.value)} // Track the message input
+                onChange={(e) => setMessageText(e.target.value)}
               />
-            <button onClick={handleSendChat} className="send-button">
-              <img src="arrow.png" alt="Send" className="send-icon" />
-            </button>
-
-
+              <button onClick={handleSendChat} className="send-button">
+                <img src="arrow.png" alt="Send" className="send-icon" />
+              </button>
             </div>
           </div>
         ) : (
-          <p>Select a chat to start messaging</p>
+          <p className="no-chat">Select a chat to start messaging</p>
         )}
       </div>
       {isPopupOpen && (

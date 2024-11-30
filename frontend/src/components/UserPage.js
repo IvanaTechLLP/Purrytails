@@ -50,11 +50,14 @@ const UserProfilePage = ({ profile, logOut }) => {
     const newPetDetails = {
       petName,
       breed,
+      petType,
       sex,
+      weight,
+      ageYears,
+      ageMonths,
       phoneNumber,
       ownerAddress,
-      petPhoto,
-      petType 
+      profilePicture,
     };
     setPetDetails(newPetDetails);
     console.log('Pet and owner details:', profile.user_id);
@@ -173,10 +176,10 @@ const UserProfilePage = ({ profile, logOut }) => {
   };
 
   const initializeCropper = () => {
-    if (imageRef.current) {
-      cropperRef.current = new Cropper(imageRef.current, {
-        aspectRatio: 1, // Square crop for circular shape
-        viewMode: 1, // Restrict crop box within the image
+    if (petPhoto && cropperRef.current) {
+      cropperRef.current = new Cropper(cropperRef.current, {
+        aspectRatio: 1,
+        viewMode: 1,
         movable: false,
         zoomable: false,
         scalable: false,
@@ -188,11 +191,12 @@ const UserProfilePage = ({ profile, logOut }) => {
     const cropper = cropperRef.current;
     if (cropper) {
       const canvas = cropper.getCroppedCanvas({
-        width: 300, // Desired width for the cropped image
-        height: 300, // Desired height
+        width: 300,
+        height: 300,
       });
-      setCroppedPhoto(canvas.toDataURL("image/png"));
-      
+      const croppedDataUrl = canvas.toDataURL("image/png");
+      setCroppedPhoto(croppedDataUrl);
+      setProfilePicture(croppedDataUrl); // Update immediately
     }
   };
   
@@ -479,7 +483,7 @@ const UserProfilePage = ({ profile, logOut }) => {
                 <h4>Adjust your photo:</h4>
                 <div>
                   <img
-                    ref={imageRef}
+                    ref={cropperRef}
                     src={petPhoto}
                     alt="Pet Preview"
                     onLoad={initializeCropper}

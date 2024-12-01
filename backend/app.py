@@ -68,9 +68,9 @@ os.makedirs(uploaded_pdfs_folder, exist_ok=True)
 os.makedirs(uploaded_images_folder, exist_ok=True)
 os.makedirs(qr_codes_folder, exist_ok=True)
 
-app.mount("/uploaded_pdfs", StaticFiles(directory=uploaded_pdfs_folder), name="uploaded_pdfs")
-app.mount("/uploaded_images", StaticFiles(directory=uploaded_images_folder), name="uploaded_images")
-app.mount("/qr_codes", StaticFiles(directory=qr_codes_folder), name="qr_codes")
+app.mount("/api/uploaded_pdfs", StaticFiles(directory=uploaded_pdfs_folder), name="uploaded_pdfs")
+app.mount("/api/uploaded_images", StaticFiles(directory=uploaded_images_folder), name="uploaded_images")
+app.mount("/api/qr_codes", StaticFiles(directory=qr_codes_folder), name="qr_codes")
     
 class GoogleLoginModel(BaseModel):
     email: EmailStr
@@ -296,8 +296,8 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
             if i < len(pdf_files):
                 link = pdf_files[i]
                 i += 1  
-                link=link.replace("backend\\", "")
-                link=f"http://localhost:5000/{link}"
+                link=link.replace("/app/backend", "")
+                link=f"http://purrytails.in/api{link}"
                 report_id = str(uuid.uuid4())
                 report_dict = {
                     "link": link,
@@ -331,7 +331,7 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
         with open(filename, "wb") as f:
             f.write(await file.read())
             
-        link = f"http://localhost:5000/uploaded_images/{file.filename}"
+        link = f"http://purrytails.in/api/uploaded_images/{file.filename}"
             
         json_object, report = process_image(filename)
         

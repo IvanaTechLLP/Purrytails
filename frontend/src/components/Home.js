@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./Home.css";
-import UserPopup from "./UserLoginPopup.js";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt,FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments } from 'react-icons/fa';
 
 
 const Home = ({ profile, logOut, reports, setReports }) => {
@@ -214,10 +213,7 @@ const Home = ({ profile, logOut, reports, setReports }) => {
       console.error("Error handling QR code:", error);
     }
   };
-  const handleCloseQRCodePopup = () => {
-    setShowQRCodePopup(false);
-    setQRCodeImage(null);
-  };
+
   
   
 
@@ -234,13 +230,28 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           <h2>Menu</h2>
           <ul>
             
-          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
-            <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-            <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
-            <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
-            <li onClick={() => { handleShowQRCode(); closeMenu(); }}>View QR Code</li>
+        
             
-            <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
+            
+            
+            <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
+            <li onClick={() => { navigate("/dashboard"); closeMenu(); }}  className='menu-button' title="Dashboard">
+          <FaTachometerAlt /> 
+        </li>
+        <li onClick={() => { handleUploadFile(); closeMenu(); }}className='menu-button'  title="Upload Reports">
+          <FaFileUpload /> 
+        </li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+          <FaCalendarAlt /> 
+        </li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+        <FaComments /> 
+      </li>
+        <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
+          <FaUser /> 
+        </li>
+            
+            
           </ul>
           <ul>
           <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
@@ -249,27 +260,15 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           </ul>
         </div>
       </div>
-      {showQRCodePopup && qrCodeImage && (
-          <div className="qr-code-popup">
-            <div className="qr-code-content">
-              <span className="qr-close-popup" onClick={handleCloseQRCodePopup}>
-                &times;
-              </span>
-              <img  className="qr-code-image" src={qrCodeImage} alt="QR Code" />
-            </div>
-          </div>
-        )}
+      
       <div className="dashboard-right">
-        {showPopup && profile && (
-          <UserPopup onClose={handleClosePopup} profile={profile} logOut={logOut} />
-        )}
-
+   
         <div className="dashboard-flex-container">
           <div className="column">
             <div className="dashboard-left-content">
               <div className="dashboard-container">
                 <div className="text-content">
-                  <h1 className="dashboard-title">Welcome to your Health Locker!</h1>
+                  <h1 className="dashboard-title">Welcome to your Health Locker {profile.name}!</h1>
                   <p className="dashboard-description">
                     <span className="highlight-one">
                       Take charge of your pet's health today! A happy pet starts with healthy habits!

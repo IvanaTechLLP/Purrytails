@@ -2,7 +2,7 @@
 
 ## Frontend:
 - cd frontend
-- npm i
+- npm i --legacy-peer-deps
 - npm start
 
 ## Backend:

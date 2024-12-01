@@ -5,7 +5,7 @@
 .chat-list {
   width: 30%;
   padding: 10px;
-  margin-left: 260px;
+  margin-left: 200px;
   background: #80766F;
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -58,7 +58,12 @@
   
   
 }
-
+.message p{
+  font-size: 19px;
+}
+.message span{
+  font-size: 19px;
+}
 .message.them {
   background-color: #959ba1c1 ;
   align-self: flex-start;
@@ -224,8 +229,14 @@
 
 .chat-item h4 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #fffcfc;
+}
+.chat-item p{
+  margin: 0;
+  font-size: 0.9rem;
+  color: #fffcfc;
+
 }
 .chat-window {
   width: 70%;
@@ -242,10 +253,11 @@
   border-bottom: 6px solid #80766F;
 }
 
-.chat-header-one h3 {
+.chat-header-one h4 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color:#5A514A;
+  font-weight: bold;
 }
 
 .video-call-btn {
@@ -319,19 +331,29 @@
 
 .message {
   max-width: 60%;
-  margin-bottom: 10px;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 15px; /* Increase value for more rounded corners */
 }
 
+
 .message.self {
-  background-color: #dcf8c6;
+  background-color: #D6CEC7;
   align-self: flex-end;
 }
 
 .message.them {
-  background-color: #959ba1c1;
+  background-color: #e6e6e6 ;
   align-self: flex-start;
+}
+
+.back-arrow-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin-right: 10px;
+  cursor: pointer;
+  color: #333;
+  display: none;
 }
 
 /* Mobile (smaller screen) layout */
@@ -345,12 +367,41 @@
     display: block;
     margin-bottom: 20px; /* Space below chat list */
     margin-left: 0px;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
   }
 
   .chat-window {
     width: 100%;
     
   }
-
+  .chat-list.deactivated{
+    opacity: 0; /* Fades out */
+  visibility: hidden; 
+    display:none;
+  }
+  .chat-header-one h4{
+    font-size: 1rem;
+  }
+  .video-call-btn img {
+    width: 50px; /* Adjust based on your image size */
+    height: auto;
+  }
+  .message p{
+    font-size: 16px;
+  }
+  .back-arrow-btn{
+    display: block;
+  }
+  .no-chat{
+    display: none;
+  }
+  .chat-input {
+    position: fixed;
+  }
+  .message {
+    max-width: 80%;
+  }
   
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ImageProcessingForm.css';
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments} from 'react-icons/fa';
 
 
 const ImageProcessingForm = ({ profile, logOut }) => {
@@ -123,9 +123,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
     setQRCodeImage(null);
   };
 
-  const handleShowUserDetails = () => {
-    navigate("/profile", { state: { userDetails } });
-  };
+  
   const instructions = [
     {
       imgSrc: "scan1.png",
@@ -170,13 +168,29 @@ const ImageProcessingForm = ({ profile, logOut }) => {
             &larr; {/* Back arrow icon */}
         </button>
         <h2>Menu</h2>
-        <ul>
-        <li onClick={() => { navigate("/home"); closeMenu(); }}> Home</li>
-          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}> Dashboard</li>
-          <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
-          <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
-          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>View User Details</li>
+        
+        <ul className="menu-items">
+                <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
+          <FaHome />
           
+        </li>
+        
+        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}className='menu-button'  title="DashBoard">
+          <FaTachometerAlt /> 
+        </li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+          <FaCalendarAlt /> 
+        </li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+        <FaComments /> 
+      </li>
+        <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
+          <FaUser /> 
+        </li>
+       
+        
+            
+        
         </ul>
         <ul>
         <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">

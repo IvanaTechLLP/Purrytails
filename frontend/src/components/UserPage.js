@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./UserPage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt,FaComments,FaHome,FaTachometerAlt,FaFileUpload,FaCalendarAlt } from 'react-icons/fa';
 import { set } from "date-fns";
 
 const UserProfilePage = ({ profile, logOut }) => {
@@ -50,11 +50,14 @@ const UserProfilePage = ({ profile, logOut }) => {
     const newPetDetails = {
       petName,
       breed,
+      petType,
       sex,
+      weight,
+      ageYears,
+      ageMonths,
       phoneNumber,
       ownerAddress,
-      petPhoto,
-      petType // Add pet type to saved details
+      profilePicture,
     };
     setPetDetails(newPetDetails);
     console.log('Pet and owner details:', profile.user_id);
@@ -173,10 +176,10 @@ const UserProfilePage = ({ profile, logOut }) => {
   };
 
   const initializeCropper = () => {
-    if (imageRef.current) {
-      cropperRef.current = new Cropper(imageRef.current, {
-        aspectRatio: 1, // Square crop for circular shape
-        viewMode: 1, // Restrict crop box within the image
+    if (petPhoto && cropperRef.current) {
+      cropperRef.current = new Cropper(cropperRef.current, {
+        aspectRatio: 1,
+        viewMode: 1,
         movable: false,
         zoomable: false,
         scalable: false,
@@ -188,11 +191,12 @@ const UserProfilePage = ({ profile, logOut }) => {
     const cropper = cropperRef.current;
     if (cropper) {
       const canvas = cropper.getCroppedCanvas({
-        width: 300, // Desired width for the cropped image
-        height: 300, // Desired height
+        width: 300,
+        height: 300,
       });
-      setCroppedPhoto(canvas.toDataURL("image/png"));
-      
+      const croppedDataUrl = canvas.toDataURL("image/png");
+      setCroppedPhoto(croppedDataUrl);
+      setProfilePicture(croppedDataUrl); // Update immediately
     }
   };
   
@@ -220,12 +224,25 @@ const UserProfilePage = ({ profile, logOut }) => {
         
         <h2>Menu</h2>
         <ul className="menu-items">
-        <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
-        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Report Dashboard</li>
-        <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }}>Calendar</li>
-        <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
+        <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
+          <FaHome />
           
+        </li>
+        
+        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}className='menu-button'  title="Dashboard">
+          <FaTachometerAlt /> 
+        </li>
+        <li onClick={() => {handleUploadFile();; closeMenu(); }} className='menu-button' title="Upload reports">
+          <FaFileUpload /> 
+        </li>
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+          <FaCalendarAlt /> 
+        </li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+        <FaComments /> 
+      </li>
+        
+       
         </ul>
         <div className="logout-container-dash">
         <ul>
@@ -345,8 +362,9 @@ const UserProfilePage = ({ profile, logOut }) => {
                   </div>
                 </div>
               </div>
+              <label>Select Your Loyal Companion</label>
               <div className="pet-type-selection">
-            
+              
               <div
                 className={`pet-option ${petType === 'dog' ? 'selected' : ''}`}
                 onClick={() => handlePetTypeSelection('dog')}
@@ -370,6 +388,7 @@ const UserProfilePage = ({ profile, logOut }) => {
             <div>
               <label>
               Sex:
+              </label>
               <div className="sex-selection">
                 <div 
                   className={`sex-option male ${sex === 'Male' ? 'selected' : ''}`} 
@@ -386,6 +405,9 @@ const UserProfilePage = ({ profile, logOut }) => {
                   
                 </div>
               </div>
+            
+            <label>
+              Breed:
             </label>
             <input
               type="text"
@@ -461,7 +483,7 @@ const UserProfilePage = ({ profile, logOut }) => {
                 <h4>Adjust your photo:</h4>
                 <div>
                   <img
-                    ref={imageRef}
+                    ref={cropperRef}
                     src={petPhoto}
                     alt="Pet Preview"
                     onLoad={initializeCropper}

@@ -75,3 +75,9 @@ input[type="text"] {
     width: 100% !important; /* Full width of its container */
     box-sizing: border-box; /* Include padding in the width calculation */
 }
+.success-message {
+    margin-top: 15px;
+    color: #28a745; /* Green */
+    font-size: 14px;
+    text-align: center;
+  }

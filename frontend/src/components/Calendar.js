@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import EventForm from './EventForm'; 
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "./Calendar.css";
-import { FaSignOutAlt } from 'react-icons/fa';
+import { FaSignOutAlt,FaUser,FaHome,FaTachometerAlt,FaFileUpload,FaComments } from 'react-icons/fa';
 
 const locales = {
   'en-US': require('date-fns/locale/en-US'),
@@ -22,6 +22,7 @@ const dateFnsLocalizerVariable = dateFnsLocalizer({
 
 const Calendar = ({ logOut, profile }) => {
   const [events, setEvents] = useState([]);
+  const [currentEvents, setCurrentEvents] = useState([]);
   const navigate = useNavigate(); // Initialize navigate for routing
   const [inputText, setInputText] = useState('');
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
@@ -55,30 +56,36 @@ const Calendar = ({ logOut, profile }) => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${accessToken}`, // Include token if needed
+          "Authorization": `Bearer ${accessToken}`,
         },
       });
-  
+
       if (!response.ok) {
         throw new Error("Failed to fetch events from the server");
       }
-  
+
       const fetched_events = await response.json();
       const eventsList = JSON.parse(fetched_events);
       
       const formattedEvents = eventsList.map((fetched_event) => ({
-        id: fetched_event.event_id, // Ensure your event object has an 'id'
-        title: fetched_event.event_name, // Adjust based on your event structure
-        start: new Date(fetched_event.start_datetime), // Adjust date format if necessary
-        end: new Date(fetched_event.end_datetime), // Adjust date format if necessary
+        id: fetched_event.event_id,
+        title: fetched_event.event_name,
+        start: new Date(fetched_event.start_datetime),
+        end: new Date(fetched_event.end_datetime),
       }));
-  
+
       setEvents(formattedEvents);
+
+      // Filter the next 3 events starting from today
+      const today = new Date();
+      const upcomingEvents = formattedEvents.filter((event) => event.start >= today);
+      const nextThreeEvents = upcomingEvents.slice(0, 3); // Limit to 3 events
+      setCurrentEvents(nextThreeEvents);
+
     } catch (error) {
       console.error("Error fetching events:", error);
     }
   };
-
   const handleAddEvent = async (event) => {
     const response = await fetch("/api/create_event_directly", {
         method: "POST",
@@ -168,12 +175,6 @@ const Calendar = ({ logOut, profile }) => {
 
 
 
-  const handleShowUserDetails = () => {
-    navigate("/profile");
-  };
-
-
-
   const handleToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -181,7 +182,7 @@ const Calendar = ({ logOut, profile }) => {
     setIsOpen(false);
   };
   const handleToggleForm = () => {
-    setIsFormOpen(!isFormOpen); // Toggle the visibility of the event form
+    setIsFormOpen(!isFormOpen); 
   };
   const localizer = dateFnsLocalizer({
     format,
@@ -205,11 +206,25 @@ const Calendar = ({ logOut, profile }) => {
         </button>
         <h2>Menu</h2>
         <ul>
-          <li onClick={() => { navigate("/home"); closeMenu(); }}>Home</li>
-          <li onClick={() => { navigate("/dashboard"); closeMenu(); }}>Dashboard</li>
-          <li onClick={() => { handleUploadFile(); closeMenu(); }}>Upload Reports</li>
-          <li onClick={() => { navigate("/chat"); closeMenu(); }}>Chat</li>
-          <li onClick={() => { handleShowUserDetails(); closeMenu(); }}>User Settings</li>
+        <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
+          <FaHome />
+          
+        </li>
+        
+        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}className='menu-button'  title="DashBoard">
+          <FaTachometerAlt /> 
+        </li>
+        <li onClick={() => {handleUploadFile();; closeMenu(); }} className='menu-button' title="Upload reports">
+          <FaFileUpload /> 
+        </li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+        <FaComments /> 
+      </li>
+        <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
+          <FaUser /> 
+        </li>
+       
+        
           
         </ul>
         <ul>
@@ -237,7 +252,7 @@ const Calendar = ({ logOut, profile }) => {
       <div className="current-events">
         <h3>Current Events</h3>
         <ul>
-          {events.map((event) => (
+          {currentEvents.map((event) => (
             <li key={event.id}>
               <strong>{format(event.start, 'EEEE, dd/MM/yyyy')}</strong>
               <p>{event.title}</p>

@@ -19,6 +19,7 @@ const LandingPage = () => {
         behavior: "smooth"
       });
     }
+    setIsOpen(false)
   }
   const [isOpen, setIsOpen] = useState(false);
 
@@ -46,11 +47,11 @@ const LandingPage = () => {
       </button>
       <h2>Menu</h2>
       <ul className="menu-items">
-        <li><a onClick={() => scrollToSection("ourmission")} className="left">Our Mission</a></li>
-        <li><a onClick={() => scrollToSection("perks")} className="left">Our Perks</a></li>
-        <li><a onClick={() => scrollToSection("reviews")} className="right">Testimonials</a></li>
-        <li><a onClick={() => scrollToSection("about")} className="right">About Us</a></li>
-        <li onClick={handleLoginClick}><a href="/login" className="right">Login</a></li>
+        <li><a onClick={() => scrollToSection("ourmission")} className="menu-item">Our Mission</a></li>
+        <li><a onClick={() => scrollToSection("perks")} className="menu-item">Our Perks</a></li>
+        <li><a onClick={() => scrollToSection("reviews")} className="menu-item">Testimonials</a></li>
+        <li><a onClick={() => scrollToSection("about")} className="menu-item">About Us</a></li>
+        <li onClick={handleLoginClick}><a href="/login" className="menu-item">Login</a></li>
       </ul>
     </div>
   </div>

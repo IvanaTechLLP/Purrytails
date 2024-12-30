@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState ,useEffect } from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
 import './ImageProcessingForm.css';
 import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments} from 'react-icons/fa';
 
@@ -19,10 +19,26 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const [isOpen, setIsOpen] = useState(false);
   const totalSteps = 3; 
   const [currentStep, setCurrentStep] = useState(0); 
+  const location = useLocation();
+  console.log(location); 
+
+  const files = location.state?.files;
 
 
+  console.log(files); 
+  useEffect(() => {
+    if (files && files.length > 0) {
+      console.log("file recieved from home")
+      const selectedFile = files[0]; // Get the first file
+      setImage(selectedFile);
+      handleSubmit();
+    }
+    else{
+      console.log("no file recieved from home")
+    }
+  }, [files]); // Dependency on files
 
-  
+
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
@@ -32,7 +48,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
 
   const handleSubmit = async () => {
     if (!image) {
-      setError("Please select a file.");
+      console.log("Please select a file.");
       return;
     }
 
@@ -270,16 +286,6 @@ const ImageProcessingForm = ({ profile, logOut }) => {
 
         {error && <p className="error-message">{error}</p>}
 
-        {showQRCodePopup && qrCodeImage && (
-          <div className="qr-code-popup">
-            <div className="qr-code-content">
-              <span className="close-popup" onClick={handleCloseQRCodePopup}>
-                &times;
-              </span>
-              <img src={qrCodeImage} alt="QR Code" />
-            </div>
-          </div>
-        )}
 
         {output && (
           <div className="output-container">
@@ -292,7 +298,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
                 <div key={reportData.report_id} className="report-container">
                   <ul>
                     <li>
-                      <strong>Date:</strong>
+                      <strong>Date: </strong>
                       {reportData.isEditing ? (
                         <>
                           <input
@@ -314,14 +320,14 @@ const ImageProcessingForm = ({ profile, logOut }) => {
                         </>
                       )}
                     </li>
-                    <li><strong>Doctor:</strong> {reportData.doctor}</li>
-                    <li><strong>Type:</strong> {reportData.document}</li>
-                    <li><strong>Diseases:</strong> {reportData.diseases}</li>
-                    <li><strong>Medicines:</strong> {reportData.medicines}</li>
-                    <li><strong>Domain:</strong> {reportData.doctor}</li>
+                    <li><strong>Doctor: </strong>  {reportData.doctor}</li>
+                    <li><strong>Type: </strong>  {reportData.document}</li>
+                    <li><strong>Diseases: </strong> {reportData.diseases}</li>
+                    <li><strong>Medicines: </strong> {reportData.medicines}</li>
+                    <li><strong>Domain: </strong> {reportData.doctor}</li>
                     <li>
-            <strong>Link:</strong> 
-            <a href={reportData.link} target="_blank" rel="noopener noreferrer">
+            <strong>Link: </strong> 
+            <a href={reportData.link} target="_blank" rel="noopener noreferrer" className="view-report-link">
               View Report
             </a>
           </li>

@@ -42,10 +42,10 @@
 }
 
 /* Chat header with accent color */
-.chat-header {
+.chatbot-header {
   padding: 12px;
   border-bottom: 2px solid #e0e0e0;
-  background-color: #4c5b61; /* Teal/Slate */
+  background: linear-gradient(135deg, #2A5372 0%, #023047  100%); /* Teal/Slate */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,7 +129,7 @@
   border-top: 1px solid #d0d0d0;
 }
 
-.chat-input-field {
+.chatbot-input-field {
   flex-grow: 1;
   padding: 10px;
   border: 1px solid #ccc;
@@ -139,12 +139,12 @@
   transition: border-color 0.3s ease;
 }
 
-.chat-input-field:focus {
+.chatbot-input-field:focus {
   border-color: #009688; /* Teal on focus */
 }
 
 /* Send button */
-.send-button {
+.chatbot-send-button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -152,12 +152,12 @@
   transition: transform 0.3s ease;
 }
 
-.send-button img {
+.chatbot-send-button img {
   width: 24px;
   height: 24px;
 }
 
-.send-button:hover {
+.chatbot-send-button:hover {
   transform: scale(1.1);
 }
 

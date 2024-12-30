@@ -6,6 +6,8 @@ import EventForm from './EventForm';
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import "./Calendar.css";
 import { FaSignOutAlt,FaUser,FaHome,FaTachometerAlt,FaFileUpload,FaComments } from 'react-icons/fa';
+import ReactCalendar from 'react-calendar'
+import "react-calendar/dist/Calendar.css";
 
 const locales = {
   'en-US': require('date-fns/locale/en-US'),
@@ -29,6 +31,9 @@ const Calendar = ({ logOut, profile }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null); // State for selected event
+  const [startDate, setStartDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+
 
   const handleSelectEvent = (event) => {
     setSelectedEvent(event); // Set the clicked event as the selected event
@@ -134,7 +139,12 @@ const Calendar = ({ logOut, profile }) => {
     }
   };
   
-
+  const handleChange = (date) => {
+    setStartDate(date);
+  };
+  const handleDateChange = (newDate) => {
+    setDate(newDate);
+  };
   const handleInputChange = (e) => {
     setInputText(e.target.value);
   };
@@ -193,13 +203,34 @@ const Calendar = ({ logOut, profile }) => {
       'en-US': require('date-fns/locale/en-US'),
     },
   });
+  const tileClassName = ({ date, view }) => {
+    // Highlight dates that have events
+    const hasEvent = events.some(
+      (event) => format(event.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+    );
+    return hasEvent ? 'highlighted-day' : '';
+  };
+
+  // Handle event selection
+  const onSelectEvent = (date) => {
+    const event = events.find((event) =>
+      format(event.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+    );
+    if (event) {
+      setSelectedEvent(event);
+    }
+  };
+
   
   return (
-    <div className="calendar-wrapper">
-      <div classname="dashboard-left">
-      <button className="hamburger" onClick={handleToggle}>
-        &#9776; 
-      </button>
+  <div className="calendar-wrapper">
+    <div classname="dashboard-left">
+    <div className="header">
+  <button className="hamburger" onClick={handleToggle}>
+    &#9776;
+  </button>
+  <h1 className="calendar-title">CALENDAR</h1>
+</div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <button className="back-arrow" onClick={closeMenu}>
             &larr; 
@@ -235,66 +266,115 @@ const Calendar = ({ logOut, profile }) => {
       </div>
       </div>
       <div className="calendar-container">
-    <div className="sidebar-left">
-      <div className="date-display">
-        <h1>{format(new Date(), 'dd')}</h1>
-        <p>{format(new Date(), 'EEEE').toUpperCase()}</p>
-      </div>
-      <form onSubmit={handleSubmit}>
-    <input
-      type="text"
-      value={inputText}
-      onChange={handleInputChange}
-      placeholder="Enter your calendar request"
-    />
-    <button className="calendar-submit-button" type="submit">Submit</button>
-  </form>
-      <div className="current-events">
-        <h3>Current Events</h3>
-        <ul>
-          {currentEvents.map((event) => (
-            <li key={event.id}>
-              <strong>{format(event.start, 'EEEE, dd/MM/yyyy')}</strong>
-              <p>{event.title}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-      
-      <button className="add-event-button" onClick={handleToggleForm}>+</button>
+              <div className="sidebar-left">
+                <div className="date-display">
+                  <h1>{format(new Date(), 'dd')}</h1>
+                  <p>{format(new Date(), 'MMMM').toUpperCase()}</p>
+                  <p>{format(new Date(), 'EEEE').toUpperCase()}</p>
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <input
+                      type="text"
+                      value={inputText}
+                      onChange={handleInputChange}
+                      placeholder="Enter your calendar request"
+                    />
+                    <button className="calendar-submit-button" type="submit">Submit</button>
+                </form>
+                <div className="current-events">
+                  <h3>Current Events</h3>
+                  <ul>
+                    {currentEvents.map((event) => (
+                      <li key={event.id}>
+                        <strong>{format(event.start, 'EEEE, dd/MM/yyyy')}</strong>
+                        <p>{event.title}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <button className="add-event-button" onClick={handleToggleForm}>+</button>
 
-{}
-{isFormOpen && (
-  <div className="popup">
-    <div className="popup-content">
-      <h4>Create an Event</h4>
-      <EventForm onAddEvent={handleAddEvent} />
-      <button className="close-popup" onClick={handleToggleForm}>&#10006;</button>
+                  {}
+                  {isFormOpen && (
+                    <div className="popup">
+                      <div className="popup-content">
+                        <h4>Create an Event</h4>
+                        <EventForm onAddEvent={handleAddEvent} />
+                        <button className="close-popup" onClick={handleToggleForm}>&#10006;</button>
+                      </div>
+                    </div>
+                  )}
+
+              </div> 
+              <div className="sidebar-left-mobile">
+                <div classname="leftt">
+                <div className="date-display">
+                  <h1>{format(new Date(), 'dd')}</h1>
+                  <p>{format(new Date(), 'MMMM').toUpperCase()}</p>
+                  <p>{format(new Date(), 'EEEE').toUpperCase()}</p>
+                </div>
+                <form onSubmit={handleSubmit}>
+                    <input
+                      type="text"
+                      value={inputText}
+                      onChange={handleInputChange}
+                      placeholder="Enter your request"
+                    />
+                    <button className="calendar-submit-button" type="submit">Submit</button>
+                </form>
+                </div>
+                <div className="rightt">
+                <div className="current-events-mobile">
+                  <h3>Current Events</h3>
+                  <ul>
+                    {currentEvents.map((event) => (
+                      <li key={event.id}>
+                        <strong>{format(event.start, 'EEEE, dd/MM/yyyy')}</strong>
+                        <p>{event.title}</p>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <button className="add-event-mobile-button" onClick={handleToggleForm}>+</button>
+
+                  {}
+                  {isFormOpen && (
+                    <div className="popup">
+                      <div className="popup-content">
+                        <h4>Create an Event</h4>
+                        <EventForm onAddEvent={handleAddEvent} />
+                        <button className="close-popup" onClick={handleToggleForm}>&#10006;</button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+              </div> 
+      
     </div>
-  </div>
-)}
-
-    </div> 
+    
+  <div className="calendar-content">
+    <div className="calendar-content">
       
-  </div>
-  <div className="calendar-content">
-  <div className="calendar-content">
-        <BigCalendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        style={{ height: '500px', width: '90%', margin: '20px 0', borderRadius: '10px', border: '1px solid #ccc' }}
-        views={['month']}
-        selectable
-        onSelectEvent={handleSelectEvent}
-        dayPropGetter={(date) => {
-          const hasEvent = events.some((event) =>
-            format(event.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
-          );
-          return { className: hasEvent ? 'highlighted-day' : '' };
-        }}
-      />
+            <BigCalendar
+            className="my-custom-calendar"
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                style={{ height: '500px', width: '90%', margin: '20px 0', borderRadius: '10px', border: '1px solid #ccc' }}
+                views={['month']}
+                selectable
+                onSelectEvent={handleSelectEvent}
+                dayPropGetter={(date) => {
+                  const hasEvent = events.some((event) =>
+                    format(event.start, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+                  );
+                  return { className: hasEvent ? 'highlighted-day' : '' };
+                }}
+              />
           {selectedEvent && (
             <div className="eventpopup">
               <div className="eventpopup-content">
@@ -308,12 +388,50 @@ const Calendar = ({ logOut, profile }) => {
               </div>
             </div>
           )}
+
+
+
+    </div>
+  </div>
+    <div className="calendar-content-1">
+    
+    <ReactCalendar
+        onChange={handleDateChange}
+        value={date}
+        tileClassName={tileClassName}
+        onClickDay={onSelectEvent} // Trigger event selection
+      />
+
+      {/* Event Details Popup */}
+      {selectedEvent && (
+        <div className="eventpopup">
+          <div className="eventpopup-content">
+            <h4>Event Details</h4>
+            <button className="close" onClick={handleClosePopup}>
+              &#10006;
+            </button>
+            <p>
+              <strong>Title:</strong> {selectedEvent.title}
+            </p>
+            <p>
+              <strong>Start:</strong> {format(selectedEvent.start, 'dd/MM/yyyy HH:mm')}
+            </p>
+            <p>
+              <strong>End:</strong> {format(selectedEvent.end, 'dd/MM/yyyy HH:mm')}
+            </p>
+            <button
+              className="delete"
+              onClick={() => handleDeleteEvent(selectedEvent.id, selectedEvent.title)}
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      )}
       
       </div>
-</div>
-      
-      
-      </div>
+  </div>
+  
    
   );
 };

@@ -7,9 +7,18 @@
     margin: 0 auto;
   }
   
-  .dashboard-container h1 {
-    text-align: center;
-    margin-bottom: 20px;
+
+
+  .qr-dashboard-header {
+    font-size: 2rem;       /* Adjust the font size */
+    background: linear-gradient(180deg, #6A4D8D , #D28C92); /* Reddish-Orange Gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;       /* A nice blue color */
+    text-align: center;    /* Center the text */
+    margin-bottom: 1.5rem; /* Add space below the heading */
+    font-weight: bold;     /* Make it bold */
+    text-transform: uppercase; /* Uppercase text */
+    letter-spacing: 1px;   /* Slight spacing between letters */
   }
   
   .user-and-reports-container {

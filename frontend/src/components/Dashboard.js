@@ -21,6 +21,8 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
   const [showMeetingPopup, setShowMeetingPopup] = useState(false);
   const [meetLink, setMeetLink] = useState(null); // State to store the Meet link
   const [isOpen, setIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedReport, setSelectedReport] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -114,7 +116,16 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
   };
   
 
-  
+  const openModal = (report) => {
+    setSelectedReport(report);
+    setIsModalOpen(true);
+  };
+
+  // Close modal and clear selected report
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedReport(null);
+  };
 
   const handleShowUserDetails = () => {
     navigate("/profile", { state: { userDetails } });
@@ -126,7 +137,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
   const handleSendReport = (reportId) => {
     setReportToShare(reportId); // Set the report to share
-    setShowSharePopup(true); // Show the Share popup
+    setShowSharePopup(true); // Show the Share
   };
 
   const handleShare = async (reportId, email) => {
@@ -219,7 +230,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
       
       if (response.ok) {
         console.log('Invite sent successfully:', data.meet_link);
-        setMeetLink(data.meet_link); // Store the Meet link in the state
+        setMeetLink(data.meet_link); 
       } else {
         console.error('Error sending invite:', data.detail);
       }
@@ -252,6 +263,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         <h2>Menu</h2>
         
         <ul className="menu-items">
+          
                 <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
           <FaHome />
           
@@ -312,30 +324,12 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
                     <div key={report.report_id} className="report-card">
                       <p><strong>Date:</strong> {report.date}</p>
                       <p><strong>Doctor:</strong> {report.doctor}</p>
-                      <button className="report-details-button" onClick={() => toggleDetails(report.report_id)}>
-                        {showDetails[report.report_id] ? "Conceal Details" : "Key Details"}
-                      </button>
-
-                      {showDetails[report.report_id] && (
-                        <>
-                          <p><strong>Document:</strong> {report.document}</p>
-                          <p><strong>Diseases:</strong> {report.diseases}</p>
-                          <p><strong>Medicines:</strong> {report.medicines}</p>
-                          <p><strong>Domain:</strong> {report.domain}</p>
-                          {report.link ? (
-                            <a
-                              href={report.link}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="view-report-link"
-                            >
-                              View Report
-                            </a>
-                          ) : (
-                            "No link available"
-                          )}
-                        </>
-                      )}
+                                <button
+                          className="report-details-button"
+                          onClick={() => openModal(report)}
+                        >
+                          Key Details
+                        </button>
                       <div className="delete-icon" onClick={() => handleDeleteReportInitiate(report.report_id)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -364,8 +358,47 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         ) : (
           <p>Loading user details...</p>
         )}
-
-      
+        {isModalOpen && selectedReport && (
+        <div className="report-popup-overlay">
+          <div className="report-popup">
+            <span className="close-report-popup" onClick={closeModal}>
+              &times;
+            </span>
+            <h2>Key Details</h2>
+            <p>
+              <strong>Date:</strong> {selectedReport.date}
+            </p>
+            <p>
+              <strong>Doctor:</strong> {selectedReport.doctor}
+            </p>
+            <p>
+              <strong>Document:</strong> {selectedReport.document}
+            </p>
+            <p>
+              <strong>Diseases:</strong> {selectedReport.diseases}
+            </p>
+            <p>
+              <strong>Medicines:</strong> {selectedReport.medicines}
+            </p>
+            <p>
+              <strong>Domain:</strong> {selectedReport.domain}
+            </p>
+            {selectedReport.link ? (
+              <a
+                href={selectedReport.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="view-report-link"
+              >
+                View Report
+              </a>
+            ) : (
+              "No link available"
+            )}
+          </div>
+          </div>
+          )}
+                
 
         {confirmDelete && (
           <div className="confirmation-popup">
@@ -378,9 +411,10 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         )}
 
         {showSharePopup && (
+          <div className="share-popup-overlay">
           <div className="share-popup">
-            <div className="popup-content">
-              <span className="close-popup" onClick={handleCloseSharePopup}>
+            <div className="popup-share-content">
+              <span className="close-share-popup" onClick={handleCloseSharePopup}>
                 &times;
               </span>
               <h3>Share Report</h3>
@@ -398,6 +432,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
               </button>
             </div>
           </div>
+          </div>
         )}
 
         <button className="chatbot-button" onClick={handleChatbotToggle}>
@@ -407,6 +442,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         {showChatbot && (
           <Chatbot profile={profile} setReports={setReports} showChatbot={showChatbot} setShowChatbot={setShowChatbot} />
         )}
+
 
         <button onClick={() => setShowMeetingPopup(true)}>
           Invite Doctor

@@ -4,7 +4,7 @@ import "./UserPage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import { FaSignOutAlt,FaComments,FaHome,FaTachometerAlt,FaFileUpload,FaCalendarAlt } from 'react-icons/fa';
-import { set } from "date-fns";
+
 
 const UserProfilePage = ({ profile, logOut }) => {
   const navigate = useNavigate();
@@ -261,30 +261,30 @@ const UserProfilePage = ({ profile, logOut }) => {
         <img src={profilePicture} alt="user" className="profile-image" />
         </div>
         
-        <div className="additional-details">
-          
-          <div className="progress-bar-container">
-        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-        <div className="paw-icons-container">
-          {Array.from({ length: totalSteps }).map((_, index) => (
-            <div
-              key={index}
-              className={`paw-icon ${index < currentStep ? "completed" : ""}`}
-            >
-              <img
-                src={index < currentStep ? "paw.png" : "paw.png"}
-                alt="paw"
-                className="paw-icon-img"
-              />
+      <div className="additional-details">
+      
+        <div className="progress-bar-container">
+            <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+                      <div className="paw-icons-container">
+                        {Array.from({ length: totalSteps }).map((_, index) => (
+                          <div
+                            key={index}
+                            className={`paw-icon ${index < currentStep ? "completed" : ""}`}
+                          >
+                            <img
+                              src={index < currentStep ? "paw.png" : "paw.png"}
+                              alt="paw"
+                              className="paw-icon-img"
+                            />
+                          </div>
+                        ))}
+                      </div>
             </div>
-          ))}
-        </div>
-      </div>
         </div>
 
           {currentStep === 1 && (
-            <div>
-              <h4>Pet Parent Details</h4>
+            <div className="form-container">
+              <h4 className="h4-heading">PET PARENT DETAILS</h4>
               <label>
                 Owner's Name:
                 <input
@@ -316,8 +316,9 @@ const UserProfilePage = ({ profile, logOut }) => {
           )}
 
           {currentStep === 2 && (
-            <div>
-              <h4>Companion Details</h4>
+          
+            <div >
+              <h4  className="h4-heading">COMPANION DETAILS</h4>
               <label>
                 Pet Name:
                 <input
@@ -333,7 +334,7 @@ const UserProfilePage = ({ profile, logOut }) => {
           {currentStep === 2 && (
             <div>
               <label>
-                Age
+                Age:
               </label>
               <div className="age-picker">
                 <div className="scroller-container">
@@ -361,8 +362,13 @@ const UserProfilePage = ({ profile, logOut }) => {
                     ))}
                   </div>
                 </div>
+                
+                <div className="age-display">
+                  {ageYears} years and {ageMonths} months 
+                </div>
+                
               </div>
-              <label>Select Your Loyal Companion</label>
+              <label>Select Your Loyal Companion:</label>
               <div className="pet-type-selection">
               
               <div
@@ -473,8 +479,8 @@ const UserProfilePage = ({ profile, logOut }) => {
 
 {currentStep === 4 && (
             <div>
-            <label>
-              Upload a Cute Photo of Your Pet:
+            <label  className="image-heading">
+              UPLOAD A CUTE PHOTO OF YOUR PET:
               <input type="file" accept="image/*" onChange={handlePhotoChange} />
             </label>
       

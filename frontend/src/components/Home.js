@@ -157,27 +157,22 @@ const Home = ({ profile, logOut, reports, setReports }) => {
   const handleFileSelect = (e) => {
     const files = e.target.files; // Get the selected files
     if (files.length) {
-      handleUpload(files); // Call the upload handler
+      handleUpload(files); // Pass the files to handleUpload
+    } else {
+      alert('Please select a file.');
     }
   };
   
-  const handleUpload = (files) => {
-    // Implement your upload logic here
-    // e.g., upload the file to the server and route to ImageProcessing
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('files[]', files[i]); // Append each file to the form data
+  const handleUpload = (files) => { // Accept files as a parameter
+    if (files) {
+      // Redirect to the imageProcessing page with the file
+      navigate('/file_upload', { state: { files } });
+    } else {
+      alert('Please select a file to upload.');
     }
-  
-    // Make an API call to upload the file
-    // fetch('/api/upload', { method: 'POST', body: formData })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // On success, route to the ImageProcessing page
-    //     navigate('/image-processing'); 
-    //   })
-    //   .catch(error => console.error('Error uploading file:', error));
   };
+  
+
   const handleShowQRCode = async () => {
     try {
       const response = await fetch(
@@ -241,12 +236,6 @@ const Home = ({ profile, logOut, reports, setReports }) => {
         <li onClick={() => { handleUploadFile(); closeMenu(); }}className='menu-button'  title="Upload Reports">
           <FaFileUpload /> 
         </li>
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
-          <FaCalendarAlt /> 
-        </li>
-        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-        <FaComments /> 
-      </li>
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
           <FaUser /> 
         </li>
@@ -260,6 +249,34 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           </ul>
         </div>
       </div>
+      <div className="bottom-nav">
+  <ul className="nav-menu">
+    <li onClick={() => { handleShowQRCode(); closeMenu(); }} className="nav-item">
+      <span>QR</span>
+      <p>QR</p>
+    </li>
+    <li onClick={() => { navigate("/dashboard"); closeMenu(); }} className="nav-item">
+      <FaTachometerAlt />
+      <p>Dashboard</p>
+    </li>
+    <li onClick={() => { handleUploadFile(); closeMenu(); }} className="nav-item">
+      <FaFileUpload />
+      <p>Upload</p>
+    </li>
+    <li onClick={() => { navigate("/profile"); closeMenu(); }} className="nav-item">
+      <FaUser />
+      <p>Profile</p>
+    </li>
+  </ul>
+  <ul className="logout-menu">
+    <li onClick={() => { logOut(); closeMenu(); }} className="mobile-logout-button">
+      <FaSignOutAlt />
+      <p>Log Out</p>
+    </li>
+  </ul>
+</div>
+               
+
       
       <div className="dashboard-right">
    
@@ -375,6 +392,19 @@ const Home = ({ profile, logOut, reports, setReports }) => {
                   Calendar
                 </button>
               </div>
+              {showQRCodePopup && (
+          <div className="qr-code-popup-1">
+            <button className="close-popup-1" onClick={() => {
+  console.log("Closing popup...");
+  setShowQRCodePopup(false);
+}}>Close</button>
+            {qrCodeImage ? (
+              <img src={qrCodeImage} alt="QR Code" />
+            ) : (
+              <p>Loading QR Code...</p>
+            )}
+             </div>
+)}
             </div>
           </div>
         </div>

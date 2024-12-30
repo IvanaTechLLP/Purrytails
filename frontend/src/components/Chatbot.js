@@ -124,7 +124,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
   return (
     <div className="chat-container">
-      <div className="chat-header">
+      <div className="chatbot-header">
         <div className="chat-header-content">
           <img
             src="/dd.png"
@@ -170,14 +170,14 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
         <input
           id="chat"
-          className="chat-input-field"
+          className="chatbot-input-field"
           placeholder="Send a Message..."
           name="chat"
           onChange={(e) => setUserInput(e.target.value)}
           value={userInput}
           onKeyDown={handleKeyDown}
         />
-        <button className="send-button" type="button" onClick={sendMessage}>
+        <button className="chatbot-send-button" type="button" onClick={sendMessage}>
           <img src="/send.svg" alt="Send" width={20} height={20} />
         </button>
       </div>

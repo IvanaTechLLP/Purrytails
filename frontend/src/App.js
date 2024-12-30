@@ -20,9 +20,9 @@ import QrScanner from "./components/QrScanner";
 import Home from "./components/Home";
 import ChatWindow from "./components/ChatWindow";
 
-
 function FileUploadPage({ profile }) {
   return (
+    
     <div className="app-container">
       <div className="left-panel">
         <ImageProcessingForm profile={profile} />

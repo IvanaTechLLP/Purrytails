@@ -6,7 +6,7 @@
   width: 30%;
   padding: 10px;
   margin-left: 200px;
-  background: #80766F;
+  background-color: rgba(190, 227, 242, 0.3); 
   border-radius: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -21,6 +21,17 @@
 .chat-item.active {
   font-weight: bold;
 }
+.profile-photo {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.chat-content {
+  display: flex;
+  align-items: center;
+}
+
 
 .chat-window {
   width: 70%;
@@ -74,8 +85,7 @@
   bottom: 0; /* Positions it at the bottom */
   right: 0; /* Ensures it starts from the left */
   width: 100%;
-  
-  padding: 10px;
+  padding: 5px;
   background-color: #fff; /* Optionally, set a background color */
   border-top: 1px solid #ccc; /* Optional border to separate the input from the chat */
   display: flex;
@@ -86,24 +96,21 @@
 }
 
 .chat-input input {
-  width: 85%; /* Allows the input to take up most of the space */
+  width: 80%; /* Allows the input to take up most of the space */
   padding: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
 .chat-input button {
-  padding: 10px;
+  padding: 1px !important ;
   border: none;
   background-color: #4CAF50;
   color: white;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
-.chat-input button:hover {
-  background-color: #4e8d51;
-}
 
 
 .popup {
@@ -144,7 +151,7 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s, box-shadow 0.2s;
-  margin-top: 15px;
+  margin-left: auto; /* Pushes the button to the right */
 }
 
 .add-chat-btn:hover {
@@ -166,22 +173,29 @@
   display: flex;
   flex-direction: column;
   padding: 15px;
-  background: #80766F;
+  background-color: rgba(190, 227, 242, 0.3); 
   color: #fff;
+  align-items: flex-start; /* Aligns content to the left */
 }
+
+.chat-header-1 {
+  
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Adjust spacing */
+  padding: 10px;
+  width: 100%;
+}
+
 
 .chat-header h2 {
-  margin: 0 0 10px;
-  font-size: 1.5rem;
-  text-align: center;
-}
-
-.chat-header {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  
-  color: #fff;
+  font-weight: 500;
+  font-size: 2.2rem;
+  text-align: left;
+  font-family: 'Times New Roman', Times, serif;
+  background: linear-gradient(180deg, #6A4D8D , #D28C92); /* Reddish-Orange Gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .search-container {
@@ -219,23 +233,24 @@
 }
 
 .chat-item:hover {
-  background: #6B6159;
+  background: #629CB5 ;
 }
 
 .chat-item.active {
-  background: #6B6159;
-  border-left: 4px solid #5A514A;
+  
+  background: #629CB5;
+  border-left: 4px solid #447A91
+  ;
 }
-
 .chat-item h4 {
   margin: 0;
   font-size: 1.2rem;
-  color: #fffcfc;
+  color: #000000;
 }
 .chat-item p{
   margin: 0;
   font-size: 0.9rem;
-  color: #fffcfc;
+  color: #023047;
 
 }
 .chat-window {
@@ -250,7 +265,7 @@
   align-items: center;
   padding: 10px;
   color: #fff;
-  border-bottom: 6px solid #80766F;
+  border-bottom:#333 1px solid;
 }
 
 .chat-header-one h4 {
@@ -308,7 +323,7 @@
 }
 
 .send-icon {
-  width: 100px; /* Adjust width to match the size of the button */
+  width: 50px; /* Adjust width to match the size of the button */
   height: auto; /* Adjust height to maintain aspect ratio */
 }
 /* Default layout for larger screens */
@@ -337,12 +352,13 @@
 
 
 .message.self {
-  background-color: #D6CEC7;
+  background-color: #70A7D4;
   align-self: flex-end;
+  color:white;
 }
 
 .message.them {
-  background-color: #e6e6e6 ;
+  background-color: #AAC3D4 ;
   align-self: flex-start;
 }
 
@@ -382,10 +398,10 @@
     display:none;
   }
   .chat-header-one h4{
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .video-call-btn img {
-    width: 50px; /* Adjust based on your image size */
+    width: 40px; /* Adjust based on your image size */
     height: auto;
   }
   .message p{
@@ -404,4 +420,14 @@
     max-width: 80%;
   }
   
+}
+.no-chat {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.no-chat-image {
+  width: 50%; /* Adjust size as needed */
+  height: auto;
+  margin-bottom: 10px;
 }

@@ -360,6 +360,7 @@ async def llm_chatbot(request: Request):
     input_string = data.get('message')
     user_id = data.get('user_id')
     user_type = data.get('user_type')
+    feedback = data.get('feedback', None)
 
     # Retrieve existing chat history from the session (or database)
     if user_type == "doctor":
@@ -386,6 +387,9 @@ async def llm_chatbot(request: Request):
     if len(chat_history) > MAX_CHAT_HISTORY_LENGTH:
         chat_history = chat_history[-MAX_CHAT_HISTORY_LENGTH:]
     
+    if feedback == "negative":
+        chat_history = []
+        
     # Append the new message to the history
     chat_history.append({"role": "user", "content": input_string})
 

@@ -8,6 +8,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [feedback, setFeedback] = useState(null); // State for feedback
 
   // Added states for speech recognition
   const recognitionRef = useRef(null);
@@ -80,7 +81,12 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
       const response = await fetch("http://localhost:5000/llm_chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userInput, user_id: profile.user_id, user_type: profile.user_type }),
+        body: JSON.stringify({
+          message: userInput,
+          user_id: profile.user_id,
+          user_type: profile.user_type,
+          feedback: feedback,
+        }),
       });
 
       if (!response.ok) {
@@ -89,7 +95,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
       const data = await response.json();
       console.log(data.relevant_reports);
-      if (data.relevant_reports && profile.user_type == "patient") setReports(data.relevant_reports);
+      if (data.relevant_reports && profile.user_type === "patient") setReports(data.relevant_reports);
 
       const response_str = data.response.replace(/^"|"$/g, ""); // Remove double quotes from the response
       setMessages((prevMessages) => [
@@ -100,7 +106,17 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
       console.error("Error sending message:", error);
       setError("Something went wrong. Please try again.");
     } finally {
+      setFeedback(null); // Reset feedback after sending
       setLoading(false);
+    }
+  };
+
+  const handleFeedback = (index, type) => {
+    setFeedback(type); // Set feedback based on thumbs up or down
+    if (type === "negative") {
+      const lastMessage = messages[index-1].message; // Get the last response message
+      setUserInput(lastMessage); // Use the same response for re-evaluation
+      sendMessage();
     }
   };
 
@@ -145,13 +161,18 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
       <div className="chat-messages" id="message-list">
         {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`chat-message ${
-              message.user === "user" ? "user-message" : "agent-message"
-            }`}
-          >
+          <div key={index} className={`chat-message ${message.user === "user" ? "user-message" : "agent-message"}`}>
             {message.message}
+            {message.user === "agent" && (
+              <div className="feedback-buttons">
+                <button onClick={() => handleFeedback(index, "positive")} className="thumb-button">
+                  👍
+                </button>
+                <button onClick={() => handleFeedback(index, "negative")} className="thumb-button">
+                  👎
+                </button>
+              </div>
+            )}
           </div>
         ))}
         {loading && <div className="chat-loading">Typing...</div>}

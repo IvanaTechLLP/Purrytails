@@ -118,6 +118,48 @@
   color: #333;
   align-self: flex-start;
   border-radius: 16px 16px 16px 0;
+  position: relative;
+  padding-bottom: 30px; /* Space for feedback buttons */
+}
+
+/* Feedback buttons container */
+.feedback-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Thumbs button styling */
+.thumb-button {
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.thumb-button:hover {
+  background-color: #d6e4f0; /* Light blue hover effect */
+  transform: scale(1.1);
+}
+
+.thumb-button:active {
+  transform: scale(0.9);
+}
+
+.thumb-button img {
+  width: 16px;
+  height: 16px;
 }
 
 /* Chat input field */

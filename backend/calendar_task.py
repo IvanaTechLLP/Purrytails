@@ -34,31 +34,31 @@ Shows basic usage of the Google Calendar API.
 """
 
 
-def authenticate(access_token, refresh_token=None):
-    """Authenticates the user and returns the Calendar API service object."""
+# def authenticate(access_token, refresh_token=None):
+#     """Authenticates the user and returns the Calendar API service object."""
 
-    creds = Credentials(
-        token=access_token,
-        refresh_token=refresh_token,
-        token_uri="https://oauth2.googleapis.com/token",
-        client_id=os.getenv("GOOGLE_CLIENT_ID"),
-        client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
-        scopes=SCOPES,
-    )
+#     creds = Credentials(
+#         token=access_token,
+#         refresh_token=refresh_token,
+#         token_uri="https://oauth2.googleapis.com/token",
+#         client_id=os.getenv("GOOGLE_CLIENT_ID"),
+#         client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+#         scopes=SCOPES,
+#     )
     
-    # Refresh the token if it is expired
-    if creds.expired and creds.refresh_token:
-        creds.refresh(Request())
-    # The file token.json stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-    # Create the Google Calendar API service
-    service = build("calendar", "v3", credentials=creds)
-    return service
+#     # Refresh the token if it is expired
+#     if creds.expired and creds.refresh_token:
+#         creds.refresh(Request())
+#     # The file token.json stores the user's access and refresh tokens, and is
+#     # created automatically when the authorization flow completes for the first
+#     # time.
+#     # Create the Google Calendar API service
+#     service = build("calendar", "v3", credentials=creds)
+#     return service
 
 
 
-def add_event(service, event_name, start_datetime, end_datetime=None, is_all_day=False, location=None, recurrence = "does not repeat", user_id=None):
+def add_event(event_name, start_datetime, end_datetime=None, is_all_day=False, location=None, recurrence = "does not repeat", user_id=None):
     """
     Adds a new event to the user's Google calendar.
 
@@ -90,8 +90,8 @@ def add_event(service, event_name, start_datetime, end_datetime=None, is_all_day
 
     try:
         # Add the event to Google Calendar
-        event = service.events().insert(calendarId="primary", body=event).execute()
-        print(f"Event created: {event.get('htmlLink')}")
+        # event = service.events().insert(calendarId="primary", body=event).execute()
+        # print(f"Event created: {event.get('htmlLink')}")
 
         # Store event in user's metadata in users_collection
         user_metadata = users_collection.get(ids=[user_id], include=["metadatas"])["metadatas"][0]
@@ -113,7 +113,7 @@ def add_event(service, event_name, start_datetime, end_datetime=None, is_all_day
         print(f"An error occurred: {error}")
 
 
-def delete_event_by_name(service, event_name, user_id):
+def delete_event_by_name(event_name, user_id):
     """
     Deletes an event from the user's Google Calendar based on the event name.
 
@@ -141,77 +141,77 @@ def delete_event_by_name(service, event_name, user_id):
     
     print("Event deleted successfully.")
 
-    try:
-        now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
-        events_result = (
-            service.events()
-            .list(
-                calendarId="primary",
-                timeMin=now,
-                maxResults=10,
-                singleEvents=True,
-                orderBy="startTime",
-            )
-            .execute()
-        )
-        events = events_result.get("items", [])
+    # try:
+    #     now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
+    #     events_result = (
+    #         service.events()
+    #         .list(
+    #             calendarId="primary",
+    #             timeMin=now,
+    #             maxResults=10,
+    #             singleEvents=True,
+    #             orderBy="startTime",
+    #         )
+    #         .execute()
+    #     )
+    #     events = events_result.get("items", [])
 
-        # Find the event to delete by its name
-        event_to_delete = None
-        for event in events:
-            if event.get("summary") == event_name:
-                event_to_delete = event
-                break
+    #     # Find the event to delete by its name
+    #     event_to_delete = None
+    #     for event in events:
+    #         if event.get("summary") == event_name:
+    #             event_to_delete = event
+    #             break
 
-        if event_to_delete is None:
-            print("Event not found.")
-            return
+    #     if event_to_delete is None:
+    #         print("Event not found.")
+    #         return
 
-        # Call the delete API to remove the event
-        service.events().delete(calendarId='primary', eventId=event_to_delete['id']).execute()
+    #     # Call the delete API to remove the event
+    #     service.events().delete(calendarId='primary', eventId=event_to_delete['id']).execute()
         
         
 
-    except HttpError as error:
-        print(f"An error occurred: {error}")
+    # except HttpError as error:
+    #     print(f"An error occurred: {error}")
 
 
-def update_event(service, event_name, new_event_name=None, new_start_datetime=None, new_end_datetime=None, new_location = None, new_recurrence = None):
+def update_event(event_name, new_event_name=None, new_start_datetime=None, new_end_datetime=None, new_location = None, new_recurrence = None):
   try:
-        now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
-        events_result = (
-            service.events()
-            .list(
-                calendarId="primary",
-                timeMin=now,
-                maxResults=10,
-                singleEvents=True,
-                orderBy="startTime",
-            )
-            .execute()
-        )
-        events = events_result.get("items", [])
+        # now = datetime.datetime.utcnow().isoformat() + "Z"  # 'Z' indicates UTC time
+        # events_result = (
+        #     service.events()
+        #     .list(
+        #         calendarId="primary",
+        #         timeMin=now,
+        #         maxResults=10,
+        #         singleEvents=True,
+        #         orderBy="startTime",
+        #     )
+        #     .execute()
+        # )
+        # events = events_result.get("items", [])
 
         # Find the event by its name
-        for event in events:
-            if event.get("summary") == event_name:
-                # Extract event details
-                event_name = event.get("summary")
-                # print("event name: ",event_name)
-                if not new_event_name:
-                  new_event_name = event.get("summary")
-                  print("new event name: ",new_event_name)
-                if not new_start_datetime:
-                  new_start_datetime = event["start"].get("dateTime")
-                if not new_end_datetime:
-                  new_end_datetime = event["end"].get("dateTime")
-                if not new_location:
-                  new_location = event.get("location")
-                if not new_recurrence:
-                  new_recurrence = event.get("recurrence")
+        # for event in events:
+        #     if event.get("summary") == event_name:
+        #         # Extract event details
+        #         event_name = event.get("summary")
+        #         # print("event name: ",event_name)
+        #         if not new_event_name:
+        #           new_event_name = event.get("summary")
+        #           print("new event name: ",new_event_name)
+        #         if not new_start_datetime:
+        #           new_start_datetime = event["start"].get("dateTime")
+        #         if not new_end_datetime:
+        #           new_end_datetime = event["end"].get("dateTime")
+        #         if not new_location:
+        #           new_location = event.get("location")
+        #         if not new_recurrence:
+        #           new_recurrence = event.get("recurrence")
         
-        delete_event_by_name(service, event_name)
-        add_event(service, new_event_name, new_start_datetime, new_end_datetime, location=new_location)
+        delete_event_by_name(event_name)
+        add_event(new_event_name, new_start_datetime, new_end_datetime, location=new_location)
 
         return None
 
@@ -220,7 +220,7 @@ def update_event(service, event_name, new_event_name=None, new_start_datetime=No
       return None
   
 
-if __name__ == "__main__":
-    service = authenticate()
+# if __name__ == "__main__":
+#     service = authenticate()
 
 

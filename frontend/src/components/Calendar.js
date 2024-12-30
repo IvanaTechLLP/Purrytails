@@ -133,7 +133,7 @@ const Calendar = ({ logOut, profile }) => {
     if (response.ok) {
       // Remove from local state
       setEvents((prevEvents) => prevEvents.filter(event => event.event_id !== eventId));
-      console.log("Event deleted from local database and Google Calendar.");
+      console.log("Event deleted successfully");
     } else {
       console.error("Error deleting event:", response.statusText);
     }

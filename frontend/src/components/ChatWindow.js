@@ -14,7 +14,6 @@ const ChatWindow = ({ profile, logOut }) => {
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
   const navigate = useNavigate();
   const [profilePicture, setProfilePicture] = useState(profile?.picture);
-  const [meetLink, setMeetLink] = useState(null); // State to store the Meet link
  
   const messagesEndRef = useRef(null); // Ref to track the messages container
 

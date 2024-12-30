@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./Dashboard.css";
 
 import Chatbot from "./Chatbot.js";
-import Meeting from './Meeting';
+// import Meeting from './Meeting';
 import { FaSignOutAlt,FaComments,FaHome, FaFileUpload, FaCalendarAlt, FaUser,  } from 'react-icons/fa';
 
 
@@ -18,8 +18,8 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
   const [reportToShare, setReportToShare] = useState(null); // ID of the report to share
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [filteredReports, setFilteredReports] = useState([]);
-  const [showMeetingPopup, setShowMeetingPopup] = useState(false);
-  const [meetLink, setMeetLink] = useState(null); // State to store the Meet link
+  // const [showMeetingPopup, setShowMeetingPopup] = useState(false);
+  // const [meetLink, setMeetLink] = useState(null); // State to store the Meet link
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
@@ -207,41 +207,41 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
 
   
-  const handleSendInvite = async (email) => {
-    console.log('Sending invite to:', email);
+  // const handleSendInvite = async (email) => {
+  //   console.log('Sending invite to:', email);
   
-    try {
-      // Assuming the access token is stored in localStorage or in a global state
-      const accessToken = localStorage.getItem('access_token'); // Modify based on where you store the token
+  //   try {
+  //     // Assuming the access token is stored in localStorage or in a global state
+  //     const accessToken = localStorage.getItem('access_token'); // Modify based on where you store the token
   
-      // Make the API request to send the Google Meet invite
-      const response = await fetch('http://localhost:5000/send_meeting_invite', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          access_token: accessToken,
-        }),
-      });
+  //     // Make the API request to send the Google Meet invite
+  //     const response = await fetch('http://localhost:5000/send_meeting_invite', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         email: email,
+  //         access_token: accessToken,
+  //       }),
+  //     });
   
-      const data = await response.json();
+  //     const data = await response.json();
       
-      if (response.ok) {
-        console.log('Invite sent successfully:', data.meet_link);
-        setMeetLink(data.meet_link); 
-      } else {
-        console.error('Error sending invite:', data.detail);
-      }
+  //     if (response.ok) {
+  //       console.log('Invite sent successfully:', data.meet_link);
+  //       setMeetLink(data.meet_link); 
+  //     } else {
+  //       console.error('Error sending invite:', data.detail);
+  //     }
   
-    } catch (error) {
-      console.error('Error sending invite:', error);
-    }
+  //   } catch (error) {
+  //     console.error('Error sending invite:', error);
+  //   }
   
-    // Close the popup after sending
-    // setShowMeetingPopup(false);
-  };
+  //   // Close the popup after sending
+  //   // setShowMeetingPopup(false);
+  // };
   const handleToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -444,13 +444,13 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         )}
 
 
-        <button onClick={() => setShowMeetingPopup(true)}>
+        {/* <button onClick={() => setShowMeetingPopup(true)}>
           Invite Doctor
         </button>
 
         {showMeetingPopup && 
           <Meeting onClose={() => setShowMeetingPopup(false)} onSubmit={handleSendInvite} meetLink={meetLink}/>
-        }
+        } */}
       </div>
       </div>
     

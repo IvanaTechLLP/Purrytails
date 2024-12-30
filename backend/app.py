@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from utils import process_image, process_pdf, llm_model, llm_calendar_response, create_google_meet_event, send_email
-from calendar_task import authenticate, add_event, delete_event_by_name
+from utils import process_image, process_pdf, llm_model, llm_calendar_response
+from calendar_task import add_event, delete_event_by_name
 from pydantic import BaseModel, EmailStr
 from typing import List, Dict
 import json
@@ -703,27 +703,29 @@ async def calendar_request(request: Request):
     print(data)
     
     input_text = data["text"]
-    access_token = data["access_token"]
-    refresh_token = data.get("refresh_token", None)
+    # access_token = data["access_token"]
+    # refresh_token = data.get("refresh_token", None)
     user_id = data["user_id"]
     
-    service = authenticate(access_token, refresh_token)
+    # service = authenticate(access_token, refresh_token)
     
-    response = llm_calendar_response(input_text, service, user_id)
+    # response = llm_calendar_response(input_text, service, user_id)
+    response = llm_calendar_response(input_text, user_id)
     
     return {"status": "success", "message": response}
 
 
 @app.post("/create_event_directly")
 async def create_event(event_data: dict):
-    access_token = event_data["access_token"]
+    # access_token = event_data["access_token"]
     event_name = event_data["title"]
     start_datetime = event_data["start"]
     end_datetime = event_data["end"]
     user_id = event_data["user_id"]  # Assuming user_id is passed to identify the user
 
-    service = authenticate(access_token)
-    response = add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+    # service = authenticate(access_token)
+    # response = add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+    response = add_event(event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
     
     return {"status": "success", "message": response}
 
@@ -731,12 +733,13 @@ async def create_event(event_data: dict):
 @app.delete("/delete_event")
 async def delete_event(event_data: dict):
 
-    access_token = event_data["access_token"]
+    # access_token = event_data["access_token"]
     event_name = event_data["event_name"]
     user_id = event_data["user_id"]
     
-    service = authenticate(access_token)
-    delete_event_by_name(service, event_name, user_id)
+    # service = authenticate(access_token)
+    # delete_event_by_name(service, event_name, user_id)
+    delete_event_by_name(event_name, user_id)
 
 
     return {"message": "Event deleted successfully."}
@@ -799,22 +802,22 @@ async def save_doctor_notes(request: SaveDoctorNotesRequest):
     
     
            
-@app.post("/send_meeting_invite")
-async def send_meeting_invite(meeting_request: dict):
-    try:
-        email = meeting_request["email"]
-        access_token = meeting_request["access_token"]
+# @app.post("/send_meeting_invite")
+# async def send_meeting_invite(meeting_request: dict):
+#     try:
+#         email = meeting_request["email"]
+#         access_token = meeting_request["access_token"]
         
-        service = authenticate(access_token)
-        # Step 1: Create the Google Meet link
-        meet_link = create_google_meet_event(service, email)
+#         service = authenticate(access_token)
+#         # Step 1: Create the Google Meet link
+#         meet_link = create_google_meet_event(service, email)
 
-        # Step 2: Send the link via email to the provided doctor email
-        send_email(email, meet_link)
+#         # Step 2: Send the link via email to the provided doctor email
+#         send_email(email, meet_link)
 
-        return {"message": "Google Meet invite sent successfully", "meet_link": meet_link}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error sending invite: {str(e)}")
+#         return {"message": "Google Meet invite sent successfully", "meet_link": meet_link}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Error sending invite: {str(e)}")
     
 
 class PetDetails(BaseModel):

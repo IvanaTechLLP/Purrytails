@@ -491,7 +491,7 @@ def llm_model(input_string, conversation, user_id, user_type):
         return response.text, relevant_reports
     
     
-def llm_calendar_response(input_string: str, service, user_id):
+def llm_calendar_response(input_string: str, user_id):
     prompt_parts = [
             f"""
             User's input: {input_string}
@@ -515,14 +515,16 @@ def llm_calendar_response(input_string: str, service, user_id):
         start_datetime = response.text.split(",")[2].strip()
         end_datetime = response.text.split(",")[3].strip()
         
-        add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+        # add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+        add_event(event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
         print("Event added successfully")
         
         return "Event added successfully"
 
     elif task_type == "delete event":
         event_name = response.text.split(",")[1].strip()
-        delete_event_by_name(service, event_name)
+        # delete_event_by_name(service, event_name)
+        delete_event_by_name(event_name)
         
         return "Event deleted successfully"
     
@@ -530,56 +532,57 @@ def llm_calendar_response(input_string: str, service, user_id):
         event_name = response.text.split(",")[1].strip()
         start_datetime = response.text.split(",")[2].strip()
         end_datetime = response.text.split(",")[3].strip()
-        update_event(service, event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
+        # update_event(service, event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
+        update_event(event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
         
         return "Event updated successfully"
 
     return response.text
 
 
-def create_google_meet_event(service, doctor_email):
+# def create_google_meet_event(service, doctor_email):
 
-    # Define the event details
-    event = {
-        'summary': 'Google Meet with Doctor',
-        'start': {
-            'dateTime': (datetime.utcnow() + timedelta(minutes=10)).isoformat() + 'Z',
-            'timeZone': 'UTC',
-        },
-        'end': {
-            'dateTime': (datetime.utcnow() + timedelta(hours=1)).isoformat() + 'Z',
-            'timeZone': 'UTC',
-        },
-        'conferenceData': {
-            'createRequest': {
-                'conferenceSolutionKey': {'type': 'hangoutsMeet'},
-                'requestId': 'some-random-string',
-            },
-        },
-        'attendees': [{'email': doctor_email}],
-    }
+#     # Define the event details
+#     event = {
+#         'summary': 'Google Meet with Doctor',
+#         'start': {
+#             'dateTime': (datetime.utcnow() + timedelta(minutes=10)).isoformat() + 'Z',
+#             'timeZone': 'UTC',
+#         },
+#         'end': {
+#             'dateTime': (datetime.utcnow() + timedelta(hours=1)).isoformat() + 'Z',
+#             'timeZone': 'UTC',
+#         },
+#         'conferenceData': {
+#             'createRequest': {
+#                 'conferenceSolutionKey': {'type': 'hangoutsMeet'},
+#                 'requestId': 'some-random-string',
+#             },
+#         },
+#         'attendees': [{'email': doctor_email}],
+#     }
 
-    # Create the event in Google Calendar
-    event = service.events().insert(
-        calendarId='primary',
-        body=event,
-        conferenceDataVersion=1
-    ).execute()
+#     # Create the event in Google Calendar
+#     event = service.events().insert(
+#         calendarId='primary',
+#         body=event,
+#         conferenceDataVersion=1
+#     ).execute()
 
-    return event.get('hangoutLink')
+#     return event.get('hangoutLink')
 
 
 
-def send_email(to_email, meet_link):
-    msg = MIMEMultipart()
-    msg['From'] = SMTP_USER
-    msg['To'] = to_email
-    msg['Subject'] = 'Google Meet Invite'
+# def send_email(to_email, meet_link):
+#     msg = MIMEMultipart()
+#     msg['From'] = SMTP_USER
+#     msg['To'] = to_email
+#     msg['Subject'] = 'Google Meet Invite'
 
-    body = f"You are invited to a Google Meet. Join the meeting via this link: {meet_link}"
-    msg.attach(MIMEText(body, 'plain'))
+#     body = f"You are invited to a Google Meet. Join the meeting via this link: {meet_link}"
+#     msg.attach(MIMEText(body, 'plain'))
 
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-        server.starttls()
-        server.login(SMTP_USER, SMTP_PASSWORD)
-        server.sendmail(SMTP_USER, to_email, msg.as_string())
+#     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+#         server.starttls()
+#         server.login(SMTP_USER, SMTP_PASSWORD)
+#         server.sendmail(SMTP_USER, to_email, msg.as_string())

@@ -95,8 +95,9 @@
   display: flex;
   flex-direction: column; /* Stack all elements vertically */
   gap: 15px; /* Space between form elements */
-  width: 100%; /* Make sure the container spans full width */
+  width: 100% !important; /* Make sure the container spans full width */
   max-width: 100%; /* Avoid limiting the width */
+  left:0 !important;
 }
 
 .form-container label {

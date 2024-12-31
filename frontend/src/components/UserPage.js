@@ -225,22 +225,24 @@ const UserProfilePage = ({ profile, logOut }) => {
         <h2>Menu</h2>
         <ul className="menu-items">
         <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
-          <FaHome />
+          <FaHome  className="home-icon"/> <span>Home</span>
           
         </li>
         
         <li onClick={() => { navigate("/dashboard"); closeMenu(); }}className='menu-button'  title="Dashboard">
-          <FaTachometerAlt /> 
+          <FaTachometerAlt  className="home-icon"/> <span>Records</span>
         </li>
         <li onClick={() => {handleUploadFile();; closeMenu(); }} className='menu-button' title="Upload reports">
-          <FaFileUpload /> 
+          <FaFileUpload  className="home-icon"/> <span>Uploads</span>
         </li>
+        {/*
         <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
           <FaCalendarAlt /> 
         </li>
         <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
         <FaComments /> 
       </li>
+        */}
         
        
         </ul>
@@ -291,7 +293,7 @@ const UserProfilePage = ({ profile, logOut }) => {
                   type="text"
                   value={ownerName}
                   onChange={(e) => setOwnerName(e.target.value)}
-                  placeholder="Enter owner's name"
+                  placeholder="Enter name"
                 />
               </label>
               <label>
@@ -300,7 +302,7 @@ const UserProfilePage = ({ profile, logOut }) => {
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="Enter owner's phone number"
+                  placeholder="Enter phone number"
                 />
               </label>
               <label>
@@ -309,7 +311,7 @@ const UserProfilePage = ({ profile, logOut }) => {
                   type="text"
                   value={ownerAddress}
                   onChange={(e) => setOwnerAddress(e.target.value)}
-                  placeholder="Enter owner's address"
+                  placeholder="Enter address"
                 />
               </label>
             </div>

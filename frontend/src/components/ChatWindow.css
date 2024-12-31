@@ -372,55 +372,6 @@
   display: none;
 }
 
-/* Mobile (smaller screen) layout */
-@media (max-width: 768px) {
-  .chat-page {
-    flex-direction: column; /* Stack chat list and chat window */
-  }
-
-  .chat-list {
-    width: 100%; /* Take up full screen */
-    display: block;
-    margin-bottom: 20px; /* Space below chat list */
-    margin-left: 0px;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-  }
-
-  .chat-window {
-    width: 100%;
-    
-  }
-  .chat-list.deactivated{
-    opacity: 0; /* Fades out */
-  visibility: hidden; 
-    display:none;
-  }
-  .chat-header-one h4{
-    font-size: 0.9rem;
-  }
-  .video-call-btn img {
-    width: 40px; /* Adjust based on your image size */
-    height: auto;
-  }
-  .message p{
-    font-size: 16px;
-  }
-  .back-arrow-btn{
-    display: block;
-  }
-  .no-chat{
-    display: none;
-  }
-  .chat-input {
-    position: fixed;
-  }
-  .message {
-    max-width: 80%;
-  }
-  
-}
 .no-chat {
   text-align: center;
   margin-top: 20px;

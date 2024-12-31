@@ -84,6 +84,9 @@
   .reports-grid {
     grid-template-columns: repeat(2, 1fr); /* 2 reports per row */
   }
+  .highlight {
+    font-size: 1rem !important;
+  }
 
 }
 
@@ -115,6 +118,16 @@
 .report-card p {
   margin-top: 0;
   font-size: 18px;
+}
+@media (max-width: 500px) {
+  .report-card h3 {
+    
+    font-size: 1em;
+  }
+  .report-card p {
+  
+    font-size: 15px;
+  }
 }
 .view-report-link {
   display: inline-block;
@@ -294,6 +307,12 @@
   font-weight: bold; /* Make it bold */
   margin-left: 20px !important;
   font-size: 1.3rem !important;
+}
+@media (max-width: 500px) {
+
+  .highlight {
+    font-size: 1rem !important;
+  }
 }
 
 /* Chatbot Button */
@@ -660,6 +679,7 @@
   }
 }
 
+
 .report-details-button{
   padding: 10px 20px; /* Padding for the button */
   background-color:#0056b3;  ; /* Button background color */
@@ -674,6 +694,13 @@
   background-color: #013e80 !important;
 }
 
+@media (max-width: 500px) {
+  .report-details-button{
+    padding: 5px 10px; /* Padding for the button */
+    font-size: 13px; /* Font size */
+  }
+
+}
 /* 🟣 Popup Overlay with Subtle Blur */
 .report-popup-overlay {
   position: fixed;
@@ -800,3 +827,34 @@
   }
 }
 
+.home-icon {
+  margin-right: 8px; /* Adjust the value as needed */
+}
+li span {
+  font-size: 16px !important; /* Text size */
+  font-weight: 500; /* Slightly bold the text */
+  letter-spacing: 0.5px; /* Adds a little spacing between letters */
+  transition: color 0.3s ease;
+}
+@media (min-width: 786px) {
+
+  li span{
+    display: none!important;
+  }
+}
+
+  .dashboard-title-one {
+    background: linear-gradient(180deg, #6A4D8D , #D28C92); /* Reddish-Orange Gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold; /* Make it bold */
+    margin-left: 20px !important;
+    font-size: 36px !important;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 500px) {
+    .dashboard-title-one {
+      display: none ;
+    }
+
+  }

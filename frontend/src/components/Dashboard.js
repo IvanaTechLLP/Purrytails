@@ -252,9 +252,12 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
   return (
     <div className="dashboard-wrapper">
       <div classname="dashboard-left">
-      <button className="hamburger" onClick={handleToggle}>
-        &#9776; 
-      </button>
+      <div className="header">
+  <button className="hamburger" onClick={handleToggle}>
+    &#9776;
+  </button>
+  <h1 className="calendar-title">Records Locker</h1>
+</div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <button className="back-arrow" onClick={closeMenu}>
             &larr; 
@@ -265,57 +268,59 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         <ul className="menu-items">
           
                 <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
-          <FaHome />
+          <FaHome  className="home-icon" />    <span>Home</span>
           
         </li>
         
         <li onClick={() => { navigate("/file_upload"); closeMenu(); }}className='menu-button'  title="Upload Reports">
-          <FaFileUpload /> 
+          <FaFileUpload  className="home-icon" /> <span>Upload</span>
         </li>
+          {/* 
         <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
           <FaCalendarAlt /> 
         </li>
+        */}
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
-          <FaUser /> 
+          <FaUser  className="home-icon" /> <span>Profile</span>
         </li>
        
-        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-        <FaComments /> 
-      </li>
+        {/* 
+<li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+    <FaComments /> 
+</li>
+*/}
+
             
         </ul>
-        <div className="logout-container-dash">
-        <ul>
-          
+         {/*
+          <ul>
           <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
             <FaSignOutAlt />
           </li>
-        </ul>
-        </div>
+          </ul>
+          */}
       </div>
       </div>
         
         <div classname="dashboard-right">
         
-        <h1 className="dashboard-title">Welcome to your Health Locker!</h1>
+        <h1 className="dashboard-title-one">Welcome to your Health Locker!</h1>
         <p className="dashboard-description-one">
-          This dashboard serves as a centralized storage for all your medical reports, enabling you to easily access, manage, and review your health information. 
-          Keep track of your medical history, including diseases, prescribed medicines, and doctor consultations, all in one secure place. 
-          You can upload new reports, view existing ones, and even generate a QR code for quick access to your medical data. 
+        A centralized hub for your pet's medical records. Easily access, upload, and review health details, including vaccinations, prescriptions, and vet visits. Manage your pet's medical history securely and generate a Timeline of your pet's medical history. 
           
         </p>
-        <p className="highlight">Your health information is always at your fingertips!</p>
+        <p className="highlight">Your pet's health information is always at your fingertips!</p>
 
         {userDetails ? (
           <div className="user-and-reports-container">
             <div className="filter-container">
               <label htmlFor="report-filter">Sort Reports: </label>
-              <select id="report-filter" value={selectedFilter} onChange={handleFilterChange}>
-                <option value="latest">Latest</option>
-                <option value="chronology">Chronological</option>
-                <option value="domain">Domain (A-Z)</option>
-              
+              <select id="report-filter" className="filter-select" value={selectedFilter} onChange={handleFilterChange}>
+                <option className="latest-option" value="latest">Latest</option>
+                <option className="chronology-option" value="chronology">Chronological</option>
+                <option className="domain-option" value="domain">Domain (A-Z)</option>
               </select>
+
             </div>
             <div className="reports-details">
               {filteredReports.length > 0 ? (
@@ -341,12 +346,15 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
                           <path d="M3 6h18v2H3V6zm3 3h12v12H6V9zm2 2v8h8v-8H8zm2 0h4v8h-4v-8z" />
                         </svg>
                       </div>
+                      {/* 
                       <button
                         className="share-button"
                         onClick={() => handleSendReport(report.report_id)}
                       >
                         Share
-                      </button>
+                      </button> 
+                      */}
+
                     </div>
                   ))}
                 </div>

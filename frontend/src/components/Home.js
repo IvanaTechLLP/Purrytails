@@ -4,6 +4,8 @@ import "./Home.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaSignOutAlt,FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments } from 'react-icons/fa';
+import { FaHome, FaSearch, FaRegClock } from "react-icons/fa";
+
 
 
 const Home = ({ profile, logOut, reports, setReports }) => {
@@ -214,6 +216,28 @@ const Home = ({ profile, logOut, reports, setReports }) => {
 
   return (
     <div className="dashboard-wrapper">
+      {/*}
+      <div className="bottom-nav">
+      <ul className="nav-menu">
+    <li className="nav-item">
+      <FaHome />
+      <p>Home</p>
+    </li>
+    <li className="nav-item">
+      <FaSearch />
+      <p>Search</p>
+    </li>
+    <li className="nav-item">
+      <FaRegClock />
+      <p>Timeline</p>
+    </li>
+    <li className="nav-item">
+      <FaUser />
+      <p>Profile</p>
+    </li>
+  </ul>
+      </div>
+      */}
       <div className="dashboard-left">
         <button className="hamburger" onClick={handleToggle}>
           &#9776; 
@@ -226,55 +250,33 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           <ul>
             
         
+           {/*
+          <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
             
-            
-            
-            <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
+            */} 
             <li onClick={() => { navigate("/dashboard"); closeMenu(); }}  className='menu-button' title="Dashboard">
-          <FaTachometerAlt /> 
+          <FaTachometerAlt  className="home-icon"/> <span>Records</span>
         </li>
+
         <li onClick={() => { handleUploadFile(); closeMenu(); }}className='menu-button'  title="Upload Reports">
-          <FaFileUpload /> 
+          <FaFileUpload  className="home-icon"/> <span>Upload</span>
         </li>
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
-          <FaUser /> 
+          <FaUser  className="home-icon"/> <span>Profile</span>
         </li>
             
             
           </ul>
+          {/*
           <ul>
           <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
             <FaSignOutAlt />
           </li>
           </ul>
+          */}
         </div>
       </div>
-      <div className="bottom-nav">
-  <ul className="nav-menu">
-    <li onClick={() => { handleShowQRCode(); closeMenu(); }} className="nav-item">
-      <span>QR</span>
-      <p>QR</p>
-    </li>
-    <li onClick={() => { navigate("/dashboard"); closeMenu(); }} className="nav-item">
-      <FaTachometerAlt />
-      <p>Dashboard</p>
-    </li>
-    <li onClick={() => { handleUploadFile(); closeMenu(); }} className="nav-item">
-      <FaFileUpload />
-      <p>Upload</p>
-    </li>
-    <li onClick={() => { navigate("/profile"); closeMenu(); }} className="nav-item">
-      <FaUser />
-      <p>Profile</p>
-    </li>
-  </ul>
-  <ul className="logout-menu">
-    <li onClick={() => { logOut(); closeMenu(); }} className="mobile-logout-button">
-      <FaSignOutAlt />
-      <p>Log Out</p>
-    </li>
-  </ul>
-</div>
+      
                
 
       
@@ -303,8 +305,18 @@ const Home = ({ profile, logOut, reports, setReports }) => {
 
               
             </div>
+            <div className="upload-file-container">
+                <h2 className="upload-file-title">UPLOAD REPORTS</h2>
+                <div className="upload-area" onDragOver={handleDragOver} onDrop={handleDrop}>
+                  <p>Drag and drop your files here or</p>
+                  <input type="file" className="file-input" onChange={handleFileSelect} />
+                  <button className="upload-button" onClick={handleUpload}>Upload</button>
+                </div>
+              </div>
+              </div>
 
-            {userDetails ? (
+          <div className="column">
+          {userDetails ? (
               <div className="recent-reports-container">
                 <h2 className="recent-reports-title">RECENT UPLOADS</h2>
                 {filteredReports.length > 0 ? (
@@ -342,17 +354,8 @@ const Home = ({ profile, logOut, reports, setReports }) => {
             ) : (
               <p>Loading user details...</p>
             )}
-          </div>
 
-          <div className="column">
-            <div className="upload-file-container">
-                <h2 className="upload-file-title">UPLOAD REPORTS</h2>
-                <div className="upload-area" onDragOver={handleDragOver} onDrop={handleDrop}>
-                  <p>Drag and drop your files here or</p>
-                  <input type="file" className="file-input" onChange={handleFileSelect} />
-                  <button className="upload-button" onClick={handleUpload}>Upload</button>
-                </div>
-              </div>
+           {/*
             <div className="calendar-reminder-container">
               <h2 className="calendar-title">STAY ORGANISED WITH REMINDERS!</h2>
               <div className="reminders-list">
@@ -392,20 +395,9 @@ const Home = ({ profile, logOut, reports, setReports }) => {
                   Calendar
                 </button>
               </div>
-              {showQRCodePopup && (
-          <div className="qr-code-popup-1">
-            <button className="close-popup-1" onClick={() => {
-  console.log("Closing popup...");
-  setShowQRCodePopup(false);
-}}>Close</button>
-            {qrCodeImage ? (
-              <img src={qrCodeImage} alt="QR Code" />
-            ) : (
-              <p>Loading QR Code...</p>
-            )}
-             </div>
-)}
             </div>
+
+            */}
           </div>
         </div>
       </div>

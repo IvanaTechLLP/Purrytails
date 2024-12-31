@@ -122,7 +122,11 @@ form button:hover {
   
   
   .calendar-title {
-    color: #345170; /* Blue color */
+    font-size: 30px !important;/* Blue color */
+    font-weight: 700;
+    background: linear-gradient(180deg, #6A4D8D , #D28C92) !important; /* Reddish-Orange Gradient */
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .sidebar {

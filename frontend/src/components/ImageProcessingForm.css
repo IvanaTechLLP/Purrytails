@@ -366,9 +366,54 @@ input[type="date"]:focus {
     width: 130px!important;
 
   }
+  .image-upload-title{
+    display: none;
+  }
   .edit-button, .save-button {
   
     font-size: 0.7rem;
     
   }
+  .instruction-image {
+    max-width: 130px; /* Set a maximum width for the images */
+  }
+}
+.report-container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.report-list{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.report-list-item {
+  margin-bottom: 10px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #333;
+}
+
+.report-list-item strong {
+  font-weight: bold;
+  color: #555;
+}
+
+.report-list-item-date {
+  margin-bottom: 10px;
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  color: #333;
+  display: block !important;
+}
+
+.report-list-item-date strong {
+  font-weight: bold;
+  color: #555;
 }

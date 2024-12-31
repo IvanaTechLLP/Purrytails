@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Chatbot.css"; // Import CSS file for styling
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
   const [messages, setMessages] = useState([
@@ -13,7 +14,14 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
   // Added states for speech recognition
   const recognitionRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
-
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMessage = document.getElementById("message-list").lastChild;
+      if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [messages]);
   // Initialize Speech Recognition
   useEffect(() => {
     const SpeechRecognition =
@@ -160,24 +168,42 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
       </div>
 
       <div className="chat-messages" id="message-list">
-        {messages.map((message, index) => (
-          <div key={index} className={`chat-message ${message.user === "user" ? "user-message" : "agent-message"}`}>
-            {message.message}
-            {message.user === "agent" && (
-              <div className="feedback-buttons">
-                <button onClick={() => handleFeedback(index, "positive")} className="thumb-button">
-                  👍
-                </button>
-                <button onClick={() => handleFeedback(index, "negative")} className="thumb-button">
-                  👎
-                </button>
-              </div>
-            )}
+      {messages.map((message, index) => (
+  <div 
+    key={index} 
+    className={`chat-message ${message.user === "user" ? "user-message" : "agent-message"}`}
+  >
+    <div className="message-content">
+      {message.message}
+    </div>
+
+    {message.user === "agent" && (
+      <div className="feedback-wrapper">
+        <div className="feedback-content">
+          <span className="feedback-text">Satisfied with the feedback?</span>
+          <div className="feedback-buttons">
+            <button 
+              onClick={() => handleFeedback(index, "positive")} 
+              className="thumb-button positive"
+            >
+              <FaThumbsUp />
+            </button>
+            <button 
+              onClick={() => handleFeedback(index, "negative")} 
+              className="thumb-button negative"
+            >
+              <FaThumbsDown /> 
+            </button>
           </div>
-        ))}
-        {loading && <div className="chat-loading">Typing...</div>}
-        {error && <div className="chat-error">{error}</div>}
+        </div>
       </div>
+    )}
+  </div>
+))}
+  {loading && <div className="chat-loading">Typing...</div>}
+  {error && <div className="chat-error">{error}</div>}
+</div>
+
 
       <div className="chat-input">
         {/* Mic button with onClick handler */}

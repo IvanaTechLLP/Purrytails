@@ -53,8 +53,8 @@
 
 @media (max-width: 480px) {
   .chat-container {
-    height: 50%;
-    width: auto;
+    height: 70%;
+    max-width: 80%;
   }
 }
 /* Header text and icon */
@@ -93,6 +93,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 10px;
+  margin-bottom: 60px;
 }
 
 /* Individual chat message styling */
@@ -100,7 +101,7 @@
   max-width: 75%;
   padding: 12px;
   border-radius: 16px;
-  margin-bottom: 12px;
+
   transition: background-color 0.3s ease;
 }
 
@@ -110,6 +111,7 @@
   color: white;
   align-self: flex-end;
   border-radius: 16px 16px 0 16px;
+  margin-bottom: 12px;
 }
 
 /* Agent message with new color */
@@ -119,47 +121,8 @@
   align-self: flex-start;
   border-radius: 16px 16px 16px 0;
   position: relative;
-  padding-bottom: 30px; /* Space for feedback buttons */
-}
-
-/* Feedback buttons container */
-.feedback-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  position: absolute;
-  bottom: 8px;
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Thumbs button styling */
-.thumb-button {
-  background-color: #f0f0f0;
-  border: none;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.thumb-button:hover {
-  background-color: #d6e4f0; /* Light blue hover effect */
-  transform: scale(1.1);
-}
-
-.thumb-button:active {
-  transform: scale(0.9);
-}
-
-.thumb-button img {
-  width: 16px;
-  height: 16px;
+  padding-bottom: 20px; /* Space for feedback buttons */
+  margin-bottom: 6px;
 }
 
 /* Chat input field */
@@ -169,6 +132,7 @@
   padding: 12px;
   background-color: #eef1f5; /* Light grey */
   border-top: 1px solid #d0d0d0;
+  height: 60px;
 }
 
 .chatbot-input-field {
@@ -218,4 +182,50 @@
 
 .mic-button.recording {
   transform: translateY(-5px);
+}
+
+.feedback-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feedback-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.feedback-buttons {
+  display: flex;
+  gap: 10px;
+}
+.feedback-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 5px; /* Reduced margin to minimize space between agent message and feedback */
+  padding-left: 0; /* Removed padding for closer alignment */
+}
+
+.thumb-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.thumb-button.positive:hover {
+  color: green;
+}
+
+.thumb-button.negative:hover {
+  color: red;
+}
+@media (max-width: 480px) {
+  .thumb-button{
+    font-size: 15px; /* Icon size */
+  }
+  .feedback-text{
+    font-size: 13px; /* Text size */
+  }
 }

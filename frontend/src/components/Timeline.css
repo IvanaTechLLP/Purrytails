@@ -25,3 +25,140 @@
 .timeline-content {
     margin-top: 5px;
 }
+/* Year Group */
+.timeline-year-group {
+    margin-top: 30px;
+  }
+  
+  /* Year Heading */
+  .timeline-year {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+  
+  /* Timeline Item */
+  .timeline-item {
+    margin-left: 20px;
+    border-left: 3px solid #007bff;
+    padding-left: 16px;
+    position: relative;
+  }
+  
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 5px;
+    width: 12px;
+    height: 12px;
+    background-color: #007bff;
+    border-radius: 50%;
+  }
+  /* Year Group */
+.timeline-year-group {
+    margin-top: 30px;
+  }
+  
+  /* Year Heading */
+  .timeline-year {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+  
+/* Year Group */
+.timeline-year-group {
+    margin-top: 30px;
+  }
+  
+  /* Year Heading */
+  .timeline-year {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+/* Year Group */
+.timeline-year-group {
+    margin-top: 30px;
+  }
+  
+  /* Year Heading */
+  .timeline-year {
+    font-size: 1.8em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #2c3e50;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+  
+  /* Month Heading */
+  .timeline-month {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  /* Timeline Item */
+  .timeline-item {
+    margin-left: 20px;
+    padding-left: 16px;
+    position: relative;
+  }
+  
+  /* Timeline Content */
+  .timeline-content h4 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Summary Text */
+  .timeline-content p {
+    font-size: 1.2em; /* Slightly smaller than title but still readable */
+    color: #555; /* Slightly lighter than default text */
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 500px) {
+   
+    .timeline-content p {
+        font-size: 1em; /* Slightly smaller than title but still readable */
+        color: #555; /* Slightly lighter than default text */
+        margin-bottom: 8px;
+        line-height: 1.5;
+      }
+      .timeline-title{
+        display: none!important;
+      }
+  }
+  .download-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .download-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  

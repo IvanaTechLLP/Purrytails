@@ -2,6 +2,7 @@ import React, { useState ,useEffect,useRef } from 'react';
 import { useNavigate,useLocation } from 'react-router-dom';
 import './ImageProcessingForm.css';
 import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments} from 'react-icons/fa';
+import { MdTimeline } from 'react-icons/md';
 
 
 const ImageProcessingForm = ({ profile, logOut }) => {
@@ -212,6 +213,10 @@ const ImageProcessingForm = ({ profile, logOut }) => {
         <FaComments /> 
       </li>
       */}
+      <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+                <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+              </li>
+             
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
           <FaUser  className="home-icon" /> <span>Profile</span>
         </li>

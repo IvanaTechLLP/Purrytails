@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaSignOutAlt,FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments } from 'react-icons/fa';
 import { FaHome, FaSearch, FaRegClock } from "react-icons/fa";
+import { MdTimeline } from 'react-icons/md';
 
 
 
@@ -261,6 +262,10 @@ const Home = ({ profile, logOut, reports, setReports }) => {
         <li onClick={() => { handleUploadFile(); closeMenu(); }}className='menu-button'  title="Upload Reports">
           <FaFileUpload  className="home-icon"/> <span>Upload</span>
         </li>
+        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+                  <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+                </li>
+               
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
           <FaUser  className="home-icon"/> <span>Profile</span>
         </li>

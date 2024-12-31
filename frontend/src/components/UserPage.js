@@ -4,6 +4,7 @@ import "./UserPage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import { FaSignOutAlt,FaComments,FaHome,FaTachometerAlt,FaFileUpload,FaCalendarAlt } from 'react-icons/fa';
+import { MdTimeline } from 'react-icons/md';
 
 
 const UserProfilePage = ({ profile, logOut }) => {
@@ -235,6 +236,10 @@ const UserProfilePage = ({ profile, logOut }) => {
         <li onClick={() => {handleUploadFile();; closeMenu(); }} className='menu-button' title="Upload reports">
           <FaFileUpload  className="home-icon"/> <span>Uploads</span>
         </li>
+        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+                  <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+                </li>
+               
         {/*
         <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
           <FaCalendarAlt /> 

@@ -5,6 +5,7 @@ import "./Dashboard.css";
 import Chatbot from "./Chatbot.js";
 // import Meeting from './Meeting';
 import { FaSignOutAlt,FaComments,FaHome, FaFileUpload, FaCalendarAlt, FaUser,  } from 'react-icons/fa';
+import { MdTimeline } from 'react-icons/md';
 
 
 const Dashboard = ({ profile, logOut, reports, setReports }) => {
@@ -280,13 +281,14 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
           <FaCalendarAlt /> 
         </li>
         */}
+        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+          <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+        </li>
+       
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
           <FaUser  className="home-icon" /> <span>Profile</span>
         </li>
-        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
-          <FaUser  className="home-icon" /> <span>Profile</span>
-        </li>
-       
+        
         {/* 
 <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
     <FaComments /> 

@@ -308,6 +308,7 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
                     "medicines": json_object[key]["medicines"],  
                     "doctor": json_object[key]["doctor"],  
                     "summary": json_object[key]["summary"],  
+                    "overview": json_object[key]["overview"],
                     "domain": json_object[key]["domain"] 
                 }
             Json_object[f"Report{i}"] = report_dict

@@ -283,6 +283,9 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
           <FaUser  className="home-icon" /> <span>Profile</span>
         </li>
+        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+          <FaUser  className="home-icon" /> <span>Profile</span>
+        </li>
        
         {/* 
 <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">

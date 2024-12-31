@@ -106,7 +106,8 @@ def process_image(filepath):
         "diseases": "Extract any symptoms or diseases mentioned in the following veterinary document. Look for common veterinary terms or descriptions related to the pet's condition, including specific diseases or symptoms such as 'fleas,' 'diarrhea,' 'vomiting,' or medical diagnoses. If not given, write 'None'.",
         "medicines": "Extract the names of any medicines mentioned in the following veterinary document, including prescribed drugs, dosages, and any related instructions for their use. If none, write 'None'.",
         "doctor": "Extract the name of the veterinarian mentioned in the following veterinary document, considering any titles (e.g., Dr., Vet.) and full name formats that may be used, if given. If not given, write 'None'.",
-        "summary": "A short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "summary": "A summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "overview": "A one line brief overview of the text given in the image.",
         "domain": "Given the following veterinary report, determine which veterinary domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately. In the output, provide both the domain name and a one-line description. Output for this attribute should be like 'domain': 'domain_name: description'. The possible domains are:
 
                     General Veterinary Medicine: Comprehensive care for animals and pets with various conditions.
@@ -237,7 +238,8 @@ def process_pdf(filename):
         "diseases": "Extract any symptoms or diseases mentioned in the following veterinary document. Look for common veterinary terms or descriptions related to the pet's condition, including specific diseases or symptoms such as 'fleas,' 'diarrhea,' 'vomiting,' or medical diagnoses. If not given, write 'None'.",
         "medicines": "Extract the names of any medicines mentioned in the following veterinary document, including prescribed drugs, dosages, and any related instructions for their use. If none, write 'None'.",
         "doctor": "Extract the name of the veterinarian mentioned in the following veterinary document, considering any titles (e.g., Dr., Vet.) and full name formats that may be used, if given. If not given, write 'None'.",
-        "summary": "A short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "summary": "A summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "overview": "A one line brief overview of the text given in the image.",
         "domain": "Given the following veterinary report, determine which veterinary domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately. In the output, provide both the domain name and a one-line description. Output for this attribute should be like 'domain': 'domain_name: description'. The possible domains are:
 
                     General Veterinary Medicine: Comprehensive care for animals and pets with various conditions.

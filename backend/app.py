@@ -131,7 +131,7 @@ async def google_login(data: GoogleLoginModel):
             
             users_collection.add(
                 documents=[str(user_data)],
-                metadatas={"email": user_data["email"], "name": user_data["name"], "events": "[]"},
+                metadatas={"email": user_data["email"], "name": user_data["name"], "events": "[]", "pet_details": "[]"},
                 ids=[user_data["user_id"]]
             )
 
@@ -831,21 +831,34 @@ async def store_pet_details(data: PetDetails):
         # Extract data from request
         user_id = data.user_id
         pet_details = data.petDetails
+        
         owner_address = pet_details.get("ownerAddress", "")
         pet_details.pop("ownerAddress")
-
+        phone_number = pet_details.get("phoneNumber", "")
+        pet_details.pop("phoneNumber")
         
+        pet_details["petId"] = str(uuid.uuid4())
+
         print("userid:", user_id)
         print("pet details:", pet_details)
         
         user = users_collection.get(ids=[user_id])
         user_metadata = user["metadatas"][0]
         print(user_metadata)
+        
+        existing_pet_details = json.loads(user_metadata.get("pet_details", "[]"))
+        existing_pet_details.append(pet_details)
+        
+        final_metadatas = {"pet_details": json.dumps(existing_pet_details)}
+        if owner_address != "":
+            final_metadatas["owner_address"] = owner_address
+        if phone_number != "":
+            final_metadatas["phone_number"] = phone_number
 
         # Store data in ChromaDB under the user's ID
         users_collection.update(
             ids=[user_id],  # Unique identifier for the user
-            metadatas={"pet_details": json.dumps(pet_details), "owner_address": owner_address},  # Metadata contains the pet details
+            metadatas=final_metadatas,  # Metadata contains the pet details
         )
 
         return {"message": "Pet details saved successfully in ChromaDB!"}
@@ -853,6 +866,25 @@ async def store_pet_details(data: PetDetails):
     except Exception as e:
         print(f"Error storing pet details: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while saving data.")
+    
+
+@app.get("/api/get_pet_details/{user_id}")
+async def get_pet_details(user_id: str):
+    try:
+        print(user_id)
+        user = users_collection.get(ids=[user_id])
+        print(user)
+        user_metadata = user["metadatas"][0]
+        print(user_metadata)
+        
+        pet_details = user_metadata.get("pet_details", {})
+        owner_address = user_metadata.get("owner_address", "")
+        phone_number = user_metadata.get("phone_number", "")
+        
+        return {"pet_details": json.loads(pet_details), "owner_address": owner_address, "phone_number": phone_number}
+    except Exception as e:
+        print(f"Error fetching pet details: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while fetching data.")
     
 
 @app.get("/chats/{user_id}")

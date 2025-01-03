@@ -5,7 +5,7 @@ services:
     image: abhaymathur21/purrytails:frontend
     container_name: frontend
     environment:
-      REACT_APP_GOOGLE_CLIENT_ID: "922224099937-7pgfac8kv4ni1cpj1jcuu8tgg5u22j3n.apps.googleusercontent.com"
+      REACT_APP_GOOGLE_CLIENT_ID: "922224099937-tveaqa81dhfp30pe09kdql6q5thlkg4s.apps.googleusercontent.com"
       PUBLIC_URL: "https://purrytails.in"
     depends_on:
       - backend
@@ -19,8 +19,8 @@ services:
     container_name: backend
     environment:
       GOOGLE_API_KEY: "AIzaSyBUYGIbM6b00Gb6KSumcJ3430K0bIT6y1o"
-      GOOGLE_CLIENT_ID: "922224099937-7pgfac8kv4ni1cpj1jcuu8tgg5u22j3n.apps.googleusercontent.com"
-      GOOGLE_CLIENT_SECRET: "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"
+      GOOGLE_CLIENT_ID: "922224099937-tveaqa81dhfp30pe09kdql6q5thlkg4s.apps.googleusercontent.com"
+      GOOGLE_CLIENT_SECRET: "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"
       SOURCE_FOLDER: "/app"
       JWT_SECRET_KEY: "84be622f951abd78963b0c11d4b10043be570fb022863588f7fbe7471653659a"
       JWT_ALGORITHM: "HS256"

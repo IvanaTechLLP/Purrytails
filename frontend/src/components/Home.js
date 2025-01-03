@@ -4,6 +4,9 @@ import "./Home.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { FaSignOutAlt,FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments } from 'react-icons/fa';
+import { FaHome, FaSearch, FaRegClock } from "react-icons/fa";
+import { MdTimeline } from 'react-icons/md';
+
 
 
 const Home = ({ profile, logOut, reports, setReports }) => {
@@ -157,27 +160,22 @@ const Home = ({ profile, logOut, reports, setReports }) => {
   const handleFileSelect = (e) => {
     const files = e.target.files; // Get the selected files
     if (files.length) {
-      handleUpload(files); // Call the upload handler
+      handleUpload(files); // Pass the files to handleUpload
+    } else {
+      alert('Please select a file.');
     }
   };
   
-  const handleUpload = (files) => {
-    // Implement your upload logic here
-    // e.g., upload the file to the server and route to ImageProcessing
-    const formData = new FormData();
-    for (let i = 0; i < files.length; i++) {
-      formData.append('files[]', files[i]); // Append each file to the form data
+  const handleUpload = (files) => { // Accept files as a parameter
+    if (files) {
+      // Redirect to the imageProcessing page with the file
+      navigate('/file_upload', { state: { files } });
+    } else {
+      alert('Please select a file to upload.');
     }
-  
-    // Make an API call to upload the file
-    // fetch('/api/upload', { method: 'POST', body: formData })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     // On success, route to the ImageProcessing page
-    //     navigate('/image-processing'); 
-    //   })
-    //   .catch(error => console.error('Error uploading file:', error));
   };
+  
+
   const handleShowQRCode = async () => {
     try {
       const response = await fetch(
@@ -219,6 +217,28 @@ const Home = ({ profile, logOut, reports, setReports }) => {
 
   return (
     <div className="dashboard-wrapper">
+      {/*}
+      <div className="bottom-nav">
+      <ul className="nav-menu">
+    <li className="nav-item">
+      <FaHome />
+      <p>Home</p>
+    </li>
+    <li className="nav-item">
+      <FaSearch />
+      <p>Search</p>
+    </li>
+    <li className="nav-item">
+      <FaRegClock />
+      <p>Timeline</p>
+    </li>
+    <li className="nav-item">
+      <FaUser />
+      <p>Profile</p>
+    </li>
+  </ul>
+      </div>
+      */}
       <div className="dashboard-left">
         <button className="hamburger" onClick={handleToggle}>
           &#9776; 
@@ -231,35 +251,39 @@ const Home = ({ profile, logOut, reports, setReports }) => {
           <ul>
             
         
+           {/*
+          <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
             
-            
-            
-            <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
+            */} 
             <li onClick={() => { navigate("/dashboard"); closeMenu(); }}  className='menu-button' title="Dashboard">
-          <FaTachometerAlt /> 
+          <FaTachometerAlt  className="home-icon"/> <span>Records</span>
         </li>
+
         <li onClick={() => { handleUploadFile(); closeMenu(); }}className='menu-button'  title="Upload Reports">
-          <FaFileUpload /> 
+          <FaFileUpload  className="home-icon"/> <span>Upload</span>
         </li>
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
-          <FaCalendarAlt /> 
-        </li>
-        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-        <FaComments /> 
-      </li>
+        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+                  <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+                </li>
+               
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
-          <FaUser /> 
+          <FaUser  className="home-icon"/> <span>Profile</span>
         </li>
             
             
           </ul>
+          {/*
           <ul>
           <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
             <FaSignOutAlt />
           </li>
           </ul>
+          */}
         </div>
       </div>
+      
+               
+
       
       <div className="dashboard-right">
    
@@ -286,8 +310,18 @@ const Home = ({ profile, logOut, reports, setReports }) => {
 
               
             </div>
+            <div className="upload-file-container">
+                <h2 className="upload-file-title">UPLOAD REPORTS</h2>
+                <div className="upload-area" onDragOver={handleDragOver} onDrop={handleDrop}>
+                  <p>Drag and drop your files here or</p>
+                  <input type="file" className="file-input" onChange={handleFileSelect} />
+                  <button className="upload-button" onClick={handleUpload}>Upload</button>
+                </div>
+              </div>
+              </div>
 
-            {userDetails ? (
+          <div className="column">
+          {userDetails ? (
               <div className="recent-reports-container">
                 <h2 className="recent-reports-title">RECENT UPLOADS</h2>
                 {filteredReports.length > 0 ? (
@@ -325,17 +359,8 @@ const Home = ({ profile, logOut, reports, setReports }) => {
             ) : (
               <p>Loading user details...</p>
             )}
-          </div>
 
-          <div className="column">
-            <div className="upload-file-container">
-                <h2 className="upload-file-title">UPLOAD REPORTS</h2>
-                <div className="upload-area" onDragOver={handleDragOver} onDrop={handleDrop}>
-                  <p>Drag and drop your files here or</p>
-                  <input type="file" className="file-input" onChange={handleFileSelect} />
-                  <button className="upload-button" onClick={handleUpload}>Upload</button>
-                </div>
-              </div>
+           {/*
             <div className="calendar-reminder-container">
               <h2 className="calendar-title">STAY ORGANISED WITH REMINDERS!</h2>
               <div className="reminders-list">
@@ -376,6 +401,8 @@ const Home = ({ profile, logOut, reports, setReports }) => {
                 </button>
               </div>
             </div>
+
+            */}
           </div>
         </div>
       </div>

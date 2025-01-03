@@ -13,6 +13,7 @@ const ChatWindow = ({ profile, logOut }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
   const navigate = useNavigate();
+  const [profilePicture, setProfilePicture] = useState(profile?.picture);
  
   const messagesEndRef = useRef(null); // Ref to track the messages container
 
@@ -164,29 +165,43 @@ const ChatWindow = ({ profile, logOut }) => {
       </div>
       <div className={`chat-list ${selectedChat ? "deactivated" : ""}`}>
         <div className="chat-header">
-          <h2>Chats</h2>
-          <div className="search-container">
-            <span className="search-icon"></span>
-            <input
-              type="text"
-              className="search-bar"
-              placeholder="Search chats..."
-            />
+          <div className="chat-header-1">
+            <h2>Chats</h2>
+            <button className="add-chat-btn" onClick={() => setIsPopupOpen(true)}>
+              <span className="plus-icon">+</span>
+            </button>
           </div>
+            
+            <div className="search-container">
+              <span className="search-icon"></span>
+              <input
+                type="text"
+                className="search-bar"
+                placeholder="Search chats..."
+              />
+            </div>
         </div>
         {chats.map((chat) => (
-          <div
-            key={chat}
-            className={`chat-item ${selectedChat === chat ? "active" : ""}`}
-            onClick={() => setSelectedChat(chat)}
-          >
-            <h4>{chat}</h4>
-            <p>Tap here to chat</p>
-          </div>
-        ))}
-        <button className="add-chat-btn" onClick={() => setIsPopupOpen(true)}>
-          <span className="plus-icon">+</span>
-        </button>
+  <div
+    key={chat}
+    className={`chat-item ${selectedChat === chat ? "active" : ""}`}
+    onClick={() => setSelectedChat(chat)}
+  >
+    <div className="chat-content">
+      <img 
+        src={`https://ui-avatars.com/api/?name=${encodeURIComponent(chat)}&background=random`} 
+        alt={`${chat}'s Profile`} 
+        className="profile-photo" 
+      />
+      <div>
+        <h4>{chat}</h4>
+        <p>Tap here to chat</p>
+      </div>
+    </div>
+  </div>
+))}
+
+        
       </div>
 
       <div className="chat-window">
@@ -200,9 +215,11 @@ const ChatWindow = ({ profile, logOut }) => {
           
             </button>
               <h4>{selectedChat}</h4>
-              <button className="video-call-btn">
-                <img src="video.png" alt="Video Call" />
-              </button>
+              <button 
+              className="video-call-btn" >
+              <img src="video.png" alt="Video Call" />
+            </button>
+
             </div>
             <div className="messages">
               {messages.map((msg, idx) => (
@@ -230,7 +247,10 @@ const ChatWindow = ({ profile, logOut }) => {
             </div>
           </div>
         ) : (
-          <p className="no-chat">Select a chat to start messaging</p>
+                <div className="no-chat">
+            <img src="PT.png" alt="No Chat Selected" className="no-chat-image" />
+            <p>Select a chat to start messaging</p>
+          </div>
         )}
       </div>
       {isPopupOpen && (

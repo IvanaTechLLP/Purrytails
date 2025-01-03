@@ -15,7 +15,7 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
       localStorage.setItem("access_token", codeResponse.access_token);
     },
     onError: (error) => console.log("Login Failed:", error),
-    scope: "openid profile email https://www.googleapis.com/auth/calendar",
+    scope: "openid profile email",
   });
 
   useEffect(() => {

@@ -143,7 +143,7 @@ const DoctorDashboard = ({ profile, logOut }) => {
         </ul>
       </div>
 
-      <div className="dashboard-content">
+      <div className="dashboard-content-doctor">
         <h1 className="dashboard-title">Doctor's Dashboard</h1>
         <p className="dashboard-description">
           Here you can review the reports shared by patients.

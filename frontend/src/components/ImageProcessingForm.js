@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState ,useEffect,useRef } from 'react';
+import { useNavigate,useLocation } from 'react-router-dom';
 import './ImageProcessingForm.css';
 import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments} from 'react-icons/fa';
+import { MdTimeline } from 'react-icons/md';
 
 
 const ImageProcessingForm = ({ profile, logOut }) => {
@@ -19,10 +20,27 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const [isOpen, setIsOpen] = useState(false);
   const totalSteps = 3; 
   const [currentStep, setCurrentStep] = useState(0); 
+  const location = useLocation();
+  console.log(location); 
+  const outputRef = useRef(null);
+
+  const files = location.state?.files;
 
 
+  console.log(files); 
+  useEffect(() => {
+    if (files && files.length > 0) {
+      console.log("file recieved from home")
+      const selectedFile = files[0]; // Get the first file
+      setImage(selectedFile);
+      handleSubmit();
+    }
+    else{
+      console.log("no file recieved from home")
+    }
+  }, [files]); // Dependency on files
 
-  
+
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
@@ -32,7 +50,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
 
   const handleSubmit = async () => {
     if (!image) {
-      setError("Please select a file.");
+      console.log("Please select a file.");
       return;
     }
 
@@ -156,13 +174,22 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   const closeMenu = () => {
     setIsOpen(false);
   };
+  useEffect(() => {
+    if (output && outputRef.current) {
+      outputRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [output]);
+  
   
   return (
     <div className="dashboard-wrapper">
         <div classname="dashboard-left">
-      <button className="hamburger" onClick={handleToggle}>
-        &#9776; {/* Hamburger icon */}
-      </button>
+        <div className="header">
+  <button className="hamburger" onClick={handleToggle}>
+    &#9776;
+  </button>
+  <h1 className="calendar-title">Document Upload</h1>
+</div>
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <button className="back-arrow" onClick={closeMenu}>
             &larr; {/* Back arrow icon */}
@@ -171,32 +198,40 @@ const ImageProcessingForm = ({ profile, logOut }) => {
         
         <ul className="menu-items">
                 <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
-          <FaHome />
+          <FaHome  className="home-icon" /> <span>Home</span>
           
         </li>
         
         <li onClick={() => { navigate("/dashboard"); closeMenu(); }}className='menu-button'  title="DashBoard">
-          <FaTachometerAlt /> 
+          <FaTachometerAlt  className="home-icon" /> <span>Records</span>
         </li>
+        {/*
         <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
           <FaCalendarAlt /> 
         </li>
         <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
         <FaComments /> 
       </li>
+      */}
+      <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+                <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+              </li>
+             
         <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
-          <FaUser /> 
+          <FaUser  className="home-icon" /> <span>Profile</span>
         </li>
        
         
             
         
         </ul>
-        <ul>
-        <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+         {/*
+          <ul>
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
             <FaSignOutAlt />
           </li>
-        </ul>
+          </ul>
+          */}
       </div>
       </div>
 
@@ -270,19 +305,9 @@ const ImageProcessingForm = ({ profile, logOut }) => {
 
         {error && <p className="error-message">{error}</p>}
 
-        {showQRCodePopup && qrCodeImage && (
-          <div className="qr-code-popup">
-            <div className="qr-code-content">
-              <span className="close-popup" onClick={handleCloseQRCodePopup}>
-                &times;
-              </span>
-              <img src={qrCodeImage} alt="QR Code" />
-            </div>
-          </div>
-        )}
 
         {output && (
-          <div className="output-container">
+          <div className="output-container" ref={outputRef}>
             <h3>Processed Output:</h3>
             {Object.entries(output).map(([reportKey, reportData]) => {
               // Log each report's information
@@ -290,9 +315,9 @@ const ImageProcessingForm = ({ profile, logOut }) => {
 
               return (
                 <div key={reportData.report_id} className="report-container">
-                  <ul>
-                    <li>
-                      <strong>Date:</strong>
+                  <ul className='report-list'>
+                    <li className="report-list-item-date">
+                      <strong>Date: </strong>
                       {reportData.isEditing ? (
                         <>
                           <input
@@ -314,27 +339,27 @@ const ImageProcessingForm = ({ profile, logOut }) => {
                         </>
                       )}
                     </li>
-                    <li><strong>Doctor:</strong> {reportData.doctor}</li>
-                    <li><strong>Type:</strong> {reportData.document}</li>
-                    <li><strong>Diseases:</strong> {reportData.diseases}</li>
-                    <li><strong>Medicines:</strong> {reportData.medicines}</li>
-                    <li><strong>Domain:</strong> {reportData.doctor}</li>
-                    <li>
-            <strong>Link:</strong> 
-            <a href={reportData.link} target="_blank" rel="noopener noreferrer">
-              View Report
-            </a>
-          </li>
-                  </ul>
-                  {reportData.isEditing && (
-                    <button
-                      className="save-button"
-                      onClick={handleSaveDate}
-                    >
-                      Save
-                    </button>
-                  )}
-                </div>
+                    <li className="report-list-item"><strong>Doctor: </strong>  {reportData.doctor}</li>
+                    <li className="report-list-item"><strong>Type: </strong>  {reportData.document}</li>
+                    <li className="report-list-item"><strong>Diseases: </strong> {reportData.diseases}</li>
+                    <li className="report-list-item"><strong>Medicines: </strong> {reportData.medicines}</li>
+                    <li className="report-list-item"><strong>Domain: </strong> {reportData.doctor}</li>
+                    <li className="report-list-item">
+                  <strong>Link: </strong> 
+                  <a href={reportData.link} target="_blank" rel="noopener noreferrer" className="view-report-link">
+                    View Report
+                  </a>
+                </li>
+                        </ul>
+                        {reportData.isEditing && (
+                          <button
+                            className="save-button"
+                            onClick={handleSaveDate}
+                          >
+                            Save
+                          </button>
+                        )}
+                      </div>
               );
             })}
           </div>

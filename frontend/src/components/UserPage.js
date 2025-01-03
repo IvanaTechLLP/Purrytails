@@ -3,33 +3,42 @@ import { useNavigate } from "react-router-dom";
 import "./UserPage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
-import { FaSignOutAlt,FaComments,FaHome,FaTachometerAlt,FaFileUpload,FaCalendarAlt } from 'react-icons/fa';
-import { set } from "date-fns";
+import {
+  FaSignOutAlt,
+  FaComments,
+  FaHome,
+  FaTachometerAlt,
+  FaFileUpload,
+  FaCalendarAlt,
+} from "react-icons/fa";
+import { MdTimeline } from "react-icons/md";
 
 const UserProfilePage = ({ profile, logOut }) => {
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState(localStorage.getItem("access_token"));
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("access_token")
+  );
 
   const [profilePicture, setProfilePicture] = useState(profile?.picture);
-  const [petName, setPetName] = useState(profile?.petName || '');
-  const [breed, setBreed] = useState(profile?.breed || '');
-  const [sex, setSex] = useState(profile?.sex || '');
-  const [ownerName, setOwnerName] = useState(profile?.name || '');
-  const [phoneNumber, setPhoneNumber] = useState(profile?.phoneNumber || '');
-  const [ownerAddress, setOwnerAddress] = useState(profile?.address || '');
+  const [petName, setPetName] = useState(profile?.petName || "");
+  const [breed, setBreed] = useState(profile?.breed || "");
+  const [sex, setSex] = useState(profile?.sex || "");
+  const [ownerName, setOwnerName] = useState(profile?.name || "");
+  const [phoneNumber, setPhoneNumber] = useState(profile?.phoneNumber || "");
+  const [ownerAddress, setOwnerAddress] = useState(profile?.address || "");
+  const [hasPet, setHasPet] = useState(false);
+  const [isAddingPet, setIsAddingPet] = useState(false);
   const [petDetails, setPetDetails] = useState(null);
   const [weight, setWeight] = useState(20); // Initial weight state
-  const [petType, setPetType] = useState(''); // New state for pet type selection
+  const [petType, setPetType] = useState(""); // New state for pet type selection
   const [ageYears, setAgeYears] = useState(0);
   const [ageMonths, setAgeMonths] = useState(0);
-  const totalSteps = 5; 
+  const totalSteps = 5;
   const [petPhoto, setPetPhoto] = useState(null); // Original uploaded image
   const [croppedPhoto, setCroppedPhoto] = useState(null); // Final cropped photo
   const imageRef = useRef(null); // Reference for the uploaded image element
   const cropperRef = useRef(null); // Reference for Cropper instance
   const [isOpen, setIsOpen] = useState(false);
-
-  
 
   const [currentStep, setCurrentStep] = useState(1); // New state to track the step
 
@@ -38,13 +47,11 @@ const UserProfilePage = ({ profile, logOut }) => {
   const yearScrollerRef = useRef(null);
   const monthScrollerRef = useRef(null);
 
+
   const handlePetTypeSelection = (type) => {
     setPetType(type);
-    setBreed(''); 
+    setBreed("");
   };
-
-  
-  
 
   const handleSave = async () => {
     const newPetDetails = {
@@ -60,11 +67,12 @@ const UserProfilePage = ({ profile, logOut }) => {
       profilePicture,
     };
     setPetDetails(newPetDetails);
-    console.log('Pet and owner details:', profile.user_id);
-    alert('Pet and owner details saved successfully!');
+    console.log("Pet and owner details:", profile.user_id);
+    alert("Pet and owner details saved successfully!");
 
     try {
       // Send details to backend API
+
       const response = await fetch('/api/store_pet_details', {
         method: 'POST',
         headers: {
@@ -77,71 +85,101 @@ const UserProfilePage = ({ profile, logOut }) => {
       });
   
       if (response.ok) {
-        alert('Pet and owner details saved successfully and sent to the database!');
+        alert(
+          "Pet and owner details saved successfully and sent to the database!"
+        );
       } else {
         const errorData = await response.json();
-        console.error('Failed to save data:', errorData);
-        alert('Failed to send data to the database. Please try again.');
+        console.error("Failed to save data:", errorData);
+        alert("Failed to send data to the database. Please try again.");
       }
     } catch (error) {
-      console.error('Error sending data to the backend:', error);
-      alert('An error occurred while sending data. Please try again.');
+      console.error("Error sending data to the backend:", error);
+      alert("An error occurred while sending data. Please try again.");
     }
   };
-  
 
   const handleBreedSelection = (selectedBreed) => {
     setBreed(selectedBreed);
   };
   const dogBreeds = [
-    { name: 'Golden Retriever', imgSrc: 'goldenretriever.png' },
-    { name: 'Chow Chow', imgSrc: 'chowchow.png' },
-    { name: 'Cocker Spaniel', imgSrc: 'cockerspaniel.png' },
-    { name: 'Dachshund', imgSrc: 'Dachshund.png' },
-    { name: 'German Shepherd', imgSrc: 'germanshepherd.png' },
-    { name: 'Husky', imgSrc: 'husky.png' },
-    { name: 'Pomeranian', imgSrc: 'pomeranian.png' },
-    { name: 'Shihtzu ', imgSrc: 'shihtzu.png' },
-    { name: 'Beagle ', imgSrc: 'beagle.png' },
-    { name: 'Pug ', imgSrc: 'pug.png' },
-    {name:"Labrador", imgSrc:'labrador.png'}
+    { name: "Golden Retriever", imgSrc: "goldenretriever.png" },
+    { name: "Chow Chow", imgSrc: "chowchow.png" },
+    { name: "Cocker Spaniel", imgSrc: "cockerspaniel.png" },
+    { name: "Dachshund", imgSrc: "Dachshund.png" },
+    { name: "German Shepherd", imgSrc: "germanshepherd.png" },
+    { name: "Husky", imgSrc: "husky.png" },
+    { name: "Pomeranian", imgSrc: "pomeranian.png" },
+    { name: "Shihtzu ", imgSrc: "shihtzu.png" },
+    { name: "Beagle ", imgSrc: "beagle.png" },
+    { name: "Pug ", imgSrc: "pug.png" },
+    { name: "Labrador", imgSrc: "labrador.png" },
   ];
 
   const catBreeds = [
-    { name: 'Siamese', imgSrc: 'siamese.png' },
-    { name: 'Persian', imgSrc: 'persiancat.png' },
-    { name: 'Maine Coon', imgSrc: 'mainecoon.png' },
-    { name: 'Bengal', imgSrc: 'bengalcat.png' },
-    { name: 'Abyssinian', imgSrc: 'abyssinian.png' },
-    { name: 'Himalayan', imgSrc: 'himalayancat.png' },
-    { name: 'Sphynx', imgSrc: 'sphynxcat.png' },
-    { name: 'Egyptian Mau', imgSrc: 'egyptianmau.png' },
-    { name: 'Tonkinese ', imgSrc: 'tonkinesecat.png' },
-    { name: 'Indie', imgSrc: 'indiecat.png' },
-  ]
+    { name: "Siamese", imgSrc: "siamese.png" },
+    { name: "Persian", imgSrc: "persiancat.png" },
+    { name: "Maine Coon", imgSrc: "mainecoon.png" },
+    { name: "Bengal", imgSrc: "bengalcat.png" },
+    { name: "Abyssinian", imgSrc: "abyssinian.png" },
+    { name: "Himalayan", imgSrc: "himalayancat.png" },
+    { name: "Sphynx", imgSrc: "sphynxcat.png" },
+    { name: "Egyptian Mau", imgSrc: "egyptianmau.png" },
+    { name: "Tonkinese ", imgSrc: "tonkinesecat.png" },
+    { name: "Indie", imgSrc: "indiecat.png" },
+  ];
 
   const scrollToSelected = (scrollerRef, selectedIndex) => {
     const scroller = scrollerRef.current;
     if (scroller) {
       const item = scroller.children[selectedIndex];
       if (item) {
-        const offset = item.offsetLeft - (scroller.clientWidth / 2) + (item.clientWidth / 2);
+        const offset =
+          item.offsetLeft - scroller.clientWidth / 2 + item.clientWidth / 2;
         scroller.scrollTo({
           left: offset,
-          behavior: "smooth"
+          behavior: "smooth",
         });
       }
     }
   };
 
-  useEffect(() => {
+  // Simulating an API call to check if the user has a registered pet
+  const fetchUserPetStatus = async () => {
+    try {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Pet data:", data.pet_details);
+        if (data && data.pet_details && data.pet_details.length > 0) {
+          console.log("User has a pet!");
+          setHasPet(true);
+          setPetDetails(data.pet_details);
+        } else {
+          setHasPet(false);
+        }
+      } else {
+        console.error("Failed to fetch pet data.");
+      }
+    } catch (error) {
+      console.error("Error fetching pet data:", error);
+    }
+  };
 
+  useEffect(() => {
     if (!accessToken) {
       console.log("No access token found. Redirect to login.");
       return;
     }
 
     if (profile?.user_id) {
+
+      fetchUserPetStatus();
       // Scroll the year scroller
       scrollToSelected(yearScrollerRef, ageYears);
 
@@ -151,8 +189,7 @@ const UserProfilePage = ({ profile, logOut }) => {
       setProfilePicture(profile.picture);
       setOwnerName(profile.name);
     }
-
-  }, [ageYears, ageMonths, accessToken,  profile?.user_id]);
+  }, [ageYears, ageMonths, accessToken, profile?.user_id]);
 
   // Handle Step Navigation
   const nextStep = () => {
@@ -162,7 +199,7 @@ const UserProfilePage = ({ profile, logOut }) => {
   const prevStep = () => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 1)); // Prevent going below 1
   };
-   // Calculate the progress as a percentage
+  // Calculate the progress as a percentage
   const progress = ((currentStep - 1) / (totalSteps - 1)) * 100;
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -199,7 +236,7 @@ const UserProfilePage = ({ profile, logOut }) => {
       setProfilePicture(croppedDataUrl); // Update immediately
     }
   };
-  
+
   const handleToggle = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
@@ -209,206 +246,358 @@ const UserProfilePage = ({ profile, logOut }) => {
   const handleUploadFile = () => {
     navigate("/file_upload", { state: { showPopup: false } });
   };
- 
 
-  return (
-    <div className="dashboard-wrapper">
-      <div classname="dashboard-left">
-      <button className="hamburger" onClick={handleToggle}>
-        &#9776; 
-      </button>
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <button className="back-arrow" onClick={closeMenu}>
-            &larr; 
-        </button>
-        
-        <h2>Menu</h2>
-        <ul className="menu-items">
-        <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
-          <FaHome />
-          
-        </li>
-        
-        <li onClick={() => { navigate("/dashboard"); closeMenu(); }}className='menu-button'  title="Dashboard">
-          <FaTachometerAlt /> 
-        </li>
-        <li onClick={() => {handleUploadFile();; closeMenu(); }} className='menu-button' title="Upload reports">
-          <FaFileUpload /> 
-        </li>
+  if (hasPet && petDetails && petDetails.length > 0 && !isAddingPet) {
+    return (
+      <div className="dashboard-wrapper">
+        <div classname="dashboard-left">
+          <button className="hamburger" onClick={handleToggle}>
+            &#9776;
+          </button>
+        <div className={`sidebar ${isOpen ? "open" : ""}`}>
+          <button className="back-arrow" onClick={closeMenu}>
+            &larr;
+          </button>
+
+          <h2>Menu</h2>
+          <ul className="menu-items">
+            <li
+              onClick={() => {
+                navigate("/home");
+                closeMenu();
+              }}
+              title="Home"
+            >
+              <FaHome className="home-icon" /> <span>Home</span>
+            </li>
+
+            <li
+              onClick={() => {
+                navigate("/dashboard");
+                closeMenu();
+              }}
+              className="menu-button"
+              title="Dashboard"
+            >
+              <FaTachometerAlt className="home-icon" /> <span>Records</span>
+            </li>
+            <li
+              onClick={() => {
+                handleUploadFile();
+                closeMenu();
+              }}
+              className="menu-button"
+              title="Upload reports"
+            >
+              <FaFileUpload className="home-icon" /> <span>Uploads</span>
+            </li>
+            <li
+              onClick={() => {
+                navigate("/timeline");
+                closeMenu();
+              }}
+              className="menu-button"
+              title="Timeline"
+            >
+              <MdTimeline className="home-icon" /> <span>TimeLine</span>
+            </li>
+
+            {/*
         <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
           <FaCalendarAlt /> 
         </li>
         <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
         <FaComments /> 
       </li>
-        
-       
-        </ul>
-        <div className="logout-container-dash">
-        <ul>
-          
-          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
-            <FaSignOutAlt />
-          </li>
-        </ul>
+        */}
+          </ul>
+          <div className="logout-container-dash">
+            <ul>
+              <li
+                onClick={() => {
+                  logOut();
+                  closeMenu();
+                }}
+                className="logout-button"
+              >
+                <FaSignOutAlt />
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
+    
+  
+      <div className="pet-details-page">
+        <h1>Your Pets</h1>
+        <div className="pet-list">
+          {petDetails.map((pet, index) => (
+            <div key={index} className="pet-item">
+              <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
+              <h2>{pet.petName}</h2>
+              <p>Breed: {pet.breed}</p>
+              <p>Weight: {pet.weight} kg</p>
+              <p>Age: {pet.ageYears} years and {pet.ageMonths} months</p>
+              
+            </div>
+          ))}
+        </div>
+         {/* Add Pet Button */}
+         <button
+          className="add-pet-button"
+          onClick={() => {
+            setIsAddingPet(true); // This assumes you have a state to manage adding a pet
+          }}
+        >
+          Add Pet
+        </button>
+      </div>
+      </div>
+      
+    );
+  }
+  
+  return (
+    <div className="dashboard-wrapper">
+      <div classname="dashboard-left">
+        <button className="hamburger" onClick={handleToggle}>
+          &#9776;
+        </button>
+        <div className={`sidebar ${isOpen ? "open" : ""}`}>
+          <button className="back-arrow" onClick={closeMenu}>
+            &larr;
+          </button>
+
+          <h2>Menu</h2>
+          <ul className="menu-items">
+            <li
+              onClick={() => {
+                navigate("/home");
+                closeMenu();
+              }}
+              title="Home"
+            >
+              <FaHome className="home-icon" /> <span>Home</span>
+            </li>
+
+            <li
+              onClick={() => {
+                navigate("/dashboard");
+                closeMenu();
+              }}
+              className="menu-button"
+              title="Dashboard"
+            >
+              <FaTachometerAlt className="home-icon" /> <span>Records</span>
+            </li>
+            <li
+              onClick={() => {
+                handleUploadFile();
+                closeMenu();
+              }}
+              className="menu-button"
+              title="Upload reports"
+            >
+              <FaFileUpload className="home-icon" /> <span>Uploads</span>
+            </li>
+            <li
+              onClick={() => {
+                navigate("/timeline");
+                closeMenu();
+              }}
+              className="menu-button"
+              title="Timeline"
+            >
+              <MdTimeline className="home-icon" /> <span>TimeLine</span>
+            </li>
+
+            {/*
+        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+          <FaCalendarAlt /> 
+        </li>
+        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+        <FaComments /> 
+      </li>
+        */}
+          </ul>
+          <div className="logout-container-dash">
+            <ul>
+              <li
+                onClick={() => {
+                  logOut();
+                  closeMenu();
+                }}
+                className="logout-button"
+              >
+                <FaSignOutAlt />
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div className="profile-page">
         <div className="profile-header"></div>
-      <div class="profile-image-container">
-        <img src={profilePicture} alt="user" className="profile-image" />
+        <div class="profile-image-container">
+          <img src={profilePicture} alt="user" className="profile-image" />
         </div>
-        
+
         <div className="additional-details">
-          
           <div className="progress-bar-container">
-        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-        <div className="paw-icons-container">
-          {Array.from({ length: totalSteps }).map((_, index) => (
             <div
-              key={index}
-              className={`paw-icon ${index < currentStep ? "completed" : ""}`}
-            >
-              <img
-                src={index < currentStep ? "paw.png" : "paw.png"}
-                alt="paw"
-                className="paw-icon-img"
+              className="progress-bar"
+              style={{ width: `${progress}%` }}
+            ></div>
+            <div className="paw-icons-container">
+              {Array.from({ length: totalSteps }).map((_, index) => (
+                <div
+                  key={index}
+                  className={`paw-icon ${
+                    index < currentStep ? "completed" : ""
+                  }`}
+                >
+                  <img
+                    src={index < currentStep ? "paw.png" : "paw.png"}
+                    alt="paw"
+                    className="paw-icon-img"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {currentStep === 1 && (
+          <div className="form-container">
+            <h4 className="h4-heading">PET PARENT DETAILS</h4>
+            <label>
+              Owner's Name:
+              <input
+                type="text"
+                value={ownerName}
+                onChange={(e) => setOwnerName(e.target.value)}
+                placeholder="Enter name"
               />
-            </div>
-          ))}
-        </div>
-      </div>
-        </div>
+            </label>
+            <label>
+              Phone Number:
+              <input
+                type="tel"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                placeholder="Enter phone number"
+              />
+            </label>
+            <label>
+              Address:
+              <input
+                type="text"
+                value={ownerAddress}
+                onChange={(e) => setOwnerAddress(e.target.value)}
+                placeholder="Enter address"
+              />
+            </label>
+          </div>
+        )}
 
-          {currentStep === 1 && (
-            <div>
-              <h4>Pet Parent Details</h4>
-              <label>
-                Owner's Name:
-                <input
-                  type="text"
-                  value={ownerName}
-                  onChange={(e) => setOwnerName(e.target.value)}
-                  placeholder="Enter owner's name"
-                />
-              </label>
-              <label>
-                Phone Number:
-                <input
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="Enter owner's phone number"
-                />
-              </label>
-              <label>
-                Address:
-                <input
-                  type="text"
-                  value={ownerAddress}
-                  onChange={(e) => setOwnerAddress(e.target.value)}
-                  placeholder="Enter owner's address"
-                />
-              </label>
-            </div>
-          )}
+        {currentStep === 2 && (
+          <div>
+            <h4 className="h4-heading">COMPANION DETAILS</h4>
+            <label>
+              Pet Name:
+              <input
+                type="text"
+                value={petName}
+                onChange={(e) => setPetName(e.target.value)}
+                placeholder="Enter pet's name"
+              />
+            </label>
+          </div>
+        )}
 
-          {currentStep === 2 && (
-            <div>
-              <h4>Companion Details</h4>
-              <label>
-                Pet Name:
-                <input
-                  type="text"
-                  value={petName}
-                  onChange={(e) => setPetName(e.target.value)}
-                  placeholder="Enter pet's name"
-                />
-              </label>
-            </div>
-          )}
-
-          {currentStep === 2 && (
-            <div>
-              <label>
-                Age
-              </label>
-              <div className="age-picker">
-                <div className="scroller-container">
-                  <div className="year-scroller" ref={yearScrollerRef}>
-                    {Array.from({ length: maxYears + 1 }, (_, i) => i).map((year, index) => (
-                      <div 
-                        key={index} 
-                        className={`scroller-item ${ageYears === year ? 'selected' : ''}`} 
+        {currentStep === 2 && (
+          <div>
+            <label>Age:</label>
+            <div className="age-picker">
+              <div className="scroller-container">
+                <div className="year-scroller" ref={yearScrollerRef}>
+                  {Array.from({ length: maxYears + 1 }, (_, i) => i).map(
+                    (year, index) => (
+                      <div
+                        key={index}
+                        className={`scroller-item ${
+                          ageYears === year ? "selected" : ""
+                        }`}
                         onClick={() => setAgeYears(year)}
                       >
-                        {year} {year === 1 ? 'Year' : 'Years'}
+                        {year} {year === 1 ? "Year" : "Years"}
                       </div>
-                    ))}
-                  </div>
+                    )
+                  )}
+                </div>
 
-                  <div className="month-scroller" ref={monthScrollerRef}>
-                    {Array.from({ length: maxMonths }, (_, i) => i).map((month, index) => (
-                      <div 
-                        key={index} 
-                        className={`scroller-item ${ageMonths === month ? 'selected' : ''}`} 
+                <div className="month-scroller" ref={monthScrollerRef}>
+                  {Array.from({ length: maxMonths }, (_, i) => i).map(
+                    (month, index) => (
+                      <div
+                        key={index}
+                        className={`scroller-item ${
+                          ageMonths === month ? "selected" : ""
+                        }`}
                         onClick={() => setAgeMonths(month)}
                       >
-                        {month} {month === 1 ? 'Month' : 'Months'}
+                        {month} {month === 1 ? "Month" : "Months"}
                       </div>
-                    ))}
-                  </div>
+                    )
+                  )}
                 </div>
               </div>
-              <label>Select Your Loyal Companion</label>
-              <div className="pet-type-selection">
-              
+
+              <div className="age-display">
+                {ageYears} years and {ageMonths} months
+              </div>
+            </div>
+            <label>Select Your Loyal Companion:</label>
+            <div className="pet-type-selection">
               <div
-                className={`pet-option ${petType === 'dog' ? 'selected' : ''}`}
-                onClick={() => handlePetTypeSelection('dog')}
+                className={`pet-option ${petType === "dog" ? "selected" : ""}`}
+                onClick={() => handlePetTypeSelection("dog")}
               >
                 <img src="dog.png" alt="Dog" />
-                
               </div>
               <div
-                className={`pet-option ${petType === 'cat' ? 'selected' : ''}`}
-                onClick={() => handlePetTypeSelection('cat')}
+                className={`pet-option ${petType === "cat" ? "selected" : ""}`}
+                onClick={() => handlePetTypeSelection("cat")}
               >
                 <img src="cat.png" alt="Cat" />
-                
               </div>
             </div>
-            </div>
-            
-          )}
+          </div>
+        )}
 
-          {currentStep === 3 && (
-            <div>
-              <label>
-              Sex:
-              </label>
-              <div className="sex-selection">
-                <div 
-                  className={`sex-option male ${sex === 'Male' ? 'selected' : ''}`} 
-                  onClick={() => setSex('Male')}
-                >
-                  <img src="male.png" alt="Male" />
-
-                </div>
-                <div 
-                  className={`sex-option female ${sex === 'Female' ? 'selected' : ''}`} 
-                  onClick={() => setSex('Female')}
-                >
-                  <img src="female.png" alt="Female" />
-                  
-                </div>
+        {currentStep === 3 && (
+          <div>
+            <label>Sex:</label>
+            <div className="sex-selection">
+              <div
+                className={`sex-option male ${
+                  sex === "Male" ? "selected" : ""
+                }`}
+                onClick={() => setSex("Male")}
+              >
+                <img src="male.png" alt="Male" />
               </div>
-            
-            <label>
-              Breed:
-            </label>
+              <div
+                className={`sex-option female ${
+                  sex === "Female" ? "selected" : ""
+                }`}
+                onClick={() => setSex("Female")}
+              >
+                <img src="female.png" alt="Female" />
+              </div>
+            </div>
+
+            <label>Breed:</label>
             <input
               type="text"
               value={breed}
@@ -416,68 +605,86 @@ const UserProfilePage = ({ profile, logOut }) => {
               placeholder="Other"
             />
             <div className="breed-container">
-            
-            {(petType === 'dog' ? dogBreeds : catBreeds).map((breedObj, index) => (
-            <div
-            key={index}
-            className={`breed-option ${breed === breedObj.name ? 'selected' : ''}`}
-            onClick={() => handleBreedSelection(breedObj.name)}
-            style={{
-              borderColor: breed === breedObj.name ? (sex === 'Male' ? 'blue' : 'pink') : 'transparent',
-               backgroundColor: breed === breedObj.name ? (sex === 'Male' ? '#e0f7ff' : '#fff3fa') : '#f9f9f9'
-            }}
-            >
-            <img src={breedObj.imgSrc} alt={breedObj.name} />
-            <p>{breedObj.name}</p>
+              {(petType === "dog" ? dogBreeds : catBreeds).map(
+                (breedObj, index) => (
+                  <div
+                    key={index}
+                    className={`breed-option ${
+                      breed === breedObj.name ? "selected" : ""
+                    }`}
+                    onClick={() => handleBreedSelection(breedObj.name)}
+                    style={{
+                      borderColor:
+                        breed === breedObj.name
+                          ? sex === "Male"
+                            ? "blue"
+                            : "pink"
+                          : "transparent",
+                      backgroundColor:
+                        breed === breedObj.name
+                          ? sex === "Male"
+                            ? "#e0f7ff"
+                            : "#fff3fa"
+                          : "#f9f9f9",
+                    }}
+                  >
+                    <img src={breedObj.imgSrc} alt={breedObj.name} />
+                    <p>{breedObj.name}</p>
+                  </div>
+                )
+              )}
             </div>
-              ))}
-            </div>
-            
-      <label>
-      Weight (kg):
-    </label>
-      <div className="weight-picker">
-        <div className="scroller-container">
-          <div className="year-scroller">
-            {/* Before decimal (integer part) scroller */}
-            {[...Array(101)].map((_, index) => (
-              <div 
-                key={index} 
-                className={`scroller-item ${weight === index ? 'selected' : ''}`}
-                onClick={() => setWeight(index)}
-              >
-                {index} kg
-              </div>
-            ))}
-          </div>
-          <div className="month-scroller" >
-            {/* After decimal (fractional part) scroller */}
-            {[...Array(9)].map((_, index) => (
-              <div 
-                key={index} 
-                className={`scroller-item ${weight === (index + 0.1) ? 'selected' : ''}`}
-                onClick={() => setWeight((prev) => Math.floor(prev) + (index + 1) / 10)}
-              >
-                {`0.${index + 1}`} g
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="weight-display">
-          {weight} kg
-        </div>
-      </div>
 
+            <label>Weight (kg):</label>
+            <div className="weight-picker">
+              <div className="scroller-container">
+                <div className="year-scroller">
+                  {/* Before decimal (integer part) scroller */}
+                  {[...Array(101)].map((_, index) => (
+                    <div
+                      key={index}
+                      className={`scroller-item ${
+                        weight === index ? "selected" : ""
+                      }`}
+                      onClick={() => setWeight(index)}
+                    >
+                      {index} kg
+                    </div>
+                  ))}
+                </div>
+                <div className="month-scroller">
+                  {/* After decimal (fractional part) scroller */}
+                  {[...Array(9)].map((_, index) => (
+                    <div
+                      key={index}
+                      className={`scroller-item ${
+                        weight === index + 0.1 ? "selected" : ""
+                      }`}
+                      onClick={() =>
+                        setWeight((prev) => Math.floor(prev) + (index + 1) / 10)
+                      }
+                    >
+                      {`0.${index + 1}`} g
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="weight-display">{weight} kg</div>
             </div>
-          )}
+          </div>
+        )}
 
-{currentStep === 4 && (
-            <div>
-            <label>
-              Upload a Cute Photo of Your Pet:
-              <input type="file" accept="image/*" onChange={handlePhotoChange} />
+        {currentStep === 4 && (
+          <div>
+            <label className="image-heading">
+              UPLOAD A CUTE PHOTO OF YOUR PET:
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+              />
             </label>
-      
+
             {petPhoto && !croppedPhoto && (
               <div>
                 <h4>Adjust your photo:</h4>
@@ -493,7 +700,7 @@ const UserProfilePage = ({ profile, logOut }) => {
                 <button onClick={handleCrop}>Crop Image</button>
               </div>
             )}
-      
+
             {croppedPhoto && (
               <div>
                 <h4>Cropped Image:</h4>
@@ -501,10 +708,10 @@ const UserProfilePage = ({ profile, logOut }) => {
               </div>
             )}
           </div>
-          )}
+        )}
 
-          {/* Navigation Buttons */}
-          <div className="step-navigation">
+        {/* Navigation Buttons */}
+        <div className="step-navigation">
           {currentStep > 1 && (
             <span className="arrow prev-arrow" onClick={prevStep}>
               &#8592; {/* Left arrow */}
@@ -515,12 +722,13 @@ const UserProfilePage = ({ profile, logOut }) => {
               &#8594; {/* Right arrow */}
             </span>
           ) : (
-            <button className="save-button" onClick={handleSave}>Save</button>
+            <button className="save-button" onClick={handleSave}>
+              Save
+            </button>
           )}
         </div>
-        </div>
       </div>
-    
+    </div>
   );
 };
 

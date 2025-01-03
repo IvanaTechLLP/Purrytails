@@ -61,32 +61,9 @@
   color: #ff6666;
 }
 
-
-/* QR code popup */
-.qr-code-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.qr-code-content {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
 /* Form styling */
 form {
+  margin-top: 15px;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
@@ -119,6 +96,9 @@ form button {
 form button:hover {
   background-color: #2C3B77;
 }
+.header {
+  display: none;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -126,6 +106,27 @@ form button:hover {
     margin-left: 0;
     padding: 15px;
     width: 100%;
+    display: none !important;
+  }
+  .calendar-content-1 {
+    margin-left: 0;
+    padding: 15px;
+    width: 100%;
+  }
+  .header {
+    display: flex;
+    align-items: center; /* Aligns items vertically */
+    gap: 1rem; /* Space between the button and the title */
+    padding: 1rem; /* Optional padding for spacing */
+  }
+  
+  
+  .calendar-title {
+    font-size: 30px !important;/* Blue color */
+    font-weight: 700;
+    background: linear-gradient(180deg, #6A4D8D , #D28C92) !important; /* Reddish-Orange Gradient */
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
   }
 
   .sidebar {
@@ -139,13 +140,14 @@ form button:hover {
 .calendar-container {
   display: flex;
   flex-direction: row;
-  min-height: 100vh;
+  min-height: 40vh;
   background-color: #f4f7fc;
 }
 
 .sidebar-left {
   width: 350px;
-  background-color: #302C28; /* Green color similar to your example */
+  background-color: rgba(190, 227, 242, 0.3); /* 60% opacity */
+  /* Green color similar to your example */
   color: white;
   padding: 10px;
   display: flex;
@@ -156,14 +158,20 @@ form button:hover {
 }
 
 .date-display h1 {
+  background: linear-gradient(180deg, #6A4D8D 0% , #6A4D8D 50%, #D28C92 100%); /* Reddish-Orange Gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   font-size: 72px;
   margin: 0;
 }
 
 .date-display p {
+  background: linear-gradient(180deg,  #6A4D8D 0% , #D28C92 100%); /* Reddish-Orange Gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   font-size: 24px;
   margin: 0;
-  padding-bottom: 20px;
+  padding-bottom: 2px;
 }
 
 .current-events, .event-creation {
@@ -172,7 +180,10 @@ form button:hover {
 }
 
 .current-events h3, .event-creation h3 {
-  font-size: 18px;
+  background: linear-gradient(180deg,  #6A4D8D 0% , #D28C92 100%); /* Reddish-Orange Gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 22px;
   margin-bottom: 10px;
 }
 
@@ -185,8 +196,12 @@ form button:hover {
 .current-events li {
   margin-bottom: 10px;
 }
-
+.calendar-content-1 {
+  display: none !important;
+  
+}
 .calendar-content {
+  display: block;
   flex: 1;
   padding: 20px;
   background-color: #ffffff;
@@ -240,7 +255,7 @@ form button:hover {
 
 .add-event-button {
   font-size: 30px;
-  background-color: #C5A181;
+  background-color: #023047;
   color: white;
   border: none;
   border-radius: 50%;
@@ -259,12 +274,16 @@ form button:hover {
 }
 
 .current-events li {
-  padding: 10px 0; /* Add some space around each event */
+  padding: 7px 0; /* Add some space around each event */
   border-bottom: 1px solid #ccc; /* Horizontal line between events */
+  background-color: none;
+  color: rgb(0, 0, 0); /* White text for contrast */
 }
 
+
 .current-events li:last-child {
-  border-bottom: none; /* Remove the border from the last event */
+  border-bottom: none;
+  margin-bottom: 0px;
 }
 .current-events h3 {
   font-size: 24px; /* Make the font size larger */
@@ -290,7 +309,12 @@ form button:hover {
   border: 1px solid #e0e0e0;
   transition: background-color 0.3s;
 }
-
+.rbc-event.rbc-selected{
+  background-color: #023047;
+}
+.rbc-event{
+  background-color: #219ebc;
+}
 /* Highlighted days with events */
 .highlighted-day {
   background-color: #d1e7ff; /* Light blue for event days */
@@ -306,13 +330,17 @@ form button:hover {
 .rbc-today {
   background-color: #fff3cd; /* Light yellow for today */
 }
+.rbc-toolbar{
+  background-color: rgba(190, 227, 242, 0.3);; /* Stylish green header */
+  color: #000000;
 
+}
 /* Header styling */
 .rbc-header {
   font-weight: bold;
   font-size: 1.1em;
-  background-color: #C5A181; /* Stylish green header */
-  color: white;
+  background: linear-gradient(135deg, #2A5372 0%, #023047  100%); 
+  color: #ffffff;
   padding: 5px 0;
 }
 
@@ -444,19 +472,368 @@ form button:hover {
     height: 100vh; /* Sidebar takes full height of the viewport */
   }
 
-  .calendar-content {
+  .calendar-content-1 {
+    display: block !important;
     width: 100%; /* Ensure calendar takes full width */
+    
   }
 
   /* Make calendar display in column format */
-  .calendar-wrapper .calendar-content {
+  .calendar-wrapper .calendar-content-1 {
     flex-direction: column; /* Column layout on small screens */
+  }
+  .my-custom-calendar{
+    display: none !important;
   }
 }
 
-.calendar-submit-button:hover{
-  background-color: #3D4C9A !important;
+
+.calendar-submit-button{
+  background: linear-gradient(135deg, #2A5372 0%, #2A5372 50%, #023047  100%);
 }
+.calendar-submit-button:hover{
+  background: transparent !important;
+  color: #023047;
+  border: 2px solid #023047; /* Adds a border on hover */
+  border-radius: 4px; /* Optional: Slightly rounded corners for a smoother look */
+  transition: border 0.2ms ease-in; 
+}
+
 .add-event-button:hover{
   background-color: transparent !important;
+  color: #023047;
+}
+/* Global Calendar Styles */
+.react-calendar {
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.3s ease;
+  
+}
+.react-calendar {
+  width: 100%; /* Adjust width as per your requirements */
+  max-width: 100%; /* Ensure it doesn't exceed the parent container width */
+  margin: 0 auto; /* Center the calendar horizontally */
+}
+
+
+/* Navigation Bar (Month/Year selector) */
+.react-calendar__navigation {
+  background-color: #219ebc;
+  border-radius: 12px 12px 0 0;
+  color: rgb(0, 0, 0);
+  font-size: 18px;
+  padding: 10px 20px; /* Add padding on both sides */
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+  max-width: 100%; /* Ensure it spans the full width */
+  box-sizing: border-box; /* Includes padding in the width calculation */
+  display: flex;
+  justify-content: space-between; /* Aligns buttons to the left and right */
+  align-items: center; /* Vertically centers content */
+}
+
+.react-calendar__navigation button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px 10px;
+}
+
+.react-calendar__navigation__prev2,
+.react-calendar__navigation__next2 {
+  font-size: 30px;
+}
+
+.react-calendar__navigation__label {
+  flex-grow: 1;
+  font-size: 22px;
+  font-weight: bold;
+  color: white;
+}
+
+/* Weekdays (Header for day names like Mon, Tue, etc.) */
+.react-calendar__month-view__weekdays {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #4a4a4a;
+  margin-bottom: 10px;
+}
+
+.react-calendar__month-view__weekdays__weekday {
+  text-align: center;
+  width: 14.28%;
+}
+
+/* Days Section */
+.react-calendar__month-view__days {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+/* Each Tile (Day) */
+.react-calendar__tile {
+  width: 14.28%;
+  padding: 10px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  font-size: 16px;
+  color: #4a4a4a;
+  font-weight: normal;
+  display: inline-block;
+}
+
+/* Tile Hover Effect */
+.react-calendar__tile:hover {
+  background-color: #4a90e2;
+  color: rgb(0, 0, 0);
+}
+
+/* Highlighted Days (Event Days) */
+.react-calendar__tile.highlighted-day {
+  border: 3px solid rgba(255, 182, 193, 0.5);; /* Thick round border */
+  border-radius: 50%; /* Make the border circular */
+  color: rgb(0, 0, 0); /* Text color (black) */
+  font-weight: bold; /* Bold text */
+  background-color: transparent !important; /* Remove the background color */
+}
+
+
+/* Selected Day (Active Day) */
+.react-calendar__tile.react-calendar__tile--active {
+  background-color: #9B7BB6 !important;
+
+  color: white;
+  font-weight: bold;
+}
+
+/* Month Navigation Arrows */
+.react-calendar__navigation__prev2, 
+.react-calendar__navigation__next2 {
+  background-color: #4a90e2;
+  border-radius: 50%;
+  padding: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.react-calendar__navigation__prev2:hover, 
+.react-calendar__navigation__next2:hover {
+  background-color: #388ae5;
+}
+
+/* Event Details Popup */
+.eventpopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+.eventpopup-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 320px;
+  position: relative;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.eventpopup h4 {
+  font-size: 20px;
+  color: #4a4a4a;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.eventpopup p {
+  font-size: 14px;
+  color: #4a4a4a;
+  margin-bottom: 10px;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #4a4a4a;
+}
+
+.close:hover {
+  color: #ff7043;
+}
+
+/* Delete Button */
+.delete {
+  background-color: #ff7043;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.delete:hover {
+  background-color: #d85c2a;
+}
+
+/* Ensure the calendar is fully responsive */
+@media (max-width: 768px) {
+  .react-calendar__tile {
+    font-size: 14px;
+    padding: 8px;
+  }
+  
+  .react-calendar__navigation {
+    font-size: 16px;
+    padding: 8px;
+  }
+  
+}
+.calendar-content-1 {
+  flex: 1;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+
+.sidebar-left-mobile {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+  gap: 1rem; /* Space between columns */
+  height: auto; /* Height adjusts to content */
+}
+
+
+.sidebar-left-mobile .leftt {
+  grid-column: 1; /* Left column */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between items */
+}
+
+.sidebar-left-mobile .rightt {
+  grid-column: 2; /* Right column */
+  display: flex;
+  flex-direction: column;
+  gap: 1rem; /* Space between items */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .sidebar-left-mobile {
+    grid-template-columns: 1fr 1fr; /* Ensure side-by-side layout remains */
+  }
+}
+/* Default styles for sidebar-left (visible on laptops and larger screens) */
+.sidebar-left {
+  display: block; /* Show normal sidebar on larger screens */
+}
+
+/* Hide sidebar-left-mobile by default */
+.sidebar-left-mobile {
+  display: none;
+}
+
+/* Responsive adjustments for mobile (max-width: 768px) */
+@media (max-width: 768px) {
+  .sidebar-left {
+    display: none; /* Hide normal sidebar on mobile */
+  }
+
+  .sidebar-left-mobile {
+    display: grid; /* Show mobile sidebar */
+    grid-template-columns: 1fr 1fr; /* Two equal-width columns */
+    gap: 1rem; /* Space between columns */
+
+  }
+  .calendar-container{
+    height: fit-content !important;
+ 
+  }
+}
+.rightt {
+  background-color: #fff; /* White background for the box */
+  border-radius: 10px; /* Smooth rounded corners */
+  padding: 0.5rem; /* Inner padding */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  margin-bottom: 10px;
+  overflow: hidden; /* Ensures contents don't overflow */
+}
+
+.rightt .current-events-mobile {
+  margin-bottom: 1.5rem; /* Space between current events and button */
+}
+
+.add-event-mobile-button {
+  background-color: #66b3ff; /* Blue background */
+  color: white; /* White text */
+  border: none;
+  border-radius: 50%; /* Circular button */
+  width: 30px;
+  height: 30px;
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Shadow for the button */
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth animations */
+  align-self: center; /* Center the button horizontally */
+  margin-top: auto; /* Push the button to the bottom */
+}
+
+.add-event-mobile-button:hover {
+  transform: scale(1.1); /* Slightly enlarge on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3); /* Darker shadow on hover */
+}
+.current-events-mobile ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.current-events-mobile li {
+  padding: 7px 0; /* Add some space around each event */
+  border-bottom: 1px solid #ccc; /* Horizontal line between events */
+  background-color: rgba(255, 182, 193, 0.2); /* Light pink with transparency */
+  color: rgb(0, 0, 0); /* White text for contrast */
+}
+
+
+.current-events-mobile li:last-child {
+  border-bottom: none;
+  margin-bottom: 0px;
+}
+.current-events-mobile h3 {
+  font-size: 24px; /* Make the font size larger */
+  font-weight: bold; /* Optional: make the text bold for emphasis */
+  margin-bottom: 15px; /* Add space below the heading */
 }

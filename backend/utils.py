@@ -107,11 +107,12 @@ def process_image(filepath):
         Give your output STRICTLY in this format:
         {
         "date": "Extract the date from the veterinary document. The date may be handwritten and can appear in various formats, such as DD/MM/YYYY, DD-MM-YYYY, MM/DD/YYYY, DD/MM/YY, or even written in words (e.g., 1st January 2023). UNDERSTAND WHICH TYPE HAS BEEN GIVEN AND EXTRACT ACCORDINGLY. IF IT IS DD/MM/YY format, convert via DD/MM/20YY. Ensure that the extracted date is strictly converted to the format DD/MM/YYYY. If the date is not present or if there are any errors in the extraction (e.g., illegible handwriting, incorrect format), return 'None'. Pay attention to the top half of the document, as dates are often found there. If none found give output as 'NONE'.",
-        "document": "Classify the following veterinary document as either a prescription (includes veterinarian's name, prescribed medications, and dosage), a medical report (contains diagnostic results and pet analysis), or a medical bill (itemized list of services with costs and billing details).",
+        "document": "Classify the following veterinary document as either a prescription (includes veterinarian's name, prescribed medications, and dosage), a medical report (contains diagnostic results and pet analysis),a vaccination report or record,  or a medical bill (itemized list of services with costs and billing details).",
         "diseases": "Extract any symptoms or diseases mentioned in the following veterinary document. Look for common veterinary terms or descriptions related to the pet's condition, including specific diseases or symptoms such as 'fleas,' 'diarrhea,' 'vomiting,' or medical diagnoses. If not given, write 'None'.",
         "medicines": "Extract the names of any medicines mentioned in the following veterinary document, including prescribed drugs, dosages, and any related instructions for their use. If none, write 'None'.",
         "doctor": "Extract the name of the veterinarian mentioned in the following veterinary document, considering any titles (e.g., Dr., Vet.) and full name formats that may be used, if given. If not given, write 'None'.",
-        "summary": "A short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "summary": "A summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "overview": "A one line brief overview of the text given in the image.",
         "domain": "Given the following veterinary report, determine which veterinary domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately. In the output, provide both the domain name and a one-line description. Output for this attribute should be like 'domain': 'domain_name: description'. The possible domains are:
 
                     General Veterinary Medicine: Comprehensive care for animals and pets with various conditions.
@@ -237,11 +238,12 @@ def process_pdf(filename):
         Give your output STRICTLY in this format:
         {
         "date": "Extract the date from the veterinary document. The date may be handwritten and can appear in various formats, such as DD/MM/YYYY, DD-MM-YYYY, MM/DD/YYYY, DD/MM/YY, or even written in words (e.g., 1st January 2023). UNDERSTAND WHICH TYPE HAS BEEN GIVEN AND EXTRACT ACCORDINGLY. IF IT IS DD/MM/YY format, convert via DD/MM/20YY. Ensure that the extracted date is strictly converted to the format DD/MM/YYYY. If the date is not present or if there are any errors in the extraction (e.g., illegible handwriting, incorrect format), return 'None'. Pay attention to the top half of the document, as dates are often found there. If none found give output as 'NONE'.",
-        "document": "Classify the following veterinary document as either a prescription (includes veterinarian's name, prescribed medications, and dosage), a medical report (contains diagnostic results and pet analysis), or a medical bill (itemized list of services with costs and billing details).",
+        "document": "Classify the following veterinary document as either a prescription (includes veterinarian's name, prescribed medications, and dosage), a medical report (contains diagnostic results and pet analysis),a vaccination report or record, or a medical bill (itemized list of services with costs and billing details).",
         "diseases": "Extract any symptoms or diseases mentioned in the following veterinary document. Look for common veterinary terms or descriptions related to the pet's condition, including specific diseases or symptoms such as 'fleas,' 'diarrhea,' 'vomiting,' or medical diagnoses. If not given, write 'None'.",
         "medicines": "Extract the names of any medicines mentioned in the following veterinary document, including prescribed drugs, dosages, and any related instructions for their use. If none, write 'None'.",
         "doctor": "Extract the name of the veterinarian mentioned in the following veterinary document, considering any titles (e.g., Dr., Vet.) and full name formats that may be used, if given. If not given, write 'None'.",
-        "summary": "A short summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "summary": "A summary of the text given in the image. Make sure to specify the diseases or conditions the pet is suffering from. Also, specify other details given in the image like the medicines prescribed.",
+        "overview": "A one line brief overview of the text given in the image.",
         "domain": "Given the following veterinary report, determine which veterinary domain it belongs to based on the key medical information, symptoms, procedures, and terminology mentioned in the report. Use the domain descriptions below to match the report appropriately. In the output, provide both the domain name and a one-line description. Output for this attribute should be like 'domain': 'domain_name: description'. The possible domains are:
 
                     General Veterinary Medicine: Comprehensive care for animals and pets with various conditions.
@@ -495,7 +497,7 @@ def llm_model(input_string, conversation, user_id, user_type):
         return response.text, relevant_reports
     
     
-def llm_calendar_response(input_string: str, service, user_id):
+def llm_calendar_response(input_string: str, user_id):
     prompt_parts = [
             f"""
             User's input: {input_string}
@@ -519,14 +521,16 @@ def llm_calendar_response(input_string: str, service, user_id):
         start_datetime = response.text.split(",")[2].strip()
         end_datetime = response.text.split(",")[3].strip()
         
-        add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+        # add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+        add_event(event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
         print("Event added successfully")
         
         return "Event added successfully"
 
     elif task_type == "delete event":
         event_name = response.text.split(",")[1].strip()
-        delete_event_by_name(service, event_name)
+        # delete_event_by_name(service, event_name)
+        delete_event_by_name(event_name)
         
         return "Event deleted successfully"
     
@@ -534,56 +538,57 @@ def llm_calendar_response(input_string: str, service, user_id):
         event_name = response.text.split(",")[1].strip()
         start_datetime = response.text.split(",")[2].strip()
         end_datetime = response.text.split(",")[3].strip()
-        update_event(service, event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
+        # update_event(service, event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
+        update_event(event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
         
         return "Event updated successfully"
 
     return response.text
 
 
-def create_google_meet_event(service, doctor_email):
+# def create_google_meet_event(service, doctor_email):
 
-    # Define the event details
-    event = {
-        'summary': 'Google Meet with Doctor',
-        'start': {
-            'dateTime': (datetime.utcnow() + timedelta(minutes=10)).isoformat() + 'Z',
-            'timeZone': 'UTC',
-        },
-        'end': {
-            'dateTime': (datetime.utcnow() + timedelta(hours=1)).isoformat() + 'Z',
-            'timeZone': 'UTC',
-        },
-        'conferenceData': {
-            'createRequest': {
-                'conferenceSolutionKey': {'type': 'hangoutsMeet'},
-                'requestId': 'some-random-string',
-            },
-        },
-        'attendees': [{'email': doctor_email}],
-    }
+#     # Define the event details
+#     event = {
+#         'summary': 'Google Meet with Doctor',
+#         'start': {
+#             'dateTime': (datetime.utcnow() + timedelta(minutes=10)).isoformat() + 'Z',
+#             'timeZone': 'UTC',
+#         },
+#         'end': {
+#             'dateTime': (datetime.utcnow() + timedelta(hours=1)).isoformat() + 'Z',
+#             'timeZone': 'UTC',
+#         },
+#         'conferenceData': {
+#             'createRequest': {
+#                 'conferenceSolutionKey': {'type': 'hangoutsMeet'},
+#                 'requestId': 'some-random-string',
+#             },
+#         },
+#         'attendees': [{'email': doctor_email}],
+#     }
 
-    # Create the event in Google Calendar
-    event = service.events().insert(
-        calendarId='primary',
-        body=event,
-        conferenceDataVersion=1
-    ).execute()
+#     # Create the event in Google Calendar
+#     event = service.events().insert(
+#         calendarId='primary',
+#         body=event,
+#         conferenceDataVersion=1
+#     ).execute()
 
-    return event.get('hangoutLink')
+#     return event.get('hangoutLink')
 
 
 
-def send_email(to_email, meet_link):
-    msg = MIMEMultipart()
-    msg['From'] = SMTP_USER
-    msg['To'] = to_email
-    msg['Subject'] = 'Google Meet Invite'
+# def send_email(to_email, meet_link):
+#     msg = MIMEMultipart()
+#     msg['From'] = SMTP_USER
+#     msg['To'] = to_email
+#     msg['Subject'] = 'Google Meet Invite'
 
-    body = f"You are invited to a Google Meet. Join the meeting via this link: {meet_link}"
-    msg.attach(MIMEText(body, 'plain'))
+#     body = f"You are invited to a Google Meet. Join the meeting via this link: {meet_link}"
+#     msg.attach(MIMEText(body, 'plain'))
 
-    with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-        server.starttls()
-        server.login(SMTP_USER, SMTP_PASSWORD)
-        server.sendmail(SMTP_USER, to_email, msg.as_string())
+#     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+#         server.starttls()
+#         server.login(SMTP_USER, SMTP_PASSWORD)
+#         server.sendmail(SMTP_USER, to_email, msg.as_string())

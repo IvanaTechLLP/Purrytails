@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./Chatbot.css"; // Import CSS file for styling
+import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
   const [messages, setMessages] = useState([
@@ -8,11 +9,19 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
   const [userInput, setUserInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [feedback, setFeedback] = useState(null); // State for feedback
 
   // Added states for speech recognition
   const recognitionRef = useRef(null);
   const [isRecording, setIsRecording] = useState(false);
-
+  useEffect(() => {
+    if (messages.length > 0) {
+      const lastMessage = document.getElementById("message-list").lastChild;
+      if (lastMessage) {
+        lastMessage.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [messages]);
   // Initialize Speech Recognition
   useEffect(() => {
     const SpeechRecognition =
@@ -80,7 +89,12 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
       const response = await fetch("/api/llm_chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userInput, user_id: profile.user_id, user_type: profile.user_type }),
+        body: JSON.stringify({
+          message: userInput,
+          user_id: profile.user_id,
+          user_type: profile.user_type,
+          feedback: feedback,
+        }),
       });
 
       if (!response.ok) {
@@ -89,7 +103,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
       const data = await response.json();
       console.log(data.relevant_reports);
-      if (data.relevant_reports && profile.user_type == "patient") setReports(data.relevant_reports);
+      if (data.relevant_reports && profile.user_type === "patient") setReports(data.relevant_reports);
 
       const response_str = data.response.replace(/^"|"$/g, ""); // Remove double quotes from the response
       setMessages((prevMessages) => [
@@ -100,7 +114,17 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
       console.error("Error sending message:", error);
       setError("Something went wrong. Please try again.");
     } finally {
+      setFeedback(null); // Reset feedback after sending
       setLoading(false);
+    }
+  };
+
+  const handleFeedback = (index, type) => {
+    setFeedback(type); // Set feedback based on thumbs up or down
+    if (type === "negative") {
+      const lastMessage = messages[index-1].message; // Get the last response message
+      setUserInput(lastMessage); // Use the same response for re-evaluation
+      sendMessage();
     }
   };
 
@@ -124,7 +148,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
   return (
     <div className="chat-container">
-      <div className="chat-header">
+      <div className="chatbot-header">
         <div className="chat-header-content">
           <img
             src="/dd.png"
@@ -144,19 +168,42 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
       </div>
 
       <div className="chat-messages" id="message-list">
-        {messages.map((message, index) => (
-          <div
-            key={index}
-            className={`chat-message ${
-              message.user === "user" ? "user-message" : "agent-message"
-            }`}
-          >
-            {message.message}
+      {messages.map((message, index) => (
+  <div 
+    key={index} 
+    className={`chat-message ${message.user === "user" ? "user-message" : "agent-message"}`}
+  >
+    <div className="message-content">
+      {message.message}
+    </div>
+
+    {message.user === "agent" && (
+      <div className="feedback-wrapper">
+        <div className="feedback-content">
+          <span className="feedback-text">Satisfied with the feedback?</span>
+          <div className="feedback-buttons">
+            <button 
+              onClick={() => handleFeedback(index, "positive")} 
+              className="thumb-button positive"
+            >
+              <FaThumbsUp />
+            </button>
+            <button 
+              onClick={() => handleFeedback(index, "negative")} 
+              className="thumb-button negative"
+            >
+              <FaThumbsDown /> 
+            </button>
           </div>
-        ))}
-        {loading && <div className="chat-loading">Typing...</div>}
-        {error && <div className="chat-error">{error}</div>}
+        </div>
       </div>
+    )}
+  </div>
+))}
+  {loading && <div className="chat-loading">Typing...</div>}
+  {error && <div className="chat-error">{error}</div>}
+</div>
+
 
       <div className="chat-input">
         {/* Mic button with onClick handler */}
@@ -170,14 +217,14 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
 
         <input
           id="chat"
-          className="chat-input-field"
+          className="chatbot-input-field"
           placeholder="Send a Message..."
           name="chat"
           onChange={(e) => setUserInput(e.target.value)}
           value={userInput}
           onKeyDown={handleKeyDown}
         />
-        <button className="send-button" type="button" onClick={sendMessage}>
+        <button className="chatbot-send-button" type="button" onClick={sendMessage}>
           <img src="/send.svg" alt="Send" width={20} height={20} />
         </button>
       </div>

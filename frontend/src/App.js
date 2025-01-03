@@ -19,10 +19,11 @@ import Calendar from "./components/Calendar";
 import QrScanner from "./components/QrScanner";
 import Home from "./components/Home";
 import ChatWindow from "./components/ChatWindow";
-
+import Timeline from "./components/Timeline";
 
 function FileUploadPage({ profile }) {
   return (
+    
     <div className="app-container">
       <div className="left-panel">
         <ImageProcessingForm profile={profile} />
@@ -188,6 +189,16 @@ function App() {
               element={
                 isAuthenticated ? (
                   <UserProfilePage profile={profile} logOut={logOut} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/timeline"
+              element={
+                isAuthenticated ? (
+                  <Timeline profile={profile} logOut={logOut} />
                 ) : (
                   <Navigate to="/" />
                 )

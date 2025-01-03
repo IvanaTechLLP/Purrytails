@@ -42,10 +42,10 @@
 }
 
 /* Chat header with accent color */
-.chat-header {
+.chatbot-header {
   padding: 12px;
   border-bottom: 2px solid #e0e0e0;
-  background-color: #4c5b61; /* Teal/Slate */
+  background: linear-gradient(135deg, #2A5372 0%, #023047  100%); /* Teal/Slate */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -53,8 +53,8 @@
 
 @media (max-width: 480px) {
   .chat-container {
-    height: 50%;
-    width: auto;
+    height: 70%;
+    max-width: 80%;
   }
 }
 /* Header text and icon */
@@ -93,6 +93,7 @@
   flex: 1;
   overflow-y: auto;
   padding: 10px;
+  margin-bottom: 60px;
 }
 
 /* Individual chat message styling */
@@ -100,7 +101,7 @@
   max-width: 75%;
   padding: 12px;
   border-radius: 16px;
-  margin-bottom: 12px;
+
   transition: background-color 0.3s ease;
 }
 
@@ -110,6 +111,7 @@
   color: white;
   align-self: flex-end;
   border-radius: 16px 16px 0 16px;
+  margin-bottom: 12px;
 }
 
 /* Agent message with new color */
@@ -118,6 +120,9 @@
   color: #333;
   align-self: flex-start;
   border-radius: 16px 16px 16px 0;
+  position: relative;
+  padding-bottom: 20px; /* Space for feedback buttons */
+  margin-bottom: 6px;
 }
 
 /* Chat input field */
@@ -127,9 +132,10 @@
   padding: 12px;
   background-color: #eef1f5; /* Light grey */
   border-top: 1px solid #d0d0d0;
+  height: 60px;
 }
 
-.chat-input-field {
+.chatbot-input-field {
   flex-grow: 1;
   padding: 10px;
   border: 1px solid #ccc;
@@ -139,12 +145,12 @@
   transition: border-color 0.3s ease;
 }
 
-.chat-input-field:focus {
+.chatbot-input-field:focus {
   border-color: #009688; /* Teal on focus */
 }
 
 /* Send button */
-.send-button {
+.chatbot-send-button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -152,12 +158,12 @@
   transition: transform 0.3s ease;
 }
 
-.send-button img {
+.chatbot-send-button img {
   width: 24px;
   height: 24px;
 }
 
-.send-button:hover {
+.chatbot-send-button:hover {
   transform: scale(1.1);
 }
 
@@ -176,4 +182,50 @@
 
 .mic-button.recording {
   transform: translateY(-5px);
+}
+
+.feedback-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.feedback-text {
+  font-size: 14px;
+  color: #333;
+}
+
+.feedback-buttons {
+  display: flex;
+  gap: 10px;
+}
+.feedback-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  margin-top: 5px; /* Reduced margin to minimize space between agent message and feedback */
+  padding-left: 0; /* Removed padding for closer alignment */
+}
+
+.thumb-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.thumb-button.positive:hover {
+  color: green;
+}
+
+.thumb-button.negative:hover {
+  color: red;
+}
+@media (max-width: 480px) {
+  .thumb-button{
+    font-size: 15px; /* Icon size */
+  }
+  .feedback-text{
+    font-size: 13px; /* Text size */
+  }
 }

@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from utils import process_image, process_pdf, llm_model, llm_calendar_response, create_google_meet_event, send_email
-from calendar_task import authenticate, add_event, delete_event_by_name
+from utils import process_image, process_pdf, llm_model, llm_calendar_response
+from calendar_task import add_event, delete_event_by_name
 from pydantic import BaseModel, EmailStr
 from typing import List, Dict
 import json
@@ -131,7 +131,7 @@ async def google_login(data: GoogleLoginModel):
             
             users_collection.add(
                 documents=[str(user_data)],
-                metadatas={"email": user_data["email"], "name": user_data["name"], "events": "[]"},
+                metadatas={"email": user_data["email"], "name": user_data["name"], "events": "[]", "pet_details": "[]"},
                 ids=[user_data["user_id"]]
             )
 
@@ -308,6 +308,7 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
                     "medicines": json_object[key]["medicines"],  
                     "doctor": json_object[key]["doctor"],  
                     "summary": json_object[key]["summary"],  
+                    "overview": json_object[key]["overview"],
                     "domain": json_object[key]["domain"] 
                 }
             Json_object[f"Report{i}"] = report_dict
@@ -360,6 +361,7 @@ async def llm_chatbot(request: Request):
     input_string = data.get('message')
     user_id = data.get('user_id')
     user_type = data.get('user_type')
+    feedback = data.get('feedback', None)
 
     # Retrieve existing chat history from the session (or database)
     if user_type == "doctor":
@@ -386,6 +388,9 @@ async def llm_chatbot(request: Request):
     if len(chat_history) > MAX_CHAT_HISTORY_LENGTH:
         chat_history = chat_history[-MAX_CHAT_HISTORY_LENGTH:]
     
+    if feedback == "negative":
+        chat_history = []
+        
     # Append the new message to the history
     chat_history.append({"role": "user", "content": input_string})
 
@@ -699,27 +704,29 @@ async def calendar_request(request: Request):
     print(data)
     
     input_text = data["text"]
-    access_token = data["access_token"]
-    refresh_token = data.get("refresh_token", None)
+    # access_token = data["access_token"]
+    # refresh_token = data.get("refresh_token", None)
     user_id = data["user_id"]
     
-    service = authenticate(access_token, refresh_token)
+    # service = authenticate(access_token, refresh_token)
     
-    response = llm_calendar_response(input_text, service, user_id)
+    # response = llm_calendar_response(input_text, service, user_id)
+    response = llm_calendar_response(input_text, user_id)
     
     return {"status": "success", "message": response}
 
 
 @app.post("/api/create_event_directly")
 async def create_event(event_data: dict):
-    access_token = event_data["access_token"]
+    # access_token = event_data["access_token"]
     event_name = event_data["title"]
     start_datetime = event_data["start"]
     end_datetime = event_data["end"]
     user_id = event_data["user_id"]  # Assuming user_id is passed to identify the user
 
-    service = authenticate(access_token)
-    response = add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+    # service = authenticate(access_token)
+    # response = add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
+    response = add_event(event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
     
     return {"status": "success", "message": response}
 
@@ -727,12 +734,13 @@ async def create_event(event_data: dict):
 @app.delete("/api/delete_event")
 async def delete_event(event_data: dict):
 
-    access_token = event_data["access_token"]
+    # access_token = event_data["access_token"]
     event_name = event_data["event_name"]
     user_id = event_data["user_id"]
     
-    service = authenticate(access_token)
-    delete_event_by_name(service, event_name, user_id)
+    # service = authenticate(access_token)
+    # delete_event_by_name(service, event_name, user_id)
+    delete_event_by_name(event_name, user_id)
 
 
     return {"message": "Event deleted successfully."}
@@ -795,22 +803,22 @@ async def save_doctor_notes(request: SaveDoctorNotesRequest):
     
     
            
-@app.post("/api/send_meeting_invite")
-async def send_meeting_invite(meeting_request: dict):
-    try:
-        email = meeting_request["email"]
-        access_token = meeting_request["access_token"]
+# @app.post("/send_meeting_invite")
+# async def send_meeting_invite(meeting_request: dict):
+#     try:
+#         email = meeting_request["email"]
+#         access_token = meeting_request["access_token"]
         
-        service = authenticate(access_token)
-        # Step 1: Create the Google Meet link
-        meet_link = create_google_meet_event(service, email)
+#         service = authenticate(access_token)
+#         # Step 1: Create the Google Meet link
+#         meet_link = create_google_meet_event(service, email)
 
-        # Step 2: Send the link via email to the provided doctor email
-        send_email(email, meet_link)
+#         # Step 2: Send the link via email to the provided doctor email
+#         send_email(email, meet_link)
 
-        return {"message": "Google Meet invite sent successfully", "meet_link": meet_link}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error sending invite: {str(e)}")
+#         return {"message": "Google Meet invite sent successfully", "meet_link": meet_link}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"Error sending invite: {str(e)}")
     
 
 class PetDetails(BaseModel):
@@ -823,21 +831,34 @@ async def store_pet_details(data: PetDetails):
         # Extract data from request
         user_id = data.user_id
         pet_details = data.petDetails
+        
         owner_address = pet_details.get("ownerAddress", "")
         pet_details.pop("ownerAddress")
-
+        phone_number = pet_details.get("phoneNumber", "")
+        pet_details.pop("phoneNumber")
         
+        pet_details["petId"] = str(uuid.uuid4())
+
         print("userid:", user_id)
         print("pet details:", pet_details)
         
         user = users_collection.get(ids=[user_id])
         user_metadata = user["metadatas"][0]
         print(user_metadata)
+        
+        existing_pet_details = json.loads(user_metadata.get("pet_details", "[]"))
+        existing_pet_details.append(pet_details)
+        
+        final_metadatas = {"pet_details": json.dumps(existing_pet_details)}
+        if owner_address != "":
+            final_metadatas["owner_address"] = owner_address
+        if phone_number != "":
+            final_metadatas["phone_number"] = phone_number
 
         # Store data in ChromaDB under the user's ID
         users_collection.update(
             ids=[user_id],  # Unique identifier for the user
-            metadatas={"pet_details": json.dumps(pet_details), "owner_address": owner_address},  # Metadata contains the pet details
+            metadatas=final_metadatas,  # Metadata contains the pet details
         )
 
         return {"message": "Pet details saved successfully in ChromaDB!"}
@@ -846,6 +867,26 @@ async def store_pet_details(data: PetDetails):
         print(f"Error storing pet details: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while saving data.")
     
+
+@app.get("/api/get_pet_details/{user_id}")
+async def get_pet_details(user_id: str):
+    try:
+        print(user_id)
+        user = users_collection.get(ids=[user_id])
+        print(user)
+        user_metadata = user["metadatas"][0]
+        print(user_metadata)
+        
+        pet_details = user_metadata.get("pet_details", {})
+        owner_address = user_metadata.get("owner_address", "")
+        phone_number = user_metadata.get("phone_number", "")
+        
+        return {"pet_details": json.loads(pet_details), "owner_address": owner_address, "phone_number": phone_number}
+    except Exception as e:
+        print(f"Error fetching pet details: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while fetching data.")
+    
+
 
 @app.get("/api/chats/{user_id}")
 async def chats(user_id: str):

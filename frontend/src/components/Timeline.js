@@ -44,7 +44,7 @@ const Timeline = ({ profile }) => {
   const fetchOverviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}`
+        `/api/reports_dashboard/${profile.user_id}`
       );
 
       if (!response.ok) {

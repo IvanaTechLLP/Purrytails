@@ -147,7 +147,7 @@ const UserProfilePage = ({ profile, logOut }) => {
   // Simulating an API call to check if the user has a registered pet
   const fetchUserPetStatus = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

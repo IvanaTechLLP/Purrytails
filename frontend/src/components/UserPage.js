@@ -72,20 +72,18 @@ const UserProfilePage = ({ profile, logOut }) => {
 
     try {
       // Send details to backend API
-      const response = await fetch(
-        "http://localhost:5000/api/store_pet_details",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: profile.user_id, // Replace with actual user ID
-            petDetails: newPetDetails,
-          }),
-        }
-      );
 
+      const response = await fetch('/api/store_pet_details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: profile.user_id, // Replace with actual user ID
+          petDetails: newPetDetails,
+        }),
+      });
+  
       if (response.ok) {
         alert(
           "Pet and owner details saved successfully and sent to the database!"

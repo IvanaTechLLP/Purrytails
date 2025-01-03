@@ -24,7 +24,7 @@ doctor_collection = chromadb_client.get_or_create_collection(name="doctors", emb
 
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ["https://www.googleapis.com/auth/calendar"]  # Required for event creation
+# SCOPES = ["https://www.googleapis.com/auth/calendar"]  # Required for event creation
 
 """
 Shows basic usage of the Google Calendar API.

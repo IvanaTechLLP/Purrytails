@@ -20,6 +20,7 @@ import QrScanner from "./components/QrScanner";
 import Home from "./components/Home";
 import ChatWindow from "./components/ChatWindow";
 import Timeline from "./components/Timeline";
+import FeaturePage from "./components/FeaturePage"; // Import FeaturePage
 
 function FileUploadPage({ profile }) {
   return (
@@ -109,6 +110,11 @@ function App() {
               element={
                 <LandingPage/>
               }
+              
+            />
+            <Route
+              path="/features/:featureId"
+              element={<FeaturePage />}
             />
             <Route
               path="/login"

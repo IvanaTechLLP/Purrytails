@@ -12,6 +12,7 @@
     position: relative; /* Ensure proper positioning of the navbar */
     width: 100%;
     
+    
   }
   .landing-container {
     display: flex;
@@ -199,7 +200,7 @@ body {
   left: 0; 
   justify-content: space-between;
   align-items: center;
-  background-color: #C5A181; /* Richer, deeper color */
+  background-color: #ffffff; /* Richer, deeper color */
   padding: 20px 40px; /* Increase padding for a larger feel */
   width: 100%;
   position: fixed;
@@ -427,7 +428,7 @@ body {
 .nav-links .left {
   margin-right: 40px!important;
   margin-left: 60px;
-  display:none;
+
 
 }
 
@@ -453,7 +454,7 @@ body {
   font-size: 18px;
   font-weight: 500;
   text-transform: uppercase;
-  color: #ffffff;
+  color: #000000;
   text-decoration: none;
   position: relative;
   padding: 5px 0;
@@ -761,57 +762,11 @@ body {
     }
   }
   /* Reviews Section Styles */
-  .reviews-section {
-    margin-top: 160px;
-    padding: 50px 20px;
-    background-color: #302C28;
-    margin-top: 50px; /* Adjust to create space between the previous section and reviews */
-    text-align: center;
-  }
-  
-  .reviews-section h1 {
-    
-    color: #ffffff;
-    margin-bottom: 70px;
-  
-  }
-  
-  .reviews-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 35px; /* Adjust gap between boxes */
-  }
-  
-  .review-box {
-    background-color: #ffffff; /* Lighter blue color */
-    border-radius: 10px;
-    padding: 20px;
-    width: 300px; /* Width of the review boxes */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* More shadow for a lifted effect */
-    text-align: left;
-  }
-  
-  .review-box-highlight {
-    margin-top: -30px; /* Moves the highlighted box up */
-    position: relative;
-    z-index: 1; /* Ensures the highlighted box is above others */
-  }
-  
-  .review-text {
-   
-    font-size: 1rem; /* Normal size for review text */
-    color: #333;
-  }
-  
-  .review-author {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.2rem; /* Larger size for author name */
-    color:  #C5A181;
-    margin-top: 10px;
-    font-weight: bold; /* Optional: make the author name bold */
-    font-style: italic; /* Optional: italicize the author name */
-  }
+ 
+
+
+
+
   /* Existing styles here... */
   
   /* Existing styles here... */
@@ -1071,3 +1026,565 @@ body {
     font-size: 1.1em;
   }
   
+  .features-section{
+    width: 100%;
+  }
+  .features-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping if the screen is small */
+    justify-content: space-between; /* Distribute space between items */
+    gap: 40px; /* Space between the items */
+    padding: 50px; /* Add some padding around the container */
+    max-width: 100%; /* Set it to 100% to allow full use of available space */
+    margin: 0 auto; /* Center the container horizontally */
+  }
+  
+  .feature-box {
+    flex-grow: 1; /* Allow each feature box to grow and fill available space */
+    max-width: calc(25% - 40px); /* Ensure they stay within the container and adjust for gap */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px; /* Adjust padding to your need */
+  }
+  
+  .circle-icon {
+    width: 270px;
+    height: 270px;
+    border-radius: 100%;
+    border: 2px solid #ADD8E6; /* Light blue color */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .feature-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #023047; /* Blue color for the title */
+    margin: 10px 0 5px;
+  }
+  
+  
+  .feature-description {
+    font-size: 18px; /* Adjust font size to match design */
+    color: #333;
+    text-align: center;
+    margin-top: 10px; /* Adjust the spacing between icon and description */
+    font-family: 'Lora', serif;
+  }
+  
+  
+ 
+  
+  .circle-icon::before {
+    content: "";
+    position: absolute;
+    top: 5px; /* Adjusts the inner padding */
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+    background-color: #ffffff; /* Inner circle background */
+    border-radius: 50%;
+    z-index: 1;
+  }
+  
+  .icon-image {
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    z-index: 2; /* Ensure it appears above the pseudo-element */
+  }
+  
+
+  /* Style for the "Know More" overlay */
+/* Importing the Lora font for a more sophisticated and elegant look */
+/* Importing the Lora font for a more sophisticated and elegant look */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;600&display=swap');
+
+
+.play-icon {
+  width: 50px;
+  height: 50px;
+  fill: #fff; /* White play button */
+  transition: transform 0.3s ease; /* Smooth scaling effect */
+}
+
+.feature-box:hover .play-icon {
+  transform: scale(1.2); /* Slight zoom on hover */
+}
+/* Style for the "Know More" overlay */
+.hover-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3)); /* Subtle gradient background */
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 600; /* Bold text for prominence */
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.5s ease, transform 0.4s ease, background 0.3s ease; /* Smooth transitions */
+  z-index: 3;
+  border-radius: 50%;
+  padding: 15px;
+  font-family: 'Lora', serif;
+  letter-spacing: 2px; /* Adds spacing to make the text look more refined */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Adds depth to the overlay */
+}
+
+.circle-icon:hover .hover-overlay {
+  opacity: 1;
+  transform: scale(1.15); /* Slight zoom for emphasis */
+  background: linear-gradient(135deg, #ADD8E6 0%, #ADD8E6 50%, #6CA0D1 100%); /* Dynamic background on hover */
+}
+
+/* Style for the <p> feature-description */
+.feature-description {
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  margin-top: 15px;
+  font-family: 'Lora', serif;
+  font-weight: 400;
+  transition: color 0.3s ease, transform 0.3s ease;
+  letter-spacing: 1px; /* Adds a slight gap between letters for elegance */
+}
+
+/* Hover effect on the feature description */
+.feature-box:hover .feature-description {
+  color: #6A4D8D; /* Classy hover effect */
+  transform: translateY(-5px); /* Subtle lift on hover for text */
+}
+
+@media (max-width: 768px) {
+  .features-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0px; /* Increased gap for better spacing */
+    padding: 10px; /* Adjusted padding for better balance */
+  }
+
+  .feature-box {
+    max-width: calc(50% - 20px); /* Ensure good spacing for two items per row */
+    margin-bottom: 5px !important; /* Added bottom margin for spacing between rows */
+  }
+
+  .circle-icon {
+    width: 150px !important;
+    height: 150px !important;
+    margin-bottom: 5px; /* Added some margin to separate the icon from text */
+  }
+
+  .icon-image {
+    width: 100px;
+    height: 100px;
+  }
+
+  .feature-description {
+    font-size: 15px;
+   
+  }
+}
+
+
+.journey-section {
+  padding: 10px 10px;
+  background-color: #ffffff;
+  text-align: center;
+  width: 70%;
+}
+
+.journey-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #333;
+}
+
+.journey-step {
+  display: flex;
+  
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.journey-step.left {
+  flex-direction: row;
+  align-items: left;
+}
+
+.journey-step.right {
+  flex-direction: row-reverse;
+}
+
+.image-container {
+  flex: 1;
+  padding: 20px;
+}
+
+.image-container img {
+  width: 80%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-container {
+  flex: 1;
+  padding: 20px;
+  text-align: left;
+}
+
+.text-container h2 {
+  font-size: 1.8rem;
+  color: #6a4d8d;
+  margin-bottom: 15px;
+}
+
+.text-container p {
+  font-size: 1rem;
+  color: #555;
+}
+
+
+@media (max-width: 768px) {
+  .journey-step {
+    flex-direction: column;
+  }
+
+  .text-container {
+    text-align: center;
+  }
+
+  .image-container img {
+    margin-bottom: 10px;
+    width: 140% !important; /* Ensures image width is slightly larger */
+    position: relative; /* Enables positioning */
+    left: 0; /* Stick the image to the left side */
+    right: 0; /* Stick the image to the right side */
+    margin-left: -50%; /* Moves image to the extreme left */
+    margin-right: -50%; /* Moves image to the extreme right */
+  }
+  
+  .journey-section {
+    width: 100% !important;
+  }
+  
+}
+.journey-step h2 {
+  font-size: 3rem;
+  font-weight: 600;
+  background: linear-gradient(180deg, #6A4D8D , #D28C92); /* Reddish-Orange Gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+
+.journey-step h4 {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #6a4d8d;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-style: italic
+}
+
+.journey-step p {
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: #555555;
+  line-height: 1.6;
+  margin-top: 30px;
+  text-align: justify;
+}
+
+/* Add some spacing and alignment for smaller screens */
+.journey-section .remaining-steps {
+  display: none;
+}
+
+/* Styles for the 'See More' button */
+
+.journey-section {
+  position: relative; /* Make the journey container the positioning context for the button */
+}
+
+.see-more-btn {
+  position: absolute;
+  bottom: 20px; /* Position 20px from the bottom */
+  right: 20px; /* Position 20px from the right edge */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+  z-index: 10; /* Ensure the button stays on top of other content */
+}
+
+.see-more-btn:hover {
+  background-color: #0056b3;
+}
+
+/* In LandingPage.css */
+/* In LandingPage.css */
+.banner {
+  background-image: url('cute_background.png');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+/* Adding a semi-transparent overlay */
+.banner {
+  position: relative; /* Ensure positioning context */
+  background-image: url('cute_background.png');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 250px; /* Adjust height as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner::before { 
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.5); /* White overlay with 50% opacity */
+  z-index: 1; /* Lower z-index to keep it below the text box */
+}
+
+.text-box {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  position: relative; /* Necessary if there are absolutely positioed children */
+  position: relative; /* Ensure this box is above the overlay */
+  z-index: 2; /* Higher than the overlay */
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+  padding: 20px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.text-box h1 {
+  color: #023047 !important; /* Ensure the blue text is unaffected */
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+.text-box img {
+  position: relative; /* Ensure this box is above the overlay */
+  z-index: 2; /* Higher than the overlay */
+  background: rgba(255, 255, 255, 0.7); /* Semi-transparent white */
+  padding: 20px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 30%;
+  height: 55%;
+  border-radius: 10px; /* Optional: Add rounded corners to the image */
+}
+
+/* Styling for the custom list */
+/* Remove default styling for the whole list */
+.journey-custom-list {
+  list-style-type: none; /* Removes bullets */
+  padding: 0; /* Ensures no padding */
+  margin: 0; /* Ensures no margin */
+  font-family: 'Arial', sans-serif; /* Your font */
+  margin-bottom: 50px;
+}
+
+/* Styling for individual list items */
+.journey-custom-item {
+  list-style: none; /* Completely remove bullet points */
+  font-size: 1.5rem; /* Adjust font size */
+  color: #333; /* Text color */
+  line-height: 1.6; /* Line spacing */
+  margin-bottom: 10px; /* Space between list items */
+  padding-left: 0; /* Ensures no indentation from bullets */
+}
+
+/* Optional: Hover effect for items */
+.journey-custom-item:hover {
+  background-color: rgba(2, 48, 71, 0.1); /* Light background on hover */
+  padding-left: 10px; /* Slight indentation on hover */
+  transition: padding 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+}
+@media (max-width: 768px) {
+  .journey-step h2 {
+    font-size: 1.5rem;
+    text-align: left; /* Ensure left alignment */
+    margin-bottom: 15px;
+  }
+  
+  .journey-step h4 {
+    font-size: 1rem;
+    text-align: left; /* Ensure left alignment */
+    display: none ;
+  }
+  .journey-custom-item {
+    list-style: none; /* Completely remove bullet points */
+    font-size: 0.8rem; /* Adjust font size */
+    color: #333; /* Text color */
+    line-height: 1.6; /* Line spacing */
+    margin-bottom: 10px; /* Space between list items */
+    padding-left: 0; /* Ensures no indentation from bullets */
+    text-align: left;
+  }
+}
+
+.reviews-section {
+  margin-top: 160px;
+  padding: 60px 30px; /* Spacious padding for the section */
+  background-color: #ffffff;
+  text-align: center;
+  width: 100%;
+}
+
+.reviews-section h1 {
+  font-size: 3.5rem; /* Large and readable font size for the heading */
+  color: #023047;
+  margin-bottom: 60px; /* Space below the heading */
+}
+
+.reviews-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 40px; /* Space between multiple review boxes */
+}
+
+
+.review-box {
+  background-color: #ffffff;
+  border-radius: 8px; /* Subtle rounded corners */
+  padding: 20px 30px; /* Balanced padding */
+  width: 700px; /* Wider box for a rectangular shape */
+  height: auto; /* Automatically adjust height for content */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Soft shadow for a modern look */
+  text-align: left;
+  overflow: hidden; /* Prevent content overflow */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space between author and review text */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.review-box:hover {
+  transform: translateY(-10px); /* Slight upward movement */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
+  background-color: #fdfdfd; /* Slightly lighter background on hover */
+}
+
+.review-text {
+  font-size: 1.2rem; /* Readable font size for the review text */
+  color: #333;
+  line-height: 1.8; /* Comfortable line height for readability */
+  margin-bottom: 15px;
+}
+
+.review-author {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem; /* Larger font size for the author */
+  background: linear-gradient(180deg, #6A4D8D , #D28C92); /* Reddish-Orange Gradient */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: bold;
+  font-style: italic;
+  text-align: left; /* Aligns the author name to the right */
+}
+
+
+
+
+.reviews-navigation-container {
+  display: flex;
+  align-items: center; /* Vertically center buttons with the review box */
+  justify-content: center; /* Center the entire container */
+  gap: 20px; /* Space between the review box and navigation buttons */
+}
+
+.review-box {
+  background-color: #ffffff;
+  border-radius: 8px; /* Subtle rounded corners */
+  padding: 20px 30px; /* Balanced padding */
+  width: 700px; /* Wider box for a rectangular shape */
+  height: auto; /* Automatically adjust height for content */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Soft shadow for a modern look */
+  text-align: left;
+  overflow: hidden; /* Prevent content overflow */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Space between author and review text */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.nav-button {
+  width: 50px; /* Size of navigation buttons */
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.nav-button:hover {
+  transform: scale(1.1); /* Slight zoom effect */
+  opacity: 0.8; /* Fade effect on hover */
+}
+
+@media (max-width: 500px) {
+  .review-box {
+  
+    width: 300px; /* Wider box for a rectangular shape */
+  
+  }
+  .review-author {
+   
+    font-size: 1rem; /* Larger font size for the author */
+   
+  }
+  .review-text {
+    font-size: 0.8rem; /* Readable font size for the review text */
+    color: #333;
+    line-height: 1.8; /* Comfortable line height for readability */
+    margin-bottom: 15px;
+  }
+  .text-box img {
+    width: 70%;
+    height: 100%;
+    
+  }
+  .text-box h1 {
+    color: #023047 !important; /* Ensure the blue text is unaffected */
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  
+
+}

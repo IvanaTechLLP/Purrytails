@@ -1,115 +1,115 @@
+/* General Footer Styling */
 .footer {
   display: flex;
-  flex-wrap: wrap; /* Allows the footer content to wrap on smaller screens */
   justify-content: space-between;
+  align-items: center;
+  background-color: #0080ff;
   padding: 20px;
-  background-color: #C5A181;
-  color: #333;
-  width: 100%;
-  box-sizing: border-box; /* Ensures padding is included in the total width */
+  border-top: 2px solid #e3e3e3;
+  font-family: Arial, sans-serif;
 }
 
-.footer-left, .footer-center, .footer-right {
-  flex: 1;
-  min-width: 200px; /* Prevents elements from becoming too small */
-  margin: 10px; /* Adds spacing between sections */
-}
-
+/* Footer Left Section */
 .footer-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.footer-address p {
-  margin: 0;
-}
-
-.footer-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.footer-departments, .footer-nav {
-  width: 100%;
-}
-
-.footer-departments h4, .footer-nav h4 {
-  margin-bottom: 10px;
-}
-
-.footer-departments ul, .footer-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-departments li, .footer-nav li {
-  margin-bottom: 5px;
-}
-
-.footer-departments a, .footer-nav a {
-  text-decoration: none;
-  color: #333;
-}
-
-.footer-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.footer-subscribe {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px; /* Space between subscribe section and social icons */
-}
-
-.footer-subscribe input {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-right: 10px;
-  width: 100%; /* Full width on smaller screens */
-  max-width: 200px; /* Maximum width on larger screens */
-}
-
-.footer-subscribe button {
-  padding: 10px;
-  background-color: #333;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.footer-social-icons {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.footer-social-icons a img {
-  width: 24px;
-  height: 24px;
+  flex: 1;
 }
 
 .footer-logo {
-  width: 150px; /* Adjust this value as needed */
-  height: auto; /* Keeps the aspect ratio */
+  width: 200px;
+  height: auto;
 }
 
-@media (max-width: 768px) {
-  .footer {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+/* Footer Center Section */
+.footer-center {
+  flex: 2;
+  text-align: center;
+}
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* Space between links */
+  padding: 10px 0;
+  background-color: #f3f4f6; /* Light background for contrast */
+  border-radius: 10px; /* Rounded edges for a modern look */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
 
-  .footer-left, .footer-center, .footer-right {
-    min-width: 100%;
-    margin: 10px 0; /* Vertical spacing for stacked elements */
-  }
+.footer-nav a {
+  text-decoration: none;
+  color: #333; /* Neutral text color */
+  font-size: 18px; /* Slightly larger font for readability */
+  font-weight: 500; /* Medium weight for emphasis */
+  padding: 8px 12px; /* Add padding for a clickable button-like feel */
+  transition: all 0.3s ease; /* Smooth hover effect */
+  border: 2px solid transparent; /* Border for hover animation */
+  border-radius: 5px; /* Rounded link edges */
+}
+
+.footer-nav a:hover {
+  color: #fff; /* Change text to white */
+  background-color: #007bff; /* Highlight link with a blue background */
+  border-color: #007bff; /* Highlight border with matching color */
+  transform: scale(1.1); /* Slight zoom-in effect on hover */
+}
+
+.footer-nav a:active {
+  transform: scale(0.95); /* Subtle press-down effect */
+}
+
+
+/* Footer Right Section */
+.footer-right {
+  flex: 1; /* Allows the section to align properly in a flex container */
+  text-align: center; /* Center-align content for a balanced look */
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background for subtle contrast */
+  border-radius: 10px; /* Rounded corners for a modern touch */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+/* Headings Styling */
+.footer-right h4 {
+  font-size: 20px;
+  color: #007bff; /* Blue for emphasis */
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.footer-right h5 {
+  font-size: 16px;
+  color: #555; /* Neutral color for email */
+  margin-bottom: 15px;
+}
+
+/* Social Icons Wrapper */
+.footer-social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* Space between social icons */
+  margin-top: 15px;
+}
+
+.footer-social-icons a {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; /* Circular icons */
+  background-color: #007bff; /* Icon background color */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for icons */
+}
+
+.footer-social-icons a:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.footer-social-icons img {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%); /* Inverts the image color to white for better visibility */
 }

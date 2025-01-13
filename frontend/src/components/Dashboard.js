@@ -252,28 +252,43 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
   return (
     <div className="dashboard-wrapper">
+            <div className="bottom-nav">
+                  <ul className="nav-menu">
+                  <li className="nav-item" onClick={() => { navigate("/home")}}>
+                  <FaHome />
+                  <p>Home</p>
+                </li>
+              <li className="nav-item" onClick={() => { handleUploadFile()}}>
+                    <FaFileUpload />
+                    <p>Upload</p>
+                  </li>
+                <li className="nav-item" onClick={() => { navigate("/timeline")}}>
+                  <MdTimeline />
+                  <p>Timeline</p>
+                </li>
+                <li className="nav-item" onClick={() => { navigate("/profile")}}>
+                  <FaUser />
+                  <p>Profile</p>
+                </li>
+              </ul>
+                  </div>
       <div classname="dashboard-left">
       <div className="header">
-  <button className="hamburger" onClick={handleToggle}>
-    &#9776;
-  </button>
   <h1 className="calendar-title">Records Locker</h1>
 </div>
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <button className="back-arrow" onClick={closeMenu}>
-            &larr; 
-        </button>
+      <div className="sidebar">
+       
         
         <h2>Menu</h2>
         
         <ul className="menu-items">
           
-                <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
+                <li onClick={() => { navigate("/home") }} title="Home">
           <FaHome  className="home-icon" />    <span>Home</span>
           
         </li>
         
-        <li onClick={() => { navigate("/file_upload"); closeMenu(); }}className='menu-button'  title="Upload Reports">
+        <li onClick={() => { navigate("/file_upload")}}className='menu-button'  title="Upload Reports">
           <FaFileUpload  className="home-icon" /> <span>Upload</span>
         </li>
           {/* 
@@ -281,11 +296,11 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
           <FaCalendarAlt /> 
         </li>
         */}
-        <li onClick={() => { navigate("/timeline"); closeMenu(); }} className='menu-button' title="Timeline">
+        <li onClick={() => { navigate("/timeline");}} className='menu-button' title="Timeline">
           <MdTimeline   className="home-icon" /> <span>TimeLine</span>
         </li>
        
-        <li onClick={() => { navigate("/profile"); closeMenu(); }} className='menu-button' title="User Settings">
+        <li onClick={() => { navigate("/profile"); }} className='menu-button' title="User Settings">
           <FaUser  className="home-icon" /> <span>Profile</span>
         </li>
         
@@ -307,7 +322,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
       </div>
       </div>
         
-        <div classname="dashboard-right">
+      <div classname="dashboard-right">
         
         <h1 className="dashboard-title-one">Welcome to your Health Locker!</h1>
         <p className="dashboard-description-one">
@@ -449,7 +464,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         )}
 
         <button className="chatbot-button" onClick={handleChatbotToggle}>
-          💬
+        <FaComments /> 
         </button>
 
         {showChatbot && (

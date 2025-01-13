@@ -22,6 +22,8 @@ import ChatWindow from "./components/ChatWindow";
 import Timeline from "./components/Timeline";
 import FeaturePage from "./components/FeaturePage"; // Import FeaturePage
 
+
+
 function FileUploadPage({ profile }) {
   return (
     

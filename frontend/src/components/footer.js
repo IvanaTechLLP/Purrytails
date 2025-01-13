@@ -1,38 +1,60 @@
 import React from "react";
-import "./footer.css";  // Ensure this file contains the styles below
+import "./footer.css";
 
 const Footer = () => {
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const offset = 150; // Height of your fixed navbar
+      const offset = 150;
       const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - offset;
       window.scrollTo({
         top: elementPosition,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
-  
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <footer className="footer">
       <div className="footer-left">
-        <img src="/PT.png" alt="Purry Tails Logo" className="footer-logo" />
+        <a href="#" className="footer-logo-link">
+  <img src="/PT.png" alt="Purry Tails Logo" className="footer-logo" />
+</a>
+
       </div>
-      
+
+      <div className="footer-center">
+        <nav className="footer-links">
+          <a onClick={() => scrollToSection("aboutus")}>About Us</a>
+          <a onClick={() => scrollToSection("perks")}>Features</a>
+          <a onClick={() => scrollToSection("journey")}>User Flow</a>
+        </nav>
+      </div>
+
       <div className="footer-right">
-        <h4>Contact us </h4>
+        <h4>Contact us</h4>
         <h5>mahir@purrytails.in</h5>
-        <div className="footer-social-icons">
-          <a href="https://www.instagram.com/purry.tails?igsh=MWZnOW16NjY1anZidA==">
-            <img src="insta1.png" alt="Instagram" />
-          </a>
-        </div>
-        <div className="footer-social-icons">
-          <a href="https://www.instagram.com/purry.tails?igsh=MWZnOW16NjY1anZidA==">
-            <img src="insta1.png" alt="Instagram" />
-          </a>
-        </div>
+        <div className="footer-social-icons" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+  <a href="https://www.instagram.com/purry.tails?igsh=MWZnOW16NjY1anZidA==" target="_blank" rel="noopener noreferrer">
+    <img src="insta1.png" alt="Instagram" style={{ width: "40px", height: "40px" }} />
+  </a>
+  <span style={{ fontSize: "16px", fontFamily: "Poppins, sans-serif", color: "#333" }}>
+    @purry.tails
+  </span>
+</div>
+      </div>
+
+      <div className="footer-bottom">
+        <p>
+          &copy; {new Date().getFullYear()} Purry Tails. All rights reserved.
+        </p>
       </div>
     </footer>
   );

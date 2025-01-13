@@ -3,6 +3,7 @@
   min-height: 100vh; /* Ensure it takes up the full height */
   padding: 20px; /* Add some padding around the content */
   margin-left: 250px !important;
+  overflow: hidden;
 
 }
 @media (max-width: 500px) {
@@ -206,7 +207,7 @@
 }
  
   .sidebar {
-    width: 180px !important;
+    width: 200px !important;
     background: linear-gradient(135deg, #023047 0%, #023047  100%)!important;
     padding: 20px;
     position: fixed;
@@ -243,7 +244,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     font-size: 22px !important; /* Increased font size for larger text */
-    width: 120px !important; /* Optional: Set width to make button wider */
+    width: 150px !important; /* Optional: Set width to make button wider */
   }
   
   .sidebar ul li:hover {
@@ -263,7 +264,7 @@
   }
   
   .sidebar ul li:hover i, .sidebar ul li:hover span {
-    color: #007bff;
+    color: #ffffff !important;
   }
   
   .sidebar ul li span {
@@ -288,7 +289,7 @@
   font-size: 1.1rem; /* Slightly larger font size for readability */
   color: #333; /* Dark gray text color */
   line-height: 1.5; /* Increase line height for better readability */
-  text-align: center; /* Center align the paragraph */
+  text-align: left; /* Center align the paragraph */
   margin-left: 20px;
   font-size: 18px !important;
 }
@@ -318,7 +319,7 @@
 /* Chatbot Button */
 .chatbot-button {
   position: fixed;
-  bottom: 30px; /* 30px above the bottom of the screen */
+  bottom: 30px ; /* 30px above the bottom of the screen */
   right: 30px; /* 30px away from the right side */
   width: 60px; /* Slightly larger button */
   height: 60px;
@@ -694,11 +695,19 @@
   background-color: #013e80 !important;
 }
 
+
 @media (max-width: 500px) {
   .report-details-button{
     padding: 5px 10px; /* Padding for the button */
     font-size: 13px; /* Font size */
   }
+ .user-and-reports-container{
+  position: relative;
+  /* Set the height to the remaining space after accounting for the bottom-nav */
+  height: calc(100vh - 80px); /* Subtracting the bottom-nav height */
+  overflow-y: auto; /* Enables scrolling if the content exceeds the height */
+  padding-bottom: 70px; /* Ensures content doesn't get cut off by the fixed bottom-nav */
+ }
 
 }
 /* 🟣 Popup Overlay with Subtle Blur */
@@ -768,7 +777,7 @@
 
 /* 🔵 Popup Title */
 .report-popup h2 {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Oswald', sans-serif;
   color: #ffffff;
   font-size: 1.6em;
   margin-bottom: 15px;
@@ -778,7 +787,7 @@
 
 /* 🟠 Details Text with Clear Alignment */
 .report-popup p {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1em;
   margin: 10px 0;
   color: #ffffff;
@@ -836,12 +845,7 @@ li span {
   letter-spacing: 0.5px; /* Adds a little spacing between letters */
   transition: color 0.3s ease;
 }
-@media (min-width: 786px) {
 
-  li span{
-    display: none!important;
-  }
-}
 
   .dashboard-title-one {
     background: linear-gradient(180deg, #6A4D8D , #D28C92); /* Reddish-Orange Gradient */
@@ -856,5 +860,11 @@ li span {
     .dashboard-title-one {
       display: none ;
     }
+    .chatbot-button {
+    
+      bottom: 80px  !important; /* 30px above the bottom of the screen */
+      
+    }
+    
 
   }

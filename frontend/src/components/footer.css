@@ -1,115 +1,78 @@
-/* General Footer Styling */
 .footer {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  background-color: #0080ff;
-  padding: 20px;
-  border-top: 2px solid #e3e3e3;
-  font-family: Arial, sans-serif;
-}
-
-/* Footer Left Section */
-.footer-left {
-  flex: 1;
+  padding: 20px 40px;
+  background-color: #f9f9f9;
+  color: #000;
+  font-family: 'Arial', sans-serif;
 }
 
 .footer-logo {
-  width: 200px;
-  height: auto;
+  height: 60px;
+  width: auto;
 }
 
-/* Footer Center Section */
 .footer-center {
-  flex: 2;
   text-align: center;
 }
-.footer-nav {
+
+.footer-links {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 30px; /* Space between links */
-  padding: 10px 0;
-  background-color: #f3f4f6; /* Light background for contrast */
-  border-radius: 10px; /* Rounded edges for a modern look */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  gap: 15px;
+  margin-top: 10px;
 }
 
-.footer-nav a {
+.footer-links a {
+  color: #007bff;
   text-decoration: none;
-  color: #333; /* Neutral text color */
-  font-size: 18px; /* Slightly larger font for readability */
-  font-weight: 500; /* Medium weight for emphasis */
-  padding: 8px 12px; /* Add padding for a clickable button-like feel */
-  transition: all 0.3s ease; /* Smooth hover effect */
-  border: 2px solid transparent; /* Border for hover animation */
-  border-radius: 5px; /* Rounded link edges */
+  font-size: 14px;
 }
 
-.footer-nav a:hover {
-  color: #fff; /* Change text to white */
-  background-color: #007bff; /* Highlight link with a blue background */
-  border-color: #007bff; /* Highlight border with matching color */
-  transform: scale(1.1); /* Slight zoom-in effect on hover */
+.footer-links a:hover {
+  text-decoration: underline;
 }
 
-.footer-nav a:active {
-  transform: scale(0.95); /* Subtle press-down effect */
+.footer-social-icons a img {
+  width: 50px;
+  height: 50px;
+  margin: 0 5px;
+  transition: transform 0.3s ease;
+}
+
+.footer-social-icons a:hover img {
+  transform: scale(1.1);
 }
 
 
-/* Footer Right Section */
-.footer-right {
-  flex: 1; /* Allows the section to align properly in a flex container */
-  text-align: center; /* Center-align content for a balanced look */
-  padding: 20px;
-  background-color: #f9f9f9; /* Light background for subtle contrast */
-  border-radius: 10px; /* Rounded corners for a modern touch */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+.footer-bottom {
+  text-align: center;
+  margin-top: 20px;
+  width: 100%;
+  font-size: 14px;
+  color: #555;
 }
-
-/* Headings Styling */
-.footer-right h4 {
-  font-size: 20px;
-  color: #007bff; /* Blue for emphasis */
-  margin-bottom: 8px;
-  font-weight: bold;
+.footer-right h4{
+ color: #023047;
 }
-
-.footer-right h5 {
-  font-size: 16px;
-  color: #555; /* Neutral color for email */
-  margin-bottom: 15px;
+.footer-right h5{
+  color: #023047;
 }
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
 
-/* Social Icons Wrapper */
-.footer-social-icons {
-  display: flex;
-  justify-content: center;
-  gap: 10px; /* Space between social icons */
-  margin-top: 15px;
-}
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    margin-bottom: 15px;
+  }
 
-.footer-social-icons a {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%; /* Circular icons */
-  background-color: #007bff; /* Icon background color */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for icons */
-}
-
-.footer-social-icons a:hover {
-  background-color: #0056b3; /* Darker blue on hover */
-  transform: scale(1.1); /* Slight zoom on hover */
-}
-
-.footer-social-icons img {
-  width: 20px;
-  height: 20px;
-  filter: invert(100%); /* Inverts the image color to white for better visibility */
+  .footer-links {
+    flex-direction: column;
+    gap: 10px;
+  }
 }

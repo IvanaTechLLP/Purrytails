@@ -147,17 +147,33 @@ const Timeline = ({ profile }) => {
 
   return (
     <div className="dashboard-wrapper">
+      <div className="bottom-nav">
+                        <ul className="nav-menu">
+                        <li className="nav-item" onClick={() => { navigate("/home")}}>
+                        <FaHome />
+                        <p>Home</p>
+                      </li>
+                      <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
+                        <FaTachometerAlt />
+                        <p>Dashboard</p>
+                      </li>
+                    <li className="nav-item" onClick={() => { handleUploadFile()}}>
+                          <FaFileUpload />
+                          <p>Upload</p>
+                        </li>
+                      
+                      <li className="nav-item" onClick={() => { navigate("/profile")}}>
+                        <FaUser />
+                        <p>Profile</p>
+                      </li>
+                    </ul>
+                        </div>
       <div className="dashboard-left">
         <div className="header">
-          <button className="hamburger" onClick={handleToggle}>
-            &#9776;
-          </button>
           <h1 className="calendar-title">TimeLine</h1>
         </div>
-        <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-          <button className="back-arrow" onClick={closeMenu}>
-            &larr;
-          </button>
+        <div className="sidebar">
+         
           <h2>Menu</h2>
           <ul>
             <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
@@ -196,7 +212,7 @@ const Timeline = ({ profile }) => {
                             href={overview.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="timeline-link"
+                            className="view-report-link"
                           >
                             View Details
                           </a>

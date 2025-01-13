@@ -136,7 +136,7 @@
   @media (max-width: 500px) {
    
     .timeline-content p {
-        font-size: 1em; /* Slightly smaller than title but still readable */
+        font-size: 0.9em; /* Slightly smaller than title but still readable */
         color: #555; /* Slightly lighter than default text */
         margin-bottom: 8px;
         line-height: 1.5;
@@ -144,10 +144,26 @@
       .timeline-title{
         display: none!important;
       }
+      .timeline{
+        position: relative;
+        /* Set the height to the remaining space after accounting for the bottom-nav */
+        height: calc(100vh - 70px); /* Subtracting the bottom-nav height */
+        overflow-y: auto; /* Enables scrolling if the content exceeds the height */
+        padding-bottom: 70px; /* Ensures content doesn't get cut off by the fixed bottom-nav */
+      }
+      .timeline-year {
+        font-size: 1.4em;
+      
+      }
+      .timeline-month {
+        font-size: 1.2em;
+      
+      }
+      
   }
   .download-btn {
     position: fixed;
-    bottom: 20px;
+    bottom: 80px;
     right: 20px;
     padding: 10px 20px;
     background-color: #007bff;

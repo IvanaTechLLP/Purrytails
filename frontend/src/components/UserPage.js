@@ -47,7 +47,6 @@ const UserProfilePage = ({ profile, logOut }) => {
   const yearScrollerRef = useRef(null);
   const monthScrollerRef = useRef(null);
 
-
   const handlePetTypeSelection = (type) => {
     setPetType(type);
     setBreed("");
@@ -252,10 +251,28 @@ const UserProfilePage = ({ profile, logOut }) => {
   if (hasPet && petDetails && petDetails.length > 0 && !isAddingPet) {
     return (
       <div className="dashboard-wrapper">
+        <div className="bottom-nav">
+                        <ul className="nav-menu">
+                        <li className="nav-item" onClick={() => { navigate("/home")}}>
+                        <FaHome />
+                        <p>Home</p>
+                      </li>
+                      <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
+                        <FaTachometerAlt />
+                        <p>Dashboard</p>
+                      </li>
+                    <li className="nav-item" onClick={() => { handleUploadFile()}}>
+                          <FaFileUpload />
+                          <p>Upload</p>
+                        </li>
+                      <li className="nav-item" onClick={() => { navigate("/timeline")}}>
+                        <MdTimeline />
+                        <p>Timeline</p>
+                      </li>
+                 
+                    </ul>
+                        </div>
         <div classname="dashboard-left">
-          <button className="hamburger" onClick={handleToggle}>
-            &#9776;
-          </button>
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
           <button className="back-arrow" onClick={closeMenu}>
             &larr;
@@ -331,28 +348,69 @@ const UserProfilePage = ({ profile, logOut }) => {
     
   
       <div className="pet-details-page">
-        <h1>Your Pets</h1>
-        <div className="pet-list">
-          {petDetails.map((pet, index) => (
-            <div key={index} className="pet-item">
-              <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
-              <h2>{pet.petName}</h2>
-              <p>Breed: {pet.breed}</p>
-              <p>Weight: {pet.weight} kg</p>
-              <p>Age: {pet.ageYears} years and {pet.ageMonths} months</p>
-              
-            </div>
-          ))}
+  <h1>Your Pets</h1>
+  <div className="pet-list">
+    {petDetails.map((pet, index) => (
+      <div key={index} className="pet-item-container">
+        <div className="pet-item">
+          <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
+          <div className="pet-info">
+            <h2>{pet.petName}</h2>
+            <p> {pet.breed}</p>
+          </div>
         </div>
-         {/* Add Pet Button */}
-         <button
-          className="add-pet-button"
+      </div>
+    ))}
+  </div>
+  {/* Add Pet Button */}
+  <button
+    className="add-pet-button"
+    onClick={() => {
+      setIsAddingPet(true); // This assumes you have a state to manage adding a pet
+    }}
+  >
+    Add Pet
+  </button>
+</div>
+  <div className="options-list">
+  <div 
+          className="option-container"
+         
+        >
+          <span className="option-text">View Parent Details</span>
+          <span className="arrow-button">→</span>
+        </div>
+        <div 
+          className="option-container"
+          
+        >
+          <span className="option-text">View Pet Details</span>
+          <span className="arrow-button">→</span>
+        </div>
+        <div 
+          className="option-container"
+          
+        >
+          <span className="option-text">Change Payment Method</span>
+          <span className="arrow-button">→</span>
+        </div>
+        <div 
+          className="option-container"
+          
+        >
+          <span className="option-text">Get Help</span>
+          <span className="arrow-button">→</span>
+        </div>
+        <div 
+          className="option-container"
           onClick={() => {
-            setIsAddingPet(true); // This assumes you have a state to manage adding a pet
+            logOut();
+          
           }}
         >
-          Add Pet
-        </button>
+          <span className="option-text-logout">Logout</span>
+          <span className="arrow-button-logout" >→</span>
+        </div>
       </div>
       </div>
       
@@ -361,10 +419,28 @@ const UserProfilePage = ({ profile, logOut }) => {
   
   return (
     <div className="dashboard-wrapper">
+      <div className="bottom-nav">
+                        <ul className="nav-menu">
+                        <li className="nav-item" onClick={() => { navigate("/home")}}>
+                        <FaHome />
+                        <p>Home</p>
+                      </li>
+                      <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
+                        <FaTachometerAlt />
+                        <p>Dashboard</p>
+                      </li>
+                    <li className="nav-item" onClick={() => { handleUploadFile()}}>
+                          <FaFileUpload />
+                          <p>Upload</p>
+                        </li>
+                      <li className="nav-item" onClick={() => { navigate("/timeline")}}>
+                        <MdTimeline />
+                        <p>Timeline</p>
+                      </li>
+                 
+                    </ul>
+                        </div>
       <div classname="dashboard-left">
-        <button className="hamburger" onClick={handleToggle}>
-          &#9776;
-        </button>
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
           <button className="back-arrow" onClick={closeMenu}>
             &larr;

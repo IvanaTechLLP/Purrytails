@@ -25,6 +25,7 @@
   }
   .mobile-instruction-cards{
     display:block !important;
+
   }
   .navigation-buttons{
     display: block !important;
@@ -198,6 +199,17 @@
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
+}
+.mobile-instruction-cards  h3{
+  display: flex;
+  justify-content: center; 
+  margin-top: 10px;
+  font-size: 16px;
+  font-family: "Oswald";
+}
+.mobile-instruction-card p {
+  color: #555;
+  font-size: 13px; 
 }
 .instruction-card {
   background-color: #f9f9f9;
@@ -375,7 +387,7 @@ input[type="date"]:focus {
     
   }
   .instruction-image {
-    max-width: 130px; /* Set a maximum width for the images */
+    max-width: 100px; /* Set a maximum width for the images */
   }
 }
 .report-container {
@@ -417,3 +429,18 @@ input[type="date"]:focus {
   font-weight: bold;
   color: #555;
 }
+@media (max-width: 500px) { 
+  .instruction-heading {
+    margin-top: 10px; /* Space above the instruction heading */
+    font-size: 1.2rem; /* Adjust font size as needed */
+    font-weight: bold; /* Make the heading bold */
+    text-align: center; /* Center the heading */
+    color:#023047; 
+  }/* For smaller screens */
+  .mobile-instruction-cards {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+  }
+}
+

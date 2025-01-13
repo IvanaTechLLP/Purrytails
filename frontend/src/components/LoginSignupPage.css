@@ -4,7 +4,7 @@
 
 body {
   margin: 0;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background-color: #f7f8fc; /* Light background for the whole page */
 }
 
@@ -49,7 +49,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #C5A181; /* Dark brown background */
+  background: linear-gradient(135deg, #2A5372 0%,#023047  100%)!important;
   padding: 20px; /* Add padding for spacing */
 }
 
@@ -62,6 +62,7 @@ body {
   font-size: 2rem; /* Slightly larger font size for heading */
   margin-bottom: 10px;
   color: #333; /* Darker color for better contrast */
+  font-family: 'Playfair Display';
 }
 
 .login-form p {
@@ -78,6 +79,7 @@ body {
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 0.9rem;
+  font-family: 'poppins';
 }
 
 .options {
@@ -91,16 +93,22 @@ body {
 .options label {
   display: flex;
   align-items: center;
+  font-family: 'Poppins';
+  font-weight: 300;
+  font-size: 0.8rem;
 }
 
 .options input[type="checkbox"] {
   margin-right: 5px;
+  
 }
 
 .options a {
   color: #0073e6; /* Link color */
   text-decoration: none;
   font-size: 0.8rem;
+  font-family: 'Poppins';
+  font-weight: 300;
 }
 
 .signin-button,
@@ -112,6 +120,8 @@ body {
   border-radius: 5px;
   font-size: 0.9rem;
   cursor: pointer;
+  font-family: 'oswald';
+  
 }
 
 .signin-button {
@@ -171,6 +181,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: background-color 0.3s ease, transform 0.2s; /* Transition for hover effect */
+  font-family: 'Oswald';
 }
 
 .google-signin-button:hover {
@@ -202,5 +213,36 @@ body {
   .login-container{
     width: 100%!important;
   }
+  .login-form h1 {
+    font-size: 1.5rem; /* Slightly larger font size for heading */
 
+  }
+  
+  .login-form p {
+    font-size: 0.7rem;
+   
+   
+  }
+  
+  .login-form input[type="email"],
+  .login-form input[type="password"] {
+   
+    font-size: 0.7rem;
+
+  }
+  
+  .options {
+   
+    font-size: 0.5rem;
+  }
+  
+  .options label {
+   
+    font-size: 0.5rem;
+  }
+  .login-form {
+  
+    max-width: 300px; /* Maximum width for better responsiveness */
+    max-height: 500px;
+  }
 }

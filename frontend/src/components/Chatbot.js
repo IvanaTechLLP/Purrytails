@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Chatbot.css"; // Import CSS file for styling
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
-const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
+const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot, selectedPetId }) => {
   const [messages, setMessages] = useState([
     { user: "agent", message: "Hi there! How can I help you today?" },
   ]);
@@ -92,6 +92,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot }) => {
         body: JSON.stringify({
           message: userInput,
           user_id: profile.user_id,
+          pet_id: selectedPetId,
           user_type: profile.user_type,
           feedback: feedback,
         }),

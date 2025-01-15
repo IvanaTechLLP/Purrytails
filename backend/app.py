@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Form, UploadFile, HTTPException, Request
+from fastapi import FastAPI, File, Form, Query, UploadFile, HTTPException, Request
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -7,7 +7,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from utils import process_image, process_pdf, llm_model, llm_calendar_response
 from calendar_task import add_event, delete_event_by_name
 from pydantic import BaseModel, EmailStr
-from typing import List, Dict
+from typing import List, Dict, Optional
 import json
 import ast
 import uuid
@@ -81,6 +81,8 @@ class UserResponse(BaseModel):
     user_id: str
     email: str
     name: str
+    phone_number: str
+    owner_address: str
 
 
 @app.get("/api", response_class=HTMLResponse)
@@ -258,14 +260,13 @@ async def api_share_report(request: ShareReportRequest):
         
 
 @app.post("/api/process_file")
-async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...)):
+async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...), pet_id: Optional[str] = Form(None)):
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file selected")
 
     if not file.filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".pdf")):
         raise HTTPException(status_code=400, detail="Unsupported file format")
     
-    report_metadata = reports_collection.get(include=["metadatas"], where={"user_id": user_id})["metadatas"]
     
     # integer_ids = []
     # for report in report_metadata:
@@ -318,6 +319,7 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
             metadatas={
                 "report_id": report_id,
                 "user_id": str(user_id),
+                "pet_id": str(pet_id),
                 "date": report_dict["date"],
                 "report": report_dict["document"]
             },
@@ -341,7 +343,7 @@ async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...
         json_object["report_id"] = report_id
         reports_collection.add(
             documents=[str(json_object)],
-            metadatas={"report_id": report_id, "user_id": str(user_id), "date": str(json_object["date"]), "report": str(report)},
+            metadatas={"report_id": report_id, "user_id": str(user_id), "pet_id": str(pet_id), "date": str(json_object["date"]), "report": str(report)},
             ids=[report_id]
         )
         Json_object[f"Report{i}"] = json_object
@@ -360,6 +362,7 @@ async def llm_chatbot(request: Request):
     data = await request.json()
     input_string = data.get('message')
     user_id = data.get('user_id')
+    pet_id = data.get('pet_id', None)
     user_type = data.get('user_type')
     feedback = data.get('feedback', None)
 
@@ -398,7 +401,7 @@ async def llm_chatbot(request: Request):
     conversation = "\n".join([f"{msg['role']}: {msg['content']}" for msg in chat_history])
 
     # Generate response using the LLM, including the conversation history
-    response_text, relevant_reports = llm_model(input_string, conversation, user_id, user_type)
+    response_text, relevant_reports = llm_model(input_string, conversation, user_id, user_type, pet_id)
         
     print()
     print()
@@ -428,13 +431,17 @@ async def get_user_details(user_id: str):
         
         user = users_collection.get(
             ids=[user_id],
-            include=["documents"],
+            include=["documents", "metadatas"],
         )
 
         try:
             user_details = user["documents"][0]
+            user_metadata = user["metadatas"][0]
             user_details = user_details.replace("'", "\"")
             user_details = json.loads(user_details)
+            user_details["phone_number"] = user_metadata.get("phone_number", "")
+            user_details["owner_address"] = user_metadata.get("owner_address", "")
+            
         except:
             user_details = None
         
@@ -510,14 +517,18 @@ async def fetch_reports_for_doctor(doctor_id: str) -> List[ReportResponse]:
 
         
 @app.get("/api/reports_dashboard/{user_id}")
-async def get_reports(user_id: str):
+async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
+
     print(user_id)
     try:
         
-        reports= reports_collection.get(
+        reports = reports_collection.get(
             include=["documents", "metadatas"],
-            where={"user_id": user_id}
+            where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
         )
+        
+        
+
         ids = reports["ids"]
         reports = reports["documents"]
                 

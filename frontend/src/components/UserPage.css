@@ -567,3 +567,173 @@
   font-family: 'Times New Roman', Times, serif;
   margin-bottom: 15PX;
 }
+
+
+.pet-item-container {
+  background: linear-gradient(180deg, #2A5372 0%,#2A5372 50%, #023047  100%);
+  border-radius: 15px; /* Rounded corners */
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  color: white; /* White text for contrast */
+  border: none; /* Remove border */
+  justify-content: space-between; /* Ensure proper spacing between text and image */
+  margin-bottom: 20px; /* Space between containers */
+}
+
+.pet-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Keep text and image at opposite ends */
+  width: 100%;
+  gap: 20px; /* Add space between text and image */
+}
+
+.pet-item:hover {
+  transform: translateY(-5px); /* Slightly lift the container on hover */
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+
+.pet-info {
+  flex: 1; /* Allow the text to take up remaining space */
+}
+
+.pet-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; /* Makes the photo circular */
+  object-fit: cover;
+  border: 2px solid white;
+  margin-left: 15px; /* Add spacing between image and text */
+}
+
+.pet-info h2 {
+  margin: 0;
+  font-size: 18px;
+  color: white;
+}
+
+.pet-info p {
+  margin: 10px 0 0 0;
+  color: #f0f0f0;
+  font-size: 14px;
+}
+.add-pet-button {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #2575fc, #6a11cb); /* Button gradient */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-pet-button:hover {
+  background: linear-gradient(135deg, #6a11cb, #2575fc); /* Reverse gradient on hover */
+}
+
+.options-list {
+  margin-top: 20px;
+}
+
+.options-list {
+  margin-top: 20px;
+}
+
+.option-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #f7f7f7; /* Soft white color */
+  color: #333; /* Dark text for contrast */
+  border: 1px solid #ddd; /* Light gray border */
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: background-color 0.3s, transform 0.2s;
+  font-size: 16px;
+  text-align: left;
+  font-family: "Poppins";
+}
+
+.option-text {
+  flex: 1;
+}
+.option-text-logout {
+  flex: 1;
+  color: red;
+}
+.arrow-button-logout {
+  font-size: 18px;
+  margin-left: 10px;
+  transition: transform 0.3s;
+  color: red;
+}
+
+
+.arrow-button {
+  font-size: 18px;
+  margin-left: 10px;
+  transition: transform 0.3s;
+}
+
+.arrow-button:hover {
+  transform: translateX(5px);
+}
+
+.select-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.select-button:hover {
+  background-color: #45a049;
+}
+
+.selected-text {
+  margin-left: 10px;
+  color: #ff5722;
+  font-weight: bold;
+}
+/* Dropdown container and button styles */
+.dropdown-container {
+  position: relative;
+  margin-top: 20px;
+}
+
+.dropdown-toggle {
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.dropdown-menu {
+  border: 2px solid red; /* Highlight for debugging */
+  z-index: 1000; /* Ensure dropdown is above other elements */
+}
+
+.dropdown-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+.pet-item-container.selected {
+  border: 2px solid #4caf50; /* Highlight selected pet bar */
+  background-color: #f0fff0;
+}
+

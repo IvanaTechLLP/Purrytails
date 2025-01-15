@@ -4,7 +4,7 @@ import "./Timeline.css";
 import { FaSignOutAlt, FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaHome } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 
-const Timeline = ({ profile }) => {
+const Timeline = ({ profile, selectedPetId }) => {
   const [overviews, setOverviews] = useState({});
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +44,8 @@ const Timeline = ({ profile }) => {
   const fetchOverviews = async () => {
     try {
       const response = await fetch(
-        `/api/reports_dashboard/${profile.user_id}`
+        `/api/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+
       );
 
       if (!response.ok) {
@@ -147,17 +148,33 @@ const Timeline = ({ profile }) => {
 
   return (
     <div className="dashboard-wrapper">
+      <div className="bottom-nav">
+                        <ul className="nav-menu">
+                        <li className="nav-item" onClick={() => { navigate("/home")}}>
+                        <FaHome />
+                        <p>Home</p>
+                      </li>
+                      <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
+                        <FaTachometerAlt />
+                        <p>Dashboard</p>
+                      </li>
+                    <li className="nav-item" onClick={() => { handleUploadFile()}}>
+                          <FaFileUpload />
+                          <p>Upload</p>
+                        </li>
+                      
+                      <li className="nav-item" onClick={() => { navigate("/profile")}}>
+                        <FaUser />
+                        <p>Profile</p>
+                      </li>
+                    </ul>
+                        </div>
       <div className="dashboard-left">
         <div className="header">
-          <button className="hamburger" onClick={handleToggle}>
-            &#9776;
-          </button>
           <h1 className="calendar-title">TimeLine</h1>
         </div>
-        <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-          <button className="back-arrow" onClick={closeMenu}>
-            &larr;
-          </button>
+        <div className="sidebar">
+         
           <h2>Menu</h2>
           <ul>
             <li onClick={() => { navigate("/home"); closeMenu(); }} title="Home">
@@ -196,7 +213,7 @@ const Timeline = ({ profile }) => {
                             href={overview.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="timeline-link"
+                            className="view-report-link"
                           >
                             View Details
                           </a>

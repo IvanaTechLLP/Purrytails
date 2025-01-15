@@ -9,4 +9,15 @@
 .right-panel {
   flex: 1;
 }
-
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Oswald', sans-serif;
+}
+p{
+  font-family: 'Poppins';
+}
+button {
+  font-family: 'Poppins', sans-serif !important; /* Set Poppins as the font */
+}
+a {
+  font-family: 'Poppins', sans-serif; /* Set Poppins as the font */
+}

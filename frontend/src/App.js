@@ -20,19 +20,23 @@ import QrScanner from "./components/QrScanner";
 import Home from "./components/Home";
 import ChatWindow from "./components/ChatWindow";
 import Timeline from "./components/Timeline";
+import ParentDetailsPage from "./components/ParentDetailsPage";
+import PetDetailsPage from './components/PetDetailsPage'; 
 
-function FileUploadPage({ profile }) {
+
+
+function FileUploadPage({ profile, selectedPetId }) {
   return (
     
     <div className="app-container">
       <div className="left-panel">
-        <ImageProcessingForm profile={profile} />
+        <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
       </div>
     </div>
   );
 }
 
-function DashboardPage({ profile, logOut, reports, setReports }) {
+function DashboardPage({ profile, logOut, reports, setReports, selectedPetId }) {
   return (
     <div className="app-container">
       <div className="left-panel">
@@ -41,13 +45,14 @@ function DashboardPage({ profile, logOut, reports, setReports }) {
           logOut={logOut}
           reports={reports}
           setReports={setReports}
+          selectedPetId={selectedPetId}
         />
       </div>
     </div>
   );
 }
 
-function HomePage({ profile, logOut, reports, setReports }) {
+function HomePage({ profile, logOut, reports, setReports, selectedPetId }) {
   return (
     <div className="app-container">
       <div className="left-panel">
@@ -56,6 +61,7 @@ function HomePage({ profile, logOut, reports, setReports }) {
           logOut={logOut}
           reports={reports}
           setReports={setReports}
+          selectedPetId={selectedPetId}
         />
       </div>
     </div>
@@ -76,6 +82,8 @@ function App() {
   const [profile, setProfile] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState([]);
   const [reports, setReports] = useState([]);
+  const [selectedPetId, setSelectedPetId] = useState("");
+  
 
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 
@@ -109,7 +117,29 @@ function App() {
               element={
                 <LandingPage/>
               }
+              
             />
+            <Route
+              path="/parent-details"
+              element={
+                isAuthenticated ? (
+                  <ParentDetailsPage profile={profile} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/pet-details"
+              element={
+                isAuthenticated ? (
+                  <PetDetailsPage /> // Render this if the user is authenticated
+                ) : (
+                  <Navigate to="/" /> // Redirect to landing page if not authenticated
+                )
+              }
+            />
+           
             <Route
               path="/login"
               element={
@@ -124,7 +154,7 @@ function App() {
               path="/file_upload"
               element={
                 isAuthenticated ? (
-                  <FileUploadPage profile={profile} logOut={logOut} />
+                  <FileUploadPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
                 ) : (
                   <Navigate to="/" />
                 )
@@ -139,6 +169,7 @@ function App() {
                     logOut={logOut}
                     reports={reports}
                     setReports={setReports}
+                    selectedPetId={selectedPetId}
                   />
                 ) : (
                   <Navigate to="/" />
@@ -154,6 +185,7 @@ function App() {
                     logOut={logOut}
                     reports={reports}
                     setReports={setReports}
+                    selectedPetId={selectedPetId}
                   />
                 ) : (
                   <Navigate to="/" />
@@ -188,7 +220,7 @@ function App() {
               path="/profile"
               element={
                 isAuthenticated ? (
-                  <UserProfilePage profile={profile} logOut={logOut} />
+                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
                 ) : (
                   <Navigate to="/" />
                 )
@@ -198,7 +230,7 @@ function App() {
               path="/timeline"
               element={
                 isAuthenticated ? (
-                  <Timeline profile={profile} logOut={logOut} />
+                  <Timeline profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
                 ) : (
                   <Navigate to="/" />
                 )
@@ -208,7 +240,7 @@ function App() {
               path="/chat"
               element={
                 isAuthenticated ? (
-                  <ChatWindow profile={profile} logOut={logOut} />
+                  <ChatWindow profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
                 ) : (
                   <Navigate to="/" />
                 )

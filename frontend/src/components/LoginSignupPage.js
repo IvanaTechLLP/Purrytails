@@ -82,27 +82,6 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
           <h1>Welcome back</h1>
           <p>Please enter your details</p>
 
-          {/* User type toggle using radio buttons */}
-          <div className="toggle-container">
-            <label>
-              <input
-                type="radio"
-                value="patient"
-                checked={userType === "patient"}
-                onChange={() => toggleUserType("patient")}
-              />
-              Patient
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="doctor"
-                checked={userType === "doctor"}
-                onChange={() => toggleUserType("doctor")}
-              />
-              Doctor
-            </label>
-          </div>
 
           <input type="email" placeholder="Email address" />
           <input type="password" placeholder="Password" />
@@ -111,7 +90,7 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
               <input type="checkbox" />
               Remember me
             </label>
-            <a href="/forgot-password">Forgot password</a>
+            <a href="/forgot-password">Forgot password ?</a>
           </div>
           <button className="signin-button">Sign in</button>
           <button className="google-signin-button" onClick={login}>

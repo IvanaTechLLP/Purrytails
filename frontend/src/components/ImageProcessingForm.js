@@ -5,7 +5,7 @@ import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments
 import { MdTimeline } from 'react-icons/md';
 
 
-const ImageProcessingForm = ({ profile, logOut }) => {
+const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   const [image, setImage] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [currentReport, setCurrentReport] = useState(null);
@@ -57,6 +57,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
     const formData = new FormData();
     formData.append('file', image);
     formData.append('user_id', profile.user_id);
+    formData.append('pet_id', selectedPetId);
 
     setLoading(true); 
 
@@ -183,17 +184,34 @@ const ImageProcessingForm = ({ profile, logOut }) => {
   
   return (
     <div className="dashboard-wrapper">
+      <div className="bottom-nav">
+            <ul className="nav-menu">
+            <li className="nav-item" onClick={() => { navigate("/home")}}>
+            <FaHome />
+            <p>Home</p>
+          </li>
+          <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
+            <FaTachometerAlt />
+            <p>Dashboard</p>
+          </li>
+      
+          <li className="nav-item" onClick={() => { navigate("/timeline")}}>
+            <MdTimeline />
+            <p>Timeline</p>
+          </li>
+          <li className="nav-item" onClick={() => { navigate("/profile")}}>
+            <FaUser />
+            <p>Profile</p>
+          </li>
+        </ul>
+            </div>
         <div classname="dashboard-left">
         <div className="header">
-  <button className="hamburger" onClick={handleToggle}>
-    &#9776;
-  </button>
+ 
   <h1 className="calendar-title">Document Upload</h1>
 </div>
-      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-        <button className="back-arrow" onClick={closeMenu}>
-            &larr; {/* Back arrow icon */}
-        </button>
+      <div className="sidebar">
+     
         <h2>Menu</h2>
         
         <ul className="menu-items">
@@ -242,19 +260,19 @@ const ImageProcessingForm = ({ profile, logOut }) => {
         
         <div className="instruction-cards">
           <div className="instruction-card">
-            <img src="scan1.png" alt="Choose a file" className="instruction-image" />
+            <img src="scan-icon.png" alt="Choose a file" className="instruction-image" />
             <h3>Scan the Document</h3>
             <p>Take a clear photo of the document for the best results.</p>
           </div>
           
           <div className="instruction-card">
-            <img src="upload1.png" alt="File Format" className="instruction-image" />
+            <img src="upload-icon.png" alt="File Format" className="instruction-image" />
             <h3>Upload the Document</h3>
             <p>Upload the scanned document in image or PDF format. Click "Process Document" to process it.</p>
           </div>
           
           <div className="instruction-card">
-            <img src="edit1.png" alt="Process File" className="instruction-image" />
+            <img src="edit-icon.png" alt="Process File" className="instruction-image" />
             <h3>Edit the Date (if required)</h3>
             <p>Edit the date if it's incorrect. Click on the Save button.</p>
           </div>

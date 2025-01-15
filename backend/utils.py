@@ -317,7 +317,7 @@ def process_pdf(filename):
     return all_extracted_data, reports_json, pdf_files
 
 
-def llm_model(input_string, conversation, user_id, user_type):
+def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
     print("Input String: ", input_string)
     # if input_string != None:
     prompt_parts = [
@@ -383,7 +383,7 @@ def llm_model(input_string, conversation, user_id, user_type):
             elif user_type == "patient": 
                 reports = reports_collection.get(
                     include=["documents", "metadatas"],
-                    where={"user_id": user_id}
+                    where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
                 )
                 
             else:
@@ -423,7 +423,12 @@ def llm_model(input_string, conversation, user_id, user_type):
                 
             elif user_type == "patient": 
                 results = reports_vector_store.similarity_search_with_score(
-                    query=chromadb_query, k=no_of_reports, filter={"user_id": user_id}
+                    query=chromadb_query, k=no_of_reports, filter={
+                        "$and": [
+                            {"user_id": user_id},
+                            {"pet_id": pet_id}
+                        ]
+                    }
                 )
                 
             else:

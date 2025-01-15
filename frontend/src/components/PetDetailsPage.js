@@ -134,7 +134,7 @@ const ParentDetailsPage = () => {
         ← 
       </div>
 
-      <h4 className="h4-heading">PET PARENT DETAILS</h4>
+      <h4 className="h4-heading">PET DETAILS</h4>
 
       {/* Fields */}
       <label>

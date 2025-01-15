@@ -46,13 +46,15 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {
-    setIsDropdownOpen(prev => !prev);
+    setIsDropdownOpen((prev) => !prev);
+    console.log("Dropdown is open:", isDropdownOpen);
   };
 
   // Handle selection of pet from dropdown
-  const handleDropdownSelect = (petId) => {
-    handleSelectPet(petId); // Pass selected petId to handleSelectPet
-    setIsDropdownOpen(false); // Close dropdown after selection
+  const handleDropdownSelect = (event) => {
+    const petId = event.target.value; // Get petId from dropdown value
+    setSelectedPetId(petId); // Close dropdown after selection
+    console.log("Selected pet ID:", petId);
   };
   
 
@@ -66,35 +68,6 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   const handlePetTypeSelection = (type) => {
     setPetType(type);
     setBreed("");
-  };
-
-  const handleSelectPet = async (petId) => {
-    setSelectedPetId(petId);
-    // try {
-    //   const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
-    //     method: "GET",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   });
-
-    //   if (!response.ok) {
-    //     throw new Error("Failed to fetch pet details");
-    //   }
-
-    //   const data = await response.json();
-
-    //   // Filter the pet by petName
-    //   const selectedPet = data.pet_details.find((pet) => pet.petName === petName);
-
-    //   if (selectedPet) {
-    //     setSelectedPetId(selectedPet.petId); // Assuming petId is a property in the pet details
-    //   } else {
-    //     console.warn(`No pet found with name: ${petName}`);
-    //   }
-    // } catch (error) {
-    //   console.error("Error selecting pet:", error);
-    // }  
   };
 
   const handleSave = async () => {
@@ -431,44 +404,50 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   <div className="profile-page">
   <div className="pet-list">
     {petDetails.map((pet, index) => (
-      <div key={index} className="pet-item-container" onClick={() => navigate(`/pet-details`)}  >
+      <div 
+        key={index} 
+        className={`pet-item-container ${
+        selectedPetId === pet.petId ? "selected" : ""
+        }`}
+        onClick={() => navigate(`/pet-details`)}  >
         <div className="pet-item">
           <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
           <div className="pet-info">
             <h2>{pet.petName}</h2>
             <p> {pet.breed}</p>
           </div>
-          <button
+          {/* Highlight selected pet */}
+          {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>}
+
+          {/* <button
             className="select-button"
             onClick={() => handleSelectPet(pet.petId)}
           >
             Select
           </button>
-          {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>}
+          {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>} */}
         </div>
       </div>
     ))}
-  </div>
-  <div className="dropdown-container">
-        <button className="dropdown-toggle" onClick={toggleDropdown}>
-        Change
-        </button>
-        
-        {/* Dropdown Menu */}
-        {isDropdownOpen && (
-          <div className="dropdown-menu">
-            {petDetails.map((pet, index) => (
-              <div
-                key={index}
-                className="dropdown-item"
-                onClick={() => handleDropdownSelect(pet.petId)}
-              >
-                {pet.petName}
-              </div>
-            ))}
-          </div>
-        )}
+    
+    {/* Universal dropdown */}
+    <div className="dropdown-container">
+        <select
+          className="pet-dropdown"
+          value={selectedPetId || ""}
+          onChange={(event) => handleDropdownSelect(event)}
+        >
+          <option value="" disabled>
+            Select a Pet
+          </option>
+          {petDetails.map((pet) => (
+            <option key={pet.petId} value={pet.petId}>
+              {pet.petName}
+            </option>
+          ))}
+        </select>
       </div>
+  </div>
 
   {/* Add Pet Button */}
   <button

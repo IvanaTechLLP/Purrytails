@@ -5,7 +5,7 @@ import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments
 import { MdTimeline } from 'react-icons/md';
 
 
-const ImageProcessingForm = ({ profile, logOut }) => {
+const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   const [image, setImage] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [currentReport, setCurrentReport] = useState(null);
@@ -57,6 +57,7 @@ const ImageProcessingForm = ({ profile, logOut }) => {
     const formData = new FormData();
     formData.append('file', image);
     formData.append('user_id', profile.user_id);
+    formData.append('pet_id', selectedPetId);
 
     setLoading(true); 
 

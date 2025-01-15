@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { MdTimeline } from "react-icons/md";
 
-const UserProfilePage = ({ profile, logOut }) => {
+const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("access_token")
@@ -50,6 +50,35 @@ const UserProfilePage = ({ profile, logOut }) => {
   const handlePetTypeSelection = (type) => {
     setPetType(type);
     setBreed("");
+  };
+
+  const handleSelectPet = async (petId) => {
+    setSelectedPetId(petId);
+    // try {
+    //   const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
+
+    //   if (!response.ok) {
+    //     throw new Error("Failed to fetch pet details");
+    //   }
+
+    //   const data = await response.json();
+
+    //   // Filter the pet by petName
+    //   const selectedPet = data.pet_details.find((pet) => pet.petName === petName);
+
+    //   if (selectedPet) {
+    //     setSelectedPetId(selectedPet.petId); // Assuming petId is a property in the pet details
+    //   } else {
+    //     console.warn(`No pet found with name: ${petName}`);
+    //   }
+    // } catch (error) {
+    //   console.error("Error selecting pet:", error);
+    // }  
   };
 
   const handleSave = async () => {
@@ -161,6 +190,7 @@ const UserProfilePage = ({ profile, logOut }) => {
           console.log("User has a pet!");
           setHasPet(true);
           setPetDetails(data.pet_details);
+          setSelectedPetId(data.pet_details[0].petId);
         } else {
           setHasPet(false);
         }
@@ -358,6 +388,13 @@ const UserProfilePage = ({ profile, logOut }) => {
             <h2>{pet.petName}</h2>
             <p> {pet.breed}</p>
           </div>
+          <button
+            className="select-button"
+            onClick={() => handleSelectPet(pet.petId)}
+          >
+            Select
+          </button>
+          {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>}
         </div>
       </div>
     ))}

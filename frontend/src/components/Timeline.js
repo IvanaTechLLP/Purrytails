@@ -4,7 +4,7 @@ import "./Timeline.css";
 import { FaSignOutAlt, FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaHome } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 
-const Timeline = ({ profile }) => {
+const Timeline = ({ profile, selectedPetId }) => {
   const [overviews, setOverviews] = useState({});
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +44,7 @@ const Timeline = ({ profile }) => {
   const fetchOverviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}`
+        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
       );
 
       if (!response.ok) {

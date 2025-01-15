@@ -40,9 +40,20 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   const cropperRef = useRef(null); // Reference for Cropper instance
   const [isOpen, setIsOpen] = useState(false);
   const [errors, setErrors] = useState({});
-  const [foodBrand, setfoodBrand] = useState(""); // New state for pet type selection
+  const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
   const [quantity, setQuantity] = useState(0);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
+  // Toggle dropdown visibility
+  const toggleDropdown = () => {
+    setIsDropdownOpen(prev => !prev);
+  };
+
+  // Handle selection of pet from dropdown
+  const handleDropdownSelect = (petId) => {
+    handleSelectPet(petId); // Pass selected petId to handleSelectPet
+    setIsDropdownOpen(false); // Close dropdown after selection
+  };
   
 
   const [currentStep, setCurrentStep] = useState(1); // New state to track the step
@@ -420,7 +431,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   <div className="profile-page">
   <div className="pet-list">
     {petDetails.map((pet, index) => (
-      <div key={index} className="pet-item-container" onClick={() => navigate(`/pet-details/${pet.petId }`)}  >
+      <div key={index} className="pet-item-container" onClick={() => navigate(`/pet-details`)}  >
         <div className="pet-item">
           <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
           <div className="pet-info">
@@ -438,6 +449,27 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       </div>
     ))}
   </div>
+  <div className="dropdown-container">
+        <button className="dropdown-toggle" onClick={toggleDropdown}>
+        Change
+        </button>
+        
+        {/* Dropdown Menu */}
+        {isDropdownOpen && (
+          <div className="dropdown-menu">
+            {petDetails.map((pet, index) => (
+              <div
+                key={index}
+                className="dropdown-item"
+                onClick={() => handleDropdownSelect(pet.petId)}
+              >
+                {pet.petName}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
   {/* Add Pet Button */}
   <button
     className="add-pet-button"
@@ -456,7 +488,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   <span className="option-text">View Parent Details</span>
   <span className="arrow-button">→</span>
 </div>
-
+        {/*
        
         <div 
           className="option-container"
@@ -472,6 +504,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           <span className="option-text">Get Help</span>
           <span className="arrow-button">→</span>
         </div>
+        */}
         <div 
           className="option-container"
           onClick={() => {
@@ -848,7 +881,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           <input
             type="text"
             value={foodBrand}
-            onChange={(e) => setfoodBrand(e.target.value)}
+            onChange={(e) => setFoodBrand(e.target.value)}
             placeholder="Enter Food Brand"
           />
         </label>

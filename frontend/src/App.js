@@ -130,10 +130,10 @@ function App() {
               }
             />
             <Route
-              path="/parent-details"
+              path="/pet-details"
               element={
                 isAuthenticated ? (
-                  <ParentDetailsPage /> // Render this if the user is authenticated
+                  <PetDetailsPage /> // Render this if the user is authenticated
                 ) : (
                   <Navigate to="/" /> // Redirect to landing page if not authenticated
                 )

@@ -15,10 +15,17 @@ const ParentDetailsPage = () => {
   const navigate = useNavigate();
 
   // State to hold the input values and whether the fields are editable
-  const [ownerName, setOwnerName] = useState("John Doe");
-  const [phoneNumber, setPhoneNumber] = useState("123-456-7890");
-  const [ownerAddress, setOwnerAddress] = useState("123 Main St, City");
+
   const [isEditable, setIsEditable] = useState(false);
+   const [petName, setPetName] = useState( "");
+    const [breed, setBreed] = useState("");
+    const [sex, setSex] = useState( "");
+    const [weight, setWeight] = useState(0); // Initial weight state
+    const [petType, setPetType] = useState(""); // New state for pet type selection
+    const [ageYears, setAgeYears] = useState(0);
+    const [ageMonths, setAgeMonths] = useState(0);
+    const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
+    const [quantity, setQuantity] = useState(0);
 
   // Handle back button click to navigate to profile page
   const handleBack = () => {
@@ -131,31 +138,89 @@ const ParentDetailsPage = () => {
 
       {/* Fields */}
       <label>
-        Owner's Name:
-        <input
-          type="text"
-          value={ownerName}
-          onChange={(e) => setOwnerName(e.target.value)}
-          placeholder="Enter name"
-          disabled={!isEditable}
-        />
-      </label>
+      Pet Name :
+      <input
+        type="text"
+        value={petName}
+        onChange={(e) => setPetName(e.target.value)}
+        placeholder="Enter pet's name"
+        disabled={!isEditable}
+      />
+    </label>
       <label>
-        Phone Number:
+        Age
         <input
           type="tel"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
+          value={ageYears}
+          onChange={(e) => setAgeYears(e.target.value)}
+          placeholder="Enter phone number"
+          disabled={!isEditable}
+        />
+        <input
+          type="tel"
+          value={ageMonths}
+          onChange={(e) => setAgeMonths(e.target.value)}
           placeholder="Enter phone number"
           disabled={!isEditable}
         />
       </label>
+     
       <label>
-        Address:
+        Pet Type:
         <input
           type="text"
-          value={ownerAddress}
-          onChange={(e) => setOwnerAddress(e.target.value)}
+          value={petType}
+          onChange={(e) => setPetType(e.target.value)}
+          placeholder="Enter address"
+          disabled={!isEditable}
+        />
+      </label>
+      <label>
+        Sex:
+        <input
+          type="text"
+          value={sex}
+          onChange={(e) => setSex(e.target.value)}
+          placeholder="Enter address"
+          disabled={!isEditable}
+        />
+      </label>
+      <label>
+        Breed:
+        <input
+          type="text"
+          value={breed}
+          onChange={(e) => setBreed(e.target.value)}
+          placeholder="Enter address"
+          disabled={!isEditable}
+        />
+      </label>
+      <label>
+        Weight:
+        <input
+          type="text"
+          value={weight}
+          onChange={(e) => setWeight(e.target.value)}
+          placeholder="Enter address"
+          disabled={!isEditable}
+        />
+      </label>
+      <label>
+        Food Brand:
+        <input
+          type="text"
+          value={foodBrand}
+          onChange={(e) => setFoodBrand(e.target.value)}
+          placeholder="Enter address"
+          disabled={!isEditable}
+        />
+      </label>
+      <label>
+        Quantity:
+        <input
+          type="text"
+          value={quantity}
+          onChange={(e) => setQuantity(e.target.value)}
           placeholder="Enter address"
           disabled={!isEditable}
         />

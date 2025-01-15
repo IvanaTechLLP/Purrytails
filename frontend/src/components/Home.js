@@ -9,7 +9,7 @@ import { MdTimeline } from 'react-icons/md';
 
 
 
-const Home = ({ profile, logOut, reports, setReports }) => {
+const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
   const [reminders, setReminders] = useState([]);
@@ -69,7 +69,9 @@ const Home = ({ profile, logOut, reports, setReports }) => {
     if (!profile?.user_id) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/user_dashboard/${profile.user_id}`);
+      const response = await fetch(
+        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+      );
       const data = await response.json();
       setUserDetails(data);
     } catch (error) {
@@ -81,7 +83,9 @@ const Home = ({ profile, logOut, reports, setReports }) => {
     if (!profile?.user_id) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/reports_dashboard/${profile.user_id}`);
+      const response = await fetch(
+        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+      );
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);
     } catch (error) {

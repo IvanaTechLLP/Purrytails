@@ -679,3 +679,23 @@
 .arrow-button:hover {
   transform: translateX(5px);
 }
+
+.select-button {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.select-button:hover {
+  background-color: #45a049;
+}
+
+.selected-text {
+  margin-left: 10px;
+  color: #ff5722;
+  font-weight: bold;
+}

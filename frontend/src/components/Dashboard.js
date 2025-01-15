@@ -8,7 +8,7 @@ import { FaSignOutAlt,FaComments,FaHome, FaFileUpload, FaCalendarAlt, FaUser,  }
 import { MdTimeline } from 'react-icons/md';
 
 
-const Dashboard = ({ profile, logOut, reports, setReports }) => {
+const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
 
@@ -68,7 +68,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}`
+        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
       );
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);
@@ -468,7 +468,7 @@ const Dashboard = ({ profile, logOut, reports, setReports }) => {
         </button>
 
         {showChatbot && (
-          <Chatbot profile={profile} setReports={setReports} showChatbot={showChatbot} setShowChatbot={setShowChatbot} />
+          <Chatbot profile={profile} setReports={setReports} showChatbot={showChatbot} setShowChatbot={setShowChatbot} selectedPetId={selectedPetId} />
         )}
 
 

@@ -123,7 +123,7 @@ function App() {
               path="/parent-details"
               element={
                 isAuthenticated ? (
-                  <ParentDetailsPage />
+                  <ParentDetailsPage profile={profile} />
                 ) : (
                   <Navigate to="/" />
                 )

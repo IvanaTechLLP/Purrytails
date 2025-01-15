@@ -70,7 +70,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+        `http://localhost:5000/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setUserDetails(data);

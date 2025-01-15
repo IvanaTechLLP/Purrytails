@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ParentDeatilsPage.css"; // Ensure your CSS is imported
 import {
@@ -12,7 +12,7 @@ import {
   import { MdTimeline } from "react-icons/md";
 
 
-const ParentDetailsPage = () => {
+const ParentDetailsPage = ( {profile} ) => {
   const navigate = useNavigate();
 
   // State to hold the input values and whether the fields are editable
@@ -20,6 +20,29 @@ const ParentDetailsPage = () => {
   const [phoneNumber, setPhoneNumber] = useState("123-456-7890");
   const [ownerAddress, setOwnerAddress] = useState("123 Main St, City");
   const [isEditable, setIsEditable] = useState(false);
+
+  // UseEffect to fetch data from a backend or state
+  useEffect(() => {
+    fetchUserDetails();
+  }, []);
+    
+
+  const fetchUserDetails = async () => {
+    if (!profile?.user_id) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:5000/user_dashboard/${profile.user_id}`
+      );
+      const data = await response.json();
+      setOwnerName(data.name);
+      setPhoneNumber(data.phone_number);
+      setOwnerAddress(data.owner_address);
+      console.log("User details fetched:", data);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
 
   // Handle back button click to navigate to profile page
   const handleBack = () => {

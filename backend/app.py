@@ -81,6 +81,8 @@ class UserResponse(BaseModel):
     user_id: str
     email: str
     name: str
+    phone_number: str
+    owner_address: str
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -429,13 +431,17 @@ async def get_user_details(user_id: str):
         
         user = users_collection.get(
             ids=[user_id],
-            include=["documents"],
+            include=["documents", "metadatas"],
         )
 
         try:
             user_details = user["documents"][0]
+            user_metadata = user["metadatas"][0]
             user_details = user_details.replace("'", "\"")
             user_details = json.loads(user_details)
+            user_details["phone_number"] = user_metadata.get("phone_number", "")
+            user_details["owner_address"] = user_metadata.get("owner_address", "")
+            
         except:
             user_details = None
         

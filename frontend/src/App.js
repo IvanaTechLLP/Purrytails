@@ -118,10 +118,7 @@ function App() {
               }
               
             />
-            <Route
-              path="/features/:featureId"
-              element={<FeaturePage />}
-            />
+           
             <Route
               path="/login"
               element={

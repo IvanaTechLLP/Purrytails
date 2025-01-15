@@ -29,7 +29,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   const [hasPet, setHasPet] = useState(false);
   const [isAddingPet, setIsAddingPet] = useState(false);
   const [petDetails, setPetDetails] = useState(null);
-  const [weight, setWeight] = useState(20); // Initial weight state
+  const [weight, setWeight] = useState(0); // Initial weight state
   const [petType, setPetType] = useState(""); // New state for pet type selection
   const [ageYears, setAgeYears] = useState(0);
   const [ageMonths, setAgeMonths] = useState(0);
@@ -39,6 +39,11 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   const imageRef = useRef(null); // Reference for the uploaded image element
   const cropperRef = useRef(null); // Reference for Cropper instance
   const [isOpen, setIsOpen] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [foodBrand, setfoodBrand] = useState(""); // New state for pet type selection
+  const [quantity, setQuantity] = useState(0);
+
+  
 
   const [currentStep, setCurrentStep] = useState(1); // New state to track the step
 
@@ -92,6 +97,8 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       ageMonths,
       phoneNumber,
       ownerAddress,
+      foodBrand,
+      quantity,
       profilePicture,
     };
     setPetDetails(newPetDetails);
@@ -277,6 +284,37 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   const handleUploadFile = () => {
     navigate("/file_upload", { state: { showPopup: false } });
   };
+  const validateFields = () => {
+    const newErrors = {};
+  
+    if (currentStep === 1) {
+      if (!ownerName.trim()) newErrors.ownerName = "Owner's name is required.";
+      if (!phoneNumber.trim()) newErrors.phoneNumber = "Phone number is required.";
+      if (!ownerAddress.trim()) newErrors.ownerAddress = "Address is required.";
+    }
+  
+    if (currentStep === 2) {
+      if (!petName.trim()) newErrors.petName = "Pet name is required.";
+      if (!ageYears || !ageMonths) newErrors.age = "Please select both age and months.";
+      if (!petType) newErrors.petType = "Please select a pet type.";
+    }
+    if (currentStep === 3) {
+      if (!sex) newErrors.sex = "Please select a sex.";
+      if (!breed.trim()) newErrors.breed = "Please select or enter a breed.";
+      if (!weight || weight <= 0) newErrors.weight = "Please select a valid weight.";
+    }
+  
+    setErrors(newErrors);
+  
+    return Object.keys(newErrors).length === 0; // Returns true if no errors
+  };
+  
+  const handleNextStep = () => {
+    if (validateFields()) {
+      
+      setCurrentStep(currentStep + 1);
+    }
+  };
 
   if (hasPet && petDetails && petDetails.length > 0 && !isAddingPet) {
     return (
@@ -379,6 +417,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   
       <div className="pet-details-page">
   <h1>Your Pets</h1>
+  <div className="profile-page">
   <div className="pet-list">
     {petDetails.map((pet, index) => (
       <div key={index} className="pet-item-container">
@@ -408,15 +447,48 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   >
     Add Pet
   </button>
-</div>
+
   <div className="options-list">
   <div 
-          className="option-container"
-         
-        >
-          <span className="option-text">View Parent Details</span>
-          <span className="arrow-button">→</span>
-        </div>
+  className="option-container"
+  onClick={() => setCurrentStep(1)}
+>
+  <span className="option-text">View Parent Details</span>
+  <span className="arrow-button">→</span>
+</div>
+
+{currentStep === 1 && (
+  <div className="form-container">
+    <h4 className="h4-heading">PET PARENT DETAILS</h4>
+    <label>
+      Owner's Name:
+      <input
+        type="text"
+        value={ownerName}
+        onChange={(e) => setOwnerName(e.target.value)}
+        placeholder="Enter name"
+      />
+    </label>
+    <label>
+      Phone Number:
+      <input
+        type="tel"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
+        placeholder="Enter phone number"
+      />
+    </label>
+    <label>
+      Address:
+      <input
+        type="text"
+        value={ownerAddress}
+        onChange={(e) => setOwnerAddress(e.target.value)}
+        placeholder="Enter address"
+      />
+    </label>
+  </div>
+)}
         <div 
           className="option-container"
           
@@ -450,7 +522,8 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </div>
       </div>
       </div>
-      
+    </div>
+    </div>
     );
   }
   
@@ -582,215 +655,252 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           </div>
         </div>
 
-        {currentStep === 1 && (
-          <div className="form-container">
-            <h4 className="h4-heading">PET PARENT DETAILS</h4>
-            <label>
-              Owner's Name:
-              <input
-                type="text"
-                value={ownerName}
-                onChange={(e) => setOwnerName(e.target.value)}
-                placeholder="Enter name"
-              />
-            </label>
-            <label>
-              Phone Number:
-              <input
-                type="tel"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                placeholder="Enter phone number"
-              />
-            </label>
-            <label>
-              Address:
-              <input
-                type="text"
-                value={ownerAddress}
-                onChange={(e) => setOwnerAddress(e.target.value)}
-                placeholder="Enter address"
-              />
-            </label>
-          </div>
-        )}
+    {currentStep === 1 && (
+      <div className="form-container">
+        <h4 className="h4-heading">PET PARENT DETAILS</h4>
+        <label>
+          Owner's Name:
+          <input
+            type="text"
+            value={ownerName}
+            onChange={(e) => setOwnerName(e.target.value)}
+            placeholder="Enter name"
+          />
+        </label>
+        {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
+        <label>
+          Phone Number:
+          <input
+            type="tel"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            placeholder="Enter phone number"
+          />
+        </label>
+        {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}
+        <label>
+          Address:
+          <input
+            type="text"
+            value={ownerAddress}
+            onChange={(e) => setOwnerAddress(e.target.value)}
+            placeholder="Enter address"
+          />
+        </label>
+        {errors.ownerAddress && <p className="error-text">{errors.ownerAddress}</p>}
+      
+        
+      </div>
+    )}
 
-        {currentStep === 2 && (
-          <div>
-            <h4 className="h4-heading">COMPANION DETAILS</h4>
-            <label>
-              Pet Name:
-              <input
-                type="text"
-                value={petName}
-                onChange={(e) => setPetName(e.target.value)}
-                placeholder="Enter pet's name"
-              />
-            </label>
-          </div>
-        )}
+{currentStep === 2 && (
+  <div>
+    <h4 className="h4-heading">COMPANION DETAILS</h4>
 
-        {currentStep === 2 && (
-          <div>
-            <label>Age:</label>
-            <div className="age-picker">
-              <div className="scroller-container">
-                <div className="year-scroller" ref={yearScrollerRef}>
-                  {Array.from({ length: maxYears + 1 }, (_, i) => i).map(
-                    (year, index) => (
-                      <div
-                        key={index}
-                        className={`scroller-item ${
-                          ageYears === year ? "selected" : ""
-                        }`}
-                        onClick={() => setAgeYears(year)}
-                      >
-                        {year} {year === 1 ? "Year" : "Years"}
-                      </div>
-                    )
-                  )}
-                </div>
-
-                <div className="month-scroller" ref={monthScrollerRef}>
-                  {Array.from({ length: maxMonths }, (_, i) => i).map(
-                    (month, index) => (
-                      <div
-                        key={index}
-                        className={`scroller-item ${
-                          ageMonths === month ? "selected" : ""
-                        }`}
-                        onClick={() => setAgeMonths(month)}
-                      >
-                        {month} {month === 1 ? "Month" : "Months"}
-                      </div>
-                    )
-                  )}
-                </div>
-              </div>
-
-              <div className="age-display">
-                {ageYears} years and {ageMonths} months
-              </div>
-            </div>
-            <label>Select Your Loyal Companion:</label>
-            <div className="pet-type-selection">
+    {/* Pet Name Field */}
+    <label>
+      Pet Name *:
+      <input
+        type="text"
+        value={petName}
+        onChange={(e) => setPetName(e.target.value)}
+        placeholder="Enter pet's name"
+      />
+    </label>
+    {errors.petName && <p className="error-text">{errors.petName}</p>}
+    </div>
+  )}
+  {currentStep === 2 && (
+      <div>
+    {/* Age Field */}
+    <label>Age *:</label>
+    <div className="age-picker">
+      <div className="scroller-container">
+        <div className="year-scroller" ref={yearScrollerRef}>
+          {Array.from({ length: maxYears + 1 }, (_, i) => i).map(
+            (year, index) => (
               <div
-                className={`pet-option ${petType === "dog" ? "selected" : ""}`}
-                onClick={() => handlePetTypeSelection("dog")}
-              >
-                <img src="dog.png" alt="Dog" />
-              </div>
-              <div
-                className={`pet-option ${petType === "cat" ? "selected" : ""}`}
-                onClick={() => handlePetTypeSelection("cat")}
-              >
-                <img src="cat.png" alt="Cat" />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {currentStep === 3 && (
-          <div>
-            <label>Sex:</label>
-            <div className="sex-selection">
-              <div
-                className={`sex-option male ${
-                  sex === "Male" ? "selected" : ""
+                key={index}
+                className={`scroller-item ${
+                  ageYears === year ? "selected" : ""
                 }`}
-                onClick={() => setSex("Male")}
+                onClick={() => setAgeYears(year)}
               >
-                <img src="male.png" alt="Male" />
+                {year} {year === 1 ? "Year" : "Years"}
               </div>
+            )
+          )}
+        </div>
+
+        <div className="month-scroller" ref={monthScrollerRef}>
+          {Array.from({ length: maxMonths }, (_, i) => i).map(
+            (month, index) => (
               <div
-                className={`sex-option female ${
-                  sex === "Female" ? "selected" : ""
+                key={index}
+                className={`scroller-item ${
+                  ageMonths === month ? "selected" : ""
                 }`}
-                onClick={() => setSex("Female")}
+                onClick={() => setAgeMonths(month)}
               >
-                <img src="female.png" alt="Female" />
+                {month} {month === 1 ? "Month" : "Months"}
               </div>
-            </div>
+            )
+          )}
+        </div>
+      </div>
 
-            <label>Breed:</label>
-            <input
-              type="text"
-              value={breed}
-              onChange={(e) => setBreed(e.target.value)}
-              placeholder="Other"
-            />
-            <div className="breed-container">
-              {(petType === "dog" ? dogBreeds : catBreeds).map(
-                (breedObj, index) => (
-                  <div
-                    key={index}
-                    className={`breed-option ${
-                      breed === breedObj.name ? "selected" : ""
-                    }`}
-                    onClick={() => handleBreedSelection(breedObj.name)}
-                    style={{
-                      borderColor:
-                        breed === breedObj.name
-                          ? sex === "Male"
-                            ? "blue"
-                            : "pink"
-                          : "transparent",
-                      backgroundColor:
-                        breed === breedObj.name
-                          ? sex === "Male"
-                            ? "#e0f7ff"
-                            : "#fff3fa"
-                          : "#f9f9f9",
-                    }}
-                  >
-                    <img src={breedObj.imgSrc} alt={breedObj.name} />
-                    <p>{breedObj.name}</p>
-                  </div>
-                )
-              )}
-            </div>
+      <div className="age-display">
+        {ageYears} years and {ageMonths} months
+      </div>
+    </div>
+    {(!ageYears || !ageMonths) && (
+      <p className="error-text">Please select both age and months.</p>
+    )}
 
-            <label>Weight (kg):</label>
-            <div className="weight-picker">
-              <div className="scroller-container">
-                <div className="year-scroller">
-                  {/* Before decimal (integer part) scroller */}
-                  {[...Array(101)].map((_, index) => (
-                    <div
-                      key={index}
-                      className={`scroller-item ${
-                        weight === index ? "selected" : ""
-                      }`}
-                      onClick={() => setWeight(index)}
-                    >
-                      {index} kg
-                    </div>
-                  ))}
-                </div>
-                <div className="month-scroller">
-                  {/* After decimal (fractional part) scroller */}
-                  {[...Array(9)].map((_, index) => (
-                    <div
-                      key={index}
-                      className={`scroller-item ${
-                        weight === index + 0.1 ? "selected" : ""
-                      }`}
-                      onClick={() =>
-                        setWeight((prev) => Math.floor(prev) + (index + 1) / 10)
-                      }
-                    >
-                      {`0.${index + 1}`} g
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div className="weight-display">{weight} kg</div>
+    {/* Pet Type Field */}
+    <label>Select Your Loyal Companion *:</label>
+    <div className="pet-type-selection">
+      <div
+        className={`pet-option ${petType === "dog" ? "selected" : ""}`}
+        onClick={() => handlePetTypeSelection("dog")}
+      >
+        <img src="dog.png" alt="Dog" />
+      </div>
+      <div
+        className={`pet-option ${petType === "cat" ? "selected" : ""}`}
+        onClick={() => handlePetTypeSelection("cat")}
+      >
+        <img src="cat.png" alt="Cat" />
+      </div>
+    </div>
+    {!petType && <p className="error-text">Please select a pet type.</p>}
+  </div>
+)}
+
+{currentStep === 3 && (
+  <div>
+    {/* Sex Selection */}
+    <label>Sex *:</label>
+    <div className="sex-selection">
+      <div
+        className={`sex-option male ${sex === "Male" ? "selected" : ""}`}
+        onClick={() => setSex("Male")}
+      >
+        <img src="male.png" alt="Male" />
+      </div>
+      <div
+        className={`sex-option female ${sex === "Female" ? "selected" : ""}`}
+        onClick={() => setSex("Female")}
+      >
+        <img src="female.png" alt="Female" />
+      </div>
+    </div>
+    {!sex && <p className="error-text">Please select a sex.</p>}
+
+    {/* Breed Field */}
+    <label>Breed *:</label>
+    <input
+      type="text"
+      value={breed}
+      onChange={(e) => setBreed(e.target.value)}
+      placeholder="Other"
+    />
+    <div className="breed-container">
+      {(petType === "dog" ? dogBreeds : catBreeds).map((breedObj, index) => (
+        <div
+          key={index}
+          className={`breed-option ${
+            breed === breedObj.name ? "selected" : ""
+          }`}
+          onClick={() => handleBreedSelection(breedObj.name)}
+          style={{
+            borderColor:
+              breed === breedObj.name
+                ? sex === "Male"
+                  ? "blue"
+                  : "pink"
+                : "transparent",
+            backgroundColor:
+              breed === breedObj.name
+                ? sex === "Male"
+                  ? "#e0f7ff"
+                  : "#fff3fa"
+                : "#f9f9f9",
+          }}
+        >
+          <img src={breedObj.imgSrc} alt={breedObj.name} />
+          <p>{breedObj.name}</p>
+        </div>
+      ))}
+    </div>
+    {!breed && <p className="error-text">Please select or enter a breed.</p>}
+
+    {/* Weight Field */}
+    <label>Weight (kg) *:</label>
+    <div className="weight-picker">
+      <div className="scroller-container">
+        <div className="year-scroller">
+          {/* Before decimal (integer part) scroller */}
+          {[...Array(101)].map((_, index) => (
+            <div
+              key={index}
+              className={`scroller-item ${
+                weight === index ? "selected" : ""
+              }`}
+              onClick={() => setWeight(index)}
+            >
+              {index} kg
             </div>
-          </div>
-        )}
+          ))}
+        </div>
+        <div className="month-scroller">
+          {/* After decimal (fractional part) scroller */}
+          {[...Array(9)].map((_, index) => (
+            <div
+              key={index}
+              className={`scroller-item ${
+                weight === index + 0.1 ? "selected" : ""
+              }`}
+              onClick={() =>
+                setWeight((prev) => Math.floor(prev) + (index + 1) / 10)
+              }
+            >
+              {`0.${index + 1}`} g
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="weight-display">{weight} kg</div>
+    </div>
+    {(!weight || weight <= 0) && (
+      <p className="error-text">Please select a valid weight.</p>
+    )}
+  </div>
+)}
+
 
         {currentStep === 4 && (
           <div>
+            <label>
+          Food Brand :
+          <input
+            type="text"
+            value={foodBrand}
+            onChange={(e) => setfoodBrand(e.target.value)}
+            placeholder="Enter Food Brand"
+          />
+        </label>
+        {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
+        <label>
+          Quantity(by day) :
+          <input
+            type="tel"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            placeholder="Enter phone number"
+          />
+        </label>
+        {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}
             <label className="image-heading">
               UPLOAD A CUTE PHOTO OF YOUR PET:
               <input
@@ -833,7 +943,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             </span>
           )}
           {currentStep < 4 ? (
-            <span className="arrow next-arrow" onClick={nextStep}>
+            <span className="arrow next-arrow" onClick={handleNextStep}>
               &#8594; {/* Right arrow */}
             </span>
           ) : (

@@ -386,20 +386,24 @@ const UserProfilePage = ({ profile, logOut }) => {
     
   
       <div className="pet-details-page">
-  <h1>Your Pets</h1>
+  <h1 className="dashboard-title">Your Profile</h1>
   <div className="profile-page">
-  <div className="pet-list">
-    {petDetails.map((pet, index) => (
-      <div key={index} className="pet-item-container">
-        <div className="pet-item">
-          <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
-          <div className="pet-info">
-            <h2>{pet.petName}</h2>
-            <p> {pet.breed}</p>
-          </div>
-        </div>
+  <div className="pet-list" >
+  {petDetails.map((pet, index) => (
+  <div 
+    key={index} 
+    className="pet-item-container" 
+    onClick={() => navigate(`/pet-details/${pet.petId }`)}  // Use pet.id in the URL
+  >
+    <div className="pet-item">
+      <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
+      <div className="pet-info">
+        <h2>{pet.petName}</h2>
+        <p>{pet.breed}</p>
       </div>
-    ))}
+    </div>
+  </div>
+))}
   </div>
   {/* Add Pet Button */}
   <button
@@ -412,53 +416,15 @@ const UserProfilePage = ({ profile, logOut }) => {
   </button>
 
   <div className="options-list">
-  <div 
+  <div
   className="option-container"
-  onClick={() => setCurrentStep(1)}
+  onClick={() => navigate("/parent-details")}  // Wrap navigate inside an anonymous function
 >
   <span className="option-text">View Parent Details</span>
   <span className="arrow-button">→</span>
 </div>
 
-{currentStep === 1 && (
-  <div className="form-container">
-    <h4 className="h4-heading">PET PARENT DETAILS</h4>
-    <label>
-      Owner's Name:
-      <input
-        type="text"
-        value={ownerName}
-        onChange={(e) => setOwnerName(e.target.value)}
-        placeholder="Enter name"
-      />
-    </label>
-    <label>
-      Phone Number:
-      <input
-        type="tel"
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        placeholder="Enter phone number"
-      />
-    </label>
-    <label>
-      Address:
-      <input
-        type="text"
-        value={ownerAddress}
-        onChange={(e) => setOwnerAddress(e.target.value)}
-        placeholder="Enter address"
-      />
-    </label>
-  </div>
-)}
-        <div 
-          className="option-container"
-          
-        >
-          <span className="option-text">View Pet Details</span>
-          <span className="arrow-button">→</span>
-        </div>
+       
         <div 
           className="option-container"
           
@@ -562,14 +528,14 @@ const UserProfilePage = ({ profile, logOut }) => {
               <MdTimeline className="home-icon" /> <span>TimeLine</span>
             </li>
 
-            {/*
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
-          <FaCalendarAlt /> 
-        </li>
-        <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-        <FaComments /> 
-      </li>
-        */}
+                    {/*
+                <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+                  <FaCalendarAlt /> 
+                </li>
+                <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+                <FaComments /> 
+              </li>
+                */}
           </ul>
           <div className="logout-container-dash">
             <ul>

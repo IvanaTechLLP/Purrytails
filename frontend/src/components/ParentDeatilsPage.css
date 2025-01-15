@@ -1,0 +1,81 @@
+/* Example CSS */
+.form-container {
+    padding: 20px;
+  }
+  
+  .back-arrow {
+    font-size: 18px;
+    color: blue;
+    margin-bottom: 20px;
+  }
+  
+  .h4-heading {
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+  }
+  
+  input:disabled {
+    background-color: #f0f0f0;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .edit-button,
+  .save-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .save-button {
+    background-color: #2196f3;
+  }
+  
+  .edit-button:hover,
+  .save-button:hover {
+    opacity: 0.8;
+  }
+  /* Back Arrow Button Styling */
+.back-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 24px !important;          
+    color: #2A5372 !important;
+    background-color: #ffffff;  /* Green background */
+    border-radius: 50px;         /* Rounded corners */
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-family: 'Poppins';
+  }
+  
+
+  
+  .back-arrow:focus {
+    outline: none;               /* Remove default focus outline */
+  }
+  
+  .back-arrow svg {
+    margin-right: 8px;  /* Spacing between the arrow and text */
+  }

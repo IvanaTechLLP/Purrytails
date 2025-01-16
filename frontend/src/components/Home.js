@@ -19,6 +19,8 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const [numberOfReminders, setNumberOfReminders] = useState(3); // Default to 3 reminders
   const [showQRCodePopup, setShowQRCodePopup] = useState(false);
   const [qrCodeImage, setQRCodeImage] = useState(null);
+  const [selectedPetName, setSelectedPetName] = useState("");
+  const [hasPet, setHasPet] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,6 +36,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   useEffect(() => {
     if (profile?.user_id) {
       fetchUserDetails();
+      fetchPetDetails();
       fetchReports();
       fetchNextReminders();
     }
@@ -79,6 +82,42 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
       console.error("Error fetching user details:", error);
     }
   };
+
+  const fetchPetDetails = async () => {
+    if (!profile?.user_id) return;
+
+    try {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.pet_details && data.pet_details.length > 0) {
+          console.log("User has a pet!");
+          setHasPet(true);
+          console.log(selectedPetId);
+
+          const selectedPet = data.pet_details.find(pet => pet.petId === selectedPetId);
+          if (selectedPet) {
+            setSelectedPetName(selectedPet.petName);
+          } else {
+            console.log("Selected pet ID does not match any registered pets.");
+          }
+        } else {
+          console.log("User does not have a pet.");
+          setHasPet(false);
+        }
+      } else {
+        console.error("Failed to fetch pet data.");
+      }
+    } catch (error) {
+      console.error("Error fetching pet data:", error);
+    }
+  };
+
 
   const fetchReports = async () => {
     if (!profile?.user_id) return;
@@ -284,7 +323,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
             <div className="dashboard-left-content">
               <div className="dashboard-container">
                 <div className="text-content">
-                  <h1 className="dashboard-title">Welcome to your Health Locker {profile.name}!</h1>
+                  <h1 className="dashboard-title">Welcome to your Health Locker {hasPet ? selectedPetName : profile.name}!</h1>
                   <p className="dashboard-description">
                     <span className="highlight-one">
                       Take charge of your pet's health today! A happy pet starts with healthy habits!

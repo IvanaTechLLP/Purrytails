@@ -67,7 +67,7 @@ const ParentDetailsPage = ( {profile} ) => {
     try {
       // Send details to backend API
       const response = await fetch(
-        `http://localhost:5000/update_user_details/${profile.user_id}`,
+        `http://localhost:5000/api/update_user_details/${profile.user_id}`,
         {
           method: "POST",
           headers: {

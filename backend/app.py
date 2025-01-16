@@ -455,7 +455,7 @@ async def get_user_details(user_id: str):
         )
         
         
-@app.post("/update_user_details/{user_id}")
+@app.post("/api/update_user_details/{user_id}")
 async def update_user_details(user_id: str, data: dict):
     try:
         # Fetch the user's record from the collection by user_id

@@ -145,17 +145,17 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   
   const instructions = [
     {
-      imgSrc: "scan1.png",
+      imgSrc: "scan-icon.png",
       title: "1. Scan the Document",
       description: "Take a clear photo of the document for the best results.",
     },
     {
-      imgSrc: "upload1.png",
+      imgSrc: "upload-icon.png",
       title: "2. Upload the Document",
       description: "Upload the scanned document in image or PDF format.",
     },
     {
-      imgSrc: "edit1.png",
+      imgSrc: "edit-icon.png",
       title: "3. Edit the Date",
       description: "Edit the date if it's incorrect. Click on the Save button.",
     },
@@ -184,33 +184,20 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   
   return (
     <div className="dashboard-wrapper">
-      <div className="bottom-nav">
-            <ul className="nav-menu">
-            <li className="nav-item" onClick={() => { navigate("/home")}}>
-            <FaHome />
-            <p>Home</p>
-          </li>
-          <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
-            <FaTachometerAlt />
-            <p>Dashboard</p>
-          </li>
       
-          <li className="nav-item" onClick={() => { navigate("/timeline")}}>
-            <MdTimeline />
-            <p>Timeline</p>
-          </li>
-          <li className="nav-item" onClick={() => { navigate("/profile")}}>
-            <FaUser />
-            <p>Profile</p>
-          </li>
-        </ul>
-            </div>
         <div classname="dashboard-left">
         <div className="header">
+        <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
  
   <h1 className="calendar-title">Document Upload</h1>
 </div>
-      <div className="sidebar">
+<div className={`sidebar ${isOpen ? 'open' : ''}`}>
+                 <button className="back-arrow-menu" onClick={closeMenu}>
+                   &larr;
+                 </button>
+             
      
         <h2>Menu</h2>
         

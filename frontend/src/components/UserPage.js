@@ -326,30 +326,17 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   if (hasPet && petDetails && petDetails.length > 0 && !isAddingPet) {
     return (
       <div className="dashboard-wrapper">
-        <div className="bottom-nav">
-                        <ul className="nav-menu">
-                        <li className="nav-item" onClick={() => { navigate("/home")}}>
-                        <FaHome />
-                        <p>Home</p>
-                      </li>
-                      <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
-                        <FaTachometerAlt />
-                        <p>Dashboard</p>
-                      </li>
-                    <li className="nav-item" onClick={() => { handleUploadFile()}}>
-                          <FaFileUpload />
-                          <p>Upload</p>
-                        </li>
-                      <li className="nav-item" onClick={() => { navigate("/timeline")}}>
-                        <MdTimeline />
-                        <p>Timeline</p>
-                      </li>
-                 
-                    </ul>
-                        </div>
+        
         <div classname="dashboard-left">
+        <div className="header">
+ 
+ <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+               <h1 className="calendar-title">Profile</h1>
+</div>
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
-          <button className="back-arrow" onClick={closeMenu}>
+          <button className="back-arrow-menu" onClick={closeMenu}>
             &larr;
           </button>
 
@@ -526,30 +513,17 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   
   return (
     <div className="dashboard-wrapper">
-      <div className="bottom-nav">
-                        <ul className="nav-menu">
-                        <li className="nav-item" onClick={() => { navigate("/home")}}>
-                        <FaHome />
-                        <p>Home</p>
-                      </li>
-                      <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
-                        <FaTachometerAlt />
-                        <p>Dashboard</p>
-                      </li>
-                    <li className="nav-item" onClick={() => { handleUploadFile()}}>
-                          <FaFileUpload />
-                          <p>Upload</p>
-                        </li>
-                      <li className="nav-item" onClick={() => { navigate("/timeline")}}>
-                        <MdTimeline />
-                        <p>Timeline</p>
-                      </li>
-                 
-                    </ul>
-                        </div>
+      
       <div classname="dashboard-left">
+      <div className="header">
+        <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+ 
+  <h1 className="calendar-title">Profile</h1>
+</div>
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
-          <button className="back-arrow" onClick={closeMenu}>
+          <button className="back-arrow-menu" onClick={closeMenu}>
             &larr;
           </button>
 
@@ -656,7 +630,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       <div className="form-container">
         <h4 className="h4-heading">PET PARENT DETAILS</h4>
         <label>
-          Owner's Name:
+          Owner's Name *: 
           <input
             type="text"
             value={ownerName}
@@ -666,7 +640,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </label>
         {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
         <label>
-          Phone Number:
+          Phone Number *:
           <input
             type="tel"
             value={phoneNumber}
@@ -676,7 +650,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </label>
         {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}
         <label>
-          Address:
+          Address *:
           <input
             type="text"
             value={ownerAddress}

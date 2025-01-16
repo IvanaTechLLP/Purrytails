@@ -222,31 +222,20 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   return (
     <div className="dashboard-wrapper">
    
-      <div className="bottom-nav">
-      <ul className="nav-menu">
-    <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
-      <FaTachometerAlt />
-      <p>Dashboard</p>
-    </li>
-    <li className="nav-item" onClick={() => { handleUploadFile()}}>
-      <FaFileUpload />
-      <p>Upload</p>
-    </li>
-    <li className="nav-item" onClick={() => { navigate("/timeline")}}>
-      <MdTimeline />
-      <p>Timeline</p>
-    </li>
-    <li className="nav-item" onClick={() => { navigate("/profile")}}>
-      <FaUser />
-      <p>Profile</p>
-    </li>
-  </ul>
-      </div>
       
       <div className="dashboard-left">
+      <div className="header">
+ 
+ <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+            
+</div>
         
-        
-        <div className="sidebar">
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+                 <button className="back-arrow-menu" onClick={closeMenu}>
+                   &larr;
+                 </button>
           
           <h2>Menu</h2>
           <ul>
@@ -256,18 +245,18 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
           <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
             
             */} 
-            <li onClick={() => { navigate("/dashboard") }}  className='menu-button' title="Dashboard">
+            <li onClick={() => { navigate("/dashboard");closeMenu(); }}  className='menu-button' title="Dashboard">
           <FaTachometerAlt  className="home-icon"/> <span>Records</span>
         </li>
 
-        <li onClick={() => { handleUploadFile() }}className='menu-button'  title="Upload Reports">
+        <li onClick={() => { handleUploadFile();closeMenu(); }}className='menu-button'  title="Upload Reports">
           <FaFileUpload  className="home-icon"/> <span>Upload</span>
         </li>
-        <li onClick={() => { navigate("/timeline")}} className='menu-button' title="Timeline">
+        <li onClick={() => { navigate("/timeline");closeMenu();}} className='menu-button' title="Timeline">
                   <MdTimeline   className="home-icon" /> <span>TimeLine</span>
                 </li>
                
-        <li onClick={() => { navigate("/profile")}} className='menu-button' title="User Settings">
+        <li onClick={() => { navigate("/profile");closeMenu();}} className='menu-button' title="User Settings">
           <FaUser  className="home-icon"/> <span>Profile</span>
         </li>
             

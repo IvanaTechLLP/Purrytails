@@ -86,8 +86,6 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       profilePicture,
     };
     setPetDetails(newPetDetails);
-    console.log("Pet and owner details:", profile.user_id);
-    alert("Pet and owner details saved successfully!");
 
     try {
       // Send details to backend API
@@ -191,6 +189,30 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     }
   };
 
+  const fetchUserDetails = async () => {
+    if (!profile?.user_id) return;
+
+    try {
+      const response = await fetch(
+        `/api/user_dashboard/${profile.user_id}`
+      );
+      const data = await response.json();
+      setOwnerName(data.name);
+      // Set phone number only if it is not empty
+      if (data.phone_number) {
+        setPhoneNumber(data.phone_number);
+      }
+
+      // Set owner address only if it is not empty
+      if (data.owner_address) {
+        setOwnerAddress(data.owner_address);
+      }
+      console.log("User details fetched:", data);
+    } catch (error) {
+      console.error("Error fetching user details:", error);
+    }
+  };
+
   useEffect(() => {
     if (!accessToken) {
       console.log("No access token found. Redirect to login.");
@@ -200,6 +222,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     if (profile?.user_id) {
 
       fetchUserPetStatus();
+      fetchUserDetails();
       // Scroll the year scroller
       scrollToSelected(yearScrollerRef, ageYears);
 
@@ -207,7 +230,6 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       scrollToSelected(monthScrollerRef, ageMonths);
 
       setProfilePicture(profile.picture);
-      setOwnerName(profile.name);
     }
   }, [ageYears, ageMonths, accessToken, profile?.user_id]);
 
@@ -407,7 +429,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         className={`pet-item-container ${
         selectedPetId === pet.petId ? "selected" : ""
         }`}
-        onClick={() => navigate(`/pet-details`)}  >
+        onClick={() => navigate(`/pet-details`, { state: { petId: pet.petId } })}   >
         <div className="pet-item">
           <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
           <div className="pet-info">
@@ -869,7 +891,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             type="tel"
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
-            placeholder="Enter phone number"
+            placeholder="Enter food quantity"
           />
         </label>
         {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}

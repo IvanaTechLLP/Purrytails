@@ -441,6 +441,7 @@ async def get_user_details(user_id: str):
             user_details = json.loads(user_details)
             user_details["phone_number"] = user_metadata.get("phone_number", "")
             user_details["owner_address"] = user_metadata.get("owner_address", "")
+            user_details["name"] = user_metadata.get("name", "")
             
         except:
             user_details = None
@@ -452,6 +453,32 @@ async def get_user_details(user_id: str):
             status_code=500,
             detail={"status": False, "message": f"Failed to fetch user details: {str(e)}"},
         )
+        
+        
+@app.post("/api/update_user_details/{user_id}")
+async def update_user_details(user_id: str, data: dict):
+    try:
+        # Fetch the user's record from the collection by user_id
+        user = users_collection.get(ids=[user_id], include=["metadatas"])
+        user_metadata = user["metadatas"][0]
+        user_metadata["phone_number"] = data["userDetails"].get("phone_number", user_metadata["phone_number"])
+        user_metadata["owner_address"] = data["userDetails"].get("owner_address", user_metadata["owner_address"])
+        user_metadata["name"] = data["userDetails"].get("name", user_metadata["name"])
+        
+        if not user["ids"]:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Update the user's metadata with the new details
+        users_collection.update(
+            ids=[user_id],
+            metadatas=user_metadata
+        )
+
+        return {"status": "success", "message": "User details updated successfully"}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update user details: {str(e)}")
+
         
 class ReportResponse(BaseModel):
     report_id: str
@@ -844,18 +871,16 @@ async def store_pet_details(data: PetDetails):
         pet_details = data.petDetails
         
         owner_address = pet_details.get("ownerAddress", "")
+        print(owner_address)
         pet_details.pop("ownerAddress")
         phone_number = pet_details.get("phoneNumber", "")
+        print(phone_number)
         pet_details.pop("phoneNumber")
         
         pet_details["petId"] = str(uuid.uuid4())
-
-        print("userid:", user_id)
-        print("pet details:", pet_details)
         
         user = users_collection.get(ids=[user_id])
         user_metadata = user["metadatas"][0]
-        print(user_metadata)
         
         existing_pet_details = json.loads(user_metadata.get("pet_details", "[]"))
         existing_pet_details.append(pet_details)
@@ -878,15 +903,49 @@ async def store_pet_details(data: PetDetails):
         print(f"Error storing pet details: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while saving data.")
     
+    
+@app.post("/api/update_pet_details")
+async def update_pet_details(data: PetDetails):
+    try:
+        # Extract data from request
+        user_id = data.user_id
+        pet_details = data.petDetails
+        
+        pet_id = pet_details["petId"]
+        
+        user = users_collection.get(ids=[user_id])
+        user_metadata = user["metadatas"][0]
+        
+        existing_pet_details = json.loads(user_metadata.get("pet_details", "[]"))
+        
+        for i, pet in enumerate(existing_pet_details):
+            if pet["petId"] == pet_id:
+                existing_pet_details[i] = pet_details
+                break
+        
+        final_metadatas = {"pet_details": json.dumps(existing_pet_details)}
+
+        # Store data in ChromaDB under the user's ID
+        users_collection.update(
+            ids=[user_id],  # Unique identifier for the user
+            metadatas=final_metadatas,  # Metadata contains the pet details
+        )
+
+        return {"message": "Pet details updated successfully in ChromaDB!"}
+
+    except Exception as e:
+        print(f"Error updating pet details: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while updating data.")
+    
 
 @app.get("/api/get_pet_details/{user_id}")
 async def get_pet_details(user_id: str):
     try:
         print(user_id)
         user = users_collection.get(ids=[user_id])
-        print(user)
+        # print(user)
         user_metadata = user["metadatas"][0]
-        print(user_metadata)
+        # print(user_metadata)
         
         pet_details = user_metadata.get("pet_details", {})
         owner_address = user_metadata.get("owner_address", "")

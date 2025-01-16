@@ -56,9 +56,43 @@ const ParentDetailsPage = ( {profile} ) => {
     setIsEditable(true); // Enable editing
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsEditable(false); // Disable editing
-    // Here you can add logic to save changes to a backend or state
+    const newUserDetails = {
+      name: ownerName,
+      phone_number: phoneNumber,
+      owner_address: ownerAddress,
+    };
+
+    try {
+      // Send details to backend API
+      const response = await fetch(
+        `/api/update_user_details/${profile.user_id}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: profile.user_id, // Replace with actual user ID
+            userDetails: newUserDetails,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        alert(
+          "User details saved successfully and sent to the database!"
+        );
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save data:", errorData);
+        alert("Failed to send data to the database. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
+      alert("An error occurred while sending data. Please try again.");
+    }
   };
 
   return (

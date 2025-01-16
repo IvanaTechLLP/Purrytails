@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./ParentDeatilsPage.css"; // Ensure your CSS is imported
 import {
 
@@ -9,23 +9,64 @@ import {
     FaCalendarAlt,
   } from "react-icons/fa";
   import { MdTimeline } from "react-icons/md";
+import { set } from "date-fns";
 
 
-const ParentDetailsPage = () => {
+const ParentDetailsPage = ( {profile} ) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { petId } = location.state || {}; // Access the passed petId
 
   // State to hold the input values and whether the fields are editable
 
   const [isEditable, setIsEditable] = useState(false);
-   const [petName, setPetName] = useState( "");
-    const [breed, setBreed] = useState("");
-    const [sex, setSex] = useState( "");
-    const [weight, setWeight] = useState(0); // Initial weight state
-    const [petType, setPetType] = useState(""); // New state for pet type selection
-    const [ageYears, setAgeYears] = useState(0);
-    const [ageMonths, setAgeMonths] = useState(0);
-    const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
-    const [quantity, setQuantity] = useState(0);
+  const [petName, setPetName] = useState("");
+  const [profilePicture, setProfilePicture] = useState(profile?.picture);
+  const [breed, setBreed] = useState("");
+  const [sex, setSex] = useState( "");
+  const [weight, setWeight] = useState(0); // Initial weight state
+  const [petType, setPetType] = useState(""); // New state for pet type selection
+  const [ageYears, setAgeYears] = useState(0);
+  const [ageMonths, setAgeMonths] = useState(0);
+  const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
+  const [quantity, setQuantity] = useState(0);
+
+  // UseEffect to fetch data from a backend or state
+    useEffect(() => {
+      fetchPetDetails();
+    }, []);
+      
+  
+    const fetchPetDetails = async () => {
+      if (!profile?.user_id) return;
+  
+      try {
+        const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        const data = await response.json();
+
+        const matchingPet = data.pet_details.find((pet) => pet.petId === petId);
+
+        setPetName(matchingPet.petName);
+        setProfilePicture(matchingPet.profilePicture);
+        setBreed(matchingPet.breed);
+        setSex(matchingPet.sex);
+        setWeight(matchingPet.weight);
+        setPetType(matchingPet.petType);
+        setAgeYears(matchingPet.ageYears);
+        setAgeMonths(matchingPet.ageMonths);
+        setFoodBrand(matchingPet.foodBrand);
+        setQuantity(matchingPet.quantity);
+
+        
+      } catch (error) {
+        console.error("Error fetching pet details:", error);
+      }
+    };
 
   // Handle back button click to navigate to profile page
   const handleBack = () => {
@@ -39,9 +80,54 @@ const ParentDetailsPage = () => {
     setIsEditable(true); // Enable editing
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setIsEditable(false); // Disable editing
     // Here you can add logic to save changes to a backend or state
+    const newPetDetails = {
+      petId: petId,
+      petName: petName,
+      profilePicture: profilePicture,
+      breed: breed,
+      sex: sex,
+      weight: weight,
+      petType: petType,
+      ageYears: ageYears,
+      ageMonths: ageMonths,
+      foodBrand: foodBrand,
+      quantity: quantity,
+    };
+
+    try {
+      // Send details to backend API
+      const response = await fetch(
+        "/api/update_pet_details",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: profile.user_id, // Replace with actual user ID
+            petDetails: newPetDetails,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        alert(
+          "Pet details saved successfully and sent to the database!"
+        );
+        navigate("/profile");
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save data:", errorData);
+        alert("Failed to send data to the database. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
+      alert("An error occurred while sending data. Please try again.");
+    }
+
   };
 
   return (
@@ -137,6 +223,7 @@ const ParentDetailsPage = () => {
       <h4 className="h4-heading">PET DETAILS</h4>
 
       {/* Fields */}
+      <img src={profilePicture} alt={petName} className="pet-photo" />
       <label>
       Pet Name :
       <input
@@ -147,23 +234,31 @@ const ParentDetailsPage = () => {
         disabled={!isEditable}
       />
     </label>
-      <label>
-        Age
+    <label>
+      Age
+      <div style={{ display: "flex", alignItems: "center" }}>
         <input
           type="tel"
           value={ageYears}
-          onChange={(e) => setAgeYears(e.target.value)}
-          placeholder="Enter phone number"
+          onChange={(e) => setAgeYears(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
+          placeholder="Enter years"
           disabled={!isEditable}
+          style={{ marginRight: "5px" }}
         />
+        {ageYears && <span>years</span>}
+      </div>
+      <div style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
         <input
           type="tel"
           value={ageMonths}
-          onChange={(e) => setAgeMonths(e.target.value)}
-          placeholder="Enter phone number"
+          onChange={(e) => setAgeMonths(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
+          placeholder="Enter months"
           disabled={!isEditable}
+          style={{ marginRight: "5px" }}
         />
-      </label>
+        {ageMonths && <span>months</span>}
+      </div>
+    </label>
      
       <label>
         Pet Type:
@@ -171,7 +266,7 @@ const ParentDetailsPage = () => {
           type="text"
           value={petType}
           onChange={(e) => setPetType(e.target.value)}
-          placeholder="Enter address"
+          placeholder="Enter pet type"
           disabled={!isEditable}
         />
       </label>
@@ -181,7 +276,7 @@ const ParentDetailsPage = () => {
           type="text"
           value={sex}
           onChange={(e) => setSex(e.target.value)}
-          placeholder="Enter address"
+          placeholder="Enter sex"
           disabled={!isEditable}
         />
       </label>
@@ -191,17 +286,17 @@ const ParentDetailsPage = () => {
           type="text"
           value={breed}
           onChange={(e) => setBreed(e.target.value)}
-          placeholder="Enter address"
+          placeholder="Enter breed"
           disabled={!isEditable}
         />
       </label>
       <label>
-        Weight:
+        Weight (in kg):
         <input
           type="text"
           value={weight}
           onChange={(e) => setWeight(e.target.value)}
-          placeholder="Enter address"
+          placeholder="Enter weight"
           disabled={!isEditable}
         />
       </label>
@@ -211,7 +306,7 @@ const ParentDetailsPage = () => {
           type="text"
           value={foodBrand}
           onChange={(e) => setFoodBrand(e.target.value)}
-          placeholder="Enter address"
+          placeholder="Enter food brand"
           disabled={!isEditable}
         />
       </label>
@@ -221,7 +316,7 @@ const ParentDetailsPage = () => {
           type="text"
           value={quantity}
           onChange={(e) => setQuantity(e.target.value)}
-          placeholder="Enter address"
+          placeholder="Enter food quantity"
           disabled={!isEditable}
         />
       </label>

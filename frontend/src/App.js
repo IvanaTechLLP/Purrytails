@@ -133,7 +133,7 @@ function App() {
               path="/pet-details"
               element={
                 isAuthenticated ? (
-                  <PetDetailsPage /> // Render this if the user is authenticated
+                  <PetDetailsPage profile={profile} /> // Render this if the user is authenticated
                 ) : (
                   <Navigate to="/" /> // Redirect to landing page if not authenticated
                 )

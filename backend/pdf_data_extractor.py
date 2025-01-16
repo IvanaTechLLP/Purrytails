@@ -218,7 +218,7 @@ def create_pdfs_from_reports(folder_path, reports_data):
         pdf.set_auto_page_break(auto=True, margin=15)
         
         for idx in image_indices:     
-            image_path = os.path.join(uploaded_images_folder, f"pdf_{folder_path}\\image{idx}.png")
+            image_path = os.path.join(uploaded_images_folder, f"pdf_{folder_path}/image{idx}.png")
 
             
             if os.path.exists(image_path):

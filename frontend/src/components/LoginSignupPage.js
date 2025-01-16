@@ -83,7 +83,7 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
           <p>Please enter your details</p>
 
 
-          <input type="email" placeholder="Email address" />
+          {/* <input type="email" placeholder="Email address" />
           <input type="password" placeholder="Password" />
           <div className="options">
             <label>
@@ -92,14 +92,14 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
             </label>
             <a href="/forgot-password">Forgot password ?</a>
           </div>
-          <button className="signin-button">Sign in</button>
+          <button className="signin-button">Sign in</button> */}
           <button className="google-signin-button" onClick={login}>
             <img src="/google-logo.png" alt="Google Logo" />
             Sign in with Google
           </button>
-          <p>
+          {/* <p>
             Don’t have an account? <a href="/signup">Sign up</a>
-          </p>
+          </p> */}
         </div>
       </div>
       <div className="illustration">

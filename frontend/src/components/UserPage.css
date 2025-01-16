@@ -700,9 +700,10 @@
 }
 
 .selected-text {
-  margin-left: 10px;
+  margin-left: -1rem;
   color: #ff5722;
   font-weight: bold;
+  text-align: center;
 }
 /* Dropdown container and button styles */
 .dropdown-container {

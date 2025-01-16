@@ -47,28 +47,26 @@ body {
     font-size: 20px;
     cursor: pointer;
     margin: 10px;
-    color:  #C5A181; /* Brown color */
-    background: #302C28; /* Remove blue background */
+    color:  #ffffff; /* Brown color */
+    background: #023047; /* Remove blue background */
     display: block !important;
     transition: color 0.3s; /* Smooth transition for color change */
   }
   
   .hamburger:hover {
-    color: #302C28;
-    background: #C5A181;/* Remove blue background *//* Lighter shade for hover effect */
+    color: #023047;
+    background: #ffffff;/* Remove blue background *//* Lighter shade for hover effect */
   }
-  .back-arrow{
+  .back-arrow-menu{
     font-size: 20px;
     cursor: pointer;
     margin: 10px;
-    color:  #C5A181; /* Brown color */
-    background: #302C28; /* Remove blue background */
-    color: #302C28;
-    background: #C5A181;
+    color:  #023047; /* Brown color */
+    background: #ffffff; /* Remove blue background */
     transition: color 0.3s; /* Smooth transition for color change */
     display: block !important;
   }
-  .back-arrow:hover {
+  .back-arrow-menu:hover {
     color:  #C5A181; /* Brown color */
     background: #302C28; /* Remove blue background *//* Lighter shade for hover effect */
   }

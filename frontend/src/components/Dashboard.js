@@ -253,6 +253,8 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
 
   return (
     <div className="dashboard-wrapper">
+
+      {/*
             <div className="bottom-nav">
                   <ul className="nav-menu">
                   <li className="nav-item" onClick={() => { navigate("/home")}}>
@@ -272,56 +274,65 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
                   <p>Profile</p>
                 </li>
               </ul>
-                  </div>
+              </div>
+              */}
       <div classname="dashboard-left">
       <div className="header">
-  <h1 className="calendar-title">Records Locker</h1>
+ 
+ <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+               <h1 className="calendar-title">Records Locker</h1>
 </div>
-      <div className="sidebar">
+      
+               <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+                 <button className="back-arrow-menu" onClick={closeMenu}>
+                   &larr;
+                 </button>
+             
        
-        
-        <h2>Menu</h2>
-        
-        <ul className="menu-items">
-          
-                <li onClick={() => { navigate("/home") }} title="Home">
-          <FaHome  className="home-icon" />    <span>Home</span>
-          
-        </li>
-        
-        <li onClick={() => { navigate("/file_upload")}}className='menu-button'  title="Upload Reports">
-          <FaFileUpload  className="home-icon" /> <span>Upload</span>
-        </li>
-          {/* 
-        <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
-          <FaCalendarAlt /> 
-        </li>
-        */}
-        <li onClick={() => { navigate("/timeline");}} className='menu-button' title="Timeline">
-          <MdTimeline   className="home-icon" /> <span>TimeLine</span>
-        </li>
+       <h2>Menu</h2>
        
-        <li onClick={() => { navigate("/profile"); }} className='menu-button' title="User Settings">
-          <FaUser  className="home-icon" /> <span>Profile</span>
-        </li>
-        
-        {/* 
-<li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-    <FaComments /> 
-</li>
-*/}
+       <ul className="menu-items">
+         
+               <li onClick={() => { navigate("/home");closeMenu(); }} title="Home">
+         <FaHome  className="home-icon" />    <span>Home</span>
+         
+       </li>
+       
+       <li onClick={() => { navigate("/file_upload");closeMenu();}}className='menu-button'  title="Upload Reports">
+         <FaFileUpload  className="home-icon" /> <span>Upload</span>
+       </li>
+         {/* 
+       <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
+         <FaCalendarAlt /> 
+       </li>
+       */}
+       <li onClick={() => { navigate("/timeline");closeMenu(); }} className='menu-button' title="Timeline">
+         <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+       </li>
+      
+       <li onClick={() => { navigate("/profile");closeMenu();  }} className='menu-button' title="User Settings">
+         <FaUser  className="home-icon" /> <span>Profile</span>
+       </li>
+       
+       {/* 
+         <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
+             <FaComments /> 
+         </li>
+         */}
 
-            
-        </ul>
-         {/*
-          <ul>
-          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
-            <FaSignOutAlt />
-          </li>
-          </ul>
-          */}
-      </div>
-      </div>
+           
+       </ul>
+        {/*
+         <ul>
+         <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+           <FaSignOutAlt />
+         </li>
+         </ul>
+         */}
+     </div>
+     </div>
         
       <div classname="dashboard-right">
         

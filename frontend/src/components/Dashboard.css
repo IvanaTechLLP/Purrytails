@@ -159,7 +159,7 @@
 .hamburger{
   display: none !important;
 }
-.back-arrow{
+.back-arrow-menu{
   display: none !important;
 }
 
@@ -178,7 +178,7 @@
   color: #302C28;
   background: #C5A181;/* Remove blue background *//* Lighter shade for hover effect */
 }
-.back-arrow{
+.back-arrow-menu{
   font-size: 12px  !important;
   cursor: pointer;
 
@@ -189,7 +189,7 @@
   transition: color 0.3s; /* Smooth transition for color change */
   display: block !important;
 }
-.back-arrow:hover {
+.back-arrow-menu:hover {
   color:  #C5A181; /* Brown color */
   background: #302C28; /* Remove blue background *//* Lighter shade for hover effect */
 }
@@ -862,7 +862,7 @@ li span {
     }
     .chatbot-button {
     
-      bottom: 80px  !important; /* 30px above the bottom of the screen */
+      bottom: 30px  !important; /* 30px above the bottom of the screen */
       
     }
     

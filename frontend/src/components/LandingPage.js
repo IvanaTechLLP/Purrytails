@@ -200,7 +200,7 @@ const LandingPage = () => {
 <a href="#perks" className="phone-nav-link" onClick={(e) => scrollToSectionMobile(e, 'journey')}>User Flow</a>
 <a href="#reviews" className="phone-nav-link" onClick={(e) => scrollToSectionMobile(e, 'reviews')}>Testimonials</a>
 <a href="#about" className="phone-nav-link" onClick={(e) => scrollToSectionMobile(e, 'about')}>Our Team</a>
-{/*<a href="/login" className="phone-nav-link">Login</a>*/}
+<a href="/login" className="phone-nav-link">Login</a>
 
           
         </ul>

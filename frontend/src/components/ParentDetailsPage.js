@@ -32,7 +32,7 @@ const ParentDetailsPage = ( {profile} ) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setOwnerName(data.name);

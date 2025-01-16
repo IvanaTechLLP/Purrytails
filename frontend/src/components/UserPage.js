@@ -107,7 +107,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         alert(
           "Pet and owner details saved successfully and sent to the database!"
         );
-        navigate("/profile");
+        window.location.reload();
       } else {
         const errorData = await response.json();
         console.error("Failed to save data:", errorData);

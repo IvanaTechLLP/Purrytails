@@ -3,6 +3,12 @@
     font-family: Arial, sans-serif;
 }
 
+.timeline-empty-message {
+  font-size: 1.5rem;
+  color: #555;
+  margin-left: 1.5rem;
+}
+
 .timeline {
     position: relative;
     padding: 10px 0;

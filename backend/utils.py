@@ -419,12 +419,7 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
                 
             elif user_type == "patient": 
                 results = reports_vector_store.similarity_search_with_score(
-                    query=chromadb_query, k=no_of_reports, filter={
-                        "$and": [
-                            {"user_id": user_id},
-                            {"pet_id": pet_id}
-                        ]
-                    }
+                    query=chromadb_query, k=no_of_reports, filter={"pet_id": pet_id}
                 )
                 
             else:

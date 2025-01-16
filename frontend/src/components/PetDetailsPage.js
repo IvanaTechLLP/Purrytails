@@ -41,7 +41,7 @@ const ParentDetailsPage = ( {profile} ) => {
       if (!profile?.user_id) return;
   
       try {
-        const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+        const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -100,7 +100,7 @@ const ParentDetailsPage = ( {profile} ) => {
     try {
       // Send details to backend API
       const response = await fetch(
-        "http://localhost:5000/api/update_pet_details",
+        "/api/update_pet_details",
         {
           method: "POST",
           headers: {

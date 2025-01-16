@@ -30,6 +30,7 @@ const ParentDetailsPage = ( {profile} ) => {
   const [ageMonths, setAgeMonths] = useState(0);
   const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
   const [quantity, setQuantity] = useState(0);
+      const [isOpen, setIsOpen] = useState(false);
 
   // UseEffect to fetch data from a backend or state
     useEffect(() => {
@@ -129,33 +130,31 @@ const ParentDetailsPage = ( {profile} ) => {
     }
 
   };
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
 
   return (
     
     <div className="dashboard-wrapper">
-          <div className="bottom-nav">
-                            <ul className="nav-menu">
-                            <li className="nav-item" onClick={() => { navigate("/home")}}>
-                            <FaHome />
-                            <p>Home</p>
-                          </li>
-                          <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
-                            <FaTachometerAlt />
-                            <p>Dashboard</p>
-                          </li>
-                        <li className="nav-item" onClick={() => { handleUploadFile()}}>
-                              <FaFileUpload />
-                              <p>Upload</p>
-                            </li>
-                          <li className="nav-item" onClick={() => { navigate("/timeline")}}>
-                            <MdTimeline />
-                            <p>Timeline</p>
-                          </li>
-                     
-                        </ul>
-                            </div>
+       <div className="header">
+ 
+ <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+               <h1 className="calendar-title">Pet Details</h1>
+            
+</div>
+         
           <div classname="dashboard-left">
-            <div className="sidebar">
+          <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+                 <button className="back-arrow-menu" onClick={closeMenu}>
+                   &larr;
+                 </button>
       
     
               <h2>Menu</h2>

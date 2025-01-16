@@ -20,6 +20,7 @@ const ParentDetailsPage = ( {profile} ) => {
   const [phoneNumber, setPhoneNumber] = useState("123-456-7890");
   const [ownerAddress, setOwnerAddress] = useState("123 Main St, City");
   const [isEditable, setIsEditable] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
 
   // UseEffect to fetch data from a backend or state
   useEffect(() => {
@@ -94,33 +95,31 @@ const ParentDetailsPage = ( {profile} ) => {
       alert("An error occurred while sending data. Please try again.");
     }
   };
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
 
   return (
     
     <div className="dashboard-wrapper">
-          <div className="bottom-nav">
-                            <ul className="nav-menu">
-                            <li className="nav-item" onClick={() => { navigate("/home")}}>
-                            <FaHome />
-                            <p>Home</p>
-                          </li>
-                          <li className="nav-item" onClick={() => { navigate("/dashboard")}}>
-                            <FaTachometerAlt />
-                            <p>Dashboard</p>
-                          </li>
-                        <li className="nav-item" onClick={() => { handleUploadFile()}}>
-                              <FaFileUpload />
-                              <p>Upload</p>
-                            </li>
-                          <li className="nav-item" onClick={() => { navigate("/timeline")}}>
-                            <MdTimeline />
-                            <p>Timeline</p>
-                          </li>
-                     
-                        </ul>
-                            </div>
+            <div className="header">
+ 
+ <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+               <h1 className="calendar-title">Parent Details</h1>
+            
+</div>
+          
           <div classname="dashboard-left">
-            <div className="sidebar">
+          <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+                 <button className="back-arrow-menu" onClick={closeMenu}>
+                   &larr;
+                 </button>
       
     
               <h2>Menu</h2>
@@ -128,6 +127,7 @@ const ParentDetailsPage = ( {profile} ) => {
                 <li
                   onClick={() => {
                     navigate("/home");
+                    closeMenu();
                     
                   }}
                   title="Home"
@@ -138,6 +138,7 @@ const ParentDetailsPage = ( {profile} ) => {
                 <li
                   onClick={() => {
                     navigate("/dashboard");
+                    closeMenu();
                    
                   }}
                   className="menu-button"
@@ -148,6 +149,7 @@ const ParentDetailsPage = ( {profile} ) => {
                 <li
                   onClick={() => {
                     handleUploadFile();
+                    closeMenu();
                    
                   }}
                   className="menu-button"
@@ -158,6 +160,7 @@ const ParentDetailsPage = ( {profile} ) => {
                 <li
                   onClick={() => {
                     navigate("/timeline");
+                    closeMenu();
                    
                   }}
                   className="menu-button"

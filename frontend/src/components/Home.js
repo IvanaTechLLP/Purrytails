@@ -270,6 +270,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
  <button className="hamburger" onClick={handleToggle}>
                  &#9776;
                </button>
+               <h1 className="calendar-title">Home</h1>
             
 </div>
         

@@ -408,10 +408,12 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     
   
       <div className="pet-details-page">
-  <h1 className="dashboard-title">Your Profile</h1>
+      <h1 className="image-upload-title">Profile</h1>
+        
+ 
   <div className="profile-page">
   <div className="pet-list">
-    {petDetails.map((pet, index) => (
+  {petDetails.map((pet, index) => (
       <div 
         key={index} 
         className={`pet-item-container ${
@@ -437,6 +439,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </div>
       </div>
     ))}
+
     
     {/* Universal dropdown */}
     <div className="dropdown-container">
@@ -594,6 +597,8 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       </div>
 
       <div className="profile-page">
+        <div className="header">
+        <h1 className="calendar-title">Profile</h1></div>
         <div className="profile-header"></div>
         <div class="profile-image-container">
           <img src={profilePicture} alt="user" className="profile-image" />

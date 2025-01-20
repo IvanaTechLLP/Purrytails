@@ -28,3 +28,7 @@ reports_vector_store = Chroma(
 source_folder = "/app"
 
 print(users_collection.count())
+print()
+
+names = [ast.literal_eval(entry)["name"] for entry in users_collection.get()['documents']]
+print(names)

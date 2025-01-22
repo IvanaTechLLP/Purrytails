@@ -207,6 +207,10 @@ const LandingPage = () => {
       </div>
     </div>
        </div>
+
+       <button className="login-button" onClick={handleLoginClick}>
+        Login
+        </button>
   
 
 

@@ -861,7 +861,7 @@ async def save_doctor_notes(request: SaveDoctorNotesRequest):
 
 class PetDetails(BaseModel):
     user_id: str
-    petDetails: Dict
+    pet_id: str
         
 @app.post("/api/store_pet_details")
 async def store_pet_details(data: PetDetails):
@@ -955,6 +955,91 @@ async def get_pet_details(user_id: str):
     except Exception as e:
         print(f"Error fetching pet details: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while fetching data.")
+
+
+@app.post("/api/delete_pet_details")
+async def delete_pet_details(data: PetDetails):
+    try:
+        # Extract data from request
+        user_id = data.user_id
+        pet_id = data.pet_id
+        
+        
+        user = users_collection.get(ids=[user_id])
+        user_metadata = user["metadatas"][0]
+        
+        existing_pet_details = json.loads(user_metadata.get("pet_details", "[]"))
+        
+        updated_pet_details = [pet for pet in existing_pet_details if pet["petId"] != pet_id]
+        
+        final_metadatas = {"pet_details": json.dumps(updated_pet_details)}
+
+        # Store data in ChromaDB under the user's ID
+        users_collection.update(
+            ids=[user_id],  # Unique identifier for the user
+            metadatas=final_metadatas,  # Metadata contains the pet details
+        )
+
+        return {"message": "Pet details deleted successfully in ChromaDB!"}
+
+    except Exception as e:
+        print(f"Error deleting pet details: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while deleting data.")
+    
+    
+@app.post("/api/share_pet_profile")   
+async def share_pet_profile(data: dict):
+    try:
+        user_id = data["user_id"]  # ID of the current user
+        email = data["email"]  # Email of the target user
+        pet_id = data["pet_id"]  # ID of the pet to transfer
+        
+        # Get the current user data
+        current_user = users_collection.get(ids=[user_id])
+        if not current_user or not current_user.get("metadatas"):
+            raise HTTPException(status_code=404, detail="Current user not found")
+        current_user_metadata = current_user["metadatas"][0]
+        
+        # Get the target user by email
+        target_user = users_collection.get(include=["metadatas"], where={"email": email})
+        if not target_user or not target_user.get("ids"):
+            raise HTTPException(status_code=404, detail="Target user not found")
+
+        target_user_id = target_user["ids"][0]
+        target_user_metadata = target_user["metadatas"][0]
+
+        # Get pet details from the current user
+        current_pet_details = json.loads(current_user_metadata.get("pet_details", "[]"))
+        pet_to_transfer = None
+        updated_pet_details = []
+
+        for pet in current_pet_details:
+            if pet["petId"] == pet_id:
+                pet_to_transfer = pet
+            else:
+                updated_pet_details.append(pet)
+
+        if not pet_to_transfer:
+            raise HTTPException(status_code=404, detail="Pet not found for the current user")
+
+        # Update the current user's pet details (remove the transferred pet)
+        current_user_metadata["pet_details"] = json.dumps(updated_pet_details)
+        users_collection.update(ids=[user_id], metadatas=[current_user_metadata])
+
+        # Add the pet to the target user's pet details
+        target_pet_details = json.loads(target_user_metadata.get("pet_details", "[]"))
+        target_pet_details.append(pet_to_transfer)
+        target_user_metadata["pet_details"] = json.dumps(target_pet_details)
+
+        # Update the target user's metadata
+        users_collection.update(ids=[target_user_id], metadatas=[target_user_metadata])
+
+        return {"message": "Pet profile successfully transferred!"}
+        
+    except Exception as e:
+        print(f"Error transferring pet profile: {e}")
+        raise HTTPException(status_code=500, detail="An error occurred while transferring the pet profile.")
+
     
 
 

@@ -43,6 +43,9 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
   const [quantity, setQuantity] = useState(0);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
+  const [shareEmail, setShareEmail] = useState("");
+  const [sharePetId, setSharePetId] = useState(null);
 
   // Toggle dropdown visibility
   const toggleDropdown = () => {
@@ -118,6 +121,80 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       alert("An error occurred while sending data. Please try again.");
     }
   };
+
+  const handleDeletePet = async (petId) => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/delete_pet_details`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          user_id: profile.user_id,
+          pet_id: petId, 
+        }),
+      });
+  
+      if (response.ok) {
+        console.log(`Pet with ID ${petId} deleted successfully.`);
+        // Optionally refresh the pet list or remove the pet locally
+        setPetDetails((prevPets) => prevPets.filter((pet) => pet.petId !== petId));
+      } else {
+        const errorData = await response.json();
+        console.error(`Failed to delete pet: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error("Error deleting pet:", error);
+    }
+  };
+
+  const openSharePopup = (petId) => {
+    setSharePetId(petId);
+    setIsSharePopupOpen(true);
+  };
+
+  const closeSharePopup = () => {
+    setShareEmail("");
+    setSharePetId(null);
+    setIsSharePopupOpen(false);
+  };
+
+  const handleSharePet = async () => {
+    if (!shareEmail || !sharePetId) {
+      alert("Please enter a valid email.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/share_pet_profile`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ 
+          user_id: profile.user_id,
+          pet_id: sharePetId, 
+          email: shareEmail,
+        }),
+      });
+  
+      if (response.ok) {
+        console.log("Pet profile shared successfully!");
+        alert("Pet profile shared successfully!");
+        closeSharePopup();
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        console.error(`Failed to share pet profile: ${errorData.message}`);
+        alert("Failed to share pet profile.");
+      }
+    } catch (error) {
+      console.error("Error sharing pet profile:", error);
+      alert("Error sharing pet profile.");
+    }
+  };
+  
+  
 
   const handleBreedSelection = (selectedBreed) => {
     setBreed(selectedBreed);
@@ -410,10 +487,12 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     
   
       <div className="pet-details-page">
-  <h1 className="dashboard-title">Your Profile</h1>
+      <h1 className="image-upload-title">Profile</h1>
+        
+ 
   <div className="profile-page">
   <div className="pet-list">
-    {petDetails.map((pet, index) => (
+  {petDetails.map((pet, index) => (
       <div 
         key={index} 
         className={`pet-item-container ${
@@ -428,6 +507,27 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           </div>
           {/* Highlight selected pet */}
           {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>}
+          {/* Delete Button */}
+          <button
+            className="delete-button"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent navigation on delete
+              handleDeletePet(pet.petId);
+            }}
+          >
+            Delete
+          </button>
+
+          {/* Share Button */}
+          <button
+            className="share-button"
+            onClick={(e) => {
+              e.stopPropagation(); // Prevent navigation
+              openSharePopup(pet.petId);
+            }}
+          >
+            Share
+          </button>
 
           {/* <button
             className="select-button"
@@ -439,6 +539,27 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </div>
       </div>
     ))}
+
+    {/* Share Popup */}
+    {isSharePopupOpen && (
+      <div className="share-popup">
+        <div className="share-popup-content">
+          <h3>Share Pet Profile</h3>
+          <input
+            type="email"
+            placeholder="Enter email ID"
+            value={shareEmail}
+            onChange={(e) => setShareEmail(e.target.value)}
+            className="share-email-input"
+          />
+          <div className="share-popup-actions">
+            <button onClick={handleSharePet}>Send</button>
+            <button onClick={closeSharePopup}>Cancel</button>
+          </div>
+        </div>
+      </div>
+    )}
+
     
     {/* Universal dropdown */}
     <div className="dropdown-container">
@@ -596,6 +717,8 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       </div>
 
       <div className="profile-page">
+        <div className="header">
+        <h1 className="calendar-title">Profile</h1></div>
         <div className="profile-header"></div>
         <div class="profile-image-container">
           <img src={profilePicture} alt="user" className="profile-image" />

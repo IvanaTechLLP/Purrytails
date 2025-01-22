@@ -169,9 +169,7 @@ const Timeline = ({ profile, selectedPetId }) => {
               &#9776;
             </button>
             <h1 className="calendar-title">TimeLine</h1>
-            <button className="hamburger" onClick={handleToggle}>
-              &#9776;
-            </button>
+            
           </div>
 
           <div className={`sidebar ${isOpen ? "open" : ""}`}>

@@ -124,7 +124,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
 
   const handleDeletePet = async (petId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/delete_pet_details`, {
+      const response = await fetch(`/api/delete_pet_details`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -166,7 +166,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     }
   
     try {
-      const response = await fetch(`http://localhost:5000/api/share_pet_profile`, {
+      const response = await fetch(`/api/share_pet_profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

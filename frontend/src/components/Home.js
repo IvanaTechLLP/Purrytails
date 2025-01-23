@@ -259,11 +259,11 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   
 
   return (
-    <div className="dashboard-wrapper">
+    <div className="dashboard-wrapper" >
    
       
       <div className="dashboard-left">
-      <div className="header">
+      <div className="header" >
  
  <button className="hamburger" onClick={handleToggle}>
                  &#9776;
@@ -315,9 +315,9 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
                
 
       
-      <div className="dashboard-right">
+      <div className="dashboard-right" onClick={() => {closeMenu(); }}>
    
-        <div className="dashboard-flex-container">
+        <div className="dashboard-flex-container" >
           <div className="column">
             <div className="dashboard-left-content">
               <div className="dashboard-container">

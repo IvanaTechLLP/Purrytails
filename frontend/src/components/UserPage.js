@@ -409,7 +409,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       </div>
     
   
-      <div className="pet-details-page">
+      <div className="pet-details-page" onClick={() => {closeMenu(); }}>
       <h1 className="image-upload-title">Profile</h1>
         
  
@@ -598,7 +598,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </div>
       </div>
 
-      <div className="profile-page">
+      <div className="profile-page" onClick={() => {closeMenu(); }}>
         <div className="header">
         <h1 className="calendar-title">Profile</h1></div>
         <div className="profile-header"></div>

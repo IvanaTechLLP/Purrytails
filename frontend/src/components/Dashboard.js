@@ -333,7 +333,7 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
      </div>
      </div>
         
-      <div classname="dashboard-right">
+      <div classname="dashboard-right" onClick={() => {closeMenu(); }}>
         
         <h1 className="dashboard-title-one">Welcome to your Health Locker!</h1>
         <p className="dashboard-description-one">

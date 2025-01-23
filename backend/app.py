@@ -551,7 +551,8 @@ async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
         
         reports = reports_collection.get(
             include=["documents", "metadatas"],
-            where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
+            # where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
+            where={"pet_id": pet_id}
         )
         
         

@@ -29,6 +29,8 @@ services:
       FERNET_KEY: "ZC1bXy5zTWrS6IwnJhWNOmtMfZ2GEyzjI5Z7zXbrE9I="
       SMTP_USER: "meddoc001@gmail.com"
       SMTP_PASSWORD: "daol ubbo gqpc qtkx"
+    volumes:
+      - chromadb_data:/app/chromadb_database
     ports:
       - "5000:5000"
     networks:
@@ -53,3 +55,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  chromadb_data:

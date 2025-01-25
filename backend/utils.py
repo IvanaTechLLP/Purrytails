@@ -379,7 +379,7 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
             elif user_type == "patient": 
                 reports = reports_collection.get(
                     include=["documents", "metadatas"],
-                    where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
+                    where={"pet_id": pet_id}
                 )
                 
             else:

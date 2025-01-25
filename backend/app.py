@@ -550,7 +550,8 @@ async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
         
         reports = reports_collection.get(
             include=["documents", "metadatas"],
-            where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
+            # where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
+            where={"pet_id": pet_id}
         )
         
         
@@ -860,7 +861,7 @@ async def save_doctor_notes(request: SaveDoctorNotesRequest):
 
 class PetDetails(BaseModel):
     user_id: str
-    pet_id: str
+    petDetails: dict
         
 @app.post("/api/store_pet_details")
 async def store_pet_details(data: PetDetails):
@@ -957,11 +958,11 @@ async def get_pet_details(user_id: str):
 
 
 @app.post("/api/delete_pet_details")
-async def delete_pet_details(data: PetDetails):
+async def delete_pet_details(data: dict):
     try:
         # Extract data from request
-        user_id = data.user_id
-        pet_id = data.pet_id
+        user_id = data["user_id"]
+        pet_id = data["pet_id"]
         
         
         user = users_collection.get(ids=[user_id])

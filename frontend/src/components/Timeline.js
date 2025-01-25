@@ -299,7 +299,7 @@ const Timeline = ({ profile, selectedPetId }) => {
       <h1 className="dashboard-title-one">Timeline</h1>
 
       {Object.keys(overviews).length > 0 ? (
-        <div className="timeline">
+        <div className="timeline" onClick={() => {closeMenu(); }}>
           {Object.entries(overviews).map(([year, months]) => (
             <div key={year} className="timeline-year-group">
               <h2 className="timeline-year">{year}</h2>

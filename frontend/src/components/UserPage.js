@@ -226,6 +226,55 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     { name: "Indie", imgSrc: "indiecat.png" },
   ];
 
+  const autoFillPetDetails = async () => {
+    const newPetDetails = {
+      petName: "Pichku",
+      breed: "Pekingese Lion",
+      petType: "dog",
+      sex: "Male",
+      weight: "10.5",
+      ageYears: "10",
+      ageMonths: "9",
+      phoneNumber: "123456789",
+      ownerAddress: "Mumbai",
+      foodBrand: "Pedigree",
+      quantity: "100gm",
+      profilePicture
+    };
+    setPetDetails(newPetDetails);
+
+    try {
+      // Send details to backend API
+      const response = await fetch(
+        "http://localhost:5000/api/store_pet_details",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: profile.user_id, // Replace with actual user ID
+            petDetails: newPetDetails,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        alert(
+          "Pet and owner details saved successfully and sent to the database!"
+        );
+        window.location.reload();
+      } else {
+        const errorData = await response.json();
+        console.error("Failed to save data:", errorData);
+        alert("Failed to send data to the database. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
+      alert("An error occurred while sending data. Please try again.");
+    }
+  };
+
   const scrollToSelected = (scrollerRef, selectedIndex) => {
     const scroller = scrollerRef.current;
     if (scroller) {
@@ -486,7 +535,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       </div>
     
   
-      <div className="pet-details-page">
+      <div className="pet-details-page" onClick={() => {closeMenu(); }}>
       <h1 className="image-upload-title">Profile</h1>
         
  
@@ -716,7 +765,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </div>
       </div>
 
-      <div className="profile-page">
+      <div className="profile-page" onClick={() => {closeMenu(); }}>
         <div className="header">
         <h1 className="calendar-title">Profile</h1></div>
         <div className="profile-header"></div>
@@ -751,7 +800,10 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
 
     {currentStep === 1 && (
       <div className="form-container">
-        <h4 className="h4-heading">PET PARENT DETAILS</h4>
+        <h4 className="h4-heading">PET PARENT</h4>
+        <button className="auto-fill-button" onClick={autoFillPetDetails}>
+          DETAILS
+        </button>
         <label>
           Owner's Name *: 
           <input
@@ -759,6 +811,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={ownerName}
             onChange={(e) => setOwnerName(e.target.value)}
             placeholder="Enter name"
+            name="ownerName"
           />
         </label>
         {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
@@ -769,6 +822,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="Enter phone number"
+            name="phoneNumber"
           />
         </label>
         {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}
@@ -779,6 +833,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={ownerAddress}
             onChange={(e) => setOwnerAddress(e.target.value)}
             placeholder="Enter address"
+            name="ownerAddress"
           />
         </label>
         {errors.ownerAddress && <p className="error-text">{errors.ownerAddress}</p>}
@@ -799,6 +854,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         value={petName}
         onChange={(e) => setPetName(e.target.value)}
         placeholder="Enter pet's name"
+        name="petName"
       />
     </label>
     {errors.petName && <p className="error-text">{errors.petName}</p>}
@@ -898,6 +954,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       value={breed}
       onChange={(e) => setBreed(e.target.value)}
       placeholder="Other"
+      name="breed"
     />
     <div className="breed-container">
       {(petType === "dog" ? dogBreeds : catBreeds).map((breedObj, index) => (
@@ -982,6 +1039,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={foodBrand}
             onChange={(e) => setFoodBrand(e.target.value)}
             placeholder="Enter Food Brand"
+            name="foodBrand"
           />
         </label>
         {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
@@ -992,6 +1050,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             placeholder="Enter food quantity"
+            name="foodQuantity"
           />
         </label>
         {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}

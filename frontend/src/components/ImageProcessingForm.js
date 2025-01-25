@@ -240,7 +240,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
       </div>
       </div>
 
-      <div className="dashboard-content">
+      <div className="dashboard-content" onClick={() => {closeMenu(); }}>
         <h1 className="image-upload-title">Document Upload</h1>
         
       <h3 className="instruction-heading">Instructions for Uploading Documents</h3>
@@ -264,6 +264,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
             <p>Edit the date if it's incorrect. Click on the Save button.</p>
           </div>
         </div>
+        {/*
           <div className="mobile-instruction-cards">
           <div className="mobile-instruction-card">
             <img src={instructions[currentStep].imgSrc} alt={instructions[currentStep].title} className="instruction-image" />
@@ -271,7 +272,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
             <p>{instructions[currentStep].description}</p>
           </div>
         </div>
-
+          */}
         <div className="navigation-buttons">
         {currentStep > 0 && (
           <span className="arrow prev-arrow" onClick={prevStep}>

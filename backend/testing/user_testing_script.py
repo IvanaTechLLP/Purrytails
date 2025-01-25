@@ -51,7 +51,7 @@ try:
     email_field.send_keys("a21.mathur21@gmail.com")
     email_field.send_keys(Keys.RETURN)  # Press Enter
     
-    time.sleep(5)
+    time.sleep(10)
 
     # Wait for the password field and enter the password
     password_field = WebDriverWait(driver, 10).until(
@@ -59,25 +59,32 @@ try:
     )
     password_field.send_keys("quixoticoblivion")
     password_field.send_keys(Keys.RETURN)  # Press Enter
-    time.sleep(10)
+    # Wait for the popup window to close
+    WebDriverWait(driver, 40).until(EC.number_of_windows_to_be(1))
+
+    # Switch back to the main window
+    driver.switch_to.window(main_window)
+
+    time.sleep(5)
     # Wait for the fields to appear on the next page
     WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, '//input[@placeholder="Enter phone number"]'))
+        EC.presence_of_element_located((By.XPATH, '//input[@name="phoneNumber"]'))
     )
 
     # Fill out the fields (replace with actual field names/IDs and values)
-    field_1 = driver.find_element(By.XPATH, '//input[@placeholder="Enter phone number"]')
+    field_1 = driver.find_element(By.XPATH, '//input[@name="phoneNumber"]')
     field_1.send_keys("9920980869")
 
-    field_2 = driver.find_element(By.XPATH, '//input[@placeholder="Enter address"]')
+    field_2 = driver.find_element(By.XPATH, '//input[@name="ownerAddress"]')
     field_2.send_keys("Mumbai, India")
     
-    next_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//span[@class="arrow next-arrow")]'))
+    next_button = WebDriverWait(driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//span[@class="arrow next-arrow"]'))
     )
     next_button.click()
     
-    field_3 = driver.find_element(By.XPATH, '//div[@class="Enter pet\'s name"]')
+    
+    field_3 = driver.find_element(By.XPATH, '//input[@name="petName"]')
     field_3.send_keys("Pichku")
     
     wait = WebDriverWait(driver, 10)
@@ -86,7 +93,7 @@ try:
     )
 
      # Locate the item that says "10 years"
-    ten_years_item = driver.find_element(By.XPATH, "//div[@class='scroller-item' and text()='10 years']")
+    ten_years_item = driver.find_element(By.XPATH, "//div[contains(@class, 'scroller-item ') and contains(., '10') and contains(., 'Years')]")
     
     # Scroll into view if necessary and click
     actions = ActionChains(driver)
@@ -98,35 +105,42 @@ try:
     )
 
     # Locate the item that says "10 years"
-    nine_months_item = driver.find_element(By.XPATH, "//div[@class='scroller-item' and text()='9 months']")
+    nine_months_item = driver.find_element(By.XPATH, "//div[contains(@class, 'scroller-item ') and contains(., '9') and contains(., 'Months')]")
     
     # Scroll into view if necessary and click
     actions = ActionChains(driver)
     actions.move_to_element(nine_months_item).click().perform()
 
+    time.sleep(5)
+    
     pet_option = wait.until(
-        EC.presence_of_element_located((By.XPATH, "//div[@class='pet-option ']/img[@alt='Dog']"))
+        EC.presence_of_element_located((By.XPATH, "//div[@class='pet-option ']//img[@alt='Dog']/.."))
     )
     
     # Locate the parent div and click it
-    parent_div = pet_option.find_element(By.XPATH, "..")  # Go up one level to the div
-    parent_div.click()
+    # parent_div = pet_option.find_element(By.XPATH, "..")  # Go up one level to the div
+    # parent_div.click()
+    pet_option.click()
     
     next_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//span[@class="arrow next-arrow")]'))
+        EC.element_to_be_clickable((By.XPATH, '//span[@class="arrow next-arrow"]'))
     )
     next_button.click()
     
+    time.sleep(5)
+    
     sex_option = wait.until(
-        EC.presence_of_element_located((By.XPATH, "//div[@class='sex-option ']/img[@alt='Male']"))
+        EC.presence_of_element_located((By.XPATH, "//div[@class='sex-option male ']//img[@alt='Male']/.."))
     )
     
     # Locate the parent div and click it
-    parent_div = sex_option.find_element(By.XPATH, "..")  # Go up one level to the div
-    parent_div.click()
+    # parent_div = sex_option.find_element(By.XPATH, "..")  # Go up one level to the div
+    # parent_div.click()
     
+    sex_option.click()
     
-    field_4 = driver.find_element(By.XPATH, '//input[@placeholder="Other"]')
+    time.sleep(2)
+    field_4 = driver.find_element(By.XPATH, '//input[@name="breed"]')
     field_4.send_keys("Pekingese Lion")
 
     scroller_container = wait.until(
@@ -134,21 +148,21 @@ try:
     )
 
      # Locate the item that says "10 years"
-    ten_kg_item = driver.find_element(By.XPATH, "//div[@class='scroller-item' and text()='10 kg']")
+    ten_kg_item = driver.find_element(By.XPATH, "//div[contains(@class, 'scroller-item ') and contains(., '10') and contains(., 'kg')]")
     
     # Scroll into view if necessary and click
     actions = ActionChains(driver)
     actions.move_to_element(ten_years_item).click().perform()
 
     next_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, '//span[@class="arrow next-arrow")]'))
+        EC.element_to_be_clickable((By.XPATH, '//span[@class="arrow next-arrow"]'))
     )
     next_button.click()
     
-    field_5 = driver.find_element(By.XPATH, '//input[@placeholder="Enter food brand"]')
+    field_5 = driver.find_element(By.XPATH, '//input[@name="foodBrand"]')
     field_5.send_keys("Pedigree")
     
-    field_6 = driver.find_element(By.XPATH, '//input[@placeholder="Enter food quantity"]')
+    field_6 = driver.find_element(By.XPATH, '//input[@name="foodQuantity"]')
     field_6.send_keys("100gm")
     
     

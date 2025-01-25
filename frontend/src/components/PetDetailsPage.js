@@ -150,7 +150,7 @@ const ParentDetailsPage = ( {profile} ) => {
             
 </div>
          
-          <div classname="dashboard-left">
+          <div classname="dashboard-left" >
           <div className={`sidebar ${isOpen ? 'open' : ''}`}>
                  <button className="back-arrow-menu" onClick={closeMenu}>
                    &larr;
@@ -212,7 +212,7 @@ const ParentDetailsPage = ( {profile} ) => {
               
             </div>
           </div>
-    <div className="profile-page">
+    <div className="profile-page" onClick={() => {closeMenu(); }}>
     <div className="form-container">
       {/* Back Arrow */}
       <div className="back-arrow" onClick={handleBack} style={{ cursor: "pointer" }}>

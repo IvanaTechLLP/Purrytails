@@ -757,6 +757,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={ownerName}
             onChange={(e) => setOwnerName(e.target.value)}
             placeholder="Enter name"
+            name="ownerName"
           />
         </label>
         {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
@@ -767,6 +768,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             placeholder="Enter phone number"
+            name="phoneNumber"
           />
         </label>
         {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}
@@ -777,6 +779,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={ownerAddress}
             onChange={(e) => setOwnerAddress(e.target.value)}
             placeholder="Enter address"
+            name="ownerAddress"
           />
         </label>
         {errors.ownerAddress && <p className="error-text">{errors.ownerAddress}</p>}
@@ -797,6 +800,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         value={petName}
         onChange={(e) => setPetName(e.target.value)}
         placeholder="Enter pet's name"
+        name="petName"
       />
     </label>
     {errors.petName && <p className="error-text">{errors.petName}</p>}
@@ -896,6 +900,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       value={breed}
       onChange={(e) => setBreed(e.target.value)}
       placeholder="Other"
+      name="breed"
     />
     <div className="breed-container">
       {(petType === "dog" ? dogBreeds : catBreeds).map((breedObj, index) => (
@@ -980,6 +985,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={foodBrand}
             onChange={(e) => setFoodBrand(e.target.value)}
             placeholder="Enter Food Brand"
+            name="foodBrand"
           />
         </label>
         {errors.ownerName && <p className="error-text">{errors.ownerName}</p>}
@@ -990,6 +996,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             placeholder="Enter food quantity"
+            name="foodQuantity"
           />
         </label>
         {errors.phoneNumber && <p className="error-text">{errors.phoneNumber}</p>}

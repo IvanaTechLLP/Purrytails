@@ -246,7 +246,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     try {
       // Send details to backend API
       const response = await fetch(
-        "http://localhost:5000/api/store_pet_details",
+        "/api/store_pet_details",
         {
           method: "POST",
           headers: {

@@ -214,15 +214,15 @@ const LandingPage = () => {
   
 
 
-      {/*
-
-      <a href="https://forms.gle/4TisKeNinVJcxGS9A" target="_blank" rel="noopener noreferrer">
-      <button className="contact-us-button">
-        Contact Us
-      </button>
-      </a>
-      */}
       
+
+      
+      <button className="contact-us-button" onClick={handleLoginClick}>
+        Login
+      </button>
+      
+      
+    
       <div id="carouselExample" className="carousel slide" data-bs-ride="carousel">
         <div className="carousel-inner">
           <div className="carousel-item active">
@@ -265,6 +265,7 @@ const LandingPage = () => {
         </button>
        </div>
 
+
       {/*}
       <div className="landing-container1">
     
@@ -287,7 +288,18 @@ const LandingPage = () => {
         </div>
       </div>
       </div>
+                <div className="landing-section">
+  <div className="landing-item">
+    <img src="/c1.png" className="landing-image" alt="Empowering Your Pet's Health" />
+    <div className="landing-content">
+      <h5>Empowering Your Pet's Health</h5>
+      <p>All your pet's medical and vaccination records in one secure place.</p>
+    </div>
+  </div>
+</div>
           */}
+
+
 <div class="banner" id="aboutus">
         
   <div class="text-box">

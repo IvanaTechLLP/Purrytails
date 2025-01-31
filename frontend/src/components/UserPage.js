@@ -5,11 +5,11 @@ import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
 import {
   FaSignOutAlt,
-  FaComments,
+  FaTrash,
   FaHome,
   FaTachometerAlt,
   FaFileUpload,
-  FaCalendarAlt,
+  FaShareAlt
 } from "react-icons/fa";
 import { MdTimeline } from "react-icons/md";
 
@@ -61,9 +61,9 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   };
   
 
-  const [currentStep, setCurrentStep] = useState(1); // New state to track the step
+  const [currentStep, setCurrentStep] = useState(1); 
 
-  const maxYears = 25; // Adjust the maximum age as needed
+  const maxYears = 25; 
   const maxMonths = 12;
   const yearScrollerRef = useRef(null);
   const monthScrollerRef = useRef(null);
@@ -379,14 +379,10 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   
     if (currentStep === 2) {
       if (!petName.trim()) newErrors.petName = "Pet name is required.";
-      if (!ageYears || !ageMonths) newErrors.age = "Please select both age and months.";
+  
       if (!petType) newErrors.petType = "Please select a pet type.";
     }
-    if (currentStep === 3) {
-      if (!sex) newErrors.sex = "Please select a sex.";
-      if (!breed.trim()) newErrors.breed = "Please select or enter a breed.";
-      if (!weight || weight <= 0) newErrors.weight = "Please select a valid weight.";
-    }
+    
   
     setErrors(newErrors);
   
@@ -492,22 +488,24 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
  
   <div className="profile-page">
   <div className="pet-list">
-  {petDetails.map((pet, index) => (
+  {petDetails
+    .filter((pet) => pet.petId === selectedPetId) // Show only the selected pet
+    .map((pet) => (
       <div 
-        key={index} 
-        className={`pet-item-container ${
-        selectedPetId === pet.petId ? "selected" : ""
-        }`}
-        onClick={() => navigate(`/pet-details`, { state: { petId: pet.petId } })}   >
+        key={pet.petId} 
+        className="pet-item-container selected"
+        onClick={() => navigate(`/pet-details`, { state: { petId: pet.petId } })}
+      >
         <div className="pet-item">
           <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
           <div className="pet-info">
             <h2>{pet.petName}</h2>
-            <p> {pet.breed}</p>
+            <p>{pet.breed}</p>
           </div>
-          {/* Highlight selected pet */}
-          {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>}
-          {/* Delete Button */}
+          {/* Highlight selected pet <span className="selected-text">Selected Pet</span>*/}
+          
+
+          {/* Delete Button 
           <button
             className="delete-button"
             onClick={(e) => {
@@ -518,7 +516,10 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             Delete
           </button>
 
-          {/* Share Button */}
+
+          
+
+          {/* Share Button 
           <button
             className="share-button"
             onClick={(e) => {
@@ -528,17 +529,28 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           >
             Share
           </button>
+          */}
 
-          {/* <button
-            className="select-button"
-            onClick={() => handleSelectPet(pet.petId)}
-          >
-            Select
-          </button>
-          {selectedPetId === pet.petId && <span className="selected-text">Selected Pet</span>} */}
+          <div className="icon-buttons">
+            <FaTrash 
+              className="icon delete-profile-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeletePet(pet.petId);
+              }}
+            />
+            <FaShareAlt 
+              className="icon share-icon"
+              onClick={(e) => {
+                e.stopPropagation();
+                openSharePopup(pet.petId);
+              }}
+            />
+          </div>
         </div>
       </div>
     ))}
+
 
     {/* Share Popup */}
     {isSharePopupOpen && (
@@ -561,7 +573,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
     )}
 
     
-    {/* Universal dropdown */}
+  
     <div className="dropdown-container">
         <select
           className="pet-dropdown"
@@ -847,10 +859,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         {ageYears} years and {ageMonths} months
       </div>
     </div>
-    {(!ageYears || !ageMonths) && (
-      <p className="error-text">Please select both age and months.</p>
-    )}
-
+    
     {/* Pet Type Field */}
     <label>Select Your Loyal Companion *:</label>
     <div className="pet-type-selection">
@@ -889,7 +898,6 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         <img src="female.png" alt="Female" />
       </div>
     </div>
-    {!sex && <p className="error-text">Please select a sex.</p>}
 
     {/* Breed Field */}
     <label>Breed *:</label>
@@ -927,7 +935,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
         </div>
       ))}
     </div>
-    {!breed && <p className="error-text">Please select or enter a breed.</p>}
+    
 
     {/* Weight Field */}
     <label>Weight (kg) *:</label>
@@ -966,9 +974,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
       </div>
       <div className="weight-display">{weight} kg</div>
     </div>
-    {(!weight || weight <= 0) && (
-      <p className="error-text">Please select a valid weight.</p>
-    )}
+    
   </div>
 )}
 

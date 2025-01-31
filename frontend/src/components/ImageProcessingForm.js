@@ -272,19 +272,20 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
             <p>{instructions[currentStep].description}</p>
           </div>
         </div>
-          */}
+          
         <div className="navigation-buttons">
         {currentStep > 0 && (
           <span className="arrow prev-arrow" onClick={prevStep}>
-            &#8592; {/* Left arrow */}
+            &#8592; 
           </span>
           )}
           {currentStep < totalSteps - 1 && (
             <span className="arrow next-arrow" onClick={nextStep}>
-              &#8594; {/* Right arrow */}
+              &#8594; 
             </span>
           )}
         </div>
+        */}
 
         
 

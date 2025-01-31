@@ -77,10 +77,22 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
       <Link to="/">
         <img src="PT.png" alt="Purry Tails Logo" className="logo" />
       </Link>
+
+      
       <div className="login-container">
         <div className="login-form">
-          <h1>Welcome back</h1>
-          <p>Please enter your details</p>
+
+        <div className="social-cause-info">
+          <h2>Our Social Cause</h2>
+          <p>
+          Together, we can make a difference. Your support helps us bring quality healthcare to those in need and create a lasting impact on lives. Join us in our mission to spread hope and heal.
+          </p>
+          <Link to="/">Learn More</Link>
+        </div>
+  
+          <p>Join us in spreading hope.</p>
+
+
 
 
           {/* <input type="email" placeholder="Email address" />
@@ -97,6 +109,8 @@ const LoginSignupPage = ({ setProfile, setIsAuthenticated }) => {
             <img src="/google-logo.png" alt="Google Logo" />
             Sign in with Google
           </button>
+
+          
           {/* <p>
             Don’t have an account? <a href="/signup">Sign up</a>
           </p> */}

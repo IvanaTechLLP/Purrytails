@@ -83,13 +83,29 @@
 }
 
 /* Buttons */
+
+.auto-fill-button {
+  background: transparent !important; /* Makes the button background invisible */
+  border: none !important; /* Removes the button border */
+  color: inherit !important; /* Inherits color from the surrounding text */
+  font-size: 1.5rem !important; /* Inherits font size from the heading */
+  font-weight: bold !important;
+  text-align: center !important;
+  font-family: 'Times New Roman', Times, serif !important;
+  padding: 0 !important; /* Removes padding */
+  cursor: default !important; /* Changes the cursor to a clicker when hovered */
+  margin-left: 5.2rem !important; /* Adds a little space between PET PARENT and DETAILS */
+  margin-top: -3.6rem !important;
+}
+
 .h4-heading{
   margin-top: 15px;
   font-size: 1.5rem;
   font-weight: bold;
   text-align: center;
   font-family: 'Times New Roman', Times, serif;
-  margin-bottom: 15PX;
+  margin-bottom: 15px;
+  margin-left: -6rem;
 }
 .form-container {
   display: flex;

@@ -38,8 +38,6 @@ SMTP_PORT = 587
 SMTP_USER = os.getenv("SMTP_USER")  # Meddocs Gmail address
 SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")  # Medocs Gmail App password
 
-no_of_reports = reports_collection.count()
-
 if "GOOGLE_API_KEY" not in os.environ:
     raise ValueError("GOOGLE_API_KEY not found in environment or .env file")
 
@@ -314,6 +312,7 @@ def process_pdf(filename):
 
 
 def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
+    no_of_reports = reports_collection.count()
     print("Input String: ", input_string)
     # if input_string != None:
     prompt_parts = [

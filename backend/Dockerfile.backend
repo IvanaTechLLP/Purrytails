@@ -8,4 +8,7 @@ COPY . ./
 
 FROM build-flask as final
 EXPOSE 8000
+
+VOLUME /app/backend/chromadb_database
+
 CMD ["python", "app.py"]

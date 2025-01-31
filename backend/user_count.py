@@ -32,3 +32,6 @@ print()
 
 names = [ast.literal_eval(entry)["name"] for entry in users_collection.get()['documents']]
 print(names)
+
+emails = [ast.literal_eval(entry)["email"] for entry in users_collection.get()['documents']]
+print(emails)

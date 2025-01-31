@@ -436,12 +436,8 @@ input[type="date"]:focus {
 }
 @media (max-width: 500px) { 
   .instruction-heading {
-    margin-top: 10px; /* Space above the instruction heading */
-    font-size: 1.2rem; /* Adjust font size as needed */
-    font-weight: bold; /* Make the heading bold */
-    text-align: center; /* Center the heading */
-    color:#023047; 
-  }/* For smaller screens */
+    display: none;
+  }
   .mobile-instruction-cards {
     display: flex;
     justify-content: space-between;

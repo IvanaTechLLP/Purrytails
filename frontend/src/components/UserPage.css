@@ -596,6 +596,7 @@
   border: none; /* Remove border */
   justify-content: space-between; /* Ensure proper spacing between text and image */
   margin-bottom: 20px; /* Space between containers */
+  position: relative;
 }
 
 .pet-item {
@@ -606,10 +607,6 @@
   gap: 20px; /* Add space between text and image */
 }
 
-.pet-item:hover {
-  transform: translateY(-5px); /* Slightly lift the container on hover */
-  cursor: pointer; /* Show pointer cursor on hover */
-}
 
 .pet-info {
   flex: 1; /* Allow the text to take up remaining space */
@@ -753,4 +750,35 @@
   border: 2px solid #4caf50; /* Highlight selected pet bar */
   background-color: #f0fff0;
 }
+.icon-buttons {
+  position: absolute;
+  top: 50px;
+  right: 10px; /* Move the buttons to the right */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 50px;
+}
+
+
+.delete-profile-icon {
+  position: absolute;
+  top: 10px;
+  right: auto; /* Changed from left to right */
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.share-icon {
+  position: absolute;
+  bottom: 10px;
+  left: auto; /* Changed from left to right */
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  cursor: pointer;
+  bottom: 10px;
+}
+
+
 

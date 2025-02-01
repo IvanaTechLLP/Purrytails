@@ -67,7 +67,7 @@ function HomePage({ profile, logOut, reports, setReports, selectedPetId }) {
     </div>
   );
 }
-
+{/*
 function QR_DashboardPage({ reports, setReports, profile, setProfile }) {
   return (
     <div className="app-container">
@@ -77,6 +77,7 @@ function QR_DashboardPage({ reports, setReports, profile, setProfile }) {
     </div>
   );
 }
+    */}
 
 function App() {
   const [profile, setProfile] = useState(null);
@@ -192,6 +193,7 @@ function App() {
                 )
               }
             />
+            {/*
             <Route
               path="/calendar"
               element={
@@ -217,26 +219,6 @@ function App() {
               }
             />
             <Route
-              path="/profile"
-              element={
-                isAuthenticated ? (
-                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/timeline"
-              element={
-                isAuthenticated ? (
-                  <Timeline profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
               path="/chat"
               element={
                 isAuthenticated ? (
@@ -256,7 +238,7 @@ function App() {
                 )
               }
             />
-            {/* QR Scanner route - Only accessible by doctors */}
+            {/* QR Scanner route - Only accessible by doctors 
               <Route
               path="/qrscanner"
               element={
@@ -267,6 +249,28 @@ function App() {
                 )
               }
             />
+            */}
+            <Route
+              path="/profile"
+              element={
+                isAuthenticated ? (
+                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/timeline"
+              element={
+                isAuthenticated ? (
+                  <Timeline profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            
 
           </Routes>
         </Router>

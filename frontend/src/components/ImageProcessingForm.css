@@ -425,7 +425,7 @@ input[type="date"]:focus {
 .report-list-item-date {
   margin-bottom: 10px;
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 17px !important;
   color: #333;
   display: block !important;
 }

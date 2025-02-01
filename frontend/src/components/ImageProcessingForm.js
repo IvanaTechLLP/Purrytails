@@ -291,7 +291,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
         
         <div className="file-upload-container">
-          <h3 className="upload-heading">Upload Your File</h3>
+          <h3 className="upload-heading">Upload Your Document</h3>
           <input
             type="file"
             accept="image/*,.pdf"
@@ -305,10 +305,10 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
         </div>
 
         <button className="form-container sexy-button" onClick={handleSubmit} disabled={loading}>
-          {loading ? 'Processing...' : 'Process File'}
+          {loading ? 'Processing...' : 'Process'}
         </button>
 
-        {loading && <div className="loader">Please wait while we process the document...</div>} 
+        {loading && <div className="loader">Fetching your data—no drool included!</div>} 
 
         {error && <p className="error-message">{error}</p>}
 
@@ -350,8 +350,8 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
                     <li className="report-list-item"><strong>Type: </strong>  {reportData.document}</li>
                     <li className="report-list-item"><strong>Diseases: </strong> {reportData.diseases}</li>
                     <li className="report-list-item"><strong>Medicines: </strong> {reportData.medicines}</li>
-                    <li className="report-list-item"><strong>Domain: </strong> {reportData.doctor}</li>
-                    <li className="report-list-item">
+                   {/* <li className="report-list-item"><strong>Domain: </strong> {reportData.doctor}</li>*/}
+                  <li className="report-list-item">
                   <strong>Link: </strong> 
                   <a href={reportData.link} target="_blank" rel="noopener noreferrer" className="view-report-link">
                     View Report

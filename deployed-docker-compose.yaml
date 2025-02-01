@@ -30,7 +30,7 @@ services:
       SMTP_USER: "meddoc001@gmail.com"
       SMTP_PASSWORD: "daol ubbo gqpc qtkx"
     volumes:
-      - chromadb_data:/app/chromadb_database
+      - chromadb_data:/app/backend/chromadb_database
     ports:
       - "5000:5000"
     networks:

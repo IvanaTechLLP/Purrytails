@@ -874,41 +874,31 @@ body {
 
 /* Contact Us Button Style */
 .contact-us-button {
-  position: fixed; /* Keeps the button in a fixed position */
-  bottom: 20px; /* 20px from the bottom */
-  right: 20px; /* 20px from the right */
-  padding: 10px 20px;
-  background-color: #023047; /* Blue background */
-  color: white; /* White text */
-  border: none;
-  border-radius: 50px; /* Rounded button */
-  font-size: 30px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
-  z-index: 1000; /* Ensures the button stays above other elements */
+  display: none !important;
 }
 
-.contact-us-button:hover {
-  background-color: #2A5372; 
-  
-}
 @media (max-width: 500px) {
-  contact-us-button {
-
-    position: fixed; /* Keeps the button in a fixed position */
-    bottom: 20px; /* 20px from the bottom */
-    right: 20px; /* 20px from the right */
+  .contact-us-button {
+    display: block !important;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
     padding: 10px 20px;
-    background-color: #302C28; /* Blue background */
-    color: white; /* White text */
+    background-color: #023047;
+    color: white;
     border: none;
-    border-radius: 50px; /* Rounded button */
-    font-size: 12px !important;
+    border-radius: 50px;
+    font-size: 15px !important;
     cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 1000;
   }
+  
+  .contact-us-button:hover {
+    background-color: #2A5372;
+  }
 }
+
 
 .hamburger-icon {
   display: none; /* Hidden by default */

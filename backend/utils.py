@@ -320,9 +320,9 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
             
             Here is the conversation you are having with the user so far: {conversation}
             
-            You are a smart classifier bot for an application in which people upload their medical reports. You have to figure out whether the user is asking a question about the medical field or not. If the user is talking about or asking a question related to the medical field, output the string "Report" along with the content of the user's query (this content will be used as query_text to query reports in the chromadb database and fetch relevant reports).
+            You are a smart classifier bot for an application in which people upload their medical reports. You have to figure out whether the user is asking a question about his medical reports or not. If the user is talking about or asking a question related to his medical reports, output the string "Report" along with the content of the user's query (this content will be used as query_text to query reports in the chromadb database and fetch relevant reports).
             
-            If the user is not talking about something related to the meidcal field, output "None". 
+            If the user is not talking about something related to his meidcal reports, output "None". 
             
             Give output STRICTLY in the following format: "Report, <chromadb_query>" or "None"
 
@@ -340,7 +340,7 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
         
         prompt_parts = [
             f"""
-            You are a helpful medical assistant chatbot that answer's the user's questions to the best of your ability accurately. Answer briefly and to the point unless the user asks for more details.Answer only in a string, dont add "assistant: " before your answer.
+            You are a helpful medical assistant chatbot that answer's the user's questions to the best of your ability accurately. Answer things based on your knowledge. But don't answer any questions that are not related to pets or the medical field. Answer briefly and to the point unless the user asks for more details. Answer only in a string, dont add "assistant: " before your answer.
             Here is the user's question and your chat history with the user: {conversation}
             """
         ]

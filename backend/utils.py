@@ -344,10 +344,19 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
         
         pet_details = users_collection.get(ids=[user_id], include=["metadatas"])["metadatas"][0]["pet_details"]
         
+        pet_details_list = json.loads(pet_details)
+        for pet in pet_details_list:
+            pet.pop("profilePicture", None)  # Using None to avoid KeyError if the key is absent
+            
+        # Convert back to JSON string
+        updated_pet_details = json.dumps(pet_details_list, indent=2)
+        
+        print(updated_pet_details)
+        
         prompt_parts = [
             f"""
             You are a helpful medical assistant chatbot that answer's the user's questions to the best of your ability accurately. Answer things based on your knowledge. But don't answer any questions that are not related to pets or the medical field. Answer briefly and to the point unless the user asks for more details. Answer only in a string, dont add "assistant: " before your answer.
-            Here is the user's pets' details: {pet_details}
+            Here is the user's pets' details: {updated_pet_details}
             Here is the user's question and your chat history with the user: {conversation}
             """
         ]

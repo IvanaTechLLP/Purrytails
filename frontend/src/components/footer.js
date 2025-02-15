@@ -41,14 +41,41 @@ const Footer = () => {
       <div className="footer-right">
         <h4>Contact us</h4>
         <h5>mahir@purrytails.in</h5>
-        <div className="footer-social-icons" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-  <a href="https://www.instagram.com/purry.tails?igsh=MWZnOW16NjY1anZidA==" target="_blank" rel="noopener noreferrer">
-    <img src="insta1.png" alt="Instagram" style={{ width: "40px", height: "40px" }} />
-  </a>
-  <span style={{ fontSize: "16px", fontFamily: "Poppins, sans-serif", color: "#333" }}>
-    @purry.tails
-  </span>
+        <div className="footer-social-icons" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+  
+  {/* Instagram */}
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <a href="https://www.instagram.com/purry.tails?igsh=MWZnOW16NjY1anZidA==" target="_blank" rel="noopener noreferrer">
+      <img src="insta1.png" alt="Instagram" style={{ width: "40px", height: "40px" }} />
+    </a>
+    <span style={{ fontSize: "16px", fontFamily: "Poppins, sans-serif", color: "#333" }}>
+      @purry.tails
+    </span>
+  </div>
+
+  {/* LinkedIn */}
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <a href="https://www.linkedin.com/company/purry-tails" target="_blank" rel="noopener noreferrer">
+      <img src="link.png" alt="LinkedIn" style={{ width: "30px", height: "30px" }} />
+    </a>
+    <span style={{ fontSize: "16px", fontFamily: "Poppins, sans-serif", color: "#333" }}>
+      @purry-tails
+    </span>
+  </div>
+
+  {/* X (formerly Twitter) */}
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <a href="https://x.com/purrytails?s=21" target="_blank" rel="noopener noreferrer">
+      <img src="x.png" alt="X" style={{ width: "20px", height: "20px" }} />
+    </a>
+    <span style={{ fontSize: "16px", fontFamily: "Poppins, sans-serif", color: "#333" }}>
+      @PurryTails
+    </span>
+  </div>
+
 </div>
+
+
       </div>
 
       <div className="footer-bottom">

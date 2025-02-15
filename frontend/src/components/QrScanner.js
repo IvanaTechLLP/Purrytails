@@ -27,7 +27,7 @@ const QrScanner = () => {
   const handleNavigate = async () => {
     try {
       // Send scanResult to the backend API /decrypt
-      const response = await fetch('http://localhost:5000/api/decrypt', {
+      const response = await fetch('/api/decrypt', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

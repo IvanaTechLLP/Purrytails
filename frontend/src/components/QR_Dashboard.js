@@ -21,7 +21,7 @@ const QR_Dashboard = ({ reports, setReports, profile, setProfile }) => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/user_dashboard/${user_id}`
+          `/api/user_dashboard/${user_id}`
         );
         const data = await response.json();
         console.log(data);
@@ -42,7 +42,7 @@ const QR_Dashboard = ({ reports, setReports, profile, setProfile }) => {
 
       try {
         const response = await fetch(
-          `http://localhost:5000/reports_dashboard/${user_id}`
+          `/api/reports_dashboard/${user_id}`
         );
         const data = await response.json();
         setReports(Array.isArray(data) ? data : []);
@@ -63,7 +63,7 @@ const QR_Dashboard = ({ reports, setReports, profile, setProfile }) => {
   // Function to handle report sharing logic
   const handleShare = async (reportId, email) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/share_report`, {
+      const response = await fetch(`/api/share_report`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

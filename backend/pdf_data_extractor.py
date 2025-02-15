@@ -55,11 +55,14 @@ text_model = genai.GenerativeModel(
 )
 
 source_folder = os.getenv("SOURCE_FOLDER")
+uploaded_pdfs_folder = os.path.join(source_folder, "backend/uploaded_pdfs")
+uploaded_images_folder = os.path.join(source_folder, "backend/uploaded_images")
+qr_codes_folder = os.path.join(source_folder, "backend/qr_codes")
 
 
 def images_to_text(new_folder_path):
     # Path to the images folder
-    images_folder = os.path.join(source_folder,"MeDocs/backend/uploaded_images",new_folder_path)
+    images_folder = new_folder_path
     response_list = []
 
     # Iterate through each image file in the folder
@@ -98,7 +101,7 @@ def images_to_text(new_folder_path):
     return response_list
 
 
-def data_extraction(new_folder_path,new_folder):
+def data_extraction(new_folder_path, new_folder):
     
     text_images = images_to_text(new_folder_path)
 
@@ -199,7 +202,7 @@ def data_extraction(new_folder_path,new_folder):
         for i, (date, report) in enumerate(zip(report_dates, reports[1:]))
     }
     image_paths = create_pdfs_from_reports(new_folder, json_reports)
-    return json_reports, report_dates,image_paths
+    return json_reports, report_dates, image_paths
 
 def create_pdfs_from_reports(folder_path, reports_data):
 
@@ -215,7 +218,7 @@ def create_pdfs_from_reports(folder_path, reports_data):
         pdf.set_auto_page_break(auto=True, margin=15)
         
         for idx in image_indices:     
-            image_path = os.path.join(r"backend\uploaded_images", f"pdf_{folder_path}\\image{idx}.png")
+            image_path = os.path.join(uploaded_images_folder, f"pdf_{folder_path}/image{idx}.png")
 
             
             if os.path.exists(image_path):
@@ -236,7 +239,7 @@ def create_pdfs_from_reports(folder_path, reports_data):
                 print(f"Image not found: {image_path}")
         
         # Save the PDF with the report name and date
-        pdf_output_path = os.path.join(r"backend\uploaded_images", f"pdf_{folder_path}\\pdf{idx}.pdf")
+        pdf_output_path = os.path.join(uploaded_images_folder, f"pdf_{folder_path}", f"pdf{idx}.pdf")
 
         pdf.output(pdf_output_path)
         print(f"Saved PDF: {pdf_output_path}")

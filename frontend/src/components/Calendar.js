@@ -57,7 +57,7 @@ const Calendar = ({ logOut, profile }) => {
 
   const fetchAllEvents = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/get_user_events/${profile.user_id}`, {
+      const response = await fetch(`/api/get_user_events/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const Calendar = ({ logOut, profile }) => {
     }
   };
   const handleAddEvent = async (event) => {
-    const response = await fetch("http://localhost:5000/create_event_directly", {
+    const response = await fetch("/api/create_event_directly", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const Calendar = ({ logOut, profile }) => {
   
   const handleDeleteEvent = async (eventId, eventName) => {
     // Call your backend API to delete the event
-    const response = await fetch("http://localhost:5000/delete_event", {
+    const response = await fetch("/api/delete_event", {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -153,7 +153,7 @@ const Calendar = ({ logOut, profile }) => {
     e.preventDefault(); // Prevent default form submission behavior
 
     try {
-      const response = await fetch("http://localhost:5000/calendar_request", {
+      const response = await fetch("/api/calendar_request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

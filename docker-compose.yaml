@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "0.0.0.0:3000:3000"  # Adjust the port as needed
+    environment:
+      REACT_APP_GOOGLE_CLIENT_ID: "922224099937-tveaqa81dhfp30pe09kdql6q5thlkg4s.apps.googleusercontent.com"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.backend
+    ports:
+      - "0.0.0.0:5000:5000"  # Adjust the port as needed
+    environment:
+      GOOGLE_API_KEY: "AIzaSyBUYGIbM6b00Gb6KSumcJ3430K0bIT6y1o"
+      GOOGLE_CLIENT_ID: "922224099937-tveaqa81dhfp30pe09kdql6q5thlkg4s.apps.googleusercontent.com"
+      GOOGLE_CLIENT_SECRET: "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"
+      SOURCE_FOLDER: "/app"
+      JWT_SECRET_KEY: "84be622f951abd78963b0c11d4b10043be570fb022863588f7fbe7471653659a"
+      JWT_ALGORITHM: "HS256"
+      SESSION_SECRET_KEY: "2b88100748c91b37b8dab631c9633493cbbbc3657c03345b50ef40aeb7ae70c3"
+      CHROMADB_PATH: "chromadb_database"
+      FERNET_KEY: "ZC1bXy5zTWrS6IwnJhWNOmtMfZ2GEyzjI5Z7zXbrE9I="
+      SMTP_USER: "meddoc001@gmail.com"
+      SMTP_PASSWORD: "daol ubbo gqpc qtkx"

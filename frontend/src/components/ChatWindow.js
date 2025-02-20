@@ -33,7 +33,7 @@ const ChatWindow = ({ profile, logOut }) => {
   useEffect(() => {
     const fetchChats = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/chats/${profile.user_id}`);
+        const response = await fetch(`/api/chats/${profile.user_id}`);
         const data = await response.json();
         const keys = Object.keys(JSON.parse(data));
         setChats(keys);
@@ -50,7 +50,7 @@ const ChatWindow = ({ profile, logOut }) => {
       if (!selectedChat) return;
 
       try {
-        const response = await fetch(`http://localhost:5000/messages/${profile.user_id}/${selectedChat}`);
+        const response = await fetch(`/api/messages/${profile.user_id}/${selectedChat}`);
         const data = await response.json();
         setMessages(data);
       } catch (error) {
@@ -64,7 +64,7 @@ const ChatWindow = ({ profile, logOut }) => {
     if (!newChatEmail) return;
 
     try {
-      const response = await fetch("http://localhost:5000/start_chat", {
+      const response = await fetch("/api/start_chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,8 +76,8 @@ const ChatWindow = ({ profile, logOut }) => {
         alert("Chat added successfully!");
         setIsPopupOpen(false);
         setNewChatEmail("");
-
-        const response = await fetch(`http://localhost:5000/chats/${profile.user_id}`);
+        // Refresh the chat list
+        const response = await fetch(`/api/chats/${profile.user_id}`);
         const data = await response.json();
         const keys = Object.keys(JSON.parse(data));
         setChats(keys);
@@ -93,7 +93,7 @@ const ChatWindow = ({ profile, logOut }) => {
     if (!messageText || !selectedChat) return;
 
     try {
-      const response = await fetch("http://localhost:5000/send_chat", {
+      const response = await fetch("/api/send_chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -106,9 +106,10 @@ const ChatWindow = ({ profile, logOut }) => {
       });
 
       if (response.ok) {
-        setMessageText("");
-        const updatedMessages = await fetch(`http://localhost:5000/messages/${profile.user_id}/${selectedChat}`);
-        setMessages(await updatedMessages.json());
+        // Once the message is sent, clear the input field and update the message list
+        setMessageText(""); // Clear the message input
+        const updatedMessages = await fetch(`/api/messages/${profile.user_id}/${selectedChat}`);
+        setMessages(await updatedMessages.json()); // Update the message list
       } else {
         alert("Failed to send message.");
       }

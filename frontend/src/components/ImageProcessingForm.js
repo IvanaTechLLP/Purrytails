@@ -6,7 +6,7 @@ import { MdTimeline } from 'react-icons/md';
 
 
 const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
   const [currentReport, setCurrentReport] = useState(null);
   const [output, setOutput] = useState(null);
@@ -32,7 +32,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
     if (files && files.length > 0) {
       console.log("file recieved from home")
       const selectedFile = files[0]; // Get the first file
-      setImage(selectedFile);
+      setImages(selectedFile);
       handleSubmit();
     }
     else{
@@ -43,19 +43,24 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
 
   const handleImageChange = (event) => {
-    const selectedImage = event.target.files[0];
-    setImage(selectedImage);
+    const selectedImages = Array.from(event.target.files);
+    setImages(selectedImages);
     setError(null); 
   };
 
   const handleSubmit = async () => {
-    if (!image) {
+    if (!images) {
       console.log("Please select a file.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', image);
+    console.log("Selected Image:", images);
+
+    images.forEach((image) => {
+      formData.append("files", image);  // Append each file separately
+    });
+
     formData.append('user_id', profile.user_id);
     formData.append('pet_id', selectedPetId);
 
@@ -78,7 +83,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
     
       const report_being_edited = dates[currentReport];
       setEditableDate(report_being_edited); 
-      setImage(null); 
+      setImages([]); 
 
       // Log each report's info after receiving it
       console.log("Processed Reports:", data); // This will log the entire output data
@@ -297,10 +302,11 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
             accept="image/*,.pdf"
             id="file-upload"
             className="file-upload"
+            multiple
             onChange={handleImageChange}
           />
           <label htmlFor="file-upload" className="file-upload-label">
-            {image ? image.name : "Upload a Document"}
+            {images > 0 ? images.map((file) => file.name).join(", ") : "Upload Documents"}
           </label>
         </div>
 

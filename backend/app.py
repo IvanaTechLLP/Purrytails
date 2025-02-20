@@ -260,99 +260,86 @@ async def api_share_report(request: ShareReportRequest):
         
 
 @app.post("/api/process_file")
-async def api_process_file(file: UploadFile = File(...), user_id: str = Form(...), pet_id: Optional[str] = Form(None)):
-    if not file.filename:
-        raise HTTPException(status_code=400, detail="No file selected")
+async def api_process_file(files: List[UploadFile] = File(...), user_id: str = Form(...), pet_id: Optional[str] = Form(None)):
+    
+    if not files:
+        raise HTTPException(status_code=400, detail="No files selected")
 
-    if not file.filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif", ".pdf")):
-        raise HTTPException(status_code=400, detail="Unsupported file format")
-    
-    
-    # integer_ids = []
-    # for report in report_metadata:
-    #     if report["report_id"].isdigit():
-    #         integer_ids.append(int(report["report_id"]))
-            
-    # if integer_ids:
-    #     next_id = str(max(integer_ids) + 1)
-    # else:
-    #     next_id = "1"  # Start from 1 if no IDs exist
     Json_object = {}
     
-    if file.filename.lower().endswith(".pdf"):
+    for i, file in enumerate(files):
+        if not file.filename:
+            continue
 
-        filename = os.path.join(uploaded_pdfs_folder, file.filename)
-        with open(filename, "wb") as f:
-            f.write(await file.read())
+        filename_lower = file.filename.lower()
 
-        json_object, reports, pdf_files = process_pdf(file.filename)
-        print(len(reports), "reports found")
-  
-        # Initialize the index for pdf_files
-        
-        i=0
-        # Loop through each report in the json_object
-        for key in json_object:
-            # Ensure we don't exceed the pdf_files length
-            if i < len(pdf_files):
-                link = pdf_files[i]
-                i += 1  
-                link=link.replace("/app/backend", "")
-                link=f"http://purrytails.in/api{link}"
-                report_id = str(uuid.uuid4())
-                report_dict = {
-                    "link": link,
-                    "report_id": report_id,
-                    "date": json_object[key]["date"],  
-                    "document": json_object[key]["document"],  
-                    "diseases": json_object[key]["diseases"],  
-                    "medicines": json_object[key]["medicines"],  
-                    "doctor": json_object[key]["doctor"],  
-                    "summary": json_object[key]["summary"],  
-                    "overview": json_object[key]["overview"],
-                    "domain": json_object[key]["domain"] 
-                }
-            Json_object[f"Report{i}"] = report_dict
+        if filename_lower.endswith((".png", ".jpg", ".jpeg", ".gif")):
+            filename = os.path.join(uploaded_images_folder, file.filename)
+            with open(filename, "wb") as f:
+                f.write(await file.read())
+
+            link = f"http://localhost:5000/uploaded_images/{file.filename}"
+            json_object, report = process_image(filename)
+
+            report_id = str(uuid.uuid4())
+            json_object["link"] = link
+            json_object["report_id"] = report_id
 
             reports_collection.add(
-            documents=[str(report_dict)],  # Convert report_dict to string if necessary
-            metadatas={
-                "report_id": report_id,
-                "user_id": str(user_id),
-                "pet_id": str(pet_id),
-                "date": report_dict["date"],
-                "report": report_dict["document"]
-            },
-            ids=[report_id]
-        )
-           
-        
-    i=0
-    if file.filename.lower().endswith((".png", ".jpg", ".jpeg", ".gif")):
+                documents=[str(json_object)],
+                metadatas={
+                    "report_id": report_id,
+                    "user_id": str(user_id),
+                    "pet_id": str(pet_id),
+                    "date": str(json_object["date"]),
+                    "report": str(report)
+                },
+                ids=[report_id]
+            )
 
-        filename = os.path.join(uploaded_images_folder, file.filename)
-        with open(filename, "wb") as f:
-            f.write(await file.read())
-            
-        link = f"http://purrytails.in/api/uploaded_images/{file.filename}"
-            
-        json_object, report = process_image(filename)
-        
-        report_id = str(uuid.uuid4())
-        json_object["link"] = link
-        json_object["report_id"] = report_id
-        reports_collection.add(
-            documents=[str(json_object)],
-            metadatas={"report_id": report_id, "user_id": str(user_id), "pet_id": str(pet_id), "date": str(json_object["date"]), "report": str(report)},
-            ids=[report_id]
-        )
-        Json_object[f"Report{i}"] = json_object
+            Json_object[f"ImageReport{i}"] = json_object
 
-    print("#############################") 
-    print("#############################")   
-    print(Json_object)
-    print("#############################")  
-    print("#############################")  
+        elif filename_lower.endswith(".pdf"):
+            filename = os.path.join(uploaded_pdfs_folder, file.filename)
+            with open(filename, "wb") as f:
+                f.write(await file.read())
+
+            json_object, reports, pdf_files = process_pdf(file.filename)
+            print(len(reports), "reports found")
+
+            for j, key in enumerate(json_object):
+                if j < len(pdf_files):
+                    link = pdf_files[j].replace("backend\\", "")
+                    link = f"http://localhost:5000/{link}"
+                    
+                    report_id = str(uuid.uuid4())
+                    report_dict = {
+                        "link": link,
+                        "report_id": report_id,
+                        "date": json_object[key]["date"],
+                        "document": json_object[key]["document"],
+                        "diseases": json_object[key]["diseases"],
+                        "medicines": json_object[key]["medicines"],
+                        "doctor": json_object[key]["doctor"],
+                        "summary": json_object[key]["summary"],
+                        "overview": json_object[key]["overview"],
+                        "domain": json_object[key]["domain"]
+                    }
+
+                    reports_collection.add(
+                        documents=[str(report_dict)],
+                        metadatas={
+                            "report_id": report_id,
+                            "user_id": str(user_id),
+                            "pet_id": str(pet_id),
+                            "date": report_dict["date"],
+                            "report": report_dict["document"]
+                        },
+                        ids=[report_id]
+                    )
+
+                    Json_object[f"PDFReport{i}_{j}"] = report_dict
+
     return JSONResponse(content=Json_object)
 
 

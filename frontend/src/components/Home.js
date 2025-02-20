@@ -324,7 +324,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
             <div className="dashboard-left-content">
               <div className="dashboard-container">
                 <div className="text-content">
-                  <h1 className="dashboard-title">Welcome to your Health Locker {hasPet ? selectedPetName : profile.name}!</h1>
+                  <h1 className="dashboard-title">Welcome to your Health Locker {hasPet ? selectedPetName : profile?.name}!</h1>
                   <p className="dashboard-description">
                     <span className="highlight-one">
                       Take charge of your pet's health today! A happy pet starts with healthy habits!

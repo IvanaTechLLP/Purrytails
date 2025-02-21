@@ -29,7 +29,6 @@ embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(mo
 
 reports_collection = chromadb_client.get_or_create_collection(name="reports", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 users_collection = chromadb_client.get_or_create_collection(name="users", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
-doctor_collection = chromadb_client.get_or_create_collection(name="doctors", embedding_function=embedding_function)
 
 source_folder = os.getenv("SOURCE_FOLDER")
 
@@ -63,14 +62,11 @@ app.add_middleware(CustomMiddleware)
 
 uploaded_pdfs_folder = os.path.join(source_folder, "backend/uploaded_pdfs")
 uploaded_images_folder = os.path.join(source_folder, "backend/uploaded_images")
-qr_codes_folder = os.path.join(source_folder, "backend/qr_codes")
 os.makedirs(uploaded_pdfs_folder, exist_ok=True)
 os.makedirs(uploaded_images_folder, exist_ok=True)
-os.makedirs(qr_codes_folder, exist_ok=True)
 
 app.mount("/uploaded_pdfs", StaticFiles(directory=uploaded_pdfs_folder), name="uploaded_pdfs")
 app.mount("/uploaded_images", StaticFiles(directory=uploaded_images_folder), name="uploaded_images")
-app.mount("/qr_codes", StaticFiles(directory=qr_codes_folder), name="qr_codes")
     
 class GoogleLoginModel(BaseModel):
     email: EmailStr
@@ -153,111 +149,6 @@ async def google_login(data: GoogleLoginModel):
             detail={"status": False, "message": f"Failed to process request: {str(e)}"},
         )
     
-@app.post("/doctor_google_login")
-async def google_login(data: GoogleLoginModel):
-    email = data.email
-    print(data)
-
-    try:
-        # Check if the user already exists
-        
-        user = doctor_collection.get(
-            include=["metadatas"],
-            where={"email": email}
-        )
-        
-        
-    except Exception as e:
-        user = None
-    
-    try:
-
-        if user["metadatas"]:
-            # User already exists, log them in
-            print(user)
-            return {
-                "status": True,
-                "message": "Login Successful",
-                "data": {
-                    "user_id": user["ids"][0],
-                    "email": user["metadatas"][0]["email"],
-                    "name": user["metadatas"][0]["name"],
-                },
-            }
-            
-        else:
-            # Register the doctor
-            user_data = {
-                "user_id": str(uuid.uuid4()),
-                "email": data.email,
-                "name": data.name,
-                "shared_reports": "[]",
-                "chat_history": "[]"
-            }
-            
-            doctor_collection.add(
-                documents=[str(user_data)],
-                metadatas={"email": user_data["email"], "name": user_data["name"], "shared_reports": user_data["shared_reports"], "chat_history": user_data["chat_history"]},
-                ids=[user_data["user_id"]]
-            )
-
-            return {
-                "status": True,
-                "message": "Registration Successful",
-                "data": {
-                    "user_id": user_data["user_id"],
-                    "email": user_data["email"],
-                    "name": user_data["name"],
-                },
-            }
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail={"status": False, "message": f"Failed to process request: {str(e)}"},
-        )
-
-class ShareReportRequest(BaseModel):
-    user_id: str
-    reportId: str
-    email: str
-
-@app.post("/api/share_report")
-async def api_share_report(request: ShareReportRequest):
-    print(request)  # Log the received request to see what is being sent
-    report_share = reports_collection.get(ids=[request.reportId])
-    print()
-    print("Report Shared:")
-    print(report_share)  # Log the fetched report share
-    
-    
-    # Add the report ID to the doctor's shared_reports metadata
-    doctor = doctor_collection.get(where={"email": request.email})
-    if doctor["metadatas"]:
-        shared_reports_str = doctor["metadatas"][0].get("shared_reports", "[]")
-        shared_reports = json.loads(shared_reports_str)
-        
-        # Check if the report is already shared
-        if not any(report["report_id"] == request.reportId for report in shared_reports):
-            # Append the new report with empty notes
-            shared_reports.append({"report_id": request.reportId, "notes": ""})
-            
-            # Convert the updated list back to a JSON string
-            updated_shared_reports_str = json.dumps(shared_reports)
-            
-            # Update the doctor's collection with the new shared report
-            doctor_collection.update(
-                ids=doctor["ids"],
-                metadatas={"shared_reports": updated_shared_reports_str}
-            )
-        else:
-            print(f"Report {request.reportId} is already shared.")
-        
-    else:
-        raise HTTPException(status_code=404, detail="Doctor not found")
-    return {"status": "success", "data": report_share}
-
-        
 
 @app.post("/api/process_file")
 async def api_process_file(files: List[UploadFile] = File(...), user_id: str = Form(...), pet_id: Optional[str] = Form(None)):
@@ -353,14 +244,8 @@ async def llm_chatbot(request: Request):
     user_type = data.get('user_type')
     feedback = data.get('feedback', None)
 
-    # Retrieve existing chat history from the session (or database)
-    if user_type == "doctor":
-        user_metadata = doctor_collection.get(
-            ids=[user_id],
-            include=["metadatas"],
-        )["metadatas"][0]
     
-    elif user_type == "patient":
+    if user_type == "patient":
         user_metadata = users_collection.get(
             ids=[user_id],
             include=["metadatas"],
@@ -466,70 +351,7 @@ async def update_user_details(user_id: str, data: dict):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to update user details: {str(e)}")
 
-        
-class ReportResponse(BaseModel):
-    report_id: str
-    patient_name: str
-    report_data: str
-    doctor_note: str
-           
-@app.get("/doctor_dashboard/{doctor_id}")
-async def fetch_reports_for_doctor(doctor_id: str) -> List[ReportResponse]:
-    # Fetch doctor data based on doctor_id
-    doctor = doctor_collection.get(ids=[doctor_id], include=["metadatas"])
-    if not doctor:
-        raise HTTPException(status_code=404, detail="Doctor not found")
-    
-    print(doctor)
 
-    # Extract and split the comma-separated report IDs
-    shared_reports_str = doctor["metadatas"][0].get("shared_reports", "[]")
-    print(shared_reports_str)
-    if not shared_reports_str:
-        return []
-
-    shared_reports = json.loads(shared_reports_str)
-    report_ids = [report["report_id"] for report in shared_reports]
-    doctor_notes = [report["notes"] for report in shared_reports]
-
-    # Fetch reports matching the report_ids
-    # reports = reports_collection.get(where={"report_id": {"$in": report_ids}}, include=["documents", "metadatas"])
-    
-    reports = reports_collection.get(ids=report_ids, include=["documents", "metadatas"])
-    
-    print(reports)
-    
-    reports_metadata = reports["metadatas"]
-    reports_ids = reports["ids"]
-    reports = reports["documents"]
-    
-    patient_ids = [report_metadata["user_id"] for report_metadata in reports_metadata]
-    
-    patient_names = []
-    
-    for patient_id in patient_ids:
-        print(patient_id)
-        patient = users_collection.get(
-            ids=[patient_id],
-            include=["metadatas"]
-        )
-        print("*******************************")
-        print(patient)
-        patient_names.append(patient["metadatas"][0]["name"])
-    
-    for report, report_metadata in zip(reports, reports_metadata):
-        print("############################")
-        print(report)
-        print(report_metadata["report_id"])
-    
-    report_list = [
-        ReportResponse(report_id=report_id, patient_name=patient_name, report_data=report, doctor_note=doctor_note)
-        for report, patient_name, report_id, doctor_note in zip(reports, patient_names, reports_ids, doctor_notes)
-    ]
-
-    return report_list
-
-        
 @app.get("/reports_dashboard/{user_id}")
 async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
     print(user_id)
@@ -540,7 +362,6 @@ async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
             # where={"$and": [{"user_id": user_id}, {"pet_id": pet_id}]}
             where={"pet_id": pet_id}
         )
-        
         
 
         ids = reports["ids"]
@@ -589,111 +410,6 @@ async def delete_report(report_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete report: {str(e)}")
 
-@app.delete("/doctor_delete_report")
-async def doctor_delete_report(report_id: str, user_id: str):
-    print(f"Deleting report {report_id} for user {user_id}")
-    
-    try:
-        # Fetch the doctor's data by user_id
-        doctor_data = doctor_collection.get(ids=[user_id], include=["metadatas"])
-        print(f"Doctor Data: {doctor_data}")
-        
-        if not doctor_data or "shared_reports" not in doctor_data["metadatas"][0]:
-            raise HTTPException(status_code=404, detail="No reports found for the specified user")
-
-        # Retrieve the shared reports (stored as a JSON string)
-        shared_reports_str = doctor_data["metadatas"][0]["shared_reports"]
-        print(f"Shared Reports (String): {shared_reports_str}")
-        
-        # Parse the JSON string into a Python list
-        shared_reports = json.loads(shared_reports_str)
-        print(f"Shared Reports (Parsed): {shared_reports}")
-        
-        # Check if the report exists in the list and remove it
-        updated_reports = [report for report in shared_reports if report["report_id"] != report_id]
-        
-        if len(updated_reports) == len(shared_reports):
-            raise HTTPException(status_code=404, detail="Report ID not found in shared reports")
-        
-        # Convert the updated list back to a JSON string
-        updated_shared_reports_str = json.dumps(updated_reports)
-        print(f"Updated Shared Reports (String): {updated_shared_reports_str}")
-        
-        # Update the doctor's collection with the modified shared reports list
-        doctor_collection.update(
-            ids=[user_id],
-            metadatas={"shared_reports": updated_shared_reports_str}
-        )
-
-        return {"status": "success", "message": "Report deleted successfully"}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to delete report: {str(e)}")
-
-
-
-key = os.getenv("FERNET_KEY")
-if not key:
-    raise ValueError("No Fernet key found in environment variables")
-
-cipher_suite = Fernet(key)
-
-
-class DecryptRequest(BaseModel):
-    data: str 
-
-@app.post("/api/decrypt")
-async def decrypt_data(request: DecryptRequest):
-    print(request.data)
-    try:
-        # Decrypt the data using Fernet
-        decrypted_data = cipher_suite.decrypt(request.data.encode()).decode()
-        print(decrypted_data)
-        
-        # Return the decrypted data, assumed to be a URL or something to navigate to
-        return decrypted_data
-    except Exception as e:
-        raise HTTPException(
-            status_code=400,
-            detail={"status": False, "message": f"Decryption Failed: {str(e)}"},
-        )
-    
-@app.post("/generate_qr_code/{user_id}")
-async def generate_qr_code(user_id: str):
-    try:
-        # Generate QR code
-        qr = qrcode.QRCode(
-            version=1,
-            error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=4,
-        )
-        
-        qr_data = f"http://localhost:3000/qr_dashboard/{user_id}" 
-        encrypted_qr_data = cipher_suite.encrypt(qr_data.encode()).decode()
-        print(encrypted_qr_data)
-        qr.add_data(encrypted_qr_data)
-        qr.make(fit=True)
-
-        
-
-        # Create the image
-        img = qr.make_image(fill="black", back_color="white")
-
-        qr_image_path = os.path.join(qr_codes_folder, f"{user_id}.png")
-        img.save(qr_image_path)
-
-        # Generate the URL for the QR code
-        qr_code_link = f"http://localhost:5000/qr_codes/{user_id}.png"
-
-        return JSONResponse(content={"status": True, "qr_code_link": qr_code_link})
-
-    except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail={"status": False, "message": f"Failed to generate QR code: {str(e)}"},
-        )
-          
  
 class UpdateReportDateRequest(BaseModel):
     new_date: str
@@ -723,129 +439,6 @@ async def update_report_date(report_id: str, request: UpdateReportDateRequest):
         raise HTTPException(status_code=500, detail=f"Failed to update report date: {str(e)}")
     
     
-@app.post("/calendar_request")
-async def calendar_request(request: Request):
-    data = await request.json()
-    print(data)
-    
-    input_text = data["text"]
-    # access_token = data["access_token"]
-    # refresh_token = data.get("refresh_token", None)
-    user_id = data["user_id"]
-    
-    # service = authenticate(access_token, refresh_token)
-    
-    # response = llm_calendar_response(input_text, service, user_id)
-    response = llm_calendar_response(input_text, user_id)
-    
-    return {"status": "success", "message": response}
-
-
-@app.post("/create_event_directly")
-async def create_event(event_data: dict):
-    # access_token = event_data["access_token"]
-    event_name = event_data["title"]
-    start_datetime = event_data["start"]
-    end_datetime = event_data["end"]
-    user_id = event_data["user_id"]  # Assuming user_id is passed to identify the user
-
-    # service = authenticate(access_token)
-    # response = add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
-    response = add_event(event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
-    
-    return {"status": "success", "message": response}
-
-    
-@app.delete("/delete_event")
-async def delete_event(event_data: dict):
-
-    # access_token = event_data["access_token"]
-    event_name = event_data["event_name"]
-    user_id = event_data["user_id"]
-    
-    # service = authenticate(access_token)
-    # delete_event_by_name(service, event_name, user_id)
-    delete_event_by_name(event_name, user_id)
-
-
-    return {"message": "Event deleted successfully."}
-
-
-@app.get("/get_user_events/{user_id}")
-async def get_user_events(user_id: str):
-    user_metadata = users_collection.get(ids=[user_id], include=["metadatas"])["metadatas"][0]
-    
-    if user_metadata:
-        events = user_metadata["events"]
-        print(events)
-        return events
-    return []
-
-
-
-class SaveDoctorNotesRequest(BaseModel):
-    report_id: str
-    doctor_id: str
-    notes: str
-
-@app.post("/save_doctor_notes")
-async def save_doctor_notes(request: SaveDoctorNotesRequest):
-    try:
-        # Fetch doctor's record from the collection by doctor_id
-        doctor_data = doctor_collection.get(ids=[request.doctor_id], include=["metadatas"])
-        
-        if not doctor_data or "shared_reports" not in doctor_data["metadatas"][0]:
-            raise HTTPException(status_code=404, detail="No shared reports found for the specified doctor")
-
-        # Retrieve shared reports as a JSON string and parse it into a list of JSON objects
-        shared_reports_str = doctor_data["metadatas"][0]["shared_reports"]
-        shared_reports = json.loads(shared_reports_str)
-
-        # Find the report in shared_reports and update its notes
-        report_found = False
-        for report in shared_reports:
-            if report["report_id"] == request.report_id:
-                report["notes"] = request.notes
-                report_found = True
-                break
-        
-        if not report_found:
-            raise HTTPException(status_code=404, detail="Report ID not found in shared reports")
-
-        # Convert the updated shared reports back to a JSON string
-        updated_shared_reports_str = json.dumps(shared_reports)
-
-        # Update the doctor's collection with the updated shared reports
-        doctor_collection.update(
-            ids=[request.doctor_id],
-            metadatas={"shared_reports": updated_shared_reports_str}
-        )
-
-        return {"status": "success", "message": "Notes saved successfully"}
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save notes: {str(e)}")
-    
-    
-           
-# @app.post("/send_meeting_invite")
-# async def send_meeting_invite(meeting_request: dict):
-#     try:
-#         email = meeting_request["email"]
-#         access_token = meeting_request["access_token"]
-        
-#         service = authenticate(access_token)
-#         # Step 1: Create the Google Meet link
-#         meet_link = create_google_meet_event(service, email)
-
-#         # Step 2: Send the link via email to the provided doctor email
-#         send_email(email, meet_link)
-
-#         return {"message": "Google Meet invite sent successfully", "meet_link": meet_link}
-#     except Exception as e:
-#         raise HTTPException(status_code=500, detail=f"Error sending invite: {str(e)}")
-    
-
 class PetDetails(BaseModel):
     user_id: str
     petDetails: dict
@@ -1027,111 +620,6 @@ async def share_pet_profile(data: dict):
         print(f"Error transferring pet profile: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while transferring the pet profile.")
 
-    
-
-@app.get("/chats/{user_id}")
-async def chats(user_id: str):
-    print(user_id)
-    user = users_collection.get(ids=[user_id])
-    user_metadata = user["metadatas"][0]
-    if "chats" in user_metadata:
-        chats = user_metadata["chats"]
-        return chats
-    else:
-        return []
-    
-
-@app.post("/start_chat")
-async def start_chat(data: dict):
-    user_id = data.get("user_id")
-    email = data.get("email")
-    # Logic to add a new chat (mock or database operation)
-    # Example: Update the user's chat list in the database
-    try:
-        user = users_collection.get(ids=[user_id])
-        user_metadata = user["metadatas"][0]
-        if "chats" in user_metadata:
-            chats = json.loads(user_metadata["chats"])
-        else:
-            chats = {}
-        chats[email] = []
-        users_collection.update(
-            ids=[user_id],
-            metadatas={"chats": json.dumps(chats)}
-        )
-        
-        return {"message": "Chat added successfully!"}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to add chat: {str(e)}")   
-
-
-@app.get("/messages/{user_id}/{email}")
-def get_messages_by_user_and_name(user_id: str, email: str):
-    user = users_collection.get(ids=[user_id])
-    user_metadata = user["metadatas"][0]
-    if "chats" in user_metadata:
-        chats = json.loads(user_metadata["chats"])
-        if email in chats:
-            messages = chats[email]
-            return messages
-    else:
-        return []
-    return messages
-
-
-class SentMessage(BaseModel):
-    user_id: str
-    email: str
-    message: str
-    
-@app.post("/send_chat")
-def send_chat(data: SentMessage):
-    user_id = data.user_id
-    receiver_email = data.email
-    message = data.message
-    
-    user = users_collection.get(ids=[user_id])
-    user_metadata = user["metadatas"][0]
-    sender_email = user_metadata["email"]
-    sender_chats = json.loads(user_metadata["chats"])
-    
-    sender_message = {"sender": "you", "content": message}
-    receiver_message = {"sender": "them", "content": message}
-    
-    try:  
-        receiver = users_collection.get(where={"email": receiver_email})
-        receiver_metadata = receiver["metadatas"][0]
-        receiver_id = receiver["ids"][0]
-        print(receiver_id)
-        if "chats" in receiver_metadata:
-            receiver_chats = json.loads(receiver_metadata["chats"])
-        else:
-            receiver_chats = {}
-            receiver_chats[sender_email] = []
-        if sender_email in receiver_chats:
-            messages = receiver_chats[sender_email]
-            messages.append(receiver_message)
-            receiver_chats[sender_email] = messages
-            users_collection.update(
-                ids=[receiver_id],
-                metadatas={"chats": json.dumps(receiver_chats)}
-            )
-        
-    except:
-        raise HTTPException(status_code=404, detail="Receiver is not registered")
-    
-    
-    if receiver_email in sender_chats:
-        messages = sender_chats[receiver_email]
-        messages.append(sender_message)
-        sender_chats[receiver_email] = messages
-        users_collection.update(
-            ids=[user_id],
-            metadatas={"chats": json.dumps(sender_chats)}
-        )
-    
-    
-    return "done"
 
 if __name__ == "__main__":
     import uvicorn

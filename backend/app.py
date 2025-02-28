@@ -278,7 +278,7 @@ async def api_process_file(files: List[UploadFile] = File(...), user_id: str = F
             with open(filename, "wb") as f:
                 f.write(await file.read())
 
-            link = f"http://localhost:5000/uploaded_images/{file.filename}"
+            link = f"http://purrytails.in/api/uploaded_images/{file.filename}"
             json_object, report = process_image(filename)
 
             report_id = str(uuid.uuid4())
@@ -310,7 +310,7 @@ async def api_process_file(files: List[UploadFile] = File(...), user_id: str = F
             for j, key in enumerate(json_object):
                 if j < len(pdf_files):
                     link = pdf_files[j].replace("backend\\", "")
-                    link = f"http://localhost:5000/{link}"
+                    link = f"http://purrytails.in/api/{link}"
                     
                     report_id = str(uuid.uuid4())
                     report_dict = {

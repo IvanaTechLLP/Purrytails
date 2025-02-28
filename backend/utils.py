@@ -83,7 +83,7 @@ vision_model = genai.GenerativeModel(
 )
 
 text_model = genai.GenerativeModel(
-    model_name="gemini-1.0-pro",
+    model_name="gemini-1.5-flash",
     generation_config=text_generation_config,
     safety_settings=safety_settings,
 )

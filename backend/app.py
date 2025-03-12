@@ -4,20 +4,16 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from utils import process_image, process_pdf, llm_model, llm_calendar_response
-from calendar_task import add_event, delete_event_by_name
+from utils import process_image, process_pdf, llm_model
 from pydantic import BaseModel, EmailStr
-from typing import List, Dict, Optional
+from typing import List, Optional
 import json
 import ast
 import uuid
-from datetime import datetime
-import qrcode
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
 import os
 from dotenv import load_dotenv
-from cryptography.fernet import Fernet
 load_dotenv()
 
 

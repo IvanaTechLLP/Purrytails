@@ -4,16 +4,12 @@ import ast
 import google.generativeai as genai
 import fitz
 from pdf_data_extractor import data_extraction
-from calendar_task import add_event, delete_event_by_name, update_event
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 

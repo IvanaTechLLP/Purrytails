@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 from PIL import Image
 from fpdf import FPDF
-from datetime import datetime
 
 load_dotenv()
 

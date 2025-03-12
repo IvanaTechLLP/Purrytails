@@ -329,7 +329,7 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
     print()
     print("Classifier Response")
     print(classifier_response.text)
-    classification = classifier_response.text.split(",")[0]
+    classification = classifier_response.text.split(",")[0].strip()
         
     if classification == "None":
         

@@ -4,16 +4,12 @@ import ast
 import google.generativeai as genai
 import fitz
 from pdf_data_extractor import data_extraction
-from calendar_task import add_event, delete_event_by_name, update_event
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -25,7 +21,6 @@ langchain_embedding_function = HuggingFaceEmbeddings(model_name="thenlper/gte-ba
 
 reports_collection = chromadb_client.get_or_create_collection(name="reports", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 users_collection = chromadb_client.get_or_create_collection(name="users", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
-doctor_collection = chromadb_client.get_or_create_collection(name="doctors", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 
 source_folder = os.getenv("SOURCE_FOLDER")
 uploaded_pdfs_folder = os.path.join(source_folder, "backend/uploaded_pdfs")
@@ -338,7 +333,7 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
     print()
     print("Classifier Response")
     print(classifier_response.text)
-    classification = classifier_response.text.split(",")[0]
+    classification = classifier_response.text.split(",")[0].strip()
         
     if classification == "None":
         
@@ -377,21 +372,7 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
         if "when" in input_string or "all" in input_string:
             print("Querying all reports")
             
-            if user_type == "doctor":
-                doctor_data = doctor_collection.get(
-                    include=["documents", "metadatas"],
-                    ids=[user_id]
-                )
-                
-                shared_reports_data = doctor_data["metadatas"][0]["shared_reports"]
-                doctor_report_ids = [report["report_id"] for report in shared_reports_data]
-                
-                reports = reports_collection.get(
-                    include=["documents", "metadatas"],
-                    ids=[doctor_report_ids]
-                )
-            
-            elif user_type == "patient": 
+            if user_type == "patient": 
                 reports = reports_collection.get(
                     include=["documents", "metadatas"],
                     where={"pet_id": pet_id}
@@ -412,27 +393,8 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
      
         
         else:
-            
-            if user_type == "doctor":
                 
-                doctor_data = doctor_collection.get(
-                    include=["documents", "metadatas"],
-                    ids=[user_id]
-                )
-                print(doctor_data)
-                shared_reports_data = json.loads(doctor_data["metadatas"][0]["shared_reports"])
-                print(shared_reports_data)
-                doctor_report_ids = [report["report_id"] for report in shared_reports_data]
-                print(doctor_report_ids)
-                
-                results = reports_vector_store.similarity_search_with_score(
-                    query=chromadb_query, k=no_of_reports, filter={"report_id": {
-                        "$in": doctor_report_ids
-                    }}
-                )
-                print(results)
-                
-            elif user_type == "patient": 
+            if user_type == "patient": 
                 results = reports_vector_store.similarity_search_with_score(
                     query=chromadb_query, k=no_of_reports, filter={"pet_id": pet_id}
                 )
@@ -506,100 +468,3 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
        
         
         return response.text, relevant_reports
-    
-    
-def llm_calendar_response(input_string: str, user_id):
-    prompt_parts = [
-            f"""
-            User's input: {input_string}
-            You are a calendar manager bot that manages the user's Google Calendar.
-            If user asks to edit their schedule (example: add or delete tasks for a day or hour, etc):
-            identify task_type based on context: "create event", "delete event", "update event","check events"
-            STRICT output format (separated by commas): "task_type identified above, event name identified above, start_datetime in YYYY-MM-DDTHH:MM:SSZ format in Indian Standard Time, end_datetime in YYYY-MM-DDTHH:MM:SSZ format in Indian Standard Time"
-            
-            if time not specified, assume full day event and take start time as 00:00:00 and end time as 23:59:59 of specified date
-
-            """
-        ]
-    
-    response = text_model.generate_content(prompt_parts)
-    print(response.text)
-    task_type = response.text.split(",")[0].strip()
-    print(task_type)
-    
-    if task_type == "create event":
-        event_name = response.text.split(",")[1].strip()
-        start_datetime = response.text.split(",")[2].strip()
-        end_datetime = response.text.split(",")[3].strip()
-        
-        # add_event(service, event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
-        add_event(event_name, start_datetime, end_datetime=end_datetime, user_id=user_id)
-        print("Event added successfully")
-        
-        return "Event added successfully"
-
-    elif task_type == "delete event":
-        event_name = response.text.split(",")[1].strip()
-        # delete_event_by_name(service, event_name)
-        delete_event_by_name(event_name)
-        
-        return "Event deleted successfully"
-    
-    elif task_type == "update event":
-        event_name = response.text.split(",")[1].strip()
-        start_datetime = response.text.split(",")[2].strip()
-        end_datetime = response.text.split(",")[3].strip()
-        # update_event(service, event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
-        update_event(event_name, new_start_datetime=start_datetime, end_datetime=end_datetime)
-        
-        return "Event updated successfully"
-
-    return response.text
-
-
-# def create_google_meet_event(service, doctor_email):
-
-#     # Define the event details
-#     event = {
-#         'summary': 'Google Meet with Doctor',
-#         'start': {
-#             'dateTime': (datetime.utcnow() + timedelta(minutes=10)).isoformat() + 'Z',
-#             'timeZone': 'UTC',
-#         },
-#         'end': {
-#             'dateTime': (datetime.utcnow() + timedelta(hours=1)).isoformat() + 'Z',
-#             'timeZone': 'UTC',
-#         },
-#         'conferenceData': {
-#             'createRequest': {
-#                 'conferenceSolutionKey': {'type': 'hangoutsMeet'},
-#                 'requestId': 'some-random-string',
-#             },
-#         },
-#         'attendees': [{'email': doctor_email}],
-#     }
-
-#     # Create the event in Google Calendar
-#     event = service.events().insert(
-#         calendarId='primary',
-#         body=event,
-#         conferenceDataVersion=1
-#     ).execute()
-
-#     return event.get('hangoutLink')
-
-
-
-# def send_email(to_email, meet_link):
-#     msg = MIMEMultipart()
-#     msg['From'] = SMTP_USER
-#     msg['To'] = to_email
-#     msg['Subject'] = 'Google Meet Invite'
-
-#     body = f"You are invited to a Google Meet. Join the meeting via this link: {meet_link}"
-#     msg.attach(MIMEText(body, 'plain'))
-
-#     with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-#         server.starttls()
-#         server.login(SMTP_USER, SMTP_PASSWORD)
-#         server.sendmail(SMTP_USER, to_email, msg.as_string())

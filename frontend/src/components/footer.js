@@ -81,6 +81,12 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>
           &copy; {new Date().getFullYear()} Purry Tails. All rights reserved.
+          <span
+          className="text-blue-500 cursor-pointer hover:underline"
+          onClick={() => (window.location.href = "/termsandconditions")}
+        >
+          Terms and Conditions
+        </span>
         </p>
       </div>
     </footer>

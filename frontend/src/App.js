@@ -12,6 +12,7 @@ import LoginSignupPage from "./components/LoginSignupPage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Dashboard from "./components/Dashboard";
 import LandingPage from "./components/LandingPage";
+import TermsAndConditions from "./components/TermsAndConditions";
 import UserProfilePage from "./components/UserPage";
 import Home from "./components/Home";
 import Timeline from "./components/Timeline";
@@ -114,6 +115,12 @@ function App() {
                 <LandingPage/>
               }
               
+            />
+            <Route
+              path="/termsandconditions"
+              element={
+                <TermsAndConditions />
+              }
             />
             <Route
               path="/parent-details"

@@ -22,6 +22,11 @@ langchain_embedding_function = HuggingFaceEmbeddings(model_name="thenlper/gte-ba
 reports_collection = chromadb_client.get_or_create_collection(name="reports", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 users_collection = chromadb_client.get_or_create_collection(name="users", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 
+source_folder = os.getenv("SOURCE_FOLDER")
+uploaded_pdfs_folder = os.path.join(source_folder, "backend/uploaded_pdfs")
+uploaded_images_folder = os.path.join(source_folder, "backend/uploaded_images")
+qr_codes_folder = os.path.join(source_folder, "backend/qr_codes")
+
 reports_vector_store = Chroma(
     client=chromadb_client,
     collection_name="reports",
@@ -167,14 +172,13 @@ def process_image(filepath):
 
 def process_pdf(filename):
     # pdf = PdfDocument.FromFile(os.path.join("backend/uploaded_pdfs",filename))
-    doc = fitz.open(os.path.join("backend/uploaded_pdfs",filename))
+    doc = fitz.open(os.path.join(uploaded_pdfs_folder,filename))
     
-    uploaded_images_folder = os.path.join(source_folder, "backend/uploaded_images")
     os.makedirs(uploaded_images_folder, exist_ok=True)
     
     max_number = -1    
     # Iterate over the directories in the specified path
-    for folder_name in os.listdir(os.path.join(source_folder,uploaded_images_folder)):
+    for folder_name in os.listdir(uploaded_images_folder):
         if folder_name.startswith("pdf_"):
             # Extract the number after "pdf_"
             try:
@@ -198,15 +202,15 @@ def process_pdf(filename):
 
         pix = page.get_pixmap()
         
-        folder_path = os.path.join(source_folder, "backend/uploaded_images", f"pdf_{new_folder}")
+        folder_path = os.path.join(uploaded_images_folder, f"pdf_{new_folder}")
         os.makedirs(folder_path, exist_ok=True)
 
-        image_path = os.path.join(source_folder,folder_path,f"image{i}.png")
+        image_path = os.path.join(folder_path,f"image{i}.png")
 
         pix.save(image_path)
     doc.close()
     
-    new_folder_path = os.path.join(source_folder,f"backend/uploaded_images/pdf_{new_folder}")
+    new_folder_path = os.path.join(uploaded_images_folder,f"pdf_{new_folder}")
     reports_json,report_dates, image_path= data_extraction(new_folder_path,new_folder)
     
     print("##########################################################")
@@ -303,7 +307,7 @@ def process_pdf(filename):
         print("##########################################################")
         print(pdf_files)
         print(type(all_extracted_data))
-    return all_extracted_data, reports_json,pdf_files
+    return all_extracted_data, reports_json, pdf_files
 
 
 def llm_model(input_string, conversation, user_id, user_type, pet_id=None):

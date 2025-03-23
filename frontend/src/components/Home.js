@@ -73,8 +73,9 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
+
       const data = await response.json();
       setUserDetails(data);
     } catch (error) {
@@ -86,7 +87,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
     if (!profile?.user_id) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -123,8 +124,9 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+        `/api/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
       );
+
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);
     } catch (error) {
@@ -134,7 +136,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
 
   const fetchNextReminders = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/get_user_events/${profile.user_id}`, {
+      const response = await fetch(`/api/get_user_events/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -222,7 +224,7 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const handleShowQRCode = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/qr_codes/${profile.user_id}.png`
+        `/api/qr_codes/${profile.user_id}.png`
       );
       if (response.ok) {
         const imageBlob = await response.blob();
@@ -231,12 +233,12 @@ const Home = ({ profile, logOut, reports, setReports, selectedPetId }) => {
         setShowQRCodePopup(true);
       } else {
         const generateResponse = await fetch(
-          `http://localhost:5000/generate_qr_code/${profile.user_id}`,
+          `/api/generate_qr_code/${profile.user_id}`,
           { method: "POST" }
         );
         if (generateResponse.ok) {
           const fetchQRCodeResponse = await fetch(
-            `http://localhost:5000/qr_codes/${profile.user_id}.png`
+            `/api/qr_codes/${profile.user_id}.png`
           );
           if (fetchQRCodeResponse.ok) {
             const imageBlob = await fetchQRCodeResponse.blob();

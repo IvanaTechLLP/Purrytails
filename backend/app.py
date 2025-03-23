@@ -77,13 +77,13 @@ class UserResponse(BaseModel):
     owner_address: str
 
 
-@app.get("/", response_class=HTMLResponse)
+@app.get("/api", response_class=HTMLResponse)
 async def index(request: Request):
     
     return "Welcome to the Medocs Backend"
 
 
-@app.post("/google_login")
+@app.post("/api/google_login")
 async def google_login(data: GoogleLoginModel):
     email = data.email
     print(data)
@@ -144,7 +144,7 @@ async def google_login(data: GoogleLoginModel):
             status_code=500,
             detail={"status": False, "message": f"Failed to process request: {str(e)}"},
         )
-    
+
 
 @app.post("/api/process_file")
 async def api_process_file(files: List[UploadFile] = File(...), user_id: str = Form(...), pet_id: Optional[str] = Form(None)):
@@ -165,7 +165,7 @@ async def api_process_file(files: List[UploadFile] = File(...), user_id: str = F
             with open(filename, "wb") as f:
                 f.write(await file.read())
 
-            link = f"http://localhost:5000/uploaded_images/{file.filename}"
+            link = f"http://purrytails.in/api/uploaded_images/{file.filename}"
             json_object, report = process_image(filename)
 
             report_id = str(uuid.uuid4())
@@ -197,7 +197,7 @@ async def api_process_file(files: List[UploadFile] = File(...), user_id: str = F
             for j, key in enumerate(json_object):
                 if j < len(pdf_files):
                     link = pdf_files[j].replace("backend\\", "")
-                    link = f"http://localhost:5000/{link}"
+                    link = f"http://purrytails.in/api/{link}"
                     
                     report_id = str(uuid.uuid4())
                     report_dict = {
@@ -231,7 +231,7 @@ async def api_process_file(files: List[UploadFile] = File(...), user_id: str = F
 
 
 
-@app.post("/llm_chatbot")
+@app.post("/api/llm_chatbot")
 async def llm_chatbot(request: Request):
     data = await request.json()
     input_string = data.get('message')
@@ -292,7 +292,7 @@ async def llm_chatbot(request: Request):
 
     return JSONResponse(content={"response": response_text, "relevant_reports": relevant_reports})
 
-@app.get("/user_dashboard/{user_id}", response_model=UserResponse)
+@app.get("/api/user_dashboard/{user_id}", response_model=UserResponse)
 async def get_user_details(user_id: str):
     print(user_id)
     try:
@@ -347,9 +347,10 @@ async def update_user_details(user_id: str, data: dict):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to update user details: {str(e)}")
 
-
+                
 @app.get("/reports_dashboard/{user_id}")
 async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
+
     print(user_id)
     try:
         
@@ -387,7 +388,7 @@ async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
         )
 
 
-@app.delete("/delete_report/{report_id}")
+@app.delete("/api/delete_report/{report_id}")
 async def delete_report(report_id: str):
     try:
         # Fetch the report by its report_id
@@ -406,11 +407,10 @@ async def delete_report(report_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete report: {str(e)}")
 
- 
 class UpdateReportDateRequest(BaseModel):
     new_date: str
               
-@app.put("/update_report_date/{report_id}")
+@app.put("/api/update_report_date/{report_id}")
 async def update_report_date(report_id: str, request: UpdateReportDateRequest):
     try:
         # Fetch the report to update using the report_id
@@ -616,7 +616,7 @@ async def share_pet_profile(data: dict):
         print(f"Error transferring pet profile: {e}")
         raise HTTPException(status_code=500, detail="An error occurred while transferring the pet profile.")
 
-
+    
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=5000)

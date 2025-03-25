@@ -348,7 +348,7 @@ async def update_user_details(user_id: str, data: dict):
         raise HTTPException(status_code=500, detail=f"Failed to update user details: {str(e)}")
 
                 
-@app.get("/reports_dashboard/{user_id}")
+@app.get("/api/reports_dashboard/{user_id}")
 async def get_reports(user_id: str, pet_id: Optional[str] = Query(None)):
 
     print(user_id)

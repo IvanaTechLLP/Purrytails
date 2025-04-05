@@ -281,7 +281,7 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
  <button className="hamburger" onClick={handleToggle}>
                  &#9776;
                </button>
-               <h1 className="calendar-title">Records Locker</h1>
+               
 </div>
       
                <div className={`sidebar ${isOpen ? 'open' : ''}`}>

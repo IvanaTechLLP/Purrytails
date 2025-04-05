@@ -196,7 +196,7 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
                  &#9776;
                </button>
  
-  <h1 className="calendar-title">Document Upload</h1>
+  
 </div>
 <div className={`sidebar ${isOpen ? 'open' : ''}`}>
                  <button className="back-arrow-menu" onClick={closeMenu}>

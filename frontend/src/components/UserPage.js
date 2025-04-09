@@ -453,7 +453,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
  <button className="hamburger" onClick={handleToggle}>
                  &#9776;
                </button>
-               <h1 className="calendar-title">Profile</h1>
+              
 </div>
         <div className={`sidebar ${isOpen ? "open" : ""}`}>
           <button className="back-arrow-menu" onClick={closeMenu}>

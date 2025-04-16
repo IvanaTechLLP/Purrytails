@@ -263,6 +263,8 @@ const LandingPage = () => {
         </button>
        </div>
 
+       
+
 
       {/*}
       <div className="landing-container1">
@@ -382,7 +384,7 @@ const LandingPage = () => {
   {/* Always visible Journey Steps */}
   <div className="journey-step left">
     <div className="image-container">
-      <img className="left-image" src="login-left.jpg" alt="Step 1" />
+      <img className="left-image-landing" src="login-left.jpg" alt="Step 1" />
     </div>
     <div className="text-container">
       <h2>1 SIGN IN</h2>
@@ -398,7 +400,7 @@ const LandingPage = () => {
 
   <div className="journey-step right">
     <div className="image-container">
-      <img className="right-image" src="right-details.png" alt="Step 2" />
+      <img className="right-image-landing" src="right-details.png" alt="Step 2" />
     </div>
     <div className="text-container">
       <h2>2 ENTER YOUR PROFILE DETAILS</h2>
@@ -416,7 +418,7 @@ const LandingPage = () => {
 
   <div className="journey-step left">
     <div className="image-container">
-      <img className="left-image" src="image-upload.jpg" alt="Step 3" />
+      <img className="left-image-landing" src="image-upload.jpg" alt="Step 3" />
     </div>
     <div className="text-container">
       <h2>3 UPLOAD REPORTS</h2>
@@ -433,7 +435,7 @@ const LandingPage = () => {
 
   <div className="journey-step right">
     <div className="image-container">
-      <img className="right-image" src="right-dashboard.png" alt="Step 4" />
+      <img className="right-image-landing" src="right-dashboard.png" alt="Step 4" />
     </div>
     <div className="text-container">
       <h2>4 DASHBOARD</h2>
@@ -451,7 +453,7 @@ const LandingPage = () => {
 
   <div className="journey-step left">
     <div className="image-container">
-      <img className="left-image" src="left-timeline.jpg" alt="Step 5" />
+      <img className="left-image-landing" src="left-timeline.jpg" alt="Step 5" />
     </div>
     <div className="text-container">
       <h2>5 HEALTH TIMELINE</h2>

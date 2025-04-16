@@ -188,11 +188,11 @@ const ParentDetailsPage = ( {profile} ) => {
         ← 
       </div>
 
-      <h4 className="h4-heading">PET PARENT DETAILS</h4>
+      <h4 className="h4-heading"> PARENT DETAILS</h4>
 
       {/* Fields */}
       <label>
-        Owner's Name:
+        Parent Name:
         <input
           type="text"
           value={ownerName}

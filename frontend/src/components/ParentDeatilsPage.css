@@ -1,4 +1,7 @@
-/* Example CSS */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,500&display=swap');
+
+
 .form-container {
     padding: 20px;
   }
@@ -11,6 +14,7 @@
   
   .h4-heading {
     margin-bottom: 10px;
+    margin-left: 10px;
   }
   
   label {
@@ -79,3 +83,346 @@
   .back-arrow svg {
     margin-right: 8px;  /* Spacing between the arrow and text */
   }
+  .left-pet-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* centers child elements horizontally */
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center; /* ensures text inside headings is centered */
+  }
+  
+  .pet-image {
+    width: 60%; /* or a fixed size like 300px */
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    display: block;
+    left: 150px;
+  }
+  
+  .heading-one {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 50px;
+    line-height: 32px;
+    letter-spacing: 0px;
+    color: #31647A;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 8px;
+  }
+  
+  .heading-two {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 30px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #31647A;
+  }
+  
+  .vertical-line-1 {
+    width: 2px;
+    height: 500px; /* or 100% if wrapping inside full container */
+    background: #6FBAFD;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  .left-section-wrapper {
+    display: flex;
+    flex-direction: row; /* makes elements sit side by side */
+    gap: 10px; /* space between the left and right sections */
+  }
+  
+  .right-side-wrapper {
+    width: 100%; /* Allow right container to grow */
+    display: flex; /* Enable flex for alignment */
+    flex-direction: column; /* Stack content vertically */
+    align-items: flex-start; /* Align to the top of the container */
+    margin-top: -50px;
+  }
+  
+  .right-side-container {
+    padding: 20px;
+   width:100%;
+    display: flex; /* Enables flexbox inside the right container */
+    flex-direction: column; /* Stacks age and other details vertically */
+  }
+  
+  .pet-detail {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .age-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 25px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #31647A; /* You can change this color as needed */
+  }
+  
+  .age-container {
+    display: block;
+    align-items: center;
+    padding: 0px 20px; /* Adjust padding for spacing */
+    border-radius: 12px;
+    border: 2px solid #6FBAFD; /* Light blue border */
+    background-color: transparent !important; /* Remove background color */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for subtle emphasis */
+    width: auto; /* Adjust width to fit the contents inside */
+    max-width: 100%; /* Ensure it doesn't overflow the parent container */
+  }
+  
+  .age-number {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    
+  }
+  
+  .age-unit {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #D9D9D9;
+    
+  }
+  .pet-detail {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    margin-top: 25px;   /* adds vertical spacing above */
+    margin-bottom: 25px; /* adds vertical spacing below */
+  }
+  
+  .age-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 25px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #31647A;
+    white-space: nowrap;
+  }
+  
+  .age-container {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 2px solid #6FBAFD;
+    background-color: #f0f8ff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    white-space: nowrap;
+    gap: 70px; /* Adjust spacing between children */
+  }
+  
+  .age-number {
+    font-family: 'Poppins';
+font-weight: 500;
+font-size: 25px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: center;
+
+    color: #31647A;
+    
+  }
+  
+  .age-unit {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #D9D9D9;
+
+    
+  }
+
+  .edit-button-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center; /* or center if you want it centered */
+  }
+  
+  .edit-button {
+    background: linear-gradient(180deg, #176F95 0%, #41B4E6 100%);
+    color: white;
+    padding: 12px 24px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow:
+      0px 2.77px 2.21px 0px #00000005,
+      0px 6.65px 5.32px 0px #00000007,
+      0px 12.52px 10.02px 0px #00000009,
+      0px 22.34px 17.87px 0px #0000000B,
+      0px 41.78px 33.42px 0px #0000000D,
+      0px 100px 80px 0px #00000012;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    text-align: center;
+  }
+  
+  .edit-button:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0px 4px 8px rgba(0, 0, 0, 0.15),
+      0px 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 500px) {
+  
+  .left-section-wrapper {
+    display: flex;
+    flex-direction: column; /* stacks elements vertically */
+    gap: 30px; /* vertical space between elements */
+  }
+  .vertical-line-1 {
+    display: none;
+  }
+  .pet-image {
+    width: 30%; /* or a fixed size like 300px */
+    height: auto;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    display: block;
+    left: 150px;
+  }
+    
+  .heading-one {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 30px;
+    line-height: 32px;
+    letter-spacing: 0px;
+    color: #31647A;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 8px;
+  }
+  
+  .heading-two {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #31647A;
+  }
+  .age-label {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #31647A; /* You can change this color as needed */
+  }
+  .age-container {
+    display: block;
+    align-items: center;
+    padding: 0px 20px; /* Adjust padding for spacing */
+    border-radius: 12px;
+    border: 2px solid #6FBAFD; /* Light blue border */
+    background-color: transparent !important; /* Remove background color */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for subtle emphasis */
+    width: auto; /* Adjust width to fit the contents inside */
+    max-width: 100%; /* Ensure it doesn't overflow the parent container */
+  }
+  .age-number {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    
+  }
+  
+  .age-unit {
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #D9D9D9;
+    
+  }
+  .pet-detail {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  .edit-button-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center; /* or center if you want it centered */
+  }
+}
+.input-box input,
+.input-years,
+.input-months,
+.sex-dropdown {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  outline: none;
+}
+
+.input-box input:focus,
+.input-years:focus,
+.input-months:focus,
+.sex-dropdown:focus {
+  border-color: #00bcd4;
+  box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.2);
+}
+
+.sex-dropdown {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.label-text {
+  font-size: 12px;
+  color: #666;
+  margin-left: 8px;
+}
+.input-box input {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+  background-color: #f9f9f9;
+}

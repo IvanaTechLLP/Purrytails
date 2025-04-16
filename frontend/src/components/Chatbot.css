@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
 /* Chatbot overlay for background dimming */
 .chatbot-overlay {
   position: fixed;
@@ -14,20 +16,19 @@
 
 /* Chat container with new color scheme */
 .chat-container {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  height: 85vh;
-  width: 400px;
-  background: linear-gradient(135deg, #f5f7fa, #eef1f5); /* Soft blue-grey gradient */
+  background:  #F7F7F7;
+
   border-radius: 12px;
   overflow: hidden;
-  position: fixed;
-  top: 2rem;
-  right: 2rem;
-  z-index: 1000;
   animation: fadeIn 0.3s ease;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  height: 100%;     /* NEW */
+  width: 100%;      /* NEW */
 }
+
 
 /* Optional animation for fading in the modal */
 @keyframes fadeIn {
@@ -51,12 +52,6 @@
   align-items: center;
 }
 
-@media (max-width: 480px) {
-  .chat-container {
-    height: 70%;
-    max-width: 80%;
-  }
-}
 /* Header text and icon */
 .chat-header-content {
   display: flex;
@@ -97,41 +92,51 @@
 }
 
 /* Individual chat message styling */
+/* Container for each message */
 .chat-message {
-  max-width: 75%;
-  padding: 12px;
-  border-radius: 16px;
-
-  transition: background-color 0.3s ease;
-}
-
-/* User message with new background */
-.user-message {
-  background-color: #70A7D4; /* Teal */
-  color: white;
-  align-self: flex-end;
-  border-radius: 16px 16px 0 16px;
+  display: flex;
+  width: 100%;
   margin-bottom: 12px;
 }
 
-/* Agent message with new color */
-.agent-message {
-  background-color: #AAC3D4;
-  color: #333;
-  align-self: flex-start;
-  border-radius: 16px 16px 16px 0;
-  position: relative;
-  padding-bottom: 20px; /* Space for feedback buttons */
-  margin-bottom: 6px;
+/* USER MESSAGE - aligned to the right */
+.user-message {
+  margin-left: auto;
+  background-color: #38404F;
+  color: #FF9430;
+  padding: 12px;
+  border-radius: 16px 16px 0 16px;
+  font-family: 'Quicksand';
+  font-weight: 700;
+  font-size: 20px;
+  max-width: 75%;
+  word-wrap: break-word;
 }
+
+/* AGENT MESSAGE - aligned to the left */
+.agent-message {
+  margin-right: auto;
+  background-color: #FF9430;
+  color: #ffffffdb;
+  padding: 12px;
+  border-radius: 16px 16px 16px 0;
+  font-family: 'Quicksand';
+  font-weight: 700;
+  font-size: 20px;
+  max-width: 75%;
+  word-wrap: break-word;
+  position: relative;
+  padding-bottom: 20px; /* if you're using feedback buttons */
+}
+
 
 /* Chat input field */
 .chat-input {
   display: flex;
   align-items: center;
   padding: 12px;
-  background-color: #eef1f5; /* Light grey */
-  border-top: 1px solid #d0d0d0;
+  background-color: transparent; /* Light grey */
+  border-top: none;
   height: 60px;
 }
 
@@ -143,11 +148,15 @@
   outline: none;
   font-size: 16px;
   transition: border-color 0.3s ease;
+  font-family: 'Quicksand';
+font-weight: 400;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 0%;
+
 }
 
-.chatbot-input-field:focus {
-  border-color: #009688; /* Teal on focus */
-}
+
 
 /* Send button */
 .chatbot-send-button {
@@ -168,64 +177,70 @@
 }
 
 /* Microphone button */
-.mic-button {
-  background-color: transparent;
-  border: none;
-  cursor: pointer;
-  margin-right: 8px;
-}
 
-.mic-button img {
-  width: 24px;
-  height: 24px;
-}
 
-.mic-button.recording {
-  transform: translateY(-5px);
-}
 
-.feedback-content {
+.feedback-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  margin: 8px 0 16px 8px;
 }
 
 .feedback-text {
+  font-family: 'Quicksand';
+  font-weight: 600;
   font-size: 14px;
-  color: #333;
+  color: black;
 }
 
 .feedback-buttons {
   display: flex;
-  gap: 10px;
-}
-.feedback-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  gap: 10px;
-  margin-top: 5px; /* Reduced margin to minimize space between agent message and feedback */
-  padding-left: 0; /* Removed padding for closer alignment */
+  gap: 8px;
 }
 
 .thumb-button {
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.thumb-button.positive:hover {
-  color: green;
+.thumb-button:hover {
+  transform: scale(1.1);
+  color: #FF9430;
 }
 
-.thumb-button.negative:hover {
-  color: red;
+.chat-loading {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #555;
+  
+  margin: 8px 0;
+  padding-left: 10px;
+  animation: blink 1.2s infinite;
 }
-@media (max-width: 480px) {
-  .thumb-button{
-    font-size: 15px; /* Icon size */
-  }
-  .feedback-text{
-    font-size: 13px; /* Text size */
-  }
+
+/* Optional blinking dots animation */
+@keyframes blink {
+  0%   { opacity: 0.2; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.2; }
+}
+.chat-error {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #D8000C; /* Bright red */
+
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin: 8px 10px;
+  border: 1px solid #D8000C;
 }

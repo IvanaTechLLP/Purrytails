@@ -5,6 +5,7 @@ import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments
 import { MdTimeline } from 'react-icons/md';
 
 
+
 const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   const [images, setImages] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
@@ -42,11 +43,26 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
 
 
-  const handleImageChange = (event) => {
-    const selectedImages = Array.from(event.target.files);
-    setImages(selectedImages);
-    setError(null); 
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+  
+    if (selectedFiles.length === 0) {
+      setError("No files selected.");
+      return;
+    }
+  
+    // Optional: Clear any previous error
+    setError(null);
+  
+    // If you expect only one image or one PDF, pick the first one
+    if (selectedFiles.length === 1) {
+      setImage(selectedFiles[0]);
+    } else {
+      // If multiple images/PDFs are uploaded
+      setImage(selectedFiles); // Store as an array
+    }
   };
+  
 
   const handleSubmit = async () => {
     if (!images) {
@@ -296,15 +312,16 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
         
         <div className="file-upload-container">
-          <h3 className="upload-heading">Upload Your Document</h3>
-          <input
-            type="file"
-            accept="image/*,.pdf"
-            id="file-upload"
-            className="file-upload"
-            multiple
-            onChange={handleImageChange}
-          />
+        <h3 className="upload-heading">Upload Your Document</h3>
+        <input
+          type="file"
+          accept="image/*,application/pdf"
+          id="file-upload"
+          className="file-upload"
+          multiple // Allows selecting multiple files
+          onChange={handleFileChange}
+        />
+        
           <label htmlFor="file-upload" className="file-upload-label">
             {images > 0 ? images.map((file) => file.name).join(", ") : "Upload Documents"}
           </label>

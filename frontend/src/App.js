@@ -12,31 +12,64 @@ import LoginSignupPage from "./components/LoginSignupPage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Dashboard from "./components/Dashboard";
 import LandingPage from "./components/LandingPage";
+import UserPage from "./components/UserPage";
 import TermsAndConditions from "./components/TermsAndConditions";
-import UserProfilePage from "./components/UserPage";
 import Home from "./components/Home";
 import Timeline from "./components/Timeline";
 import ParentDetailsPage from "./components/ParentDetailsPage";
 import PetDetailsPage from './components/PetDetailsPage'; 
+import LoginPage from "./components/LoginPage";
+import HomeNew from './components/HomeNew'; 
+import TimelineNew from "./components/TimelineNew";
+import DashboardNew from "./components/DashboardNew";
+import Upload from "./components/Upload"
+import UserProfilePage from "./components/UserProfilePage";
+{/*
+  import Upload from "./components/Upload"
 
-
-
-function FileUploadPage({ profile, selectedPetId }) {
+  function FileUploadPage({ profile, selectedPetId }) {
   return (
     
     <div className="app-container">
       <div className="left-panel">
-        <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
+        <Upload profile={profile} selectedPetId={selectedPetId}/>
       </div>
     </div>
   );
 }
 
+
+  function FileUploadPage({ profile, selectedPetId }) {
+    return (
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
+        </div>
+      </div>
+    );
+  }
+  */}
+
+
+  function FileUploadPage({ profile, selectedPetId }) {
+  return (
+    
+    <div className="app-container">
+      <div className="left-panel">
+        <Upload profile={profile} selectedPetId={selectedPetId}/>
+      </div>
+    </div>
+  );
+}
+
+
+
 function DashboardPage({ profile, logOut, reports, setReports, selectedPetId }) {
   return (
     <div className="app-container">
       <div className="left-panel">
-        <Dashboard
+        <DashboardNew
           profile={profile}
           logOut={logOut}
           reports={reports}
@@ -59,21 +92,18 @@ function HomePage({ profile, logOut, reports, setReports, selectedPetId }) {
           setReports={setReports}
           selectedPetId={selectedPetId}
         />
+        <HomeNew
+          profile={profile}
+          logOut={logOut}
+          reports={reports}
+          setReports={setReports}
+          selectedPetId={selectedPetId}
+        />
       </div>
     </div>
   );
 }
-{/*
-function QR_DashboardPage({ reports, setReports, profile, setProfile }) {
-  return (
-    <div className="app-container">
-      <div className="left-panel">
-        <QR_Dashboard reports={reports} setReports={setReports} profile={profile} setProfile={setProfile} />
-      </div>
-    </div>
-  );
-}
-    */}
+
 
 function App() {
   const [profile, setProfile] = useState(null);
@@ -152,8 +182,30 @@ function App() {
                 />
               }
             />
-            
-            <Route
+
+          <Route
+              path="/loginn"
+              element={
+                <LoginPage
+                  setProfile={setProfile}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+              }
+            />
+            {/*
+           
+              <Route
+              path="/upload"
+              element={
+                isAuthenticated ? (
+                  <FileUploadPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            */}
+              <Route
               path="/file_upload"
               element={
                 isAuthenticated ? (
@@ -163,8 +215,9 @@ function App() {
                 )
               }
             />
+            
             <Route
-              path="/dashboard"
+              path="/dashboardnew"
               element={
                 isAuthenticated ? (
                   <DashboardPage
@@ -195,6 +248,24 @@ function App() {
                 )
               }
             />
+            <Route
+              path="/home-new"
+              element={
+                isAuthenticated ? (
+                  <HomeNew
+                    profile={profile}
+                    logOut={logOut}
+                    reports={reports}
+                    setReports={setReports}
+                    selectedPetId={selectedPetId}
+                  />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            
+
             {/*
             <Route
               path="/calendar"
@@ -256,6 +327,16 @@ function App() {
               path="/profile"
               element={
                 isAuthenticated ? (
+                  <UserPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            <Route
+              path="/profile-new"
+              element={
+                isAuthenticated ? (
                   <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
                 ) : (
                   <Navigate to="/" />
@@ -272,6 +353,17 @@ function App() {
                 )
               }
             />
+            <Route
+            path="/timeline-new"
+            element={isAuthenticated ? (
+              <TimelineNew profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+
             
 
           </Routes>

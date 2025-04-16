@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import { MdTimeline } from "react-icons/md";
 
-const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
+const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
   const navigate = useNavigate();
   const [accessToken, setAccessToken] = useState(
     localStorage.getItem("access_token")
@@ -466,7 +466,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           <ul className="menu-items">
             <li
               onClick={() => {
-                navigate("/home");
+                navigate("/home-new");
                 closeMenu();
               }}
               title="Home"
@@ -476,7 +476,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
 
             <li
               onClick={() => {
-                navigate("/dashboard");
+                navigate("/dashboardnew");
                 closeMenu();
               }}
               className="menu-button"
@@ -496,7 +496,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             </li>
             <li
               onClick={() => {
-                navigate("/timeline");
+                navigate("/timeline-new");
                 closeMenu();
               }}
               className="menu-button"
@@ -713,7 +713,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
           <ul className="menu-items">
             <li
               onClick={() => {
-                navigate("/home");
+                navigate("/home-new");
                 closeMenu();
               }}
               title="Home"
@@ -723,7 +723,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
 
             <li
               onClick={() => {
-                navigate("/dashboard");
+                navigate("/dashboardnew");
                 closeMenu();
               }}
               className="menu-button"
@@ -743,7 +743,7 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
             </li>
             <li
               onClick={() => {
-                navigate("/timeline");
+                navigate("/timeline-new");
                 closeMenu();
               }}
               className="menu-button"
@@ -1116,4 +1116,4 @@ const UserProfilePage = ({ profile, logOut, setSelectedPetId, selectedPetId }) =
   );
 };
 
-export default UserProfilePage;
+export default UserPage;

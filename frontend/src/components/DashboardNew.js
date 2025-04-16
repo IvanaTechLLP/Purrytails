@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./Dashboard.css";
+import "./DashboardNew.css";
+import { motion, AnimatePresence } from "framer-motion";
 
 import Chatbot from "./Chatbot.js";
-// import Meeting from './Meeting';
-import { FaSignOutAlt,FaComments,FaHome, FaFileUpload, FaCalendarAlt, FaUser,  } from 'react-icons/fa';
-import { MdTimeline } from 'react-icons/md';
 
 
-const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
+  
+const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
 
@@ -24,6 +23,9 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false); 
+    const [renderChatbot, setRenderChatbot] = useState(false);
+    const isMobile = window.innerWidth <= 500;
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -116,7 +118,15 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
     setReportToDelete(null);
   };
   
-
+  const handleChatbotToggle = () => {
+    if (!renderChatbot) {
+      setRenderChatbot(true);
+      setShowChatbot(true);
+    } else {
+      setShowChatbot(false); // Start animation
+      setTimeout(() => setRenderChatbot(false), 400); // Delay unmounting
+    }
+  };
   const openModal = (report) => {
     setSelectedReport(report);
     setIsModalOpen(true);
@@ -132,9 +142,7 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
     navigate("/profile", { state: { userDetails } });
   };
 
-  const handleChatbotToggle = () => {
-    setShowChatbot((prevShowChatbot) => !prevShowChatbot);
-  };
+
 
   const handleSendReport = (reportId) => {
     setReportToShare(reportId); // Set the report to share
@@ -249,9 +257,13 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const closeMenu = () => {
     setIsOpen(false);
   };
+  const toggleMobileMenu = () => {
+    setMenuOpen(prev => !prev);
+    console.log("Menu Toggle");
+  };
 
   return (
-    <div className="dashboard-wrapper">
+    <div className="dashboard-wrapper-new">
 
       {/*
             <div className="bottom-nav">
@@ -275,116 +287,115 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
               </ul>
               </div>
               */}
-      <div classname="dashboard-left">
-      <div className="header">
- 
- <button className="hamburger" onClick={handleToggle}>
-                 &#9776;
-               </button>
-               
-</div>
-      
-               <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-                 <button className="back-arrow-menu" onClick={closeMenu}>
-                   &larr;
-                 </button>
-             
-       
-       <h2>Menu</h2>
-       
-       <ul className="menu-items">
-         
-               <li onClick={() => { navigate("/home");closeMenu(); }} title="Home">
-         <FaHome  className="home-icon" />    <span>Home</span>
-         
-       </li>
-       
-       <li onClick={() => { navigate("/file_upload");closeMenu();}}className='menu-button'  title="Upload Reports">
-         <FaFileUpload  className="home-icon" /> <span>Upload</span>
-       </li>
-         {/* 
-       <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
-         <FaCalendarAlt /> 
-       </li>
-       */}
-       <li onClick={() => { navigate("/timeline");closeMenu(); }} className='menu-button' title="Timeline">
-         <MdTimeline   className="home-icon" /> <span>TimeLine</span>
-       </li>
-      
-       <li onClick={() => { navigate("/profile");closeMenu();  }} className='menu-button' title="User Settings">
-         <FaUser  className="home-icon" /> <span>Profile</span>
-       </li>
-       
-       {/* 
-         <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-             <FaComments /> 
-         </li>
-         */}
+    
+      <nav className="home-nav">
+  <div className="home-logo">
+    <a href="#">
+      <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
+    </a>
+  </div>
 
-           
-       </ul>
-        {/*
-         <ul>
-         <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
-           <FaSignOutAlt />
-         </li>
-         </ul>
-         */}
-     </div>
-     </div>
+  <ul className="home-nav-links">
+  <li onClick={() => { navigate("/home-new");closeMenu();}}>
+    <a >Home</a>
+  </li>
+  <li >
+    <a className="current-link">Records</a>
+  </li>
+   
+    
+    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
+
+    <li onClick={() => { navigate("/timeline");closeMenu(); }}><a>Timeline</a></li>
+
+   
+
+    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+  </ul>
+
+</nav>
+<nav className="phone-mobile-nav">
+      <div className="phone-nav-logo">
+      <a href="#" className="phone-logo-link">
+        <img src="/PT.png" alt="Doctor Dost Logo" className="phone-logo-image" />
+      </a>
+        </div>
+
+        <button className="phone-hamburger" onClick={toggleMobileMenu}>
+          {/* Conditionally render Hamburger or Cross icon */}
+          {menuOpen ? '×' : '☰'}
+        </button>
+
+       
+      </nav>
+      <div className={`phone-mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <ul className="home-nav-links">
+        <li onClick={() => { navigate("/home-new");closeMenu(); }}><a>Home</a></li>
+        <li>
+    <a className="current-link">Records</a>
+  </li>
+      
         
-      <div classname="dashboard-right" onClick={() => {closeMenu(); }}>
-        
-        <h1 className="dashboard-title-one">Welcome to your Health Locker!</h1>
-        <p className="dashboard-description-one">
-        A centralized hub for your pet's medical records. Easily access, upload, and review health details, including vaccinations, prescriptions, and vet visits. Manage your pet's medical history securely and generate a Timeline of your pet's medical history. 
+    
+    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
+
+    <li onClick={() => { navigate("/timeline");closeMenu(); }}><a>Timeline</a></li>
+    
+    
+    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+
           
-        </p>
-        <p className="highlight">Your pet's health information is always at your fingertips!</p>
+        </ul>
+      </div>
+     
+        
+      <div classname="dashboard-container" onClick={() => {closeMenu(); }}>
+        
+        <h1 className="title-one">Health Locker</h1>
+
+
+        <div className="sort-container">
+            <span className="sort-text">Sort by</span>
+            <div className="divider">|</div>
+            <select className="sort-dropdown" id="report-filter" value={selectedFilter} onChange={handleFilterChange} >
+                <option value="letest">Most Recent</option>
+                <option value="chronology">Chronological</option>
+                <option value="domain">Domain (A-Z)</option>
+            </select>
+        </div>
+        
 
         {userDetails ? (
-          <div className="user-and-reports-container">
-            <div className="filter-container">
-              <label htmlFor="report-filter">Sort Reports: </label>
-              <select id="report-filter" className="filter-select" value={selectedFilter} onChange={handleFilterChange}>
-                <option className="latest-option" value="latest">Latest</option>
-                <option className="chronology-option" value="chronology">Chronological</option>
-                <option className="domain-option" value="domain">Domain (A-Z)</option>
-              </select>
-
-            </div>
-            <div className="reports-details">
+          <div className="user-and-reports-container-new">
+           
+            <div className="reports-details-new">
               {filteredReports.length > 0 ? (
-                <div className="reports-grid">
+                <div className="reports-grid-new">
                   {filteredReports.map((report) => (
-                    <div key={report.report_id} className="report-card">
-                      <p><strong>Date:</strong> {report.date}</p>
-                      <p><strong>Doctor:</strong> {report.doctor}</p>
+                    <div key={report.report_id} className="report-card-new">
+                      <p><strong classname="label-report-card">Date:</strong> {report.date}</p>
+                      <p><strong classname="label-report-card">Doctor:</strong> {report.doctor}</p>
+
+                      <img src="envo.png" alt="image description" className="report-image" />
+
                                 <button
-                          className="report-details-button"
-                          onClick={() => openModal(report)}
-                        >
-                          Key Details
-                        </button>
-                      <div className="delete-icon" onClick={() => handleDeleteReportInitiate(report.report_id)}>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 24 24"
-                          fill="red"
-                          width="24"
-                          height="24"
-                        >
-                          <path d="M3 6h18v2H3V6zm3 3h12v12H6V9zm2 2v8h8v-8H8zm2 0h4v8h-4v-8z" />
-                        </svg>
-                      </div>
-                      {/* 
-                      <button
-                        className="share-button"
-                        onClick={() => handleSendReport(report.report_id)}
-                      >
-                        Share
-                      </button> 
-                      */}
+                                    className="report-details-button"
+                                    onClick={() => openModal(report)}
+                                    >
+                                    <span className="report-button-text">Summary</span>
+                                </button>
+                            <div className="delete-icon" onClick={() => handleDeleteReportInitiate(report.report_id)}>
+                                <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                fill="grey"
+                                width="24"
+                                height="24"
+                                >
+                                <path d="M3 6h18v2H3V6zm3 3h12v12H6V9zm2 2v8h8v-8H8zm2 0h4v8h-4v-8z" />
+                                </svg>
+                            </div>
+                     
 
                     </div>
                   ))}
@@ -432,6 +443,8 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
             ) : (
               "No link available"
             )}
+
+
           </div>
           </div>
           )}
@@ -446,39 +459,73 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
             </div>
           </div>
         )}
+       
 
-        {showSharePopup && (
-          <div className="share-popup-overlay">
-          <div className="share-popup">
-            <div className="popup-share-content">
-              <span className="close-share-popup" onClick={handleCloseSharePopup}>
-                &times;
-              </span>
-              <h3>Share Report</h3>
-              <label>
-                Enter Doctor's email:
-                <input type="email" placeholder="Enter email" />
-              </label>
-              <button
-                onClick={() => {
-                  const email = document.querySelector("input[type='email']").value;
-                  handleShare(reportToShare, email);
-                }}
-              >
-                Share
-              </button>
-            </div>
-          </div>
-          </div>
-        )}
 
-        <button className="chatbot-button" onClick={handleChatbotToggle}>
-        <FaComments /> 
-        </button>
 
-        {showChatbot && (
-          <Chatbot profile={profile} setReports={setReports} showChatbot={showChatbot} setShowChatbot={setShowChatbot} selectedPetId={selectedPetId} />
-        )}
+       <div className="chat-float-wrapper">
+       <motion.img
+  src="/Chevron.png"
+  alt="Bot Icon"
+  className="chat-avatar"
+  onClick={handleChatbotToggle}
+  animate={{
+    y: showChatbot ? (isMobile ? -420 : -230) : 0,
+    scaleY: showChatbot ? -1 : 1,
+  }}
+  transition={{
+    type: 'spring',
+    mass: 1,
+    stiffness: 100,
+    damping: 15,
+  }}
+/>
+
+
+  <button
+    className="chat-with-me-button"
+    onClick={handleChatbotToggle}
+    
+  >
+    Chat with Me!
+  </button>
+
+  <img
+    src="Chatbot-Image.png"
+    alt="Decorative"
+    className="fixed-bottom-image"
+  />
+</div>
+<AnimatePresence>
+  {showChatbot && (
+    <motion.div
+      key="chatbot"
+      className="chatbot-popup-new"
+      initial={{ opacity: 0, y: 100 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 100 }}
+      transition={{
+        type: 'spring',
+        mass: 1,
+        stiffness: 100,
+        damping: 15,
+        duration: 0.7, // controls smoother exit
+      }}
+    >
+      <Chatbot
+        profile={profile}
+        setReports={setReports}
+        showChatbot={showChatbot}
+        setShowChatbot={setShowChatbot}
+        selectedPetId={selectedPetId}
+      />
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
+
+    
 
 
         {/* <button onClick={() => setShowMeetingPopup(true)}>
@@ -494,4 +541,4 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   );
 };
 
-export default Dashboard;
+export default DashboardNew;

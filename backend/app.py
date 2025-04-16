@@ -575,6 +575,7 @@ async def share_pet_profile(data: dict):
         if not current_user or not current_user.get("metadatas"):
             raise HTTPException(status_code=404, detail="Current user not found")
         current_user_metadata = current_user["metadatas"][0]
+        current_user_email = current_user_metadata.get("email")  # Fetch sender's email
         
         # Get the target user by email
         target_user = users_collection.get(include=["metadatas"], where={"email": email})
@@ -598,6 +599,18 @@ async def share_pet_profile(data: dict):
         if not pet_to_transfer:
             raise HTTPException(status_code=404, detail="Pet not found for the current user")
 
+        # Add sender email to the pet before transferring
+        pet_to_transfer["sender"] = current_user_email
+        
+        # If the sender is Darsh, add document paths
+        if current_user_email == "darshtakkar09@gmail.com":
+            pet_to_transfer["documents"] = [
+                "backend/documents/🐾 DOGGY DON’TS! 🚫.pdf.pdf",
+                "backend/documents/Big Dog Diet.pdf",
+                "backend/documents/DOGGY DON’TS!.pdf",
+                "backend/documents/Toilet Training Guide .pdf"
+            ]
+        
         # Update the current user's pet details (remove the transferred pet)
         current_user_metadata["pet_details"] = json.dumps(updated_pet_details)
         users_collection.update(ids=[user_id], metadatas=[current_user_metadata])

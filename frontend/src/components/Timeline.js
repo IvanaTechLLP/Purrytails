@@ -168,7 +168,7 @@ const Timeline = ({ profile, selectedPetId }) => {
             <button className="hamburger" onClick={handleToggle}>
               &#9776;
             </button>
-            <h1 className="calendar-title">TimeLine</h1>
+            
             
           </div>
 
@@ -242,7 +242,7 @@ const Timeline = ({ profile, selectedPetId }) => {
           <button className="hamburger" onClick={handleToggle}>
             &#9776;
           </button>
-          <h1 className="calendar-title">TimeLine</h1>
+         
           
         </div>
 

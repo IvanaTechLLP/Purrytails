@@ -12,13 +12,9 @@ import LoginSignupPage from "./components/LoginSignupPage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Dashboard from "./components/Dashboard";
 import LandingPage from "./components/LandingPage";
-
 import UserPage from "./components/UserPage";
-import Doctor from "./components/Doctor";
-import Calendar from "./components/Calendar";
-import QrScanner from "./components/QrScanner";
+import TermsAndConditions from "./components/TermsAndConditions";
 import Home from "./components/Home";
-import ChatWindow from "./components/ChatWindow";
 import Timeline from "./components/Timeline";
 import ParentDetailsPage from "./components/ParentDetailsPage";
 import PetDetailsPage from './components/PetDetailsPage'; 
@@ -149,6 +145,12 @@ function App() {
                 <LandingPage/>
               }
               
+            />
+            <Route
+              path="/termsandconditions"
+              element={
+                <TermsAndConditions />
+              }
             />
             <Route
               path="/parent-details"

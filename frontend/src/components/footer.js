@@ -41,6 +41,13 @@ const Footer = () => {
       <div className="footer-right">
         <h4>Contact us</h4>
         <h5>mahir@purrytails.in</h5>
+
+        {/* Company Info */}
+  <div style={{ marginTop: "10px", fontSize: "14px", fontFamily: "Poppins, sans-serif", color: "#333" }}>
+    <strong>IVANA TECH LLP</strong><br />
+    303, SIDHHI DEEP CHS LTD, Vile Parle East<br />
+    Mumbai, Maharashtra 400057, India
+  </div>
         <div className="footer-social-icons" style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
   
   {/* Instagram */}
@@ -81,6 +88,12 @@ const Footer = () => {
       <div className="footer-bottom">
         <p>
           &copy; {new Date().getFullYear()} Purry Tails. All rights reserved.
+          <span
+          className="text-blue-500 cursor-pointer hover:underline"
+          onClick={() => (window.location.href = "/termsandconditions")}
+        >
+          Terms and Conditions
+        </span>
         </p>
       </div>
     </footer>

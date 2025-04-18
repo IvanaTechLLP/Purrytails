@@ -58,11 +58,13 @@ app.add_middleware(CustomMiddleware)
 
 uploaded_pdfs_folder = os.path.join(source_folder, "backend/uploaded_pdfs")
 uploaded_images_folder = os.path.join(source_folder, "backend/uploaded_images")
+documents_folder = os.path.join(source_folder, "backend/documents")
 os.makedirs(uploaded_pdfs_folder, exist_ok=True)
 os.makedirs(uploaded_images_folder, exist_ok=True)
 
 app.mount("/uploaded_pdfs", StaticFiles(directory=uploaded_pdfs_folder), name="uploaded_pdfs")
 app.mount("/uploaded_images", StaticFiles(directory=uploaded_images_folder), name="uploaded_images")
+app.mount("/documents", StaticFiles(directory=documents_folder), name="documents")
     
 class GoogleLoginModel(BaseModel):
     email: EmailStr

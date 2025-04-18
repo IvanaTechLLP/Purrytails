@@ -51,17 +51,16 @@ import UserProfilePage from "./components/UserProfilePage";
   }
   */}
 
-
   function FileUploadPage({ profile, selectedPetId }) {
-  return (
-    
-    <div className="app-container">
-      <div className="left-panel">
-        <Upload profile={profile} selectedPetId={selectedPetId}/>
+    return (
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 
 
 

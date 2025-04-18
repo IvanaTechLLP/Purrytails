@@ -2021,5 +2021,34 @@ padding: 10px; /* Add spacing for better click area */
   }
   
 }
+.notes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+  align-items: left;
+}
+
+.note-item {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  color: #196F95;
+  background-color: #f0f9ff;
+  padding: 12px 20px;
+  border-radius: 12px;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.note-item:hover {
+  background-color: #d0ebff;
+  transform: scale(1.03);
+}
 
   

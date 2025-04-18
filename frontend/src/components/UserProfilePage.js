@@ -53,6 +53,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     'layer-1',
   ]);
   const [isEditing, setIsEditing] = useState(false);
+  
   // Handle the edit button click
   const handleEditClick = () => {
     setIsEditing(true); // Toggle edit mode
@@ -734,7 +735,43 @@ const [menuOpen, setMenuOpen] = useState(false);
       
             
           </div>
-          <div className="container-2">
+
+{pet.sender === "darshthakkar09@gmail.com" && (
+  <div className="container-2">
+    <div className="header-container">
+      <h2 className="section-heading">Notes From The Anubis-Tiger Foundation</h2>
+      <img
+        src="anubis-tiger.webp" // Replace with your actual image path
+        alt="Add Note"
+        className="anubis-profile"
+        style={{ cursor: "pointer", width: "auto", height: "44px" }} // You can customize the size here
+      
+      />
+    </div>
+    <div className="notes-container">
+  {[
+    { name: "Toilet Training", file: "toilet-training.pdf" },
+    { name: "Doggy Don'ts 1", file: "🐾 DOGGY DON’TS! 🚫.pdf.pdf" },
+    { name: "Doggy Don'ts 2", file: "doggy-donts-2.pdf" },
+    { name: "Big Dog Diets", file: "Big Dog Diet.pdf" }
+  ].map((note, index) => (
+    <div
+      key={index}
+      className="note-item"
+      onClick={() => window.open(`http://localhost:5000/documents/${note.file}`, "_blank")}
+    >
+      {note.name}
+    </div>
+  ))}
+</div>
+
+
+
+
+  </div>
+)}
+
+<div className="container-2">
           <div className="header-container">
     <h2 className="section-heading">Notes</h2>
     <button className="edit-button-profile">
@@ -743,9 +780,11 @@ const [menuOpen, setMenuOpen] = useState(false);
     
   </div>
   
+  
 
   {/* You can add content for container-2 here */}
 </div>
+
 
 <div className="payment-footer">
   <div className="payment-methods">

@@ -51,16 +51,8 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
       return;
     }
   
-    // Optional: Clear any previous error
     setError(null);
-  
-    // If you expect only one image or one PDF, pick the first one
-    if (selectedFiles.length === 1) {
-      setImages(selectedFiles[0]);
-    } else {
-      // If multiple images/PDFs are uploaded
-      setImages(selectedFiles); // Store as an array
-    }
+    setImages(selectedFiles); // ✅ Always an array, even if it's one file
   };
   
 
@@ -72,10 +64,19 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
     const formData = new FormData();
     console.log("Selected Image:", images);
+    console.log(typeof images);     // Should be 'object'
+    console.log(Array.isArray(files));  // Should be true
+console.log(files);  // Check the actual value of files
+console.log(Array.isArray(images)); 
 
-    images.forEach((image) => {
-      formData.append("files", image);  // Append each file separately
-    });
+for (const image of images) {
+  formData.append("files", image);
+}
+
+// Log the contents of FormData to see what is being appended
+for (let [key, value] of formData.entries()) {
+  console.log(key, value);  // Logs the key-value pairs
+}
 
     formData.append('user_id', profile.user_id);
     formData.append('pet_id', selectedPetId);

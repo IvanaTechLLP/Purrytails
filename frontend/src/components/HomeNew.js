@@ -22,6 +22,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   const [hasPet, setHasPet] = useState(false);
   const [selectedPetBreed, setSelectedPetBreed] = useState("");
   const [selectedPetAge, setSelectedPetAge] = useState(null);
+ 
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,13 +79,16 @@ const [menuOpen, setMenuOpen] = useState(false);
           setHasPet(true);
           console.log(selectedPetId);
           console.log(selectedPetId.age)
+
           
 
           const selectedPet = data.pet_details.find(pet => pet.petId === selectedPetId);
           if (selectedPet) {
+            console.log(selectedPet.sender);
             setSelectedPetName(selectedPet.petName);
             setSelectedPetBreed(selectedPet.breed);
             setSelectedPetAge(selectedPet.ageYears);
+            
 
           } else {
             console.log("Selected pet ID does not match any registered pets.");

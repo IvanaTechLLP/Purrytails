@@ -56,10 +56,10 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   
     // If you expect only one image or one PDF, pick the first one
     if (selectedFiles.length === 1) {
-      setImage(selectedFiles[0]);
+      setImages(selectedFiles[0]);
     } else {
       // If multiple images/PDFs are uploaded
-      setImage(selectedFiles); // Store as an array
+      setImages(selectedFiles); // Store as an array
     }
   };
   

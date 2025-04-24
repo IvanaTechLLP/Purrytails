@@ -39,7 +39,11 @@ const ParentDetailsPage = ( {profile} ) => {
   // UseEffect to fetch data from a backend or state
     useEffect(() => {
       fetchPetDetails();
-    }, []);
+
+      if (dob) {
+        calculateAgeFromDob(dob);
+      }
+    }, [dob]);
       
     const toggleMobileMenu = () => {
       setMenuOpen(prev => !prev);
@@ -66,8 +70,8 @@ const ParentDetailsPage = ( {profile} ) => {
         setWeight(matchingPet.weight);
         setPetType(matchingPet.petType);
         setDob(matchingPet.dob);
-        setAgeYears(matchingPet.ageYears);
-        setAgeMonths(matchingPet.ageMonths);
+        // setAgeYears(matchingPet.ageYears);
+        // setAgeMonths(matchingPet.ageMonths);
         setFoodBrand(matchingPet.foodBrand);
         setQuantity(matchingPet.quantity);
 
@@ -158,8 +162,9 @@ const ParentDetailsPage = ( {profile} ) => {
       years--;
       months += 12;
     }
-  
-    return { years, months };
+
+    setAgeYears(years);
+    setAgeMonths(months);
   };
   
   
@@ -246,9 +251,7 @@ const ParentDetailsPage = ( {profile} ) => {
                 value={dob}
                 onChange={(e) => {
                   setDob(e.target.value);
-                  const age = calculateAgeFromDob(e.target.value);
-                  setAgeYears(age.years);
-                  setAgeMonths(age.months);
+                  calculateAgeFromDob(e.target.value);
                 }}
               />
               <span className="label-text">Date of Birth</span>
@@ -398,9 +401,7 @@ const ParentDetailsPage = ( {profile} ) => {
         value={dob}
         onChange={(e) => {
           setDob(e.target.value);
-          const age = calculateAgeFromDob(e.target.value);
-          setAgeYears(age.years);
-          setAgeMonths(age.months);
+          calculateAgeFromDob(e.target.value);
         }}
         disabled={!isEditable}
       />

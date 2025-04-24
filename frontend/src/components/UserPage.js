@@ -31,6 +31,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
   const [petDetails, setPetDetails] = useState(null);
   const [weight, setWeight] = useState(0); // Initial weight state
   const [petType, setPetType] = useState(""); // New state for pet type selection
+  const [dob, setDob] = useState("");
   const [ageYears, setAgeYears] = useState(0);
   const [ageMonths, setAgeMonths] = useState(0);
   const totalSteps = 5;
@@ -80,6 +81,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
       petType,
       sex,
       weight,
+      dob,
       ageYears,
       ageMonths,
       phoneNumber,
@@ -233,6 +235,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
       petType: "dog",
       sex: "Male",
       weight: "10.5",
+      dob: "2013-10-01", //YYYY-MM-DD format
       ageYears: "10",
       ageMonths: "9",
       phoneNumber: "123456789",
@@ -342,6 +345,22 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
     }
   };
 
+  const calculateAgeFromDob = (dobStr) => {
+    const dobDate = new Date(dobStr);
+    const now = new Date();
+
+    let years = now.getFullYear() - dobDate.getFullYear();
+    let months = now.getMonth() - dobDate.getMonth();
+
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    setAgeYears(years);
+    setAgeMonths(months);
+  };
+
   useEffect(() => {
     if (!accessToken) {
       console.log("No access token found. Redirect to login.");
@@ -359,8 +378,12 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
       scrollToSelected(monthScrollerRef, ageMonths);
 
       setProfilePicture(profile.picture);
+
+      if (dob) {
+        calculateAgeFromDob(dob);
+      }
     }
-  }, [ageYears, ageMonths, accessToken, profile?.user_id]);
+  }, [ageYears, ageMonths, dob, accessToken, profile?.user_id]);
 
   // Handle Step Navigation
   const nextStep = () => {
@@ -875,45 +898,21 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
   {currentStep === 2 && (
       <div>
     {/* Age Field */}
-    <label>Age *:</label>
     <div className="age-picker">
-      <div className="scroller-container">
-        <div className="year-scroller" ref={yearScrollerRef}>
-          {Array.from({ length: maxYears + 1 }, (_, i) => i).map(
-            (year, index) => (
-              <div
-                key={index}
-                className={`scroller-item ${
-                  ageYears === year ? "selected" : ""
-                }`}
-                onClick={() => setAgeYears(year)}
-              >
-                {year} {year === 1 ? "Year" : "Years"}
-              </div>
-            )
-          )}
-        </div>
+      <label>Date of Birth *:</label>
+      <input
+        type="date"
+        value={dob}
+        onChange={(e) => setDob(e.target.value)}
+        max={new Date().toISOString().split("T")[0]}
+      />
 
-        <div className="month-scroller" ref={monthScrollerRef}>
-          {Array.from({ length: maxMonths }, (_, i) => i).map(
-            (month, index) => (
-              <div
-                key={index}
-                className={`scroller-item ${
-                  ageMonths === month ? "selected" : ""
-                }`}
-                onClick={() => setAgeMonths(month)}
-              >
-                {month} {month === 1 ? "Month" : "Months"}
-              </div>
-            )
-          )}
+      {dob && (
+        <div className="age-display">
+          {ageYears} {ageYears === 1 ? "year" : "years"} and {ageMonths}{" "}
+          {ageMonths === 1 ? "month" : "months"}
         </div>
-      </div>
-
-      <div className="age-display">
-        {ageYears} years and {ageMonths} months
-      </div>
+      )}
     </div>
     
     {/* Pet Type Field */}

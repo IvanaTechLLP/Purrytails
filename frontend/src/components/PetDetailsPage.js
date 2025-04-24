@@ -26,6 +26,7 @@ const ParentDetailsPage = ( {profile} ) => {
   const [sex, setSex] = useState( "");
   const [weight, setWeight] = useState(0); // Initial weight state
   const [petType, setPetType] = useState(""); // New state for pet type selection
+  const [dob, setDob] = useState(""); // New state for date of birth
   const [ageYears, setAgeYears] = useState(0);
   const [ageMonths, setAgeMonths] = useState(0);
   const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
@@ -64,6 +65,7 @@ const ParentDetailsPage = ( {profile} ) => {
         setSex(matchingPet.sex);
         setWeight(matchingPet.weight);
         setPetType(matchingPet.petType);
+        setDob(matchingPet.dob);
         setAgeYears(matchingPet.ageYears);
         setAgeMonths(matchingPet.ageMonths);
         setFoodBrand(matchingPet.foodBrand);
@@ -98,6 +100,7 @@ const ParentDetailsPage = ( {profile} ) => {
       sex: sex,
       weight: weight,
       petType: petType,
+      dob: dob,
       ageYears: ageYears,
       ageMonths: ageMonths,
       foodBrand: foodBrand,
@@ -143,6 +146,23 @@ const ParentDetailsPage = ( {profile} ) => {
   const closeMenu = () => {
     setIsOpen(false);
   };
+
+  const calculateAgeFromDob = (dobStr) => {
+    const dob = new Date(dobStr);
+    const now = new Date();
+  
+    let years = now.getFullYear() - dob.getFullYear();
+    let months = now.getMonth() - dob.getMonth();
+  
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+  
+    return { years, months };
+  };
+  
+  
 
   return (
     
@@ -215,44 +235,35 @@ const ParentDetailsPage = ( {profile} ) => {
     <div className="right-side-wrapper">
       <div className="right-side-container">
       <p className="pet-detail">
-        <span className="age-label">Age : </span>
-        <div className="age-container">
-          {isEditable ? (
-            <>
-              <div className="input-box">
-                <input
-                  type="number"
-                  className="input-years"
-                  value={ageYears}
-                  onChange={(e) => setAgeYears(e.target.value)}
-                  placeholder="0"
-                  min="0"
-                  max="30"
-                />
-                <span className="label-text">Years</span>
-              </div>
-              <div className="input-box">
-                <input
-                  type="number"
-                  className="input-years"
-                  value={ageMonths}
-                  onChange={(e) => setAgeMonths(e.target.value)}
-                  placeholder="0"
-                  min="0"
-                  max="11"
-                />
-                <span className="label-text">Months</span>
-              </div>
-            </>
-          ) : (
-            <>
-              <span className="age-number">{ageYears}</span>
-              <span className="age-unit"> Years</span>
-              <span className="age-number">{ageMonths}</span>
-              <span className="age-unit"> Months</span>
-            </>
-          )}
-        </div>
+      <span className="age-label">Age : </span>
+      <div className="age-container">
+        {isEditable ? (
+          <>
+            <div className="input-box">
+              <input
+                type="date"
+                className="input-dob"
+                value={dob}
+                onChange={(e) => {
+                  setDob(e.target.value);
+                  const age = calculateAgeFromDob(e.target.value);
+                  setAgeYears(age.years);
+                  setAgeMonths(age.months);
+                }}
+              />
+              <span className="label-text">Date of Birth</span>
+            </div>
+          </>
+        ) : (
+          <>
+            <span className="age-number">{ageYears}</span>
+            <span className="age-unit"> Years</span>
+            <span className="age-number">{ageMonths}</span>
+            <span className="age-unit"> Months</span>
+          </>
+        )}
+      </div>
+
       </p>
 
       <p className="pet-detail">
@@ -381,27 +392,25 @@ const ParentDetailsPage = ( {profile} ) => {
       />
     </label>
     <label>
+      Date of Birth:
+      <input
+        type="date"
+        value={dob}
+        onChange={(e) => {
+          setDob(e.target.value);
+          const age = calculateAgeFromDob(e.target.value);
+          setAgeYears(age.years);
+          setAgeMonths(age.months);
+        }}
+        disabled={!isEditable}
+      />
+    </label>
+    <label>
       Age
       <div style={{ display: "flex", alignItems: "center" }}>
-        <input
-          type="tel"
-          value={ageYears}
-          onChange={(e) => setAgeYears(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
-          placeholder="Enter years"
-          disabled={!isEditable}
-          style={{ marginRight: "5px" }}
-        />
         {ageYears && <span>years</span>}
       </div>
       <div style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
-        <input
-          type="tel"
-          value={ageMonths}
-          onChange={(e) => setAgeMonths(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
-          placeholder="Enter months"
-          disabled={!isEditable}
-          style={{ marginRight: "5px" }}
-        />
         {ageMonths && <span>months</span>}
       </div>
     </label>

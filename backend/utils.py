@@ -9,7 +9,7 @@ import chromadb.utils.embedding_functions as embedding_functions
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
 import os
-from datetime import datetime
+from datetime import datetime, date
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -464,3 +464,21 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
        
         
         return response.text, relevant_reports
+    
+    
+def get_reminders(dob_str: str):
+    
+    dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
+    today = date.today()
+    years = today.year - dob.year
+    months = today.month - dob.month
+    if today.day < dob.day:
+        months -= 1
+    total_months =years * 12 + months
+    
+    total_months_age = max(total_months, 0)
+    
+    if total_months_age > 1:
+        return f"Your pet is {total_months_age} months old. You should take your pet for a booster shot."
+    
+    return None

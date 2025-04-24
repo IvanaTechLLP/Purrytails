@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from utils import process_image, process_pdf, llm_model
+from utils import process_image, process_pdf, llm_model, get_reminders
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 import json
@@ -127,7 +127,7 @@ async def google_login(data: GoogleLoginModel):
             
             users_collection.add(
                 documents=[str(user_data)],
-                metadatas={"email": user_data["email"], "name": user_data["name"], "events": "[]", "pet_details": "[]"},
+                metadatas={"email": user_data["email"], "name": user_data["name"], "reminders": "[]", "pet_details": "[]"},
                 ids=[user_data["user_id"]]
             )
 
@@ -528,6 +528,16 @@ async def get_pet_details(user_id: str):
         pet_details = user_metadata.get("pet_details", {})
         owner_address = user_metadata.get("owner_address", "")
         phone_number = user_metadata.get("phone_number", "")
+        
+        dob_str = user_metadata.get("dob", "")
+        
+        reminders = get_reminders(dob_str)
+        
+        user_metadata["reminders"] = reminders
+        users_collection.update(
+            ids=[user_id],
+            metadatas=user_metadata
+        )
         
         return {"pet_details": json.loads(pet_details), "owner_address": owner_address, "phone_number": phone_number}
     except Exception as e:

@@ -73,14 +73,14 @@ const LoginPage = ({ setProfile, setIsAuthenticated }) => {
   };
 
   return (
-    <div className="loginpage">
+    <div className="loginpage-1">
       <Link to="/">
-        <img src="PT.png" alt="Purry Tails Logo" className="logo" />
+        <img src="PT.png" alt="Purry Tails Logo" className="logo-10" />
       </Link>
 
-      <h1 className="login-heading">
-  <span className="login-heading-large">Purry Tails – Making Tails Wag & Hearts Purr! 🐶🐱</span>
-  <span className="login-heading-small">
+      <h1 className="login-heading-1">
+  <span className="login-heading-large-1">Purry Tails – Making Tails Wag & Hearts Purr! 🐶🐱</span>
+  <span className="login-heading-small-1">
     <span className="login-title">Purry Tails</span> <br />
     - Making Tails Wag & Hearts Purr!
 </span>
@@ -91,14 +91,14 @@ const LoginPage = ({ setProfile, setIsAuthenticated }) => {
       <p className="login-subtext-2">Paw-some care made easy. Let’s get started! 🐾
       </p>
 
-      <button className="login-new-button" onClick={login}>Sign in with Google</button>
-                <div className="image-container">
+      <button className="login-new-button-1" onClick={login}>Sign in with Google</button>
+                <div className="image-container-login">
             <img src="/image 67.png" alt="Pet Care" className="side-image-1" />
             
-            <div className="image-overlay">
+            <div className="image-overlay-login">
                 <img src="/47 1.png" alt="Adoption" className="side-image-2" />
-                <p className="overlay-text">
-        <span className="overlay-highlight">Oops! Lost your pet's health reports?</span><br />
+                <p className="overlay-text-login">
+        <span className="overlay-highlight-login">Oops! Lost your pet's health reports?</span><br />
         Upload, track, and simplify your pet’s health journey while spreading love to every tail in need.
         Your pet’s happiness starts here!
     </p>

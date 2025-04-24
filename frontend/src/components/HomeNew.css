@@ -1027,6 +1027,14 @@ body {
     left: 109px;
     object-fit: cover; /* Optional depending on image */
   }
+  .banner-image-1 {
+    position: absolute;
+    width: 200px;
+    height: auto;
+    top: 20px;
+    left: 89px;
+    object-fit: cover; /* Optional depending on image */
+  }
   .banner-text {
     margin-left: 300px; /* Distance from image */
     display: flex;
@@ -1326,6 +1334,16 @@ text-align: center;
     left: 20px;
     object-fit: cover; /* Optional depending on image */
   }
+  .banner-image-1 {
+    position: absolute;
+    width: 150px ;
+    height: auto  ;
+    top: 25px;
+    left: 10px;
+    object-fit: cover; /* Optional depending on image */
+  }
+  
+
 
   .banner-right-image {
     display: none !important;

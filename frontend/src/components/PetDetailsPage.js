@@ -34,7 +34,7 @@ const ParentDetailsPage = ( {profile} ) => {
       const [isOpen, setIsOpen] = useState(false);
       const [menuOpen, setMenuOpen] = useState(false);
 
-      const imageSrc = petType === "dog" ? "dog2.png" : "dog2.png";
+      const imageSrc = petType === "dog" ? "dog2.png" : "cat6.png";
 
   // UseEffect to fetch data from a backend or state
     useEffect(() => {

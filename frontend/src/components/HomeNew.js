@@ -22,6 +22,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   const [hasPet, setHasPet] = useState(false);
   const [selectedPetBreed, setSelectedPetBreed] = useState("");
   const [selectedPetAge, setSelectedPetAge] = useState(null);
+  const [selectedPetType, setSelectedPetType] = useState("");
  
 
   const navigate = useNavigate();
@@ -78,17 +79,18 @@ const [menuOpen, setMenuOpen] = useState(false);
           console.log("User has a pet!");
           setHasPet(true);
           console.log(selectedPetId);
-          console.log(selectedPetId.age)
+          
 
           
 
           const selectedPet = data.pet_details.find(pet => pet.petId === selectedPetId);
           if (selectedPet) {
             console.log(selectedPet.sender);
+           
             setSelectedPetName(selectedPet.petName);
             setSelectedPetBreed(selectedPet.breed);
             setSelectedPetAge(selectedPet.ageYears);
-            
+            setSelectedPetType(selectedPet.petType);
 
           } else {
             console.log("Selected pet ID does not match any registered pets.");
@@ -164,21 +166,13 @@ const [menuOpen, setMenuOpen] = useState(false);
     navigate("/profile", { state: { userDetails } });
   };
 
-  const handleToggle = () => {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  };
+
 
   const closeMenu = () => {
     setIsOpen(false);
   };
 
-  const navigateToDashboard = () => {
-    navigate("/dashboard"); // Replace '/dashboard' with the actual path to your dashboard
-  };
 
-  const handleDragOver = (e) => {
-    e.preventDefault(); // Prevent default behavior (Prevent file from being opened)
-  };
   
   const handleDrop = (e) => {
     e.preventDefault();
@@ -263,7 +257,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   <li>
     <a className="current-link">Home</a>
   </li>
-    <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+    <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
     <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
@@ -301,7 +295,12 @@ const [menuOpen, setMenuOpen] = useState(false);
       </div>
 
 <div className="home-banner">
-  <img src="/dog1.png" alt="Banner Image" className="banner-image" />
+<img
+  src={selectedPetType === "cat" ? "/cat6.png" : "/dog1.png"}
+  alt="Banner Image"
+  className={selectedPetType === "cat" ? "banner-image-1" : "banner-image"}
+/>
+
   <div className="banner-text">
   <h2 className="welcome-text">
   <span className="welcome-back">Welcome Back </span>

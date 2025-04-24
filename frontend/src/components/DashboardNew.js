@@ -450,15 +450,21 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
           )}
                 
 
+     
         {confirmDelete && (
-          <div className="confirmation-popup">
-            <div className="confirmation-content">
-              <h3>Are you sure you want to proceed?</h3>
-              <button onClick={handleDeleteReport} className="confirmation-button confirm-button">Yes</button>
-              <button onClick={handleCancelDelete} className="confirmation-button cancel-button">No</button>
-            </div>
-          </div>
-        )}
+  <div className="share-popup-overlay">
+    <div className="share-popup-wrapper">
+    <button className="share-popup-close-btn" onClick={handleCancelDelete}>
+        &times;
+      </button>
+      <img src="share-popup.png" alt="Popup background" className="share-popup-background-image" />
+      <div className="share-popup-content-over-image">
+        <h3>Are you sure you want to proceed?</h3>
+        <button className="share-popup-share-btn" onClick={handleDeleteReport}>Yes</button>
+      </div>
+    </div>
+  </div>
+)}
        
 
 
@@ -470,7 +476,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
   className="chat-avatar"
   onClick={handleChatbotToggle}
   animate={{
-    y: showChatbot ? (isMobile ? -420 : -230) : 0,
+    y: showChatbot ? (isMobile ? -420 : -340) : 0,
     scaleY: showChatbot ? -1 : 1,
   }}
   transition={{

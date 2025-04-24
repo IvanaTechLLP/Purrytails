@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 
 
 
@@ -765,6 +767,7 @@ bottom: 10px;
   gap: 12px;
   margin-bottom: 1.5rem;
   margin-top: 80px;
+  padding-bottom: 20px;
 }
 
 .form-heading {
@@ -778,6 +781,7 @@ bottom: 10px;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+  
 }
 
 
@@ -966,7 +970,7 @@ left: 354px;
 .overlay-image {
   position: absolute;
   top: 7% !important;             /* 25% from the top */
-  left: 45%;            /* Center horizontally */
+  left: 40%;            /* Center horizontally */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1295,6 +1299,7 @@ margin-top: 20px;
   background-clip: text;
   color: transparent;
   padding: 10px 0;
+  cursor: pointer;
 }
 
 .right-links {
@@ -1303,7 +1308,7 @@ margin-top: 20px;
   align-items: flex-end;
   position: absolute;
   right: 0;
-
+  cursor: pointer;
   margin-top: 50px; /* Adjust this to push it a bit lower */
 }
 
@@ -1342,7 +1347,7 @@ margin-top: 20px;
 /* Custom dropdown container */
 .custom-dropdown {
   position: absolute;
-  top: 67%; /* Puts it immediately below the image */
+  top: 60%; /* Puts it immediately below the image */
   left: 0;
   width: 100%;
   background-color: white;
@@ -1359,6 +1364,7 @@ margin-top: 20px;
   padding: 10px;
   cursor: pointer;
   border-bottom: 1px solid #eee;
+
 }
 
 .dropdown-item:hover {
@@ -1372,28 +1378,6 @@ margin-top: 20px;
 /* Custom dropdown container */
 
 
-/* Style for each item in the dropdown */
-.dropdown-item {
-  padding: 10px;
-  cursor: pointer;
-  border-bottom: 1px solid #eee;
-}
-
-.dropdown-item:hover {
-  background-color: #f0f0f0;
-}
-
-/* Optionally, you can hide the last border */
-.dropdown-item:last-child {
-  border-bottom: none;
-}
-.pet-dropdown {
-  font-family: 'Poppins', sans-serif; /* or any other font you like */
-  font-size: 16px;
-  font-weight: 500;
-  color: #333;
-  padding: 8px;
-}
 .custom-dropdown-option {
   font-family: 'Nunito';
   font-size: 16px;
@@ -1495,7 +1479,16 @@ margin-top: 20px;
   object-fit: contain;
   z-index: 10;
 }
-
+.pet-profile-container-1 {
+  margin-top: 20px;
+  margin-left: 0px; /* Keep if you need horizontal offset */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center content horizontally */
+  justify-content: center; /* Optional: center vertically if container has height */
+  text-align: center; /* Optional: for text centering */
+  width: 80%;
+}
 
 @media (max-width: 500px) {
 
@@ -1807,12 +1800,13 @@ padding: 10px; /* Add spacing for better click area */
   }
   .pet-profile-container-1 {
     margin-top: -50px;
-    margin-left: 70px; /* Keep if you need horizontal offset */
+    margin-left: 40px; /* Keep if you need horizontal offset */
     display: flex;
     flex-direction: column;
     align-items: center; /* Center content horizontally */
     justify-content: center; /* Optional: center vertically if container has height */
     text-align: center; /* Optional: for text centering */
+    width: 80%;
   }
   
   .profile-name {
@@ -1883,6 +1877,12 @@ padding: 10px; /* Add spacing for better click area */
     z-index: 10;
   margin-left: -150px;
     margin-top: 300px; /* Move the button 150px further down */
+
+      /* Center the content */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   }
   .edit-button-profile-2 {
     background: linear-gradient(90deg, #3778B1 0%, #5739B2 100%);
@@ -2052,3 +2052,240 @@ padding: 10px; /* Add spacing for better click area */
 }
 
   
+/* Overlay background */
+/* Overlay Background */
+.share-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+/* Popup Wrapper with Image */
+.share-popup-wrapper {
+  position: relative;
+  width: 600px;
+  max-width: 90%;
+}
+
+/* Background image styled */
+.share-popup-background-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 8px;
+}
+
+/* Content over the image */
+.share-popup-content-over-image {
+  position: absolute;
+  top: 36%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70%;
+  text-align: center;
+  
+}
+
+/* Headline */
+.share-popup-content-over-image h3 {
+  font-family: 'Roboto' !important;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 150%;
+  letter-spacing: 0%;
+  color: #196F95;
+  margin-bottom: 0.75rem;
+}
+
+
+/* Input styling */
+.share-popup-email-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #1B769D;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  outline: none;
+  margin-bottom: 1rem;
+
+  font-family: 'Poppins';
+font-weight: 500;
+font-size: 17px;
+line-height: 100%;
+letter-spacing: 0%;
+text-align: left;
+
+}
+
+/* Share button */
+.share-popup-share-btn {
+  background-color: #1B769D;
+
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.share-popup-share-btn:hover {
+  background-color: #005f87;
+}
+.share-popup-close-btn {
+  position: absolute;
+  top: 25%;
+  right: 75px;
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  font-weight: bold;
+  color: #838378;
+  cursor: pointer;
+  z-index: 10;
+}
+
+
+.share-popup-close-btn:hover {
+  transform: scale(1.2);
+}
+.popup-overlay-terms {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-content-terms {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 700px;
+  width: 80%;
+  text-align: center;
+  height: 500px;
+}
+
+.close-terms-btn {
+  background-color: #196F95;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  margin-top: 10px;
+
+}
+
+.popup-content-terms h3{
+  font-family: 'Roboto';
+font-weight: 700;
+font-size: 18px;
+line-height: 150%;
+letter-spacing: 0%;
+color: #196F95;
+text-align: left;
+}
+
+.popup-content-terms h5{
+  font-family: 'Roboto';
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  
+color: #132F41;
+text-align: left;
+}
+.terms-scroll-container {
+  max-height: 70%;
+  overflow-y: auto;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding-right: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+/* Optional: Smooth scroll behavior */
+.terms-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+.terms-scroll-container::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+.terms-scroll-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+/* Checkbox container */
+.terms-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* 5px margin between checkbox and text */
+  font-size: 14px;
+  color: #333;
+  flex-wrap: wrap;
+}
+
+/* Styling for checkbox itself */
+.terms-checkbox input[type="checkbox"] {
+  accent-color: #3e64ff; /* Adjust to brand color */
+  width: 16px;  /* Adjust the checkbox size */
+  height: 16px; /* Adjust the checkbox size */
+  border-radius: 100%; /* Makes the checkbox round */
+  border: 2px solid #3e64ff; /* Optional: adds a border to the checkbox */
+  vertical-align: middle;
+}
+
+
+/* Styling for the text label */
+.terms-checkbox label {
+  display: inline-block;
+ 
+  font-family: 'Roboto';
+font-weight: 500;
+font-size: 14px;
+line-height: 150%;
+letter-spacing: 0%;
+text-align: justify;
+
+}
+
+.terms-checkbox label a {
+  color: #3e64ff;
+  text-decoration: underline;
+}
+
+.terms-checkbox label a:hover {
+  text-decoration: none;
+}
+@media (max-width: 500px) {
+  .terms-scroll-container {
+    max-height: 60%;
+    overflow-y: auto;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    padding-right: 10px;
+    width: 100%;
+    text-align: left;
+  }
+  
+  
+}

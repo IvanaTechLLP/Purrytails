@@ -106,7 +106,7 @@
   }
   
   .report-card-new {
-    width: 226px;
+    width: 246px;
     height: 250px;
     position: relative;
     top: 1opx;
@@ -117,6 +117,7 @@
     box-shadow: 0px 4px 4px 0px #DA692B;
     border: 1px solid #ccc;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
   }
   
   
@@ -992,9 +993,10 @@ background: linear-gradient(90deg, #275D3D 53.17%, #DBDBDB 100%);
   }
   
   .fixed-bottom-image {
-    width: 300px; 
+    width: 200px; 
     height: auto;
     pointer-events: none;
+    margin-right: 20px;
   }
 
   .chat-avatar {

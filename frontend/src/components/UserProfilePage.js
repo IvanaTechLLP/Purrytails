@@ -1,17 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
 import "./UserProfilePage.css"; // Ensure your CSS is imported
 import Cropper from "cropperjs";
 import "cropperjs/dist/cropper.css";
-import {
-  FaSignOutAlt,
-  FaTrash,
-  FaHome,
-  FaTachometerAlt,
-  FaFileUpload,
-  FaShareAlt
-} from "react-icons/fa";
-import { MdTimeline } from "react-icons/md";
+
 
 const UserPageNew = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
   const navigate = useNavigate();
@@ -53,6 +46,15 @@ const [menuOpen, setMenuOpen] = useState(false);
     'layer-1',
   ]);
   const [isEditing, setIsEditing] = useState(false);
+  const [showPopupTerms, setShowPopupTerms] = useState(false);
+
+  const termsHandlePopup = () => {
+    setShowPopupTerms(true);
+  };
+
+  const termsHandleClosePopup = () => {
+    setShowPopupTerms(false);
+  };
   
   // Handle the edit button click
   const handleEditClick = () => {
@@ -184,6 +186,25 @@ const [menuOpen, setMenuOpen] = useState(false);
       alert("An error occurred while sending data. Please try again.");
     }
   };
+
+  const dropdownVariants = {
+    hidden: { scaleY: 0, opacity: 0, transformOrigin: "top" },
+    visible: {
+      scaleY: 1,
+      opacity: 1,
+      transformOrigin: "top",
+      transition: {
+        duration: 0.4,
+        ease: [0.34, 1.56, 0.64, 1], // spring bounce effect
+      },
+    },
+    exit: {
+      scaleY: 0,
+      opacity: 0,
+      transition: { duration: 0.3, ease: "easeInOut" },
+    },
+  };
+  
 
   const handleDeletePet = async (petId) => {
     try {
@@ -574,7 +595,7 @@ const [menuOpen, setMenuOpen] = useState(false);
       <div className="pet-details-page" onClick={() => {closeMenu(); }}>
       <div className="heading-with-image-1">
   
-  <h4 className="form-heading">Profile Page</h4>
+  <h4 className="form-heading">Profile</h4>
 </div>
 {petDetails
   .filter((pet) => pet.petId === selectedPetId)
@@ -621,19 +642,29 @@ const [menuOpen, setMenuOpen] = useState(false);
       className="right-icon"
       onClick={toggleDropdown}
     />
-    {isDropdownOpen && (
-      <div className="custom-dropdown">
-        {petDetails.map((pet) => (
-          <div
-            key={pet.petId}
-            className="custom-dropdown-option"
-            onClick={() => handleSelectPet(pet.petId)}
-          >
-            {pet.petName}
-          </div>
-        ))}
-      </div>
-    )}
+<AnimatePresence>
+  {isDropdownOpen && (
+    <motion.div
+      className="custom-dropdown"
+      variants={dropdownVariants}
+      initial="hidden"
+      animate="visible"
+      exit="exit"
+    >
+      {petDetails.map((pet) => (
+        <div
+          key={pet.petId}
+          className="custom-dropdown-option"
+          onClick={() => handleSelectPet(pet.petId)}
+        >
+          {pet.petName}
+        </div>
+      ))}
+    </motion.div>
+  )}
+</AnimatePresence>
+
+
   </div>
 
   <p className="profile-breed">{pet.breed}</p>
@@ -750,9 +781,9 @@ const [menuOpen, setMenuOpen] = useState(false);
     </div>
     <div className="notes-container">
   {[
-    { name: "Toilet Training", file: "toilet-training.pdf" },
+    { name: "Toilet Training", file: "Toilet Training Guide .pdf" },
     { name: "Doggy Don'ts 1", file: "🐾 DOGGY DON’TS! 🚫.pdf.pdf" },
-    { name: "Doggy Don'ts 2", file: "doggy-donts-2.pdf" },
+    { name: "Doggy Don'ts 2", file: "DOGGY DON’TS!.pdf" },
     { name: "Big Dog Diets", file: "Big Dog Diet.pdf" }
   ].map((note, index) => (
     <div
@@ -792,11 +823,172 @@ const [menuOpen, setMenuOpen] = useState(false);
   </div>
 
   <div className="right-links">
-    <p className="link-text">Logout</p>
-    <p className="link-text">Terms and Conditions</p>
+    <p className="link-text"  onClick={() => {
+            logOut();
+          
+          }}>Logout</p>
+    <p className="link-text" onClick={termsHandlePopup} >Terms and Conditions</p>
   </div>
 </div>
+{showPopupTerms && (
+        <div className="popup-overlay-terms">
+          <div className="popup-content-terms">
+            <h3>Terms and Conditions</h3>
+            <div className="terms-scroll-container">
+              <p></p>
+              <h6 id='terms&conditions'>1. Introduction</h6>
+              <p>Welcome to www.purrytails.in (“Website”), owned and operated by IVANA Tech LLP (“Company”, “we”, “us”, or “our”). By accessing or using our Website, you agree to be bound by these Terms and Conditions (“Terms”). If you do not agree with these Terms, you must refrain from using the Website.
+              This platform is intended for pet parents, veterinarians, and NGO owners, offering AI-assisted documentation, query resolution, and reminder services tailored for pet care and management.
+              </p>
+              <h6>2. Services</h6>
+              <p>Our services include, but are not limited to:
+•	Digital document management for pets.
+•	AI-generated query resolution to assist users with pet-related information.
+•	Reminder notifications for vaccinations, check-ups, and other pet-care schedules.
+•	Multi-profile creation for managing documents and reminders of multiple pets or pet-related entities.
+</p>
+<h6>3. AI-Generated Medical Information Disclaimer</h6>
+<p>The information provided by our assistant is entirely AI-generated and is meant solely for informational purposes. It should not be considered medical advice, diagnosis, or treatment. Always consult a licensed veterinarian before making any health-related decisions for your pets.
+You acknowledge and agree that reliance on any AI-generated response is at your own risk.
+</p>
+<h6>4. Account Creation & Profile Management</h6>
+<p>•	Users may create one or more pet profiles under their primary account.
+•	Each user’s first profile is treated as the primary usage.
+•	Refunds and cancellations, where applicable, will only be entertained for profiles created after the first one.
+</p>
+<h6>5. Refund Policy</h6>
+<p>•	We offer a 7-day refund window from the date of profile creation or digital service activation.
+•	Refunds are only applicable to services linked to additional profiles created after the first.
+•	No refund will be issued for the first or primary profile.
+•	To initiate a refund, please contact info@purrytails.in with your account details and reason for refund.
+</p>
+<h6>6. User Responsibilities</h6>
+<p>By using our Website, you agree that you will:
+•	Provide accurate and up-to-date information.
+•	Use the services only for lawful and ethical pet-related management.
+•	Not misuse the AI assistant for any illegal, harmful, or inappropriate purpose.
+•	Not attempt to reverse-engineer, modify, or duplicate the Website or its features.
+</p>
+<h6>7. Data Protection and Privacy</h6>
+<p>We are committed to safeguarding your data. Please refer to our Privacy Policy for more details on how we collect, use, and protect your personal and pet-related information.</p>
+    <h6>8. Intellectual Property</h6>  
+    <p>All content, designs, logos, and trademarks displayed on this Website are the property of IVANA Tech LLP unless otherwise stated. Unauthorized use, reproduction, or distribution of any material without written permission is strictly prohibited.</p>
+      
+      <h6>9. Limitation of Liability</h6>
+      <p>To the maximum extent permitted under applicable law, IVANA Tech LLP shall not be liable for:
+•	Any harm caused by reliance on AI-generated information.
+•	Missed reminders or system delays.
+•	Data loss resulting from user error or third-party actions.
+</p>
+<h6>10. Governing Law</h6>
+<p>These Terms shall be governed by and construed in accordance with the laws of India, and any disputes arising shall be subject to the jurisdiction of Mumbai courts.</p>
+     
+   <h6>11. Amendments</h6>
+   <p>We may revise these Terms at any time without prior notice. Continued use of the Website constitutes acceptance of the revised Terms.</p>  
+     
+     <h6>12. Contact</h6>
+     <p>If you have any questions or concerns regarding these Terms, please contact us at:
+📧 info@purrytails.in
+📍 IVANA Tech LLP, Mumbai, India
+</p>
 
+<h3>Privacy Policy</h3>
+<h6>1. Introduction</h6>
+<p>IVANA Tech LLP (“Company”, “we”, “us”, or “our”) is committed to safeguarding the privacy of all users (“you”, “user”) accessing our website www.purrytails.in (“Website”). This Privacy Policy outlines how we collect, use, store, and protect your data, in accordance with the applicable Indian laws, including the Digital Personal Data Protection (DPDP) Act, 2023.
+By using our Website and services, you agree to the terms of this Privacy Policy.
+</p>
+<h6>2. Data We Collect</h6>
+<p>We may collect the following categories of personal and pet-related data:</p>
+<h7>A. Personal Data</h7>
+<p>•	Name
+•	Email address
+•	Phone number (if provided)
+•	Location (optional or inferred)
+•	Login credentials
+</p>
+<h7>B. Pet Profile Data</h7>
+<p>•	Pet name, age, breed, gender
+•	Medical documents (e.g., prescriptions, vaccination records)
+•	Profile images
+</p>
+<h7>C. System & Usage Data</h7>
+<p>•	IP address
+•	Browser/device information
+•	Activity logs (such as reminders created, assistant interactions)
+</p>
+<h6>3. How We Use Your Data</h6>
+<p>Your data is used for the following purposes:
+•	To provide personalized document management and reminder features
+•	To offer AI-generated responses for pet-related queries
+•	To process profile upgrades and refunds
+•	To send important notifications related to vaccinations, check-ups, and pet care
+•	To improve our Website and services
+We do not use your data for marketing without explicit consent.
+</p>
+<h6>4. AI-Generated Responses</h6>
+<p>Please note: Our AI assistant provides information based on patterns and available data. It does not replace professional veterinary advice. Any medical action should be confirmed with a licensed veterinarian.</p>
+     <h6>5. Legal Basis for Data Processing</h6>
+     <p>We process your personal data under the following lawful bases:
+•	Your explicit consent upon registration and profile creation
+•	Fulfillment of service obligations
+•	Compliance with legal requirements (if any)
+</p>
+<h6>6. Data Retention</h6>
+<p>We retain your data as long as:
+•	You maintain an active account, or
+•	Required for legal or operational purposes
+You may request deletion of your data at any time (see Section 8).
+</p>
+<h6>7. Data Sharing</h6>
+<p>We do not sell or rent your personal data.
+We may share your data:
+•	With third-party service providers (e.g., email or notification systems), strictly for service delivery
+•	With legal authorities, if mandated by law
+All third-party partners are bound by confidentiality and security obligations.
+</p>
+     <h6>8. Your Rights</h6>
+     <p>Under Indian privacy law, you have the right to:
+•	Access your personal data
+•	Correct or update inaccuracies
+•	Withdraw consent
+•	Request deletion of your profile/data
+•	Register grievances
+To exercise any of the above, email us at info@purrytails.in.
+</p>
+<h6>9. Data Security</h6>
+<p>We implement reasonable technical and organizational measures to secure your data, including:
+•	Encryption of stored medical files
+•	Secure access tokens for user login
+•	Firewalls and malware protection
+•	Periodic audits and breach response protocols
+</p>
+<h6>10. Children’s Data</h6>
+<p>Our platform is not intended for use by individuals under the age of 18 without parental supervision. We do not knowingly collect data from minors.</p>
+     <h6>11. Updates to This Policy</h6>
+     <p>We may update this Privacy Policy from time to time to reflect changes in technology, legal requirements, or service features. Users will be notified of significant changes.</p>
+     <h6>12. Contact Information</h6>
+     <p>For privacy-related concerns, contact:
+📧 info@purrytails.in
+📍 IVANA Tech LLP, Mumbai, India
+</p>
+      </div>
+      <div className="terms-checkbox">
+        <input type="checkbox" id="acceptTerms" required />
+        <label htmlFor="acceptTerms">
+          I confirm that I have read and accept the Terms and Conditions and Privacy Policy{" "}
+        
+        </label>
+      </div>
+
+            <button onClick={termsHandleClosePopup} className="close-terms-btn">
+              Cancel
+            </button>
+            <button onClick={termsHandleClosePopup} className="close-terms-btn">
+              Accept
+            </button>
+          </div>
+        </div>
+      )}
 
           {/* Add more containers as needed */}
         </div>
@@ -806,131 +998,47 @@ const [menuOpen, setMenuOpen] = useState(false);
   ))}
 
  
-  <div className="profile-page">
-  <div className="pet-list">
-  {petDetails
-    .filter((pet) => pet.petId === selectedPetId) // Show only the selected pet
-    .map((pet) => (
-      <div 
-        key={pet.petId} 
-        className="pet-item-container selected"
-        onClick={() => navigate(`/pet-details`, { state: { petId: pet.petId } })}
-      >
-        <div className="pet-item">
-          <img src={pet.profilePicture} alt={pet.name} className="pet-photo" />
-          <div className="pet-info">
-            <h2>{pet.petName}</h2>
-            <p>{pet.breed}</p>
-          </div>
-          {/* Highlight selected pet <span className="selected-text">Selected Pet</span>*/}
-          
+  
 
-          {/* Delete Button 
-          <button
-            className="delete-button"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent navigation on delete
-              handleDeletePet(pet.petId);
-            }}
-          >
-            Delete
-          </button>
-
-
-          
-
-          {/* Share Button 
-          <button
-            className="share-button"
-            onClick={(e) => {
-              e.stopPropagation(); // Prevent navigation
-              openSharePopup(pet.petId);
-            }}
-          >
-            Share
-          </button>
-          */}
-
-          <div className="icon-buttons">
-            <FaTrash 
-              className="icon delete-profile-icon"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDeletePet(pet.petId);
-              }}
-            />
-            <FaShareAlt 
-              className="icon share-icon"
-              onClick={(e) => {
-                e.stopPropagation();
-                openSharePopup(pet.petId);
-              }}
-            />
-          </div>
-        </div>
+{isSharePopupOpen && (
+  <div className="share-popup-overlay">
+    <div className="share-popup-wrapper">
+    <button className="share-popup-close-btn" onClick={closeSharePopup}>
+        &times;
+      </button>
+      <img src="share-popup.png" alt="Popup background" className="share-popup-background-image" />
+      <div className="share-popup-content-over-image">
+        <h3>Share your pet’s profile</h3>
+        <input
+          type="email"
+          placeholder="Enter Email ID"
+          value={shareEmail}
+          onChange={(e) => setShareEmail(e.target.value)}
+          className="share-popup-email-input"
+        />
+        <button className="share-popup-share-btn" onClick={handleSharePet}>Share</button>
       </div>
-    ))}
+    </div>
+  </div>
+)}
 
-
-    {/* Share Popup */}
-    {isSharePopupOpen && (
-      <div className="share-popup">
-        <div className="share-popup-content">
-          <h3>Share Pet Profile</h3>
-          <input
-            type="email"
-            placeholder="Enter email ID"
-            value={shareEmail}
-            onChange={(e) => setShareEmail(e.target.value)}
-            className="share-email-input"
-          />
-          <div className="share-popup-actions">
-            <button onClick={handleSharePet}>Send</button>
-            <button onClick={closeSharePopup}>Cancel</button>
-          </div>
-        </div>
-      </div>
-    )}
 
     
   
-    <div className="dropdown-container">
-        <select
-          className="pet-dropdown"
-          value={selectedPetId || ""}
-          onChange={(event) => handleDropdownSelect(event)}
-        >
-          <option value="" disabled>
-            Select a Pet
-          </option>
-          {petDetails.map((pet) => (
-            <option key={pet.petId} value={pet.petId}>
-              {pet.petName}
-            </option>
-          ))}
-        </select>
-      </div>
-  </div>
+ 
 
-  {/* Add Pet Button */}
-  <button
-    className="add-pet-button"
-    onClick={() => {
-      setIsAddingPet(true); // This assumes you have a state to manage adding a pet
-    }}
-  >
-    Add Pet
-  </button>
 
-  <div className="options-list">
-  <div
+
+
+
+        {/*
+          <div
   className="option-container"
   onClick={() => navigate("/parent-details")}  // Wrap navigate inside an anonymous function
 >
   <span className="option-text">View Parent Details</span>
   <span className="arrow-button">→</span>
 </div>
-        {/*
        
         <div 
           className="option-container"
@@ -946,8 +1054,7 @@ const [menuOpen, setMenuOpen] = useState(false);
           <span className="option-text">Get Help</span>
           <span className="arrow-button">→</span>
         </div>
-        */}
-        <div 
+               <div 
           className="option-container"
           onClick={() => {
             logOut();
@@ -957,10 +1064,12 @@ const [menuOpen, setMenuOpen] = useState(false);
           <span className="option-text-logout">Logout</span>
           <span className="arrow-button-logout" >→</span>
         </div>
-      </div>
+        */}
+ 
+  
       </div>
     </div>
-    </div>
+   
     );
   }
   

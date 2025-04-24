@@ -33,7 +33,7 @@ const ParentDetailsPage = ( {profile} ) => {
       const [isOpen, setIsOpen] = useState(false);
       const [menuOpen, setMenuOpen] = useState(false);
 
-      const imageSrc = petType === "dog" ? "dog2.png" : "dog2.png";
+      const imageSrc = petType === "dog" ? "dog2.png" : "cat6.png";
 
   // UseEffect to fetch data from a backend or state
     useEffect(() => {
@@ -353,130 +353,6 @@ const ParentDetailsPage = ( {profile} ) => {
     </div>
   </div>
 
-
-
-
-    <div className="profile-page" onClick={() => {closeMenu(); }}>
-    <div className="form-container">
-      {/* Back Arrow */}
-      <div className="back-arrow" onClick={handleBack} style={{ cursor: "pointer" }}>
-        ← 
-      </div>
-
-   
-
-
-      <h4 className="h4-heading">PET DETAILS</h4>
-
-      {/* Fields */}
-      <img src={profilePicture} alt={petName} className="pet-photo" />
-      <label>
-      Pet Name :
-      <input
-        type="text"
-        value={petName}
-        onChange={(e) => setPetName(e.target.value)}
-        placeholder="Enter pet's name"
-        disabled={!isEditable}
-      />
-    </label>
-    <label>
-      Age
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <input
-          type="tel"
-          value={ageYears}
-          onChange={(e) => setAgeYears(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
-          placeholder="Enter years"
-          disabled={!isEditable}
-          style={{ marginRight: "5px" }}
-        />
-        {ageYears && <span>years</span>}
-      </div>
-      <div style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
-        <input
-          type="tel"
-          value={ageMonths}
-          onChange={(e) => setAgeMonths(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
-          placeholder="Enter months"
-          disabled={!isEditable}
-          style={{ marginRight: "5px" }}
-        />
-        {ageMonths && <span>months</span>}
-      </div>
-    </label>
-     
-      <label>
-        Pet Type:
-        <input
-          type="text"
-          value={petType}
-          onChange={(e) => setPetType(e.target.value)}
-          placeholder="Enter pet type"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Sex:
-        <input
-          type="text"
-          value={sex}
-          onChange={(e) => setSex(e.target.value)}
-          placeholder="Enter sex"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Breed:
-        <input
-          type="text"
-          value={breed}
-          onChange={(e) => setBreed(e.target.value)}
-          placeholder="Enter breed"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Weight (in kg):
-        <input
-          type="text"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-          placeholder="Enter weight"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Food Brand:
-        <input
-          type="text"
-          value={foodBrand}
-          onChange={(e) => setFoodBrand(e.target.value)}
-          placeholder="Enter food brand"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Quantity:
-        <input
-          type="text"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          placeholder="Enter food quantity"
-          disabled={!isEditable}
-        />
-      </label>
-
-      {/* Edit and Save Buttons */}
-      <div className="button-container">
-        {!isEditable ? (
-          <button className="edit-button" onClick={handleEdit}>Edit</button>
-        ) : (
-          <button className="save-button" onClick={handleSave}>Save</button>
-        )}
-      </div>
-    </div>
-    </div>
     </div>
   );
 };

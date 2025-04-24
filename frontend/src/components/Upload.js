@@ -9,7 +9,7 @@ const ImageProcessingForm = ({ profile, selectedPetId }) => {
   
   console.log("Selected Pet dog and cat:", selectedPetId.petType); // ✅ This will log on every render
 
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState(null);
   const [userDetails, setUserDetails] = useState(null);
   const [currentReport, setCurrentReport] = useState(null);
   const [output, setOutput] = useState(null);
@@ -49,10 +49,10 @@ const handleDragOver = (event) => {
 
   console.log(files); 
   useEffect(() => {
-    if (files && files.length > 0) {
+    if (files) {
       console.log("file recieved from home")
-      const selectedFile = files[0]; // Get the first file
-      setImage(selectedFile);
+      const selectedFile = files; // Get the first file
+      setImages(selectedFile);
       handleSubmit();
     }
     else{
@@ -74,23 +74,26 @@ const handleDragOver = (event) => {
     setError(null);
   
     // If you expect only one image or one PDF, pick the first one
-    if (selectedFiles.length === 1) {
-      setImage(selectedFiles[0]);
-    } else {
-      // If multiple images/PDFs are uploaded
-      setImage(selectedFiles); // Store as an array
-    }
+    setImages(selectedFiles);
   };
   
 
   const handleSubmit = async () => {
-    if (!image) {
+    if (!images) {
       console.log("Please select a file.");
       return;
     }
 
     const formData = new FormData();
-    formData.append('file', image);
+   
+for (const image of images) {
+  formData.append("files", image);
+}
+
+for (let [key, value] of formData.entries()) {
+  console.log(key, value);  // Logs the key-value pairs
+}
+
     formData.append('user_id', profile.user_id);
     formData.append('pet_id', selectedPetId);
 
@@ -113,7 +116,7 @@ const handleDragOver = (event) => {
     
       const report_being_edited = dates[currentReport];
       setEditableDate(report_being_edited); 
-      setImage(null); 
+      setImages([]); 
 
       // Log each report's info after receiving it
       console.log("Processed Reports:", data); // This will log the entire output data
@@ -134,6 +137,10 @@ const handleDragOver = (event) => {
         editableDate: newDate,
       },
     }));
+  };
+  const handleUploadMoreClick = () => {
+    setOutput(null); // reset output
+    
   };
 
   const editingCurrentReport = (reportKey, reportData) => {
@@ -203,15 +210,15 @@ const handleDragOver = (event) => {
   <li onClick={() => { navigate("/home-new");closeMenu();}}>
     <a >Home</a>
   </li>
-    <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+    <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
    
     <li >
     <a className="current-link">Upload</a>
   </li>
 
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu();}}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
 </nav>
@@ -233,14 +240,14 @@ const handleDragOver = (event) => {
         <ul className="home-nav-links">
         <li onClick={() => { navigate("/home-new");closeMenu(); }}><a>Home</a></li>
       
-        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+        <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
         <li>
     <a className="current-link">Upload</a>
   </li>
     
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu();}}><a>Timeline</a></li>
    
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
 
           
         </ul>
@@ -326,7 +333,7 @@ const handleDragOver = (event) => {
               return (
                 <div key={reportData.report_id} className="report-container-1">
                   <ul className='report-list'>
-                  <h3><strong> REPORT {Number(reportKey.slice(6)) + 1} </strong></h3>
+                  <h3><strong> REPORT {Number(reportKey.slice(-1)) + 1} </strong></h3>
 
                     <li className="report-list-item-date-1">
                       <strong>Date: </strong>
@@ -368,7 +375,12 @@ const handleDragOver = (event) => {
     )}
 </li>
                         </ul>
-                      
+                        <button
+    className="upload-more-button"
+    onClick={handleUploadMoreClick}
+  >
+    Upload More
+  </button>
                       </div>
               );
             })}

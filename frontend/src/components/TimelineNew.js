@@ -197,7 +197,7 @@ const TimelineNew = ({ profile, selectedPetId }) => {
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
     <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
 </nav>
@@ -224,7 +224,7 @@ const TimelineNew = ({ profile, selectedPetId }) => {
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
     <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
 
           
         </ul>
@@ -256,14 +256,14 @@ const TimelineNew = ({ profile, selectedPetId }) => {
   <li onClick={() => { navigate("/home-new");closeMenu();}}>
     <a >Home</a>
   </li>
-    <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+    <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
 
     <li >
     <a className="current-link">Timeline</a>
   </li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
 </nav>

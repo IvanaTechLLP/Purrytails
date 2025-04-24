@@ -27,16 +27,7 @@ import UserProfilePage from "./components/UserProfilePage";
 {/*
   import Upload from "./components/Upload"
 
-  function FileUploadPage({ profile, selectedPetId }) {
-  return (
-    
-    <div className="app-container">
-      <div className="left-panel">
-        <Upload profile={profile} selectedPetId={selectedPetId}/>
-      </div>
-    </div>
-  );
-}
+
 
 
   function FileUploadPage({ profile, selectedPetId }) {
@@ -49,6 +40,16 @@ import UserProfilePage from "./components/UserProfilePage";
       </div>
     );
   }
+      function FileUploadPage({ profile, selectedPetId }) {
+    return (
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <Upload profile={profile} selectedPetId={selectedPetId}/>
+        </div>
+      </div>
+    );
+  }
   */}
 
   function FileUploadPage({ profile, selectedPetId }) {
@@ -56,7 +57,7 @@ import UserProfilePage from "./components/UserProfilePage";
       
       <div className="app-container">
         <div className="left-panel">
-          <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
+          <Upload profile={profile} selectedPetId={selectedPetId}/>
         </div>
       </div>
     );

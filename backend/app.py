@@ -529,14 +529,16 @@ async def get_pet_details(user_id: str):
         owner_address = user_metadata.get("owner_address", "")
         phone_number = user_metadata.get("phone_number", "")
         
-        dob_str = json.loads(pet_details)[0].get("dob", None)
+        pet_details_json = json.loads(pet_details)
         
-        reminders = get_reminders(dob_str)
+        for pet in pet_details_json:
+            dob_str = pet.get("dob", None)
+            reminders = get_reminders(dob_str)
+            if reminders:
+                pet["reminders"] = reminders
         
-        if not reminders:
-            reminders = "[]"
+        user_metadata["pet_details"] = json.dumps(pet_details_json)
         
-        user_metadata["reminders"] = reminders
         users_collection.update(
             ids=[user_id],
             metadatas=user_metadata

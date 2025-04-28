@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "./HomeNew.css";
+import "./Home.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { FaSignOutAlt,FaFileUpload, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments } from 'react-icons/fa';
+import { FaHome, FaSearch, FaRegClock } from "react-icons/fa";
+import { MdTimeline } from 'react-icons/md';
 
 
 
-
-const HomeNew = ({ profile, logOut, reports, setReports, selectedPetId }) => {
-const [menuOpen, setMenuOpen] = useState(false);
+const Homee = ({ profile, logOut, reports, setReports, selectedPetId }) => {
   const [userDetails, setUserDetails] = useState(null);
   const [showPopup, setShowPopup] = useState(true);
   const [reminders, setReminders] = useState([]);
@@ -20,16 +21,12 @@ const [menuOpen, setMenuOpen] = useState(false);
   const [qrCodeImage, setQRCodeImage] = useState(null);
   const [selectedPetName, setSelectedPetName] = useState("");
   const [hasPet, setHasPet] = useState(false);
-  const [selectedPetBreed, setSelectedPetBreed] = useState("");
-  const [selectedPetAge, setSelectedPetAge] = useState(null);
-  const [selectedPetType, setSelectedPetType] = useState("");
- 
 
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state;
   const [showDetails, setShowDetails] = useState({});
-  
+
   useEffect(() => {
     if (state?.showPopup === false) {
       setShowPopup(false);
@@ -41,6 +38,7 @@ const [menuOpen, setMenuOpen] = useState(false);
       fetchUserDetails();
       fetchPetDetails();
       fetchReports();
+      fetchNextReminders();
     }
   }, [profile?.user_id]);
 
@@ -48,6 +46,27 @@ const [menuOpen, setMenuOpen] = useState(false);
     setFilteredReports(reports); // Set initial filtered reports to all reports
   }, [reports]);
 
+  useEffect(() => {
+    const updateReminderCount = () => {
+      // Set the number of reminders based on the window width
+      if (window.innerWidth < 768) { // Example breakpoint for smaller screens
+        setNumberOfReminders(2);
+      } else {
+        setNumberOfReminders(3);
+      }
+    };
+
+    // Set initial count
+    updateReminderCount();
+
+    // Listen for resize events
+    window.addEventListener('resize', updateReminderCount);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', updateReminderCount);
+    };
+  }, []);
 
   const fetchUserDetails = async () => {
     if (!profile?.user_id) return;
@@ -79,19 +98,10 @@ const [menuOpen, setMenuOpen] = useState(false);
           console.log("User has a pet!");
           setHasPet(true);
           console.log(selectedPetId);
-          
-
-          
 
           const selectedPet = data.pet_details.find(pet => pet.petId === selectedPetId);
           if (selectedPet) {
-            console.log(selectedPet.sender);
-           
             setSelectedPetName(selectedPet.petName);
-            setSelectedPetBreed(selectedPet.breed);
-            setSelectedPetAge(selectedPet.ageYears);
-            setSelectedPetType(selectedPet.petType);
-
           } else {
             console.log("Selected pet ID does not match any registered pets.");
           }
@@ -166,13 +176,21 @@ const [menuOpen, setMenuOpen] = useState(false);
     navigate("/profile", { state: { userDetails } });
   };
 
-
+  const handleToggle = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
 
   const closeMenu = () => {
     setIsOpen(false);
   };
 
+  const navigateToDashboard = () => {
+    navigate("/dashboard"); // Replace '/dashboard' with the actual path to your dashboard
+  };
 
+  const handleDragOver = (e) => {
+    e.preventDefault(); // Prevent default behavior (Prevent file from being opened)
+  };
   
   const handleDrop = (e) => {
     e.preventDefault();
@@ -198,10 +216,6 @@ const [menuOpen, setMenuOpen] = useState(false);
     } else {
       alert('Please select a file to upload.');
     }
-  };
-  const toggleMobileMenu = () => {
-    setMenuOpen(prev => !prev);
-    console.log("Menu Toggle");
   };
   
 
@@ -245,156 +259,87 @@ const [menuOpen, setMenuOpen] = useState(false);
   
 
   return (
-    <div className="dashboard-wrapper-1" >
-        <nav className="home-nav">
-        <div className="home-logo" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
-        {profile.email === "darshthakkar09@gmail.com" && (
-    <img src="/anubis-tiger.webp" alt="Anubis Mode" className="logo-image" style={{ height: "60px" }} />
-  )}
-  <a href="#">
-    <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
-  </a>
-
-</div>
-
-  <ul className="home-nav-links">
-  <li>
-    <a className="current-link">Home</a>
-  </li>
-    <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
-    
-    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
-    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
-  </ul>
-
-</nav>
-<nav className="phone-mobile-nav">
-      <div className="phone-nav-logo">
-      <a href="#" className="phone-logo-link">
-        <img src="/PT.png" alt="Doctor Dost Logo" className="phone-logo-image" />
-      </a>
-        </div>
-
-        <button className="phone-hamburger" onClick={toggleMobileMenu}>
-          {/* Conditionally render Hamburger or Cross icon */}
-          {menuOpen ? '×' : '☰'}
-        </button>
-
-       
-      </nav>
-      <div className={`phone-mobile-menu ${menuOpen ? 'open' : ''}`}>
-        <ul className="home-nav-links">
-        <li>
-    <a className="current-link">Home</a>
-  </li>
-        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
-    
-    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
-
-          
-        </ul>
-      </div>
-
-<div className="home-banner">
-<img
-  src={selectedPetType === "cat" ? "/cat6.png" : "/dog1.png"}
-  alt="Banner Image"
-  className={selectedPetType === "cat" ? "banner-image-1" : "banner-image"}
-/>
-
-  <div className="banner-text">
-  <h2 className="welcome-text">
-  <span className="welcome-back">Welcome Back </span>
-  <span className="user-name">{hasPet ? selectedPetName : profile.name}</span>
-  <span className="welcome-back"> ! </span>
-  </h2>
-
-
-  <p className="banner-paragraph">Paws, relax, and unleash the purr-fect way </p>
-  <p className="banner-paragraph">to manage your pet's care - all in one spot!</p>
-
-  <div className="banner-subheading-group">
-    <h3 className="banner-subheading">Breed : {selectedPetBreed}</h3>
-    <h3 className="banner-subheading">Age : {selectedPetAge} Years</h3>
-  </div>
-
-    <button className="banner-button"  onClick={handleShowUserDetails}>
-      <img src="/pen.png" alt="" className="button-icon" />
-      Edit Profile
-    </button>
-  </div>
-  
-</div>
-<img src="/dogcat.png" alt="Right Banner Image" className="banner-right-image" />
-{/*
-<div className="background-section">
-  <div className="background-overlay"></div>
-</div>
-    */}
-
-<div className="background-section">
-  <div className="service-container">
-    {/*
-    <div className="service-box box1">
-      <img src="/Foor.png" alt="Icon 1" className="service-icon-1" />
-      <h3 className="service-title">Upload Your Report</h3>
-      <p className="service-description">Easily track your pet’s health by uploading medical records in one place.</p>
-      <button className="service-button">Upload now</button>
-    </div>
-    */}
-    <div className="service-box box1">
-      <img src="/Foor.png" alt="Icon 1" className="service-icon-1" />
-      <h3 className="service-title">Upload Your Report</h3>
-      <p className="service-description">
-        Easily track your pet’s health by uploading medical records in one place.
-      </p>
-
-      {/* Button triggers file input */}
-      <button className="service-button" onClick={() => document.getElementById("fileUpload")?.click()}>
-        Upload now
-      </button>
-      <input
-        type="file"
-        id="fileUpload"
-        className="file-input"
-        style={{ display: "none" }}
-        onChange={handleFileSelect}
-      />
-    </div>
-
-    <div className="service-box box2">
-      <img src="/Stethoscope.png" alt="Icon 2" className="service-icon" />
-      <h3 className="service-title">View Previous Reports</h3>
-      <p className="service-description">Access and manage all your pet’s health records anytime, anywhere.</p>
-      <button className="service-button"  onClick={() => navigate('/dashboard')}>View Reports</button>
-    </div>
-
-    <div className="service-box box3">
-      <img src="/DogHeart.png" alt="Icon 3" className="service-icon" />
-      <h3 className="service-title">Adopt a Pet</h3>
-      <p className="service-description">Find your furry soulmate and give a pet the loving home they deserve.</p>
-      <button className="service-button">Find a Friend</button>
-    </div>
-    <div className="service-box box4">
-      <img src="/TimeLine1.png" alt="Icon 4" className="service-icon" />
-      <h3 className="service-title">Health Timeline</h3>
-      <p className="service-description">Visualize your pet’s medical journey with an easy-to-read timeline.</p>
-      <button className="service-button" onClick={() => navigate('/timeline')}>View Timeline</button>
-    </div>
-  </div>
-</div>
-
-
-           
-
-
+    <div className="dashboard-wrapper" >
    
+      
+      <div className="dashboard-left">
+      <div className="header" >
+ 
+ <button className="hamburger" onClick={handleToggle}>
+                 &#9776;
+               </button>
+               <h1 className="calendar-title">Home</h1>
+            
+</div>
         
+      <div className={`sidebar ${isOpen ? 'open' : ''}`}>
+                 <button className="back-arrow-menu" onClick={closeMenu}>
+                   &larr;
+                 </button>
+          
+          <h2>Menu</h2>
+          <ul>
+            
+        
+           {/*
+          <li onClick={() => { handleShowQRCode(); closeMenu(); }}> QR</li>
+            
+            */} 
+            <li onClick={() => { navigate("/dashboard");closeMenu(); }}  className='menu-button' title="Dashboard">
+          <FaTachometerAlt  className="home-icon"/> <span>Records</span>
+        </li>
+
+        <li onClick={() => { handleUploadFile();closeMenu(); }}className='menu-button'  title="Upload Reports">
+          <FaFileUpload  className="home-icon"/> <span>Upload</span>
+        </li>
+        <li onClick={() => { navigate("/timeline");closeMenu();}} className='menu-button' title="Timeline">
+                  <MdTimeline   className="home-icon" /> <span>TimeLine</span>
+                </li>
+               
+        <li onClick={() => { navigate("/profile");closeMenu();}} className='menu-button' title="User Settings">
+          <FaUser  className="home-icon"/> <span>Profile</span>
+        </li>
+            
+            
+          </ul>
+          {/*
+          <ul>
+          <li onClick={() => { logOut(); closeMenu(); }} className="logout-button">
+            <FaSignOutAlt />
+          </li>
+          </ul>
+          */}
+        </div>
+      </div>
+      
+               
+
+      
+      <div className="dashboard-right" onClick={() => {closeMenu(); }}>
+   
+        <div className="dashboard-flex-container" >
+          <div className="column">
+            <div className="dashboard-left-content">
+              <div className="dashboard-container">
+                <div className="text-content">
+                  <h1 className="dashboard-title">Welcome to your Health Locker {hasPet ? selectedPetName : profile.name}!</h1>
+                  <p className="dashboard-description">
+                    <span className="highlight-one">
+                      Take charge of your pet's health today! A happy pet starts with healthy habits!
+                    </span>
+                  </p>
+                  <button className="view-profile-button" onClick={handleShowUserDetails}>
+                    User Details
+                  </button>
+                </div>
+
+                <div className="image-content">
+                  <img src="services1.png" alt="Health Locker" className="dashboard-image" />
+                </div>
+              </div>
+
               
-            {/* 
+            </div>
             <div className="upload-file-container">
                 <h2 className="upload-file-title">UPLOAD REPORTS</h2>
                 <div className="upload-area" onDragOver={handleDragOver} onDrop={handleDrop}>
@@ -434,7 +379,6 @@ const [menuOpen, setMenuOpen] = useState(false);
                 ) : (
                   <p>Start your health journey by uploading your medical documents! Keep track of your progress and easily access your health information.</p>
                 )}
-
                 <div className="report-action-container">
                   <p className="view-all-reports-text">Want to view all your reports?</p>
                   <button className="dashboard-button" onClick={() => navigate('/dashboard')}>
@@ -445,7 +389,6 @@ const [menuOpen, setMenuOpen] = useState(false);
             ) : (
               <p>Loading user details...</p>
             )}
-              */}
 
            {/*
             <div className="calendar-reminder-container">
@@ -490,10 +433,11 @@ const [menuOpen, setMenuOpen] = useState(false);
             </div>
 
             */}
-         
+          </div>
+        </div>
       </div>
-   
+    </div>
   );
 };
 
-export default HomeNew;
+export default Homee;

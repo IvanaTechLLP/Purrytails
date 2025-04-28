@@ -200,11 +200,15 @@ for (let [key, value] of formData.entries()) {
   return (
     <div className="dashboard-wrapper-1" >
         <nav className="home-nav">
-  <div className="home-logo">
-    <a href="#">
-      <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
-    </a>
-  </div>
+        <div className="home-logo" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
+        {profile.email === "darshthakkar09@gmail.com" && (
+    <img src="/anubis-tiger.webp" alt="Anubis Mode" className="logo-image" style={{ height: "60px" }} />
+  )}
+  <a href="#">
+    <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
+  </a>
+
+</div>
 
   <ul className="home-nav-links">
   <li onClick={() => { navigate("/home-new");closeMenu();}}>

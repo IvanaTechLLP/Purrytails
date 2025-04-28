@@ -47,6 +47,9 @@ const [menuOpen, setMenuOpen] = useState(false);
   ]);
   const [isEditing, setIsEditing] = useState(false);
   const [showPopupTerms, setShowPopupTerms] = useState(false);
+  const[email,setEmail]= useState("");
+
+  
 
   const termsHandlePopup = () => {
     setShowPopupTerms(true);
@@ -302,6 +305,34 @@ const [menuOpen, setMenuOpen] = useState(false);
     { name: "Labrador", imgSrc: "labrador.png" },
   ];
 
+  const dogBreeds1 = [
+    { name: "Golden Retriever", imgSrc: "goldenretriever.png" },
+    { name: "Chow Chow", imgSrc: "chowchow.png" },
+    { name: "Cocker Spaniel", imgSrc: "cockerspaniel.png" },
+    { name: "Dachshund", imgSrc: "Dachshund.png" },
+    { name: "German Shepherd", imgSrc: "germanshepherd.png" },
+    { name: "Husky", imgSrc: "husky.png" },
+    { name: "Pomeranian", imgSrc: "pomeranian.png" },
+    { name: "Shihtzu", imgSrc: "shihtzu.png" },
+    { name: "Beagle", imgSrc: "beagle.png" },
+    { name: "Pug", imgSrc: "pug.png" },
+    { name: "Labrador", imgSrc: "labrador.png" },
+  
+    // Next 10
+    { name: "Rottweiler", imgSrc: "anubis1.png" },
+    { name: "Boxer", imgSrc: "anubis2.png" },
+    { name: "Great Dane", imgSrc: "anubis3.png" },
+    { name: "Doberman", imgSrc: "anubis4.png" },
+    { name: "Indian Spitz", imgSrc: "anubis5.png" },
+    { name: "Lhasa Apso", imgSrc: "anubis6.png" },
+    { name: "Saint Bernard", imgSrc: "anubis7.png" },
+    { name: "Dalmatian", imgSrc: "anubis8.png" },
+    { name: "Indie (Desi)", imgSrc: "anubis9.png" },
+    { name: "Bullmastiff", imgSrc: "anubis10.png" },
+    { name: "PitBull", imgSrc: "anubis11.png" },
+  ];
+  
+
   const catBreeds = [
     { name: "Siamese", imgSrc: "siamese.png" },
     { name: "Persian", imgSrc: "persiancat.png" },
@@ -427,6 +458,8 @@ const [menuOpen, setMenuOpen] = useState(false);
         setOwnerAddress(data.owner_address);
       }
       console.log("User details fetched:", data);
+      console.log(data.sender);
+      setEmail(data.email);
     } catch (error) {
       console.error("Error fetching user details:", error);
     }
@@ -528,7 +561,13 @@ const [menuOpen, setMenuOpen] = useState(false);
   
     return Object.keys(newErrors).length === 0; // Returns true if no errors
   };
-  
+
+  useEffect(() => {
+    if (email === "darshthakkar09@gmail.com") {
+      handlePetTypeSelection("dog");
+    }
+  }, [email]);
+
   const handleNextStep = () => {
     if (validateFields()) {
       
@@ -542,11 +581,17 @@ const [menuOpen, setMenuOpen] = useState(false);
       <div className="dashboard-wrapper-1">
         
         <nav className="home-nav">
-  <div className="home-logo">
-    <a href="#">
-      <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
-    </a>
-  </div>
+        <div className="home-logo" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
+        {(email === "darshthakkar09@gmail.com") && (
+  <img src="/anubis-tiger.webp" alt="Anubis Mode" className="logo-image" style={{ height: "60px" }} />
+)}
+
+  <a href="#">
+    <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
+  </a>
+
+</div>
+
 
   <ul className="home-nav-links">
   <li onClick={() => { navigate("/home-new");closeMenu();}}><a>Home</a></li>
@@ -767,7 +812,7 @@ const [menuOpen, setMenuOpen] = useState(false);
             
           </div>
 
-{pet.sender === "darshthakkar09@gmail.com" && (
+{(email === "darshthakkar09@gmail.com" || pet.sender === "darshthakkar09@gmail.com") && (
   <div className="container-2">
     <div className="header-container">
       <h2 className="section-heading">Notes From The Anubis-Tiger Foundation</h2>
@@ -1364,10 +1409,11 @@ To exercise any of the above, email us at info@purrytails.in.
 </div>
 </div>
     
-<div className="form-row-new column-on-mobile" >
+{email !== "darshthakkar09@gmail.com" && (
+  <div className="form-row-new column-on-mobile">
     <label htmlFor="petType">
-        <span className="asterisk">*</span> Select your Companion:
-      </label>
+      <span className="asterisk">*</span> Select your Companion:
+    </label>
     <div className="pet-type-selection">
       <div
         className={`pet-option ${petType === "dog" ? "selected" : ""}`}
@@ -1382,8 +1428,8 @@ To exercise any of the above, email us at info@purrytails.in.
         <img src="cat.png" alt="Cat" />
       </div>
     </div>
-    
   </div>
+)}
   </div>
  
 )}
@@ -1430,7 +1476,12 @@ To exercise any of the above, email us at info@purrytails.in.
     </div>
     <div className="form-row-new column-on-mobile">
     <div className="breed-container">
-      {(petType === "dog" ? dogBreeds : catBreeds).map((breedObj, index) => (
+      {(email === "darshthakkar09@gmail.com"
+  ? dogBreeds1
+  : petType === "dog"
+  ? dogBreeds
+  : catBreeds
+).map((breedObj, index) => (
         <div
           key={index}
           className={`breed-option ${

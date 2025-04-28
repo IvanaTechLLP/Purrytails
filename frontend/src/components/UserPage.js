@@ -307,6 +307,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
         console.log("Pet data:", data.pet_details);
         if (data && data.pet_details && data.pet_details.length > 0) {
           console.log("User has a pet!");
+          console.log(data.pet_details);
           setHasPet(true);
           setPetDetails(data.pet_details);
           setSelectedPetId(data.pet_details[0].petId);

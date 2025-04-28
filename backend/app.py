@@ -533,7 +533,8 @@ async def get_pet_details(user_id: str):
         
         for pet in pet_details_json:
             dob_str = pet.get("dob", None)
-            reminders = get_reminders(dob_str)
+            pet_type = pet.get("petType", None)
+            reminders = get_reminders(dob_str, pet_type)
             if reminders:
                 pet["reminders"] = reminders
         

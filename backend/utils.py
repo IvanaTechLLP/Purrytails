@@ -466,19 +466,95 @@ def llm_model(input_string, conversation, user_id, user_type, pet_id=None):
         return response.text, relevant_reports
     
     
-def get_reminders(dob_str: str):
-    
+def get_reminders(dob_str: str, pet_type: str) -> str:
     dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
     today = date.today()
-    years = today.year - dob.year
-    months = today.month - dob.month
-    if today.day < dob.day:
-        months -= 1
-    total_months =years * 12 + months
+
+    # Calculate difference in days
+    days_difference = (today - dob).days
+
+    # Calculate months as a decimal (approximate: average month length is about 30.44 days)
+    total_months_age = max(days_difference / 30.44, 0)
+
+    # Calculate weeks as a decimal
+    total_weeks_age = max(days_difference / 7, 0)
+
     
-    total_months_age = max(total_months, 0)
+    reminders = []
     
-    if total_months_age > 1:
-        return f"Your pet is {total_months_age} months old. You should take your pet for a booster shot."
+    if pet_type == "dog":
+        
+        # For First Year
+        if total_weeks_age > 6 and total_weeks_age < 8:
+            reminders.append(f"Your dog is now {total_weeks_age} weeks old. Have you gotten your dog the following initial vaccinations? \n\n1. Distemper\n2. Parvovirus\n3. Adenovirus\n4. Parainfluenza")
+        
+        elif total_weeks_age > 10 and total_weeks_age < 12:
+            reminders.append(f"Your dog is now {total_weeks_age} weeks old. Have you gotten your dog a second round of vaccinations? It is also time to get one for Bordetella (Kennel Cough) if your dog is going to be around other dogs.")
+        
+        elif total_weeks_age > 14 and total_weeks_age < 16:
+            reminders.append(f"Your dog is now {total_weeks_age} weeks old. Have you gotten your dog his/her final puppy shots? It is also time to get one for Rabies.")
+        
+        # Annual Reminders
+        elif total_months_age > 12 and total_months_age % 12 == 0:
+            reminders.append(f"Your dog is now {total_months_age / 12} years old. It is time for your dog's annual booster shots (DHPP & Rabies). Please consult with your vet :)")
+                
+        # Deworming
+        if total_weeks_age > 2 and total_weeks_age < 12 and total_weeks_age % 2 == 0:
+            reminders.append(f"Your dog is now {total_weeks_age} weeks old. Have you gotten your dog dewormed?")
+        
+        elif total_months_age > 3 and total_months_age < 6 and total_months_age % 2 == 0:
+            reminders.append(f"Your dog is now {total_months_age} months old. Have you gotten your dog dewormed?")
+        
+        elif total_months_age > 6 and total_months_age % 3 == 0:
+            reminders.append(f"Your dog is now {total_months_age} months old. Have you gotten your dog dewormed?")
+            
+        # Vet Visit
+        if total_months_age < 12 and total_months_age % 3 == 0:
+            reminders.append(f"Your dog is now {total_months_age} months old. Have you taken your dog to the vet for a checkup?")
+        
+        elif total_months_age > 12 and total_months_age < 84 and total_months_age % 12 == 0:
+            reminders.append(f"Your dog is now {total_months_age / 12} years old. Have you taken your dog to the vet for a checkup?")
+        
+        elif total_months_age > 84 and total_months_age % 6 == 0:
+            reminders.append(f"Your dog is now {total_months_age / 12} years old. Have you taken your dog to the vet for a checkup?")
+            
+    elif pet_type == "cat":
+        
+        # For First Year
+        if total_weeks_age > 6 and total_weeks_age < 8:
+            reminders.append(f"Your cat is now {total_weeks_age} weeks old. Have you gotten your cat its first round of vaccinations (FVRCP)?")
+        
+        elif total_weeks_age > 10 and total_weeks_age < 12:
+            reminders.append(f"Your cat is now {total_weeks_age} weeks old. Have you gotten your cat a second round of vaccinations (FVRCP)?")
+        
+        elif total_weeks_age > 14 and total_weeks_age < 16:
+            reminders.append(f"Your cat is now {total_weeks_age} weeks old. Have you gotten your cat its Rabies vaccination?")
+        
+        # Annual Reminders
+        elif total_months_age > 12 and total_months_age % 12 == 0:
+            reminders.append(f"Your cat is now {total_months_age / 12} years old. It is time for your cat's annual booster shots (FVRCP & Rabies). Please consult with your vet :)")
+                
+        # Deworming
+        if total_weeks_age > 6 and total_weeks_age < 12 and total_weeks_age % 2 == 0:
+            reminders.append(f"Your cat is now {total_weeks_age} weeks old. Have you gotten your cat dewormed?")
+        
+        elif total_months_age > 3 and total_months_age < 6 and total_months_age % 2 == 0:
+            reminders.append(f"Your cat is now {total_months_age} months old. Have you gotten your cat dewormed?")
+        
+        elif total_months_age > 6 and total_months_age % 3 == 0:
+            reminders.append(f"Your cat is now {total_months_age} months old. Have you gotten your cat dewormed?")
+            
+        # Vet Visit
+        if total_months_age < 12 and total_months_age % 3 == 0:
+            reminders.append(f"Your cat is now {total_months_age} months old. Have you taken your cat to the vet for a checkup?")
+        
+        elif total_months_age > 12 and total_months_age < 84 and total_months_age % 12 == 0:
+            reminders.append(f"Your cat is now {total_months_age / 12} years old. Have you taken your cat to the vet for a checkup?")
+        
+        elif total_months_age > 84 and total_months_age % 6 == 0:
+            reminders.append(f"Your cat is now {total_months_age / 12} years old. Have you taken your cat to the vet for a checkup?")
+        
+        
+        
     
     return None

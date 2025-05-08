@@ -1,4 +1,4 @@
-from fastapi import FastAPI, File, Form, Query, UploadFile, HTTPException, Request
+from fastapi import FastAPI, File, Form, Query, UploadFile, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -12,6 +12,8 @@ import ast
 import uuid
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
+from datetime import datetime, timedelta
+import razorpay
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -27,6 +29,10 @@ reports_collection = chromadb_client.get_or_create_collection(name="reports", em
 users_collection = chromadb_client.get_or_create_collection(name="users", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 
 source_folder = os.getenv("SOURCE_FOLDER")
+
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
 app = FastAPI()
 
@@ -88,7 +94,6 @@ async def index(request: Request):
 @app.post("/google_login")
 async def google_login(data: GoogleLoginModel):
     email = data.email
-    print(data)
 
     try:
         # Check if the user already exists
@@ -106,7 +111,7 @@ async def google_login(data: GoogleLoginModel):
 
         if user["metadatas"]:
             # User already exists, log them in
-            print(user)
+            print("Logging in:", user["metadatas"][0]["name"])
             return {
                 "status": True,
                 "message": "Login Successful",
@@ -114,6 +119,10 @@ async def google_login(data: GoogleLoginModel):
                     "user_id": user["ids"][0],
                     "email": user["metadatas"][0]["email"],
                     "name": user["metadatas"][0]["name"],
+                    "is_paid_user": user["metadatas"][0].get("is_paid_user", False),
+                    "is_trial_user": user["metadatas"][0].get("is_trial_user", False),
+                    "payment_expiry": user["metadatas"][0].get("payment_expiry", None)
+                    
                 },
             }
             
@@ -146,6 +155,108 @@ async def google_login(data: GoogleLoginModel):
             status_code=500,
             detail={"status": False, "message": f"Failed to process request: {str(e)}"},
         )
+        
+
+class CreateOrderRequest(BaseModel):
+    user_id: str
+
+@app.post("/api/create-order")
+def create_order(req: CreateOrderRequest):
+    amount = 100  # this is actually 1.00 INR, but Razorpay takes it in paise
+    order = razorpay_client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": 1
+    })
+    return {
+        "orderId": order["id"],
+        "amount": amount,
+        "key": RAZORPAY_KEY_ID  # send this so frontend can use it
+    }
+
+
+class VerifyPaymentRequest(BaseModel):
+    razorpay_order_id: str
+    razorpay_payment_id: str
+    razorpay_signature: str
+    user_id: str
+
+@app.post("/api/verify-payment")
+def verify_payment(req: VerifyPaymentRequest):
+    print(req.razorpay_order_id, req.razorpay_payment_id, req.razorpay_signature, req.user_id)
+    try:
+        # Razorpay signature verification
+        razorpay_client.utility.verify_payment_signature({
+            'razorpay_order_id': req.razorpay_order_id,
+            'razorpay_payment_id': req.razorpay_payment_id,
+            'razorpay_signature': req.razorpay_signature
+        })
+    except razorpay.errors.SignatureVerificationError:
+        raise HTTPException(status_code=400, detail="Payment verification failed")
+
+    try:
+        # Fetch user from ChromaDB
+        user = users_collection.get(
+            include=["metadatas"],
+            ids=[req.user_id]
+        )
+        if not user["metadatas"]:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        current_meta = user["metadatas"][0]
+        current_meta.update({
+            "is_paid_user": True,
+            "is_trial_user": False,
+            "payment_expiry": (datetime.utcnow() + timedelta(days=30)).isoformat()
+        })
+
+        users_collection.update(
+            ids=[req.user_id],
+            metadatas=current_meta
+        )
+
+        return {"status": "success", "message": "Payment verified and user updated"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB update failed: {str(e)}")
+
+
+class StartTrialRequest(BaseModel):
+    user_id: str
+
+@app.post("/api/start-trial")
+def start_trial(req: StartTrialRequest):
+    try:
+        user = users_collection.get(
+            include=["metadatas"],
+            ids=[req.user_id]
+        )
+
+        if not user["metadatas"]:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        current_meta = user["metadatas"][0]
+     
+
+        if "trial_start" in current_meta:
+            print("Trial already used")
+            raise HTTPException(status_code=403, detail="Trial already used")
+
+        current_meta.update({
+            "is_trial_user": True,
+            "trial_start": datetime.utcnow().isoformat(),
+            "is_paid_user": False,
+            "payment_expiry": (datetime.utcnow() + timedelta(days=30)).isoformat()
+        })
+
+        users_collection.update(
+            ids=[req.user_id],
+            metadatas=current_meta
+        )
+
+        return {"status": "trial_started"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
     
 
 @app.post("/api/process_file")

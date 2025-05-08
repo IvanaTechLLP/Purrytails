@@ -24,6 +24,7 @@ import TimelineNew from "./components/TimelineNew";
 import DashboardNew from "./components/DashboardNew";
 import Upload from "./components/Upload"
 import UserProfilePage from "./components/UserProfilePage";
+import Payments from "./components/Payments";
 {/*
   import Upload from "./components/Upload"
 
@@ -190,6 +191,17 @@ function App() {
                   setProfile={setProfile}
                   setIsAuthenticated={setIsAuthenticated}
                 />
+              }
+            />
+
+            <Route
+              path="/payments"
+              element={
+                isAuthenticated ? (
+                  <Payments profile={profile} logOut={logOut} />
+                ) : (
+                  <Navigate to="/" />
+                )
               }
             />
             {/*

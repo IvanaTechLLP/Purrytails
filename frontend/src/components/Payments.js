@@ -1,0 +1,152 @@
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const Payments = ({ profile }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!profile) return;
+  
+    console.log("Profile:", profile);
+  
+    const expiryDate = new Date(profile.payment_expiry);
+    console.log("Expiry Date:", profile.payment_expiry);
+    const now = new Date();
+    console.log("Current Date:", now);
+  
+    if (now < expiryDate) {
+      // Payment or trial still valid
+      if (profile.is_paid_user || profile.is_trial_user) {
+        navigate("/profile");
+      }
+    } else {
+      // Expired
+      if (profile.is_paid_user) {
+        alert("Your subscription has expired. Please renew to continue.");
+        // optionally set a state to show a renew button
+      } else if (profile.is_trial_user) {
+        alert("Your trial has expired. Please subscribe to continue using the software.");
+      }
+    }
+  }, [profile, navigate]);
+
+  const handleSubscription = async () => {
+    try {
+      // 1. Create order from your backend
+      const res = await fetch('http://localhost:5000/api/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: profile.user_id }),
+      });
+      const data = await res.json();
+      console.log(data);
+
+      // 2. Configure Razorpay options
+      const options = {
+        key: process.env.REACT_APP_RAZORPAY_KEY_ID,
+        amount: data.amount,
+        currency: 'INR',
+        name: 'Purrytails',
+        description: 'Premium Subscription',
+        image: 'frontend/public/PurryTails.png',
+        order_id: data.orderId,
+        handler: async function (response) {
+          try {
+            const verifyRes = await fetch('http://localhost:5000/api/verify-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                ...response,
+                user_id: profile.user_id,
+              }),
+            });
+        
+            const result = await verifyRes.json();
+            if (verifyRes.ok) {
+              alert('Payment successful!');
+
+              // Update user profile in local storage
+              const updatedProfile = { ...profile, is_paid_user: true };
+              localStorage.setItem("user", JSON.stringify(updatedProfile));
+              
+              window.location.href = '/profile'; // 🔁 redirect to profile page
+            } else {
+              alert(result.detail || 'Payment verification failed.');
+            }
+          } catch (err) {
+            console.error(err);
+            alert('Something went wrong during payment verification.');
+          }
+        },
+        
+        prefill: {
+          name: profile.name,
+          email: profile.email,
+        },
+        theme: {
+          color: '#3399cc',
+        },
+      };
+
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong. Please try again.');
+    }
+  };
+
+  const handleFreeTrial = async () => {
+    try {
+      const res = await fetch('http://localhost:5000/api/start-trial', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: profile.user_id }),
+      });
+  
+      const data = await res.json();
+  
+      if (res.ok) {
+        alert('Trial started! Enjoy your free month.');
+  
+        // Optionally update profile state/localStorage if needed
+        const updatedProfile = {
+          ...profile,
+          is_trial_user: true,
+          is_paid_user: false,
+          trial_start: new Date().toISOString(), // could use data if backend returns it
+          payment_expiry: new Date(Date.now() + 30 * 1000).toISOString(),
+        };
+        localStorage.setItem("user", JSON.stringify(updatedProfile));
+  
+        window.location.href = '/profile';
+      } else {
+        alert(data.detail || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Could not start trial. Please contact support.');
+    }
+  };
+  
+
+  return (
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+      <h1 className="text-2xl font-bold mb-6">Welcome, {profile.name}</h1>
+      <button
+        onClick={handleSubscription}
+        className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 mb-4"
+      >
+        Subscribe
+      </button>
+      <button
+        onClick={handleFreeTrial}
+        className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700"
+      >
+        Start Free Trial
+      </button>
+    </div>
+  );
+};
+
+export default Payments;

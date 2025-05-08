@@ -58,7 +58,7 @@ const LoginPage = ({ setProfile, setIsAuthenticated }) => {
               if (userType === "doctor") {
                 navigate("/doctor");
               } else {
-                navigate("/profile");
+                navigate("/payments");
               }
             })
             .catch((err) => console.log("Backend Error:", err));

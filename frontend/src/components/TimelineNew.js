@@ -190,13 +190,14 @@ const TimelineNew = ({ profile, selectedPetId }) => {
   </div>
 
   <ul className="home-nav-links">
-  <li>
-    <a className="current-link">Home</a>
-  </li>
-    <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+  <li onClick={() => { navigate("/home-new");closeMenu(); }}><a>Home</a></li>
+    <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    <li>
+    <a className="current-link">Timeline</a>
+  </li>
+    
     <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
@@ -217,13 +218,13 @@ const TimelineNew = ({ profile, selectedPetId }) => {
       </nav>
       <div className={`phone-mobile-menu ${menuOpen ? 'open' : ''}`}>
         <ul className="home-nav-links">
-        <li>
-    <a className="current-link">Home</a>
-  </li>
-        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+        <li onClick={() => { navigate("/home-new");closeMenu();}}><a>Home</a></li>
+        <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
-    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+        <li>
+    <a className="current-link">Timeline</a>
+  </li>
+    
     <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
 
           
@@ -289,14 +290,14 @@ const TimelineNew = ({ profile, selectedPetId }) => {
         <ul className="home-nav-links">
         <li onClick={() => { navigate("/home-new");closeMenu(); }}><a>Home</a></li>
       
-        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+        <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
     
     <li>
     <a className="current-link">TimeLine</a>
   </li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
 
           
         </ul>

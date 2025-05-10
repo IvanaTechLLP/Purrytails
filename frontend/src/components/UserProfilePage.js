@@ -40,6 +40,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   const [shareEmail, setShareEmail] = useState("");
   const [sharePetId, setSharePetId] = useState(null);
   const [animateLayers, setAnimateLayers] = useState(false);
+   const [dob, setDob] = useState("");
   const [layerOrder, setLayerOrder] = useState([
     'layer-3',
     'layer-2',
@@ -148,8 +149,9 @@ const [menuOpen, setMenuOpen] = useState(false);
       petType,
       sex,
       weight,
-      ageYears,
-      ageMonths,
+      dob,
+      //ageYears,
+      //ageMonths,
       phoneNumber,
       ownerAddress,
       foodBrand,
@@ -595,10 +597,10 @@ const [menuOpen, setMenuOpen] = useState(false);
 
   <ul className="home-nav-links">
   <li onClick={() => { navigate("/home-new");closeMenu();}}><a>Home</a></li>
-    <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+    <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu();}}><a>Timeline</a></li>
     
     <li>
     <a className="current-link">Profile</a>
@@ -624,10 +626,10 @@ const [menuOpen, setMenuOpen] = useState(false);
         <ul className="home-nav-links">
         <li onClick={() => { navigate("/home-new");closeMenu();}}><a>Home</a></li>
       
-        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+        <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu();}}><a>Timeline</a></li>
     <li>
     <a className="current-link">Profile</a>
   </li>
@@ -1333,81 +1335,26 @@ To exercise any of the above, email us at info@purrytails.in.
 </div>
 {errors.petName && <p className="error-text">{errors.petName}</p>}
 
+  
+
+ 
     
-    {/* Age Field */}
-  <div className="form-row-new column-on-mobile">
-     <label htmlFor="petAge">
-        <span className="asterisk">*</span> Pet Age :
-      </label>
-    <div className="age-picker">
-      <div className="scroller-container">
-        <div className="year-scroller" ref={yearScrollerRef}>
-          {Array.from({ length: maxYears + 1 }, (_, i) => i).map(
-            (year, index) => (
-              <div
-                key={index}
-                className={`scroller-item ${
-                  ageYears === year ? "selected" : ""
-                }`}
-                onClick={() => setAgeYears(year)}
-              >
-                <span className="inside-scroller-text">{year} {year === 1 ? "Year" : "Years"}</span>
-              </div>
-            )
-          )}
-        </div>
 
-        <div className="month-scroller" ref={monthScrollerRef}>
-          {Array.from({ length: maxMonths }, (_, i) => i).map(
-            (month, index) => (
-              <div
-                key={index}
-                className={`scroller-item ${
-                  ageMonths === month ? "selected" : ""
-                }`}
-                onClick={() => setAgeMonths(month)}
-              >
-               <span className="inside-scroller-text">{month} {month === 1 ? "Month" : "Months"}</span> 
-              </div>
-            )
-          )}
-        </div>
-      </div>
+<div className="form-row-new">
+  <label htmlFor="dob">
+    <span className="asterisk">*</span> Date of Birth :
+  </label>
+  <input
+    type="date"
+    id="dob"
+    name="dob"
+    value={dob}
+    onChange={(e) => setDob(e.target.value)}
+    max={new Date().toISOString().split("T")[0]}
+    style={{ width: "100%", maxWidth: "300px", padding: "8px" }}
+  />
+</div>
 
-      
-    </div>
-   
-    </div>
-    <div className="form-row-new ">
-    <div className="age-input-container">
-  <div className="input-box">
-    <input
-      type="number"
-      id="years"
-      value={ageYears}
-      onChange={(e) => setAgeYears(e.target.value)}
-      placeholder="0"
-      name="years"
-      min="0"
-      max="30"
-    />
-    <span className="label-text">Years</span>
-  </div>
-  <div className="input-box">
-    <input
-      type="number"
-      id="months"
-      value={ageMonths}
-      onChange={(e) => setAgeMonths(e.target.value)}
-      placeholder="0"
-      name="months"
-      min="0"
-      max="11"
-    />
-    <span className="label-text">Months</span>
-  </div>
-</div>
-</div>
     
 {email !== "darshthakkar09@gmail.com" && (
   <div className="form-row-new column-on-mobile">

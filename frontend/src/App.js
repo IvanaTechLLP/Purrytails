@@ -82,28 +82,7 @@ function DashboardPage({ profile, logOut, reports, setReports, selectedPetId }) 
   );
 }
 
-function HomePage({ profile, logOut, reports, setReports, selectedPetId }) {
-  return (
-    <div className="app-container">
-      <div className="left-panel">
-        <Home
-          profile={profile}
-          logOut={logOut}
-          reports={reports}
-          setReports={setReports}
-          selectedPetId={selectedPetId}
-        />
-        <HomeNew
-          profile={profile}
-          logOut={logOut}
-          reports={reports}
-          setReports={setReports}
-          selectedPetId={selectedPetId}
-        />
-      </div>
-    </div>
-  );
-}
+
 
 
 function App() {
@@ -173,7 +152,7 @@ function App() {
                 )
               }
             />
-           
+           {/*}
             <Route
               path="/login"
               element={
@@ -183,6 +162,7 @@ function App() {
                 />
               }
             />
+            */}
 
           <Route
               path="/loginn"
@@ -216,6 +196,22 @@ function App() {
                 )
               }
             />
+             <Route
+              path="/home"
+              element={
+                isAuthenticated ? (
+                  <Home
+                    profile={profile}
+                    logOut={logOut}
+                    reports={reports}
+                    setReports={setReports}
+                    selectedPetId={selectedPetId}
+                  />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
             */}
               <Route
               path="/file_upload"
@@ -244,22 +240,7 @@ function App() {
                 )
               }
             />
-            <Route
-              path="/home"
-              element={
-                isAuthenticated ? (
-                  <Home
-                    profile={profile}
-                    logOut={logOut}
-                    reports={reports}
-                    setReports={setReports}
-                    selectedPetId={selectedPetId}
-                  />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
+           
             <Route
               path="/home-new"
               element={
@@ -334,22 +315,11 @@ function App() {
                 )
               }
             />
-            */}
-            <Route
+              <Route
               path="/profile"
               element={
                 isAuthenticated ? (
                   <UserPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
-              path="/profile-new"
-              element={
-                isAuthenticated ? (
-                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
                 ) : (
                   <Navigate to="/" />
                 )
@@ -365,6 +335,19 @@ function App() {
                 )
               }
             />
+            */}
+          
+            <Route
+              path="/profile-new"
+              element={
+                isAuthenticated ? (
+                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            
             <Route
             path="/timeline-new"
             element={isAuthenticated ? (

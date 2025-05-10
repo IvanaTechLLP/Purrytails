@@ -80,7 +80,12 @@ const [menuOpen, setMenuOpen] = useState(false);
           setHasPet(true);
           console.log(selectedPetId);
           
-
+          const formatDob = (dob) => {
+            if (!dob) return "";
+            const [year, month, day] = dob.split("-");
+            return `${day}/${month}/${year}`;
+          };
+          
           
 
           const selectedPet = data.pet_details.find(pet => pet.petId === selectedPetId);
@@ -89,7 +94,7 @@ const [menuOpen, setMenuOpen] = useState(false);
            
             setSelectedPetName(selectedPet.petName);
             setSelectedPetBreed(selectedPet.breed);
-            setSelectedPetAge(selectedPet.ageYears);
+            setSelectedPetAge(formatDob(selectedPet.dob)); 
             setSelectedPetType(selectedPet.petType);
 
           } else {
@@ -264,7 +269,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu();}}><a>Timeline</a></li>
     <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
@@ -288,11 +293,11 @@ const [menuOpen, setMenuOpen] = useState(false);
         <li>
     <a className="current-link">Home</a>
   </li>
-        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+        <li onClick={() => { navigate("/dashboardnew");closeMenu(); }}><a>Records</a></li>
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
-    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu();}}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
 
           
         </ul>
@@ -318,7 +323,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 
   <div className="banner-subheading-group">
     <h3 className="banner-subheading">Breed : {selectedPetBreed}</h3>
-    <h3 className="banner-subheading">Age : {selectedPetAge} Years</h3>
+    <h3 className="banner-subheading">DoB : {selectedPetAge} </h3>
   </div>
 
     <button className="banner-button"  onClick={handleShowUserDetails}>

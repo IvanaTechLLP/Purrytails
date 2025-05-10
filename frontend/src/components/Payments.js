@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './Payments.css';
+ 
 
 const Payments = ({ profile }) => {
   const navigate = useNavigate();
@@ -131,21 +133,25 @@ const Payments = ({ profile }) => {
   
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
-      <h1 className="text-2xl font-bold mb-6">Welcome, {profile.name}</h1>
-      <button
-        onClick={handleSubscription}
-        className="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 mb-4"
-      >
-        Subscribe
+    <div className="page-container">
+    {/* Logo */}
+    <img src="/PT.png" alt="Purry Tails Logo" className="logo" />
+  
+    {/* Centered Card */}
+    <div className="payment-card">
+      <h1>Welcome, {profile.name} 👋</h1>
+      <p>Choose how you'd like to get started with us!</p>
+  
+      <button onClick={handleSubscription} className="payment-btn subscribe-btn">
+        🚀 Subscribe Now
       </button>
-      <button
-        onClick={handleFreeTrial}
-        className="bg-green-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-green-700"
-      >
-        Start Free Trial
+  
+      <button onClick={handleFreeTrial} className="payment-btn trial-btn">
+        🎁 Start Free Trial
       </button>
     </div>
+  </div>
+  
   );
 };
 

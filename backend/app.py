@@ -162,7 +162,7 @@ class CreateOrderRequest(BaseModel):
 
 @app.post("/api/create-order")
 def create_order(req: CreateOrderRequest):
-    amount = 100  # this is actually 1.00 INR, but Razorpay takes it in paise
+    amount = 149900  # this is actually 1499.00 INR, but Razorpay takes it in paise
     order = razorpay_client.order.create({
         "amount": amount,
         "currency": "INR",
@@ -207,7 +207,7 @@ def verify_payment(req: VerifyPaymentRequest):
         current_meta.update({
             "is_paid_user": True,
             "is_trial_user": False,
-            "payment_expiry": (datetime.utcnow() + timedelta(days=30)).isoformat()
+            "payment_expiry": (datetime.utcnow() + timedelta(weeks=52)).isoformat()
         })
 
         users_collection.update(
@@ -245,7 +245,7 @@ def start_trial(req: StartTrialRequest):
             "is_trial_user": True,
             "trial_start": datetime.utcnow().isoformat(),
             "is_paid_user": False,
-            "payment_expiry": (datetime.utcnow() + timedelta(days=30)).isoformat()
+            "payment_expiry": (datetime.utcnow() + timedelta(days=90)).isoformat()
         })
 
         users_collection.update(

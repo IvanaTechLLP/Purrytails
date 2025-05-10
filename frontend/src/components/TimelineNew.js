@@ -57,7 +57,7 @@ const TimelineNew = ({ profile, selectedPetId }) => {
   const fetchOverviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+        `/api/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
       );
 
       if (!response.ok) {

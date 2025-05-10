@@ -50,6 +50,9 @@ const LoginPage = ({ setProfile, setIsAuthenticated }) => {
                 ...prevProfile,
                 user_id: response.data.data.user_id,
                 user_type: userType,
+                is_paid_user: response.data.data.is_paid_user,
+                is_trial_user: response.data.data.is_trial_user,
+                payment_expiry: response.data.data.payment_expiry,
               }));
               cached_user_data.user_id = response.data.data.user_id;
               cached_user_data.user_type = userType;

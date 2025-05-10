@@ -71,7 +71,7 @@ const Payments = ({ profile }) => {
               const updatedProfile = { ...profile, is_paid_user: true };
               localStorage.setItem("user", JSON.stringify(updatedProfile));
               
-              window.location.href = '/profile'; // 🔁 redirect to profile page
+              window.location.href = '/profile-new'; // 🔁 redirect to profile page
             } else {
               alert(result.detail || 'Payment verification failed.');
             }
@@ -109,7 +109,7 @@ const Payments = ({ profile }) => {
       const data = await res.json();
   
       if (res.ok) {
-        alert('Trial started! Enjoy your free month.');
+        alert('Trial started! Enjoy your free 90 days.');
   
         // Optionally update profile state/localStorage if needed
         const updatedProfile = {
@@ -121,7 +121,7 @@ const Payments = ({ profile }) => {
         };
         localStorage.setItem("user", JSON.stringify(updatedProfile));
   
-        window.location.href = '/profile';
+        window.location.href = '/profile-new';
       } else {
         alert(data.detail || 'Something went wrong. Please try again.');
       }

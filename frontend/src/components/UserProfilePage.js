@@ -76,7 +76,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     try {
       // Send details to backend API
       const response = await fetch(
-        `http://localhost:5000/api/update_user_details/${profile.user_id}`,
+        `/api/update_user_details/${profile.user_id}`,
         {
           method: "POST",
           headers: {
@@ -163,7 +163,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     try {
       // Send details to backend API
       const response = await fetch(
-        "http://localhost:5000/api/store_pet_details",
+        "/api/store_pet_details",
         {
           method: "POST",
           headers: {
@@ -213,7 +213,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 
   const handleDeletePet = async (petId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/delete_pet_details`, {
+      const response = await fetch(`/api/delete_pet_details`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -255,7 +255,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     }
   
     try {
-      const response = await fetch(`http://localhost:5000/api/share_pet_profile`, {
+      const response = await fetch(`/api/share_pet_profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -368,7 +368,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     try {
       // Send details to backend API
       const response = await fetch(
-        "http://localhost:5000/api/store_pet_details",
+        "/api/store_pet_details",
         {
           method: "POST",
           headers: {
@@ -415,7 +415,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   // Simulating an API call to check if the user has a registered pet
   const fetchUserPetStatus = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -445,7 +445,7 @@ const [menuOpen, setMenuOpen] = useState(false);
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setOwnerName(data.name);
@@ -836,7 +836,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     <div
       key={index}
       className="note-item"
-      onClick={() => window.open(`http://localhost:5000/documents/${note.file}`, "_blank")}
+      onClick={() => window.open(`/api/documents/${note.file}`, "_blank")}
     >
       {note.name}
     </div>

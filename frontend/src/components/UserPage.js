@@ -94,20 +94,18 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
 
     try {
       // Send details to backend API
-      const response = await fetch(
-        "http://localhost:5000/api/store_pet_details",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: profile.user_id, // Replace with actual user ID
-            petDetails: newPetDetails,
-          }),
-        }
-      );
 
+      const response = await fetch('/api/store_pet_details', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: profile.user_id, // Replace with actual user ID
+          petDetails: newPetDetails,
+        }),
+      });
+  
       if (response.ok) {
         alert(
           "Pet and owner details saved successfully and sent to the database!"
@@ -126,7 +124,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
 
   const handleDeletePet = async (petId) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/delete_pet_details`, {
+      const response = await fetch(`/api/delete_pet_details`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -168,7 +166,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
     }
   
     try {
-      const response = await fetch(`http://localhost:5000/api/share_pet_profile`, {
+      const response = await fetch(`/api/share_pet_profile`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -249,7 +247,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
     try {
       // Send details to backend API
       const response = await fetch(
-        "http://localhost:5000/api/store_pet_details",
+        "/api/store_pet_details",
         {
           method: "POST",
           headers: {
@@ -296,7 +294,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
   // Simulating an API call to check if the user has a registered pet
   const fetchUserPetStatus = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -327,7 +325,7 @@ const UserPage = ({ profile, logOut, setSelectedPetId, selectedPetId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setOwnerName(data.name);

@@ -33,7 +33,7 @@ const ParentDetailsPage = ( {profile} ) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setOwnerName(data.name);
@@ -68,7 +68,7 @@ const ParentDetailsPage = ( {profile} ) => {
     try {
       // Send details to backend API
       const response = await fetch(
-        `http://localhost:5000/api/update_user_details/${profile.user_id}`,
+        `/api/update_user_details/${profile.user_id}`,
         {
           method: "POST",
           headers: {

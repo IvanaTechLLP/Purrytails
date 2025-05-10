@@ -5,6 +5,7 @@ import { FaSignOutAlt,FaHome, FaTachometerAlt, FaCalendarAlt, FaUser, FaComments
 import { MdTimeline } from 'react-icons/md';
 
 
+
 const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
   const [images, setImages] = useState([]);
   const [userDetails, setUserDetails] = useState(null);
@@ -42,11 +43,18 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
 
 
-  const handleImageChange = (event) => {
-    const selectedImages = Array.from(event.target.files);
-    setImages(selectedImages);
-    setError(null); 
+  const handleFileChange = (event) => {
+    const selectedFiles = Array.from(event.target.files);
+  
+    if (selectedFiles.length === 0) {
+      setError("No files selected.");
+      return;
+    }
+  
+    setError(null);
+    setImages(selectedFiles); // ✅ Always an array, even if it's one file
   };
+  
 
   const handleSubmit = async () => {
     if (!images) {
@@ -56,10 +64,19 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
     const formData = new FormData();
     console.log("Selected Image:", images);
+    console.log(typeof images);     // Should be 'object'
+    console.log(Array.isArray(files));  // Should be true
+console.log(files);  // Check the actual value of files
+console.log(Array.isArray(images)); 
 
-    images.forEach((image) => {
-      formData.append("files", image);  // Append each file separately
-    });
+for (const image of images) {
+  formData.append("files", image);
+}
+
+// Log the contents of FormData to see what is being appended
+for (let [key, value] of formData.entries()) {
+  console.log(key, value);  // Logs the key-value pairs
+}
 
     formData.append('user_id', profile.user_id);
     formData.append('pet_id', selectedPetId);
@@ -296,15 +313,16 @@ const ImageProcessingForm = ({ profile, logOut, selectedPetId }) => {
 
         
         <div className="file-upload-container">
-          <h3 className="upload-heading">Upload Your Document</h3>
-          <input
-            type="file"
-            accept="image/*,.pdf"
-            id="file-upload"
-            className="file-upload"
-            multiple
-            onChange={handleImageChange}
-          />
+        <h3 className="upload-heading">Upload Your Document</h3>
+        <input
+          type="file"
+          accept="image/*,application/pdf"
+          id="file-upload"
+          className="file-upload"
+          multiple // Allows selecting multiple files
+          onChange={handleFileChange}
+        />
+        
           <label htmlFor="file-upload" className="file-upload-label">
             {images > 0 ? images.map((file) => file.name).join(", ") : "Upload Documents"}
           </label>

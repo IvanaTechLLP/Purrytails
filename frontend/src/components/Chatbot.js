@@ -149,58 +149,43 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot, selectedPet
 
   return (
     <div className="chat-container">
-      <div className="chatbot-header">
-        <div className="chat-header-content">
-          <img
-            src="/dd.png"
-            alt="Chat"
-            width={32}
-            height={32}
-            className="chat-logo"
-          />
-          <span>Doctor Dost</span>
-        </div>
-        <button
-          className="chat-close-button"
-          onClick={() => setShowChatbot(false)} // Close chatbot when clicked
-        >
-          &times;
-        </button>
-      </div>
+          
 
       <div className="chat-messages" id="message-list">
       {messages.map((message, index) => (
-  <div 
-    key={index} 
-    className={`chat-message ${message.user === "user" ? "user-message" : "agent-message"}`}
-  >
-    <div className="message-content">
-      {message.message}
+  <div key={index} style={{ display: "flex", flexDirection: "column" }}>
+    <div 
+      className={`chat-message ${message.user === "user" ? "user-message" : "agent-message"}`}
+    >
+      <div className="message-content">
+        {message.message}
+      </div>
     </div>
 
+    {/* Feedback Section: Only show below agent messages */}
     {message.user === "agent" && (
-      <div className="feedback-wrapper">
-        <div className="feedback-content">
-          <span className="feedback-text">Satisfied with the feedback?</span>
-          <div className="feedback-buttons">
-            <button 
-              onClick={() => handleFeedback(index, "positive")} 
-              className="thumb-button positive"
-            >
-              <FaThumbsUp />
-            </button>
-            <button 
-              onClick={() => handleFeedback(index, "negative")} 
-              className="thumb-button negative"
-            >
-              <FaThumbsDown /> 
-            </button>
-          </div>
-        </div>
-      </div>
+     <div className="feedback-wrapper">
+     <span className="feedback-text">Was this helpful?</span>
+     <div className="feedback-buttons">
+       <button 
+         onClick={() => handleFeedback(index, "positive")} 
+         className="thumb-button"
+       >
+         <FaThumbsUp />
+       </button>
+       <button 
+         onClick={() => handleFeedback(index, "negative")} 
+         className="thumb-button"
+       >
+         <FaThumbsDown />
+       </button>
+     </div>
+   </div>
+   
     )}
   </div>
 ))}
+
   {loading && <div className="chat-loading">Typing...</div>}
   {error && <div className="chat-error">{error}</div>}
 </div>
@@ -208,25 +193,18 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot, selectedPet
 
       <div className="chat-input">
         {/* Mic button with onClick handler */}
-        <button
-          className={`mic-button ${isRecording ? "recording" : ""}`}
-          type="button"
-          onClick={handleMicClick}
-        >
-          <img src="/mic1.png" alt="Mic" width={24} height={24} />
-        </button>
-
+        
         <input
           id="chat"
           className="chatbot-input-field"
-          placeholder="Send a Message..."
+          placeholder="Type here..."
           name="chat"
           onChange={(e) => setUserInput(e.target.value)}
           value={userInput}
           onKeyDown={handleKeyDown}
         />
         <button className="chatbot-send-button" type="button" onClick={sendMessage}>
-          <img src="/send.svg" alt="Send" width={20} height={20} />
+          <img src="/sent.png" alt="Send" width={20} height={20} />
         </button>
       </div>
     </div>

@@ -420,9 +420,7 @@ const Dashboard = ({ profile, logOut, reports, setReports, selectedPetId }) => {
             <p>
               <strong>Medicines:</strong> {selectedReport.medicines}
             </p>
-            <p>
-              <strong>Domain:</strong> {selectedReport.domain}
-            </p>
+            
             {selectedReport.link ? (
               <a
                 href={selectedReport.link}

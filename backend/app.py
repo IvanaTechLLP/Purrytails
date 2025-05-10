@@ -1,10 +1,10 @@
-from fastapi import FastAPI, File, Form, Query, UploadFile, HTTPException, Request
+from fastapi import FastAPI, File, Form, Query, UploadFile, HTTPException, Request, Depends
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from utils import process_image, process_pdf, llm_model
+from utils import process_image, process_pdf, llm_model, get_reminders
 from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 import json
@@ -12,6 +12,8 @@ import ast
 import uuid
 import chromadb
 import chromadb.utils.embedding_functions as embedding_functions
+from datetime import datetime, timedelta
+import razorpay
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -27,6 +29,10 @@ reports_collection = chromadb_client.get_or_create_collection(name="reports", em
 users_collection = chromadb_client.get_or_create_collection(name="users", embedding_function=embedding_function) # If not specified, by default uses the embedding function "all-MiniLM-L6-v2"
 
 source_folder = os.getenv("SOURCE_FOLDER")
+
+RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
+razorpay_client = razorpay.Client(auth=(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET))
 
 app = FastAPI()
 
@@ -58,11 +64,13 @@ app.add_middleware(CustomMiddleware)
 
 uploaded_pdfs_folder = os.path.join(source_folder, "backend/uploaded_pdfs")
 uploaded_images_folder = os.path.join(source_folder, "backend/uploaded_images")
+documents_folder = os.path.join(source_folder, "backend/documents")
 os.makedirs(uploaded_pdfs_folder, exist_ok=True)
 os.makedirs(uploaded_images_folder, exist_ok=True)
 
 app.mount("/uploaded_pdfs", StaticFiles(directory=uploaded_pdfs_folder), name="uploaded_pdfs")
 app.mount("/uploaded_images", StaticFiles(directory=uploaded_images_folder), name="uploaded_images")
+app.mount("/documents", StaticFiles(directory=documents_folder), name="documents")
     
 class GoogleLoginModel(BaseModel):
     email: EmailStr
@@ -86,7 +94,6 @@ async def index(request: Request):
 @app.post("/api/google_login")
 async def google_login(data: GoogleLoginModel):
     email = data.email
-    print(data)
 
     try:
         # Check if the user already exists
@@ -104,7 +111,7 @@ async def google_login(data: GoogleLoginModel):
 
         if user["metadatas"]:
             # User already exists, log them in
-            print(user)
+            print("Logging in:", user["metadatas"][0]["name"])
             return {
                 "status": True,
                 "message": "Login Successful",
@@ -112,6 +119,10 @@ async def google_login(data: GoogleLoginModel):
                     "user_id": user["ids"][0],
                     "email": user["metadatas"][0]["email"],
                     "name": user["metadatas"][0]["name"],
+                    "is_paid_user": user["metadatas"][0].get("is_paid_user", False),
+                    "is_trial_user": user["metadatas"][0].get("is_trial_user", False),
+                    "payment_expiry": user["metadatas"][0].get("payment_expiry", None)
+                    
                 },
             }
             
@@ -125,7 +136,7 @@ async def google_login(data: GoogleLoginModel):
             
             users_collection.add(
                 documents=[str(user_data)],
-                metadatas={"email": user_data["email"], "name": user_data["name"], "events": "[]", "pet_details": "[]"},
+                metadatas={"email": user_data["email"], "name": user_data["name"], "reminders": "[]", "pet_details": "[]"},
                 ids=[user_data["user_id"]]
             )
 
@@ -144,6 +155,107 @@ async def google_login(data: GoogleLoginModel):
             status_code=500,
             detail={"status": False, "message": f"Failed to process request: {str(e)}"},
         )
+        
+
+class CreateOrderRequest(BaseModel):
+    user_id: str
+
+@app.post("/api/create-order")
+def create_order(req: CreateOrderRequest):
+    amount = 100  # this is actually 1.00 INR, but Razorpay takes it in paise
+    order = razorpay_client.order.create({
+        "amount": amount,
+        "currency": "INR",
+        "payment_capture": 1
+    })
+    return {
+        "orderId": order["id"],
+        "amount": amount,
+        "key": RAZORPAY_KEY_ID  # send this so frontend can use it
+    }
+
+
+class VerifyPaymentRequest(BaseModel):
+    razorpay_order_id: str
+    razorpay_payment_id: str
+    razorpay_signature: str
+    user_id: str
+
+@app.post("/api/verify-payment")
+def verify_payment(req: VerifyPaymentRequest):
+    print(req.razorpay_order_id, req.razorpay_payment_id, req.razorpay_signature, req.user_id)
+    try:
+        # Razorpay signature verification
+        razorpay_client.utility.verify_payment_signature({
+            'razorpay_order_id': req.razorpay_order_id,
+            'razorpay_payment_id': req.razorpay_payment_id,
+            'razorpay_signature': req.razorpay_signature
+        })
+    except razorpay.errors.SignatureVerificationError:
+        raise HTTPException(status_code=400, detail="Payment verification failed")
+
+    try:
+        # Fetch user from ChromaDB
+        user = users_collection.get(
+            include=["metadatas"],
+            ids=[req.user_id]
+        )
+        if not user["metadatas"]:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        current_meta = user["metadatas"][0]
+        current_meta.update({
+            "is_paid_user": True,
+            "is_trial_user": False,
+            "payment_expiry": (datetime.utcnow() + timedelta(days=30)).isoformat()
+        })
+
+        users_collection.update(
+            ids=[req.user_id],
+            metadatas=current_meta
+        )
+
+        return {"status": "success", "message": "Payment verified and user updated"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"DB update failed: {str(e)}")
+
+
+class StartTrialRequest(BaseModel):
+    user_id: str
+
+@app.post("/api/start-trial")
+def start_trial(req: StartTrialRequest):
+    try:
+        user = users_collection.get(
+            include=["metadatas"],
+            ids=[req.user_id]
+        )
+
+        if not user["metadatas"]:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        current_meta = user["metadatas"][0]
+     
+
+        if "trial_start" in current_meta:
+            print("Trial already used")
+            raise HTTPException(status_code=403, detail="Trial already used")
+
+        current_meta.update({
+            "is_trial_user": True,
+            "trial_start": datetime.utcnow().isoformat(),
+            "is_paid_user": False,
+            "payment_expiry": (datetime.utcnow() + timedelta(days=30)).isoformat()
+        })
+
+        users_collection.update(
+            ids=[req.user_id],
+            metadatas=current_meta
+        )
+
+        return {"status": "trial_started"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
 
 
 @app.post("/api/process_file")
@@ -527,6 +639,22 @@ async def get_pet_details(user_id: str):
         owner_address = user_metadata.get("owner_address", "")
         phone_number = user_metadata.get("phone_number", "")
         
+        pet_details_json = json.loads(pet_details)
+        
+        for pet in pet_details_json:
+            dob_str = pet.get("dob", None)
+            pet_type = pet.get("petType", None)
+            reminders = get_reminders(dob_str, pet_type)
+            if reminders:
+                pet["reminders"] = reminders
+        
+        user_metadata["pet_details"] = json.dumps(pet_details_json)
+        
+        users_collection.update(
+            ids=[user_id],
+            metadatas=user_metadata
+        )
+        
         return {"pet_details": json.loads(pet_details), "owner_address": owner_address, "phone_number": phone_number}
     except Exception as e:
         print(f"Error fetching pet details: {e}")
@@ -575,6 +703,7 @@ async def share_pet_profile(data: dict):
         if not current_user or not current_user.get("metadatas"):
             raise HTTPException(status_code=404, detail="Current user not found")
         current_user_metadata = current_user["metadatas"][0]
+        current_user_email = current_user_metadata.get("email")  # Fetch sender's email
         
         # Get the target user by email
         target_user = users_collection.get(include=["metadatas"], where={"email": email})
@@ -598,6 +727,18 @@ async def share_pet_profile(data: dict):
         if not pet_to_transfer:
             raise HTTPException(status_code=404, detail="Pet not found for the current user")
 
+        # Add sender email to the pet before transferring
+        pet_to_transfer["sender"] = current_user_email
+        
+        # If the sender is Darsh, add document paths
+        if current_user_email == "darshtakkar09@gmail.com":
+            pet_to_transfer["documents"] = [
+                "backend/documents/🐾 DOGGY DON’TS! 🚫.pdf.pdf",
+                "backend/documents/Big Dog Diet.pdf",
+                "backend/documents/DOGGY DON’TS!.pdf",
+                "backend/documents/Toilet Training Guide .pdf"
+            ]
+        
         # Update the current user's pet details (remove the transferred pet)
         current_user_metadata["pet_details"] = json.dumps(updated_pet_details)
         users_collection.update(ids=[user_id], metadatas=[current_user_metadata])

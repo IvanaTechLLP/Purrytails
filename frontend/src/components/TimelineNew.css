@@ -1,0 +1,519 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
+
+
+
+.timeline-wrapper-1 {
+  background-color: white;
+  min-height: 100vh;
+  padding: 20px;
+  margin-left: 0px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  /* 🔥 Allow vertical overflow so the line is visible */
+  overflow-y: auto;
+  position: relative; /* Make sure it's relative for the absolute line */
+}
+
+  @media (max-width: 500px) {
+    .dashboard-wrapper-1 {
+      width: 100%;
+      background-color: rgb(255, 255, 255); /* Sets the background color of the dashboard */
+      min-height: 100vh; /* Ensure it takes up the full height */
+      padding: 20px; /* Add some padding around the content */
+      margin-left: 0px !important;
+    
+    }
+  }
+  .home-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px max(3vw, 1rem);
+    
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+    border-bottom: 3px solid #106C67;
+    height: 80px;
+  }
+  
+  .home-logo img {
+    width: 239px;
+    height: 95px;
+    object-fit: contain;
+  }
+  
+  .home-nav-links {
+    display: flex;
+    gap: 45px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .home-nav-links a {
+    text-decoration: none;
+    color: #106C67 !important;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px;
+    font-weight: 500;
+    position: relative;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  /* Hover underline effect for all links */
+  .home-nav-links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 0;
+    height: 3px;
+    background-color: #106C67;
+    transition: width 0.3s ease;
+  }
+  
+  .home-nav-links a:hover::after {
+    width: 100%;
+  }
+  
+  /* Styling for current/active link */
+  .home-nav-links .current-link {
+    font-weight: 600;
+    color: #106C67 !important;
+  }
+  
+  .home-nav-links .current-link::after {
+    width: 100%; /* Constant underline for the selected link */
+  }
+
+  .roadmap-container {
+    position: absolute;
+    top: 150px; /* Margin from the top */
+    left: -10F0px; /* Moves everything further left */
+    display: flex;
+    flex-direction: column; /* Ensures the images are placed one below the other */
+    align-items: flex-start; /* Aligns images to the extreme left */
+    margin-bottom: -15px; /* Ensures no gap */
+}
+
+.left-image {
+  width: 282.75px; /* 50% of 565.5px */
+  height: 221px; /* 50% of 442px */
+  position: absolute;
+  top: 20px;
+  left: 0px !important;
+  margin-bottom: -5px; /* Adjusted for scaling */
+}
+
+
+.roadmap-timeline {
+    display: flex;
+    flex-direction: column; /* Stack images */
+    align-items: flex-start; /* Align to the left */
+    position: absolute;
+    top: 241px; /* Placed right below the first image */
+    left: 150px;
+}
+
+.roadmap-item {
+    display: flex;
+    flex-direction: row; /* Image + text in a row */
+    align-items: center;
+    margin-bottom: -10px; /* Ensures no gap */
+}
+
+.roadmap-image {
+  width: 205.5px; /* 50% of 411px */
+  height: 254.5px; /* 50% of 509px */
+}
+
+.left-image-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.right-image-container {
+  position: absolute;
+  width: 676px;
+  height: 290px;
+  left: 649px;
+  top: 70px;
+}
+
+.right-image {
+  width: 100%;
+  height: auto;
+}
+
+.overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 100%;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.overlay-date {
+  position: absolute;
+  top: 10px;
+  left: 100px;
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+ font-family: 'Quicksand';
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.overlay-overview {
+  position: absolute;
+  top: 50px; /* Below date */
+  left: 100px;
+
+  color: rgb(6, 6, 6);
+  width: 90%;
+  font-family: 'Quicksand';
+font-weight: 700;
+font-size: 22px;
+line-height: 50px;
+letter-spacing: 0%;
+
+}
+
+.overlay-summary {
+  position: absolute;
+  top: 130px; /* Below overview */
+  left: 100px;
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  width: 90%;
+  font-family: 'Quicksand';
+font-weight: 500;
+font-size: 20px;
+line-height: 40px;
+letter-spacing: 0%;
+
+}
+.overlay-button {
+  position: absolute;
+  bottom: 20px; /* Below overview */
+  left: 100px;
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  width: 90%;
+  font-family: 'Quicksand';
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 40px;
+  letter-spacing: 0%;
+
+}
+.timeline-center-line {
+  position: absolute;
+  top: 200px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+   /* use red temporarily to confirm it's showing */
+  z-index: 0;
+  border-radius: 4px;
+  background: #D9D9D985;
+}
+
+  .roadmap-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    max-width: 45%; /* Ensure left and right items don’t stretch the full width */
+    width: auto;
+  }
+  
+  .roadmap-item.left {
+    align-self: flex-start; /* Align to the left */
+    margin-left: 35%; /* Align left items near the center line */
+    transform: translateX(-100%); /* Move the item to the left */
+  }
+  
+  /* Right-side items */
+  .roadmap-item.right {
+    align-self: flex-start; /* Align to the left */
+    margin-left: 55%; /* Leave space from center line */
+    width: 45%; /* Set a fixed width for the right items */
+  }
+  
+  .report-details-timeline {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+
+
+  .timeline-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the content inside the container */
+    position: relative;
+    padding-top: 20px;
+    z-index: 1;
+    margin-top: 200px;
+  }
+  
+  
+  .timeline-entry-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 40px; /* space between each report */
+  }
+  
+  .timeline-marker {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    top: 0;
+  }
+  
+  .timeline-marker img {
+    width: 50px; /* size as needed */
+    height: 50px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  .gradient-blue {
+    background: #5FCCD799;
+    --arrow-color:#5FCCD799;
+    color: #333;
+  }
+  
+  .gradient-pink {
+    background: #F087B799;
+    --arrow-color:#F087B799;
+    color: #333;
+  }
+  
+  .gradient-orange {
+    --arrow-color:#FFB74D99;
+    background: #FFB74D99;
+
+    color: #333;
+  }
+  
+  .gradient-green {
+    --arrow-color: #A2EA9299;
+    background: #A2EA9299;
+
+    color: #333;
+  }
+  /* Styling for left and right container arrows */
+/* Arrow for left report boxes */
+.roadmap-item.left .report-details-timeline::before {
+  content: "";
+  position: absolute;
+  top: 0px; /* Adjusted for bigger arrow size */
+  right: -64px; /* Adjusted for bigger arrow size */
+  border-left: 32px solid transparent; /* Increased size */
+  border-right: 32px solid transparent; /* Increased size */
+  border-top: 32px solid transparent; /* Increased size */
+  border-bottom: 32px solid var(--arrow-color); /* Apply the custom property to the arrow */
+  transform: rotate(90deg); /* Rotate the arrow to point towards the center */
+}
+
+/* Arrow for right report boxes */
+.roadmap-item.right .report-details-timeline::before {
+  content: "";
+  position: absolute;
+  top: 0px; /* Adjusted for bigger arrow size */
+  left: -64px; /* Adjusted for bigger arrow size */
+  border-left: 32px solid transparent; /* Increased size */
+  border-right: 32px solid transparent; /* Increased size */
+  border-top: 32px solid transparent; /* Increased size */
+  border-bottom: 32px solid var(--arrow-color); /* Apply the custom property to the arrow */
+  transform: rotate(-90deg); /* Rotate the arrow to point towards the center */
+}
+
+  
+  .report-summary-timeline {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 100%;
+    letter-spacing: 0;
+  }
+  .report-date-timeline{
+  font-family: 'Quicksand';
+font-weight: 500;
+font-size: 28px;
+line-height: 100%;
+letter-spacing: 0%;
+
+  }
+  .view-report-link-2 {
+    padding: 8px 16px;
+    border-left: 2px solid #7E7A7A; /* Left border */
+    border-right: 2px solid #7E7A7A; /* Right border */
+    border-radius: 10px; /* Rounded left and right edges */
+    background-color: transparent;
+    color: #7E7A7A; /* Text color */
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.3s ease-in-out; /* Smooth scale effect */
+    display: inline-block;
+    font-family: 'Poppins';
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  
+  }
+  
+  .view-report-link-2:hover {
+    transform: scale(1.05); /* Slightly enlarges on hover */
+  }
+  
+  .download-btn-timeline {
+    position: absolute;
+    top: 120px;
+    right: 30px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 35px;
+    line-height: 100%;
+    letter-spacing: 0;
+    background: linear-gradient(0deg, #13522D, #13522D); /* solid green fallback using gradient */
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+    z-index: 999;
+    border: none;
+    background-color: transparent;
+   
+    box-shadow: 0px 4px 4px 0px #00000040;
+  }
+  
+
+  @media (max-width: 500px) {
+    .timeline-center-line {
+      position: absolute;
+      top: 150px;
+      bottom: 0;
+      left: 5%;
+      transform: translateX(-50%);
+      width: 5px;
+       /* use red temporarily to confirm it's showing */
+      z-index: 0;
+      border-radius: 4px;
+      background: #D9D9D985;
+    }
+    .roadmap-item {
+      max-width: 90%;
+      width: 90%;
+      margin-left: 10%;
+      transform: none !important
+    }
+  
+    .roadmap-item.left,
+    .roadmap-item.right {
+      margin-left: 10%; /* All items appear on the right side */
+      align-self: flex-start;
+      width: 90%;
+    }
+    .timeline-marker {
+      left: -45px; /* Shift the marker to the left */
+      transform: translateX(0) !important;
+      position: absolute;
+    }
+    .report-summary-timeline {
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 100%;
+      letter-spacing: 0;
+    }
+    .report-date-timeline{
+    font-family: 'Quicksand';
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  
+    }
+    .roadmap-item.left .report-details-timeline::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      right: 315px; /* Adjusted for 20px arrow */
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid var(--arrow-color);
+      transform: rotate(270deg); /* Inverted 180 degrees */
+    }
+    
+    
+    /* Arrow for right report boxes */
+    .roadmap-item.right .report-details-timeline::before {
+      content: "";
+      position: absolute;
+      top: 6px; /* Adjust for alignment */
+      left: -40px; /* Adjust for arrow size */
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid transparent;
+      border-bottom: 20px solid var(--arrow-color);
+      transform: rotate(-90deg);
+    }
+    .view-report-link-2{
+      font-size: 16px;
+      padding: 8px 12px;
+      
+    }
+    .timeline-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* Center the content inside the container */
+      position: relative;
+      padding-top: 20px;
+      z-index: 1;
+      margin-top: 150px;
+    }
+    .download-btn-timeline {
+      position: absolute;
+      top: 120px;
+      right: 30px;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 100%;
+      letter-spacing: 0;
+      background: linear-gradient(0deg, #13522D, #13522D); /* solid green fallback using gradient */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      cursor: pointer;
+      z-index: 999;
+      border: none;
+      background-color: transparent;
+     
+      box-shadow: 0px 4px 4px 0px #00000040;
+    }
+    
+  }

@@ -299,42 +299,37 @@ const Timeline = ({ profile, selectedPetId }) => {
 
       <h1 className="dashboard-title-one">Timeline</h1>
 
-      {Object.keys(overviews).length > 0 ? (
-        <div className="timeline" onClick={() => {closeMenu(); }}>
-          {Object.entries(overviews).map(([year, months]) => (
-            <div key={year} className="timeline-year-group">
-              <h2 className="timeline-year">{year}</h2>
-              {Object.entries(months).map(([month, reports]) => (
-                <div key={month} className="timeline-month-group">
-                  <h3 className="timeline-month">{month}</h3>
-                  {reports.map((overview, index) => (
-                    <div key={index} className="timeline-item">
-                      <div className="timeline-content">
-                        <h4>{overview.title}</h4>
-                        <p>{overview.summary}</p>
-                        {overview.link && (
-                          <a
-                            href={overview.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="view-report-link"
-                          >
-                            View Details
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ))}
+      <div className="timeline-container">
+  {Object.entries(overviews).map(([year, months]) => (
+    <div key={year}>
+      <h2 className="timeline-year-title">{year}</h2>
+      {Object.entries(months).map(([month, reports]) => (
+        <div key={month}>
+          <h3 className="timeline-month-title">{month}</h3>
+          {reports.map((overview, index) => (
+            <div key={index} className={`timeline-box ${index % 2 === 0 ? "left" : "right"}`}>
+              <div className="content">
+                <h4>{overview.title}</h4>
+                <p>{overview.summary}</p>
+                {overview.link && (
+                  <a
+                    href={overview.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="view-report-link"
+                  >
+                    View Details
+                  </a>
+                )}
+              </div>
             </div>
           ))}
         </div>
-      ) : (
-        <p className="timeline-empty">
-          Please add a record to view the Timeline
-        </p>
-      )}
+      ))}
+    </div>
+  ))}
+</div>
+
 
       {/* Button for downloading PDF */}
       <button onClick={handleDownloadPDF} className="download-btn">

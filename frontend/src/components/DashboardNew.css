@@ -1,0 +1,1203 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+
+.dashboard-wrapper-new {
+    background-color: white; /* Sets the background color of the dashboard */
+    min-height: 100vh; /* Ensure it takes up the full height */
+    padding:10px; /* Add some padding around the content */
+    margin-left: 50px !important;
+    overflow: hidden;
+    margin-top: 75px;
+  
+  }
+  @media (max-width: 500px) {
+    .dashboard-wrapper-new {
+      background-color: white; /* Sets the background color of the dashboard */
+      min-height: 100vh; /* Ensure it takes up the full height */
+      padding: 20px; /* Add some padding around the content */
+      margin-left: 0px !important;
+    
+    }
+  
+    .dashboard-description-one{
+      display: none !important;
+  
+    }
+  }
+  
+  
+    
+  .reports-details-new {
+    margin-top: 20px;
+    overflow-x: auto; /* Allow horizontal scrolling for the reports table */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: none;
+    background-color:transparent; /* 60% opacity */
+    width:80%;
+  }
+  
+  .reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px; /* Ensures table doesn't shrink too much */
+  }
+  
+  .reports-table th, .reports-table td {
+    padding: 12px; /* Increased padding for better spacing */
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .reports-table th {
+    background-color: #f2f2f2;
+  }
+  
+  /* Summary Column */
+  .summary-cell {
+    max-width: 500px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+  }
+  
+  .read-more-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+    margin-left: 5px;
+  }
+  
+  .read-more-button:hover {
+    color: #0056b3;
+  }
+  
+  /* QR Code Popup */
+  
+  /* Report Cards */
+  .reports-grid-new {
+    display: grid;
+    gap: 20px;
+      
+    grid-template-columns: repeat(4, 1fr); /* Ensures 3 reports per row */
+  
+      margin-top: 10px;
+    
+  }
+
+  @media (max-width: 768px) {
+    /* For tablet or smaller screens */
+    .reports-grid-new {
+      grid-template-columns: repeat(3, 1fr); /* 2 reports per row */
+    }
+    .highlight {
+      font-size: 1rem !important;
+    }
+  
+  }
+  
+  @media (max-width: 500px) {
+    .reports-grid-new {
+      grid-template-columns: 1fr;
+      overflow-y: hidden;
+    }
+  }
+  
+  .report-card-new {
+    width: 246px;
+    height: 250px;
+    position: relative;
+    top: 1opx;
+    left: 10px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0px 4px 4px 0px #DA692B;
+    border: 1px solid #ccc;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+  }
+  
+  
+  .report-card-new:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+  }
+  .label-report-card {
+    font-family: 'Quicksand';
+font-weight: 500;
+font-size: 20px;
+line-height: 100%;
+letter-spacing: 0%;
+
+
+  }
+  .report-card-new p {
+    font-family: 'Quicksand';
+font-weight: 500;
+font-size: 18px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #6F6F6F;
+
+
+  }
+  @media (max-width: 500px) {
+    .report-card-new h3 {
+      
+      font-size: 1em;
+    }
+    .report-card-new p {
+    
+      font-size: 15px;
+    }
+  }
+
+  
+  /* Delete Icon */
+  .delete-icon {
+    position: absolute; /* Position the icon relative to the card */
+    bottom: 10px; /* Distance from the bottom */
+    right: 10px; /* Distance from the right */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+  
+  .delete-icon:hover {
+    opacity: 0.7; /* Slight opacity change on hover for feedback */
+  }
+  
+  .hamburger{
+    display: none !important;
+  }
+  .back-arrow-menu{
+    display: none !important;
+  }
+  
+  @media (max-width: 500px) {
+  .hamburger {
+    font-size: 12px  !important;
+    cursor: pointer;
+    
+    color:  #C5A181; /* Brown color */
+    background: #302C28; /* Remove blue background */
+    display: block !important;
+    transition: color 0.3s; /* Smooth transition for color change */
+  }
+  
+  .hamburger:hover {
+    color: #302C28;
+    background: #C5A181;/* Remove blue background *//* Lighter shade for hover effect */
+  }
+  .back-arrow-menu{
+    font-size: 12px  !important;
+    cursor: pointer;
+  
+    color:  #C5A181; /* Brown color */
+    background: #302C28; /* Remove blue background */
+    color: #302C28;
+    background: #C5A181;
+    transition: color 0.3s; /* Smooth transition for color change */
+    display: block !important;
+  }
+  .back-arrow-menu:hover {
+    color:  #C5A181; /* Brown color */
+    background: #302C28; /* Remove blue background *//* Lighter shade for hover effect */
+  }
+  .sidebar{
+    transform: translateX(-100%);
+      transition: transform 0.5s ease;
+      z-index: 1000;
+     
+  }
+  
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+  }
+   
+    .sidebar {
+      width: 200px !important;
+      background: linear-gradient(135deg, #023047 0%, #023047  100%)!important;
+      padding: 20px;
+      position: fixed;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1)!important;
+      border-top-right-radius: 2px !important;
+      border-bottom-right-radius: 2px !important;
+      color: #C5A181;
+      top: 0;
+      left: 0;
+      
+    }
+    
+    .sidebar h2 {
+      text-align: center !important;
+      margin-bottom: 30px !important;
+      font-size: 1.4em !important;
+      font-weight: bold !important;
+    }
+    
+    .sidebar ul {
+      list-style: none !important;
+      padding: 0 !important;
+    }
+    
+    .sidebar ul li {
+      display: flex ;
+      align-items: center;
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      font-size: 22px !important; /* Increased font size for larger text */
+      width: 150px !important; /* Optional: Set width to make button wider */
+    }
+    
+    .sidebar ul li:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px);
+    }
+    
+    .sidebar ul li.active {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    .sidebar ul li i {
+      margin-right: 10px;
+      font-size: 1.2em;
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+    
+    .sidebar ul li:hover i, .sidebar ul li:hover span {
+      color: #ffffff !important;
+    }
+    
+    .sidebar ul li span {
+      font-size: 1.1em;
+    }
+    
+  
+  /* Sidebar Styles */
+  
+  /* Dashboard Content */
+  .dashboard-content {
+    flex-grow: 1;
+    padding: 20px;
+    margin-left: 62px; 
+    background-color: #f9f9f9;
+  }
+  
+  /* Dashboard Description */
+  .dashboard-description-one {
+    margin-top: 20px; 
+    margin-bottom: 5px; /* Space above and below the paragraph */
+    font-size: 1.1rem; /* Slightly larger font size for readability */
+    color: #333; /* Dark gray text color */
+    line-height: 1.5; /* Increase line height for better readability */
+    text-align: left; /* Center align the paragraph */
+    margin-left: 20px;
+    font-size: 18px !important;
+  }
+  .dashboard-title {
+    color: #302C28; /* Change to your desired color */
+    font-weight: bold; /* Make it bold */
+    margin-left: 20px !important;
+    font-size: 36px !important;
+    margin-bottom: 20px;
+  }
+  
+  .highlight {
+    background: linear-gradient(135deg, #2A5372 0%, #023047  100%); /* Reddish-Orange Gradient */
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    font-weight: bold; /* Make it bold */
+    margin-left: 20px !important;
+    font-size: 1.3rem !important;
+  }
+  @media (max-width: 500px) {
+  
+    .highlight {
+      font-size: 1rem !important;
+    }
+  }
+  
+  /* Chatbot Button */
+  .chatbot-button {
+    position: fixed;
+    bottom: 30px ; /* 30px above the bottom of the screen */
+    right: 30px; /* 30px away from the right side */
+    width: 60px; /* Slightly larger button */
+    height: 60px;
+    background-color: #007bff; /* Vibrant blue */
+    border-radius: 50%; /* Circular shape */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Soft shadow */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* White icon color */
+    font-size: 28px; /* Bigger icon size */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000; /* Ensures the button stays on top */
+  }
+  
+  .chatbot-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+    transform: scale(1.1); /* Slight scaling effect */
+  }
+  
+  .chatbot-button i {
+    animation: chatbot-icon-pulse 1.5s infinite ease-in-out; /* Adding a pulsing animation to the icon */
+  }
+  
+  /* Pulse animation */
+  @keyframes chatbot-icon-pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.15);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  /* Confirmation Popup */
+  .confirmation-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker overlay for focus */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Ensure it appears on top */
+    transition: opacity 0.3s ease; /* Smooth fade effect */
+  }
+  
+  /* Confirmation Content */
+  .confirmation-content {
+    background: white;
+    padding: 30px; /* Increased padding for comfort */
+    border-radius: 10px; /* More rounded corners */
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Strong shadow for depth */
+    animation: fadeIn 0.3s ease; /* Fade-in effect */
+  }
+  
+  /* Popup Title */
+  .confirmation-content h3 {
+    margin-bottom: 15px; /* Space below title */
+    font-size: 1.5em; /* Slightly larger title */
+    color: #333; /* Dark text for contrast */
+  }
+  
+  /* Action Buttons */
+  .confirmation-button {
+    padding: 10px 20px;
+    margin: 10px; /* Space between buttons */
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+  }
+  
+  /* Confirm Button */
+  .confirm-button {
+    background-color: #28a745; /* Green for confirm */
+    color: white;
+  }
+  
+  .confirm-button:hover {
+    background-color: #218838; /* Darker green on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+  }
+  
+  /* Cancel Button */
+  .cancel-button {
+    background-color: #dc3545; /* Red for cancel */
+    color: white;
+  }
+  
+  .cancel-button:hover {
+    background-color: #c82333; /* Darker red on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+  }
+  
+  /* Fade-in Animation */
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px); /* Slide down effect */
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .logout-button {
+    padding: 12px; /* Padding for the button */
+    background-color: #dc3545 !important; /* Red color for logout */
+    color: white; /* Text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    text-align: center; /* Center text */
+    cursor: pointer; /* Pointer on hover */
+    transition: background-color 0.3s ease; /* Smooth transition */
+    margin-top: auto; /* Space above logout button */
+    font-size: 22px !important; /* Increased font size for larger text */
+    width: 200px !important; /* Optional: Set width to make button wider */
+  }
+  
+  
+  
+  
+  .share-button {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #17a2b8; /* Teal color for distinction */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 10px;
+  }
+  
+  .share-button:hover {
+    background-color: #138496; /* Darker teal on hover */
+  }
+  
+  /* 🟣 Overlay with Blur Effect */
+  .share-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Dark semi-transparent background */
+    backdrop-filter: blur(2px); /* Soft background blur */
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: overlayFadeIn 0.4s ease-in-out;
+  }
+  
+  /* 🟡 Popup Container with Enhanced Style */
+  .share-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 340px;
+    padding: 25px;
+    background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: popupSlideIn 0.4s ease-in-out;
+    overflow: hidden;
+  }
+  
+  /* 🔴 Popup Fade-in Animation */
+  @keyframes popupSlideIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -45%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+  }
+  
+  /* 🟢 Overlay Fade-in Animation */
+  @keyframes overlayFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* 🔵 Popup Content Styling */
+  .popup-share-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .popup-share-content h3 {
+    margin-bottom: 12px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #2A5372;
+  }
+  
+  /* 🟠 Label and Input Styling */
+  .popup-share-content label {
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .popup-share-content input {
+    width: 100%;
+    margin-top: 6px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
+  .popup-share-content input:focus {
+    border-color: #2A5372;
+    box-shadow: 0 0 5px rgba(42, 83, 114, 0.3);
+    outline: none;
+  }
+  
+  /* 🟣 Button Styling with Interaction */
+  .popup-share-content button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 12px;
+    background-color: #2A5372;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .popup-share-content button:hover {
+    background-color: #023047;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(2, 48, 71, 0.3);
+  }
+  
+  /* 🟡 Close Button Styling */
+  .close-share-popup {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    font-size: 20px;
+    color: #888;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.2s;
+  }
+  
+  .close-share-popup:hover {
+    color: #2A5372;
+    transform: scale(1.2);
+  }
+  
+  /* 🟢 Smooth Transition for Popup Appear/Disappear */
+  .share-popup,
+  .share-popup-overlay {
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+  
+  .user-and-reports-container-new {
+    position: relative;
+    padding: 20px;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  
+  .filter-container {
+    display: flex;
+    flex-direction: column; /* Stacks label and dropdown on smaller screens */
+    align-items: flex-start; /* Aligns items to the start */
+    margin-bottom: 20px;
+    padding: 10px;
+    width: 70%; /* Default for smaller screens */
+    max-width: 100%; /* Ensures it doesn't overflow the screen */
+    background-color: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-container label {
+    font-weight: 600;
+    font-size: 10px;
+    margin-bottom: 8px; /* Space between label and dropdown */
+    color: #333;
+  }
+  
+  .filter-container select {
+    width: 70%; /* Takes full width on smaller screens */
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    outline: none;
+  }
+  
+  .filter-container select:hover {
+    border-color: #007BFF;
+  }
+  
+  .filter-container select:focus {
+    border-color: #0056b3;
+    background-color: #f1f9ff;
+  }
+  
+  /* Media query for larger screens */
+  @media (min-width: 768px) {
+    .filter-container {
+      flex-direction: row; /* Aligns label and dropdown side-by-side */
+      align-items: center;
+      width: 25%; /* Takes 15-20% of the screen */
+      max-width: 30%; /* Ensures a max width */
+      padding: 10px 15px; /* Adjusts padding for better appearance */
+    }
+  
+    .filter-container label {
+      margin-right: 10px; /* Space between label and select */
+      margin-bottom: 0; /* Removes bottom margin when side-by-side */
+      font-size: 16px; /* Adjust font size for larger screens */
+    }
+  
+    .filter-container select {
+      width: auto; /* Adjusts width for side-by-side layout */
+      max-width: 100%; /* Prevents overflow */
+    }
+  }
+  
+  
+  .report-details-button {
+    position: absolute;
+    bottom: 20px;
+    left: 25%;
+    width: 100px;
+    height: 30px;
+    background-color: #F9F9F9;
+    color: #FB6526;
+    border: none;
+    border-radius: 3px;
+    box-shadow: 0px 4px 4px 0px #00000026;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  /* Styling the text inside the button */
+  .report-button-text {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 100%;
+    letter-spacing: 0;
+    background: #FB6526;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+
+  
+  .report-details-button:hover {
+    background-color: #e6e6e6 !important;
+    transform: scale(1.03);
+    box-shadow: 0px 6px 8px 0px #00000026;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  
+  
+  @media (max-width: 500px) {
+    .report-details-button{
+      padding: 5px 10px; /* Padding for the button */
+      font-size: 13px; /* Font size */
+    }
+
+  }
+  /* 🟣 Popup Overlay with Subtle Blur */
+  .report-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(20, 20, 30, 0.6); /* Slightly lighter overlay */
+    backdrop-filter: blur(3px); /* Reduced glass blur */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  
+  /* 🟡 Popup Box with Soft Gradient */
+  .report-popup {
+    background:linear-gradient(135deg, #DA692B, #FF9F4A) !important;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 600px;
+    padding: 30px;
+    animation: popupSlide 0.5s ease-in-out;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* 🔵 Updated Popup Edge Glow */
+  .report-popup::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background:  linear-gradient(135deg, #DA692B, #FF9F4A)   !important;
+    z-index: -1;
+    filter: blur(6px);
+    opacity: 0.5;
+  }
+  
+  
+  /* 🟢 Close Button with Clean Hover */
+  .close-report-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #ffffff;
+    background: transparent;
+    border-radius: 50%;
+    padding: 5px;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .close-report-popup:hover {
+  
+    background: transparent;
+    transform: scale(1.1);
+  }
+  
+  /* 🔵 Popup Title */
+  .report-popup h2 {
+    font-family: 'Oswald', sans-serif;
+    color: #ffffff;
+    font-size: 1.6em;
+    margin-bottom: 15px;
+    text-transform: capitalize;
+    text-align: left; /* Align to the left */
+  }
+  
+  /* 🟠 Details Text with Clear Alignment */
+  .report-popup p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1em;
+    margin: 10px 0;
+    color: #ffffff;
+    line-height: 1.5;
+    text-align: left; /* Align text to the left */
+  }
+  
+  /* 🟣 Link Button */
+  .view-report-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #DA692B;
+    background: #ffffff;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    text-align: left; /* Align link to the left */
+  }
+  
+  .view-report-link:hover {
+    background: transparent;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(210, 140, 146, 0.3);
+    border: 1px solid #ffffff; /* <-- Adds white border */
+  }
+  
+  /* 🟡 Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes popupSlide {
+    from {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .home-icon {
+    margin-right: 8px; /* Adjust the value as needed */
+  }
+  li span {
+    font-size: 16px !important; /* Text size */
+    font-weight: 500; /* Slightly bold the text */
+    letter-spacing: 0.5px; /* Adds a little spacing between letters */
+    transition: color 0.3s ease;
+  }
+  
+  
+  .title-one {
+            width: 318;
+        height: 64;
+        top: 114px !important;
+        left: 83px;
+
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 48px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    background: linear-gradient(0deg, #119DBA, #119DBA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-left: 20px !important;
+    margin-bottom: 20px;
+  }
+  
+    @media (max-width: 500px) {
+      .title-one {
+        font-size: 30px ;
+          left: 25px;
+      }
+    
+      
+  
+    }
+
+
+  .sort-container {
+    width: 371px;
+    height: 50px;
+    margin-top: 30px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 0 15px;
+    border-radius: 7px;
+    background: #FAFAFA;
+    box-shadow: 4px 3px 5px 0px #00000033;
+    font-family: 'Quicksand', sans-serif;
+    gap: 15px; /* Adds consistent spacing between all children */
+  }
+  
+  .sort-text {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 26px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    background: linear-gradient(90.29deg, #13522D 49.92%, #9B9B9B 76.52%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0; /* remove margin-right to let flexbox gap control spacing */
+    width: 150px;
+  }
+  
+  .divider {
+    font-weight: bold;
+    color: #ccc;
+    font-size: 24px;
+
+  }
+  
+  .sort-dropdown {
+    
+    font-family: 'Quicksand', sans-serif;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    outline: none;
+    font-family: 'Quicksand';
+font-weight: 500;
+font-size: 22px;
+line-height: 100%;
+letter-spacing: 0%;
+background: linear-gradient(90deg, #275D3D 53.17%, #DBDBDB 100%);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+  }
+  .report-image {
+    position: absolute;
+    bottom: 60px; /* 20px above the 40px bottom of the button */
+    left: 30%;
+    width: 80px;
+    height: 80px;
+    background-color:transparent;
+    border-radius: 3px;
+    box-shadow: none;
+    padding: 4px;
+    object-fit: contain;
+  }
+  .chat-float-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 999;
+  }
+  
+  .chat-with-me-button {
+    margin-bottom: 10px; /* 20px above image including gap */
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #ffffff; /* or white if you prefer */
+    border: none;
+    border-radius: 10px;
+    background: radial-gradient(93.05% 495.78% at 42.92% 8.49%, #F5861F 15.08%, #F9F9F9 100%);
+    box-shadow: 0px 4px 4px 0px #00000040;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  
+  .chat-with-me-button:hover {
+    transform: scale(1.05);
+  }
+  
+  .fixed-bottom-image {
+    width: 200px; 
+    height: auto;
+    pointer-events: none;
+    margin-right: 20px;
+  }
+
+  .chat-avatar {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+  .chatbot-wrapper {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bot-icon {
+    width: 60px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .chat-with-me-button {
+    background: radial-gradient(93.05% 495.78% at 42.92% 8.49%, #F5861F 15.08%, #F9F9F9 100%);
+    box-shadow: 0px 4px 4px #00000040;
+    color: white;
+    padding: 10px 20px;
+    font-weight: bold;
+    border-radius: 30px;
+    border: none;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .chatbot-popup-new {
+    position: fixed;
+    bottom: 30px;
+    right: 20px;
+    z-index: 1000;
+    width: 350px;
+    height: 603px;
+    background: #F7F7F7;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10.2px 3px #00000040;
+    overflow: hidden; /* keep it here */
+    display: flex;
+    flex-direction: column;
+  }
+  @media (max-width: 500px) {
+    .sort-container {
+        width: 190px;
+        height: 50px;
+        margin-top: 30px;
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        padding: 0 10px;
+        border-radius: 7px;
+        background: #FAFAFA;
+        box-shadow: 4px 3px 5px 0px #00000033;
+        font-family: 'Quicksand', sans-serif;
+        gap: 15px; /* Adds consistent spacing between all children */
+      }
+      
+      .sort-text {
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 100%;
+        letter-spacing: 0%;
+        background: linear-gradient(90.29deg, #13522D 49.92%, #9B9B9B 76.52%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin: 0; /* remove margin-right to let flexbox gap control spacing */
+        width: 150px;
+      }
+      
+      .divider {
+        font-weight: bold;
+        color: #ccc;
+        font-size: 10px;
+    
+      }
+      
+      .sort-dropdown {
+        
+        font-family: 'Quicksand', sans-serif;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        outline: none;
+        font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    background: linear-gradient(90deg, #275D3D 53.17%, #DBDBDB 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+      }
+      .reports-details-new {
+        margin-top: 20px;
+        overflow-x: auto; /* Allow horizontal scrolling for the reports table */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: none;
+        background-color:transparent; /* 60% opacity */
+        width:100%;
+      }
+      .report-card-new {
+        width: 200px;
+        height: 250px;
+        position: relative;
+        top: 10px;
+        left: 10px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0px 4px 4px 0px #DA692B;
+        border: 1px solid #ccc;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      
+      .report-card-new:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+      }
+      .label-report-card {
+        font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    
+    
+      }
+      .report-card-new p {
+        font-family: 'Quicksand';
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #6F6F6F;
+    
+      }    
+      .chat-float-wrapper {
+        position: fixed;
+        bottom: 20px;
+        right: 0; /* Ensures it's touching the right edge */
+        display: flex;
+        flex-direction: column;
+        /* Ensures inner items stick to the right */
+        z-index: 1000;
+        margin: 0;
+        padding: 0;
+      }
+      
+      .chat-with-me-button {
+        margin-bottom: 10px; /* 20px above image including gap */
+        padding: 10px 8px;
+        font-weight: bold;
+        color: #ffffff; /* or white if you prefer */
+        border: none;
+        border-radius: 10px;
+        background: radial-gradient(93.05% 495.78% at 42.92% 8.49%, #F5861F 15.08%, #F9F9F9 100%);
+        box-shadow: 0px 4px 4px 0px #00000040;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+      
+      .chat-with-me-button:hover {
+        transform: scale(1.05);
+      }
+      
+      .fixed-bottom-image {
+        width: 120px; 
+        height: auto;
+        pointer-events: none;
+        right: 0;
+      }
+    
+      .chat-avatar {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        margin-bottom: 10px;
+      }
+      .chatbot-popup-new {
+        position: fixed;
+        bottom: 30px;
+        right: 20px;
+        z-index: 1000;
+        width: 300px;
+        height: 603px;
+        background: #F7F7F7;
+        border-radius: 10px;
+        box-shadow: 4px 4px 10.2px 3px #00000040;
+        overflow: hidden; /* keep it here */
+        display: flex;
+        flex-direction: column;
+      }
+  }

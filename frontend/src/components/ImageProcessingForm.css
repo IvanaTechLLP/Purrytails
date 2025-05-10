@@ -168,6 +168,7 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px; /* Space above the loader */
+  font-size: 1.5rem; /* Adjust as needed */
 }
 
 .image-upload-title {

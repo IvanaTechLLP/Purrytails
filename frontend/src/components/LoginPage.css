@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+
+
+
+
+.logo-10 {
+    width: 180px;
+    height: auto;
+    position: absolute;
+    top: 11px;
+    left: 20px; /* Aligns the logo to the left */
+  }
+  .loginpage-1 {
+    background-color: #ECF7FC;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers content horizontally */
+    padding-top: 30px; /* Ensures heading starts from 130px from the top */
+    overflow: hidden;
+  }
+  
+  .login-heading-1 {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 62.5px;
+    letter-spacing: 0%;
+    color: #333; /* Adjust color as needed */
+    text-align: center;
+    position: relative; /* Ensures shadow renders correctly */
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+    margin-top: 30px; /* Instead of top */
+}
+
+  .login-subtext-1 {
+    position: absolute;
+    width: 1000px;
+    height: 74px;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%);
+  
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 36.57px;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #555; /* Adjust color as needed */
+  }
+  .login-subtext-2 {
+    position: absolute;
+    width: 1251px;
+    height: 74px;
+    top: 215px;
+    left: 50%;
+    transform: translateX(-50%);
+  
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 24px;
+    line-height: 36.57px;
+    letter-spacing: 0%;
+    text-align: center;
+    color: #555; /* Adjust color as needed */
+  }
+  .login-new-button-1 {
+    position: absolute;
+    width: 503px;
+    height: 69px;
+    top: 275px;
+    left: auto;
+     /* Centers the button horizontally */
+  
+    border-radius: 20px;
+    border-width: 1px;
+    border: 1px solid #7E7A7A;
+    background: #FFD700;
+    color: #333; /* Adjust text color as needed */
+  
+    font-family: "Montserrat", sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 36.57px;
+    letter-spacing: 0%;
+    color: #5C4033; /* Background color was mentioned, assuming it's meant for text color */
+    text-align: center;
+    cursor: pointer;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    box-shadow: 
+      0px 20px 80px 0px #00000040, /* Large shadow */
+      0px 4px 4px 0px #00000040;   /* Small shadow */
+  }
+
+  .image-container-login {
+    display: flex;
+    justify-content: center; /* Centers images horizontally */
+    gap: 20px; /* Adds space between the images */
+    margin-top: 200px; /* Ensures container is 25px below the button */
+  }
+  
+  .side-image-1 {
+    width: 450px !important;
+    height: 450px !important;
+    border-radius: 15px; /* Optional rounded corners */
+  }
+
+.image-overlay-login {
+    position: relative;
+    width: 450px; /* Match image width */
+    height: 400px; /* Match image height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.side-image-2 {
+    width: 500px !important;
+    height: 450px !important;
+    border-radius: 15px;
+}
+
+.overlay-text-login {
+    position: absolute;
+    width: 90%; /* Ensures text stays inside */
+    max-width: 90%; /* Prevents overflow */
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    font-family: "Patrick Hand", cursive;
+    font-weight: 500;
+    font-size: 19px;
+    line-height: 21px;
+    text-align: center;
+    
+    color: rgb(0, 0, 0);
+
+    padding: 10px 15px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.overlay-highlight-login {
+    font-weight: 700;
+    font-size: 21px;
+    display: block;
+    margin-bottom: 1px; /* Reduce space below */
+    line-height: 23px; /* Adjust line spacing */
+}
+
+
+.side-image-1, .side-image-2 {
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+@media (max-width: 768px){
+    .logo-10 {
+        width: 130px;
+        height: auto;
+        position: absolute;
+        top: 0px !important;
+        left: 0px !important; /* Aligns the logo to the left */
+      }
+      .loginpage-1 {
+        background-color: #ECF7FC;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centers content horizontally */
+        padding-top: 20px !important; /* Ensures heading starts from 130px from the top */
+        overflow: hidden;
+      }
+      .login-heading-1 {
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 32.5px;
+        letter-spacing: 0%;
+        color: #333; /* Adjust color as needed */
+        text-align: center; /* Ensures text alignment */
+        text-shadow: 0px 4px 4px 0px #00000040; /* Adds the shadow effect */
+        top:20px;
+      }
+}
+.login-heading-small-1 {
+    display: none !important;
+    text-align: center;
+    font-family: "Quicksand", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 28px; /* Reduced line height */
+    color: #333;
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.login-title {
+    font-size: 26px; /* Slightly larger but not too much */
+    font-weight: 800;
+    line-height: 28px; /* Keep the same line height */
+}
+
+
+@media (max-width: 768px) { /* Show only on smaller screens */
+    .login-heading-large-1 {
+        display: none !important; /* Hide large text */
+    }
+
+    .login-heading-small-1 {
+        display: block !important; /* Show smaller version */
+    }
+    .login-subtext-1 {
+        position: absolute;
+        width: 350px;
+        height: 74px;
+        top: 160px;
+        left: 50%;
+        transform: translateX(-50%);
+      
+        font-family: "Montserrat", sans-serif;
+        font-weight: 500;
+        font-style: italic;
+        font-size: 18px;
+        line-height: 26.57px;
+        letter-spacing: 0%;
+        text-align: center;
+        color: #555; /* Adjust color as needed */
+      }
+      .login-subtext-2 {
+        position: absolute;
+        width: 350px;
+        height: 74px;
+        top: 295px;
+        left: 50%;
+        transform: translateX(-50%);
+      
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-style: italic;
+        font-size: 18px;
+        line-height: 26.57px;
+        letter-spacing: 0%;
+        text-align: center;
+        color: #555; /* Adjust color as needed */
+      }
+
+      .login-new-button-1 {
+        position: absolute;
+        width: 325px;
+        height: 55px;
+        top: 395px;
+        left: auto;
+         /* Centers the button horizontally */
+      
+        border-radius: 20px;
+        border-width: 1px;
+        border: 1px solid #7E7A7A;
+        background: #FFD700;
+        color: #333; /* Adjust text color as needed */
+      
+        font-family: "Montserrat", sans-serif;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 18px;
+        letter-spacing: 0%;
+        color: #5C4033; /* Background color was mentioned, assuming it's meant for text color */
+        text-align: center;
+        cursor: pointer;
+      
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      
+        box-shadow: 
+          0px 20px 80px 0px #00000040, /* Large shadow */
+          0px 4px 4px 0px #00000040;   /* Small shadow */
+      }
+      .image-container-login {
+        display: flex;
+        justify-content: center; /* Centers images horizontally */
+        gap: 20px; /* Adds space between the images */
+        margin-top: 320px; /* Ensures container is 25px below the button */
+      }
+      .side-image-1 {
+        display: none;
+      }
+
+      .image-overlay-login {
+        position: relative;
+        width: 310px; /* Match image width */
+        height: 330px; /* Match image height */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .side-image-2 {
+        width: 320px !important;
+        height: 370px !important;
+        border-radius: 15px;
+    }
+    
+    .overlay-text-login {
+        position: absolute;
+        width: 90%; /* Ensures text stays inside */
+        max-width: 90%; /* Prevents overflow */
+        top: 54%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        font-family: "Patrick Hand", cursive;
+        font-weight: 500;
+        font-size: 15px;
+        line-height: 18px;
+        text-align: center;
+        
+        color: rgb(0, 0, 0);
+    
+        padding: 10px 15px;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .overlay-highlight-login {
+        font-weight: 700;
+        font-size: 18px;
+        display: block;
+        margin-bottom: 1px; /* Reduce space below */
+        line-height: 20px; /* Adjust line spacing */
+    }
+    
+}
+
+
+

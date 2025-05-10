@@ -26,18 +26,29 @@ const ParentDetailsPage = ( {profile} ) => {
   const [sex, setSex] = useState( "");
   const [weight, setWeight] = useState(0); // Initial weight state
   const [petType, setPetType] = useState(""); // New state for pet type selection
+  const [dob, setDob] = useState(""); // New state for date of birth
   const [ageYears, setAgeYears] = useState(0);
   const [ageMonths, setAgeMonths] = useState(0);
   const [foodBrand, setFoodBrand] = useState(""); // New state for pet type selection
   const [quantity, setQuantity] = useState(0);
       const [isOpen, setIsOpen] = useState(false);
+      const [menuOpen, setMenuOpen] = useState(false);
+
+      const imageSrc = petType === "dog" ? "dog2.png" : "cat6.png";
 
   // UseEffect to fetch data from a backend or state
     useEffect(() => {
       fetchPetDetails();
-    }, []);
+
+      if (dob) {
+        calculateAgeFromDob(dob);
+      }
+    }, [dob]);
       
-  
+    const toggleMobileMenu = () => {
+      setMenuOpen(prev => !prev);
+      console.log("Menu Toggle");
+    };
     const fetchPetDetails = async () => {
       if (!profile?.user_id) return;
   
@@ -58,8 +69,9 @@ const ParentDetailsPage = ( {profile} ) => {
         setSex(matchingPet.sex);
         setWeight(matchingPet.weight);
         setPetType(matchingPet.petType);
-        setAgeYears(matchingPet.ageYears);
-        setAgeMonths(matchingPet.ageMonths);
+        setDob(matchingPet.dob);
+        // setAgeYears(matchingPet.ageYears);
+        // setAgeMonths(matchingPet.ageMonths);
         setFoodBrand(matchingPet.foodBrand);
         setQuantity(matchingPet.quantity);
 
@@ -92,6 +104,7 @@ const ParentDetailsPage = ( {profile} ) => {
       sex: sex,
       weight: weight,
       petType: petType,
+      dob: dob,
       ageYears: ageYears,
       ageMonths: ageMonths,
       foodBrand: foodBrand,
@@ -118,7 +131,7 @@ const ParentDetailsPage = ( {profile} ) => {
         alert(
           "Pet details saved successfully and sent to the database!"
         );
-        navigate("/profile");
+        navigate("/profile-new");
       } else {
         const errorData = await response.json();
         console.error("Failed to save data:", errorData);
@@ -138,198 +151,225 @@ const ParentDetailsPage = ( {profile} ) => {
     setIsOpen(false);
   };
 
+  const calculateAgeFromDob = (dobStr) => {
+    const dob = new Date(dobStr);
+    const now = new Date();
+  
+    let years = now.getFullYear() - dob.getFullYear();
+    let months = now.getMonth() - dob.getMonth();
+  
+    if (months < 0) {
+      years--;
+      months += 12;
+    }
+
+    setAgeYears(years);
+    setAgeMonths(months);
+  };
+  
+  
+
   return (
     
-    <div className="dashboard-wrapper">
-       <div className="header">
- 
- <button className="hamburger" onClick={handleToggle}>
-                 &#9776;
-               </button>
-               <h1 className="calendar-title">Pet Details</h1>
-            
-</div>
-         
-          <div classname="dashboard-left" >
-          <div className={`sidebar ${isOpen ? 'open' : ''}`}>
-                 <button className="back-arrow-menu" onClick={closeMenu}>
-                   &larr;
-                 </button>
+    <div className="dashboard-wrapper-1">
+      <nav className="home-nav">
+  <div className="home-logo">
+    <a href="#">
+      <img src="/PT.png" alt="Doctor Dost Logo" className="logo-image" />
+    </a>
+  </div>
+
+  <ul className="home-nav-links">
+  <li onClick={() => { navigate("/home-new");closeMenu();}}><a>Home</a></li>
+    <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
+    
+    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
+    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    
+    <li>
+    <a className="current-link">Profile</a>
+  </li>
+  </ul>
+
+</nav>
+<nav className="phone-mobile-nav">
+      <div className="phone-nav-logo">
+      <a href="#" className="phone-logo-link">
+        <img src="/PT.png" alt="Doctor Dost Logo" className="phone-logo-image" />
+      </a>
+        </div>
+
+        <button className="phone-hamburger" onClick={toggleMobileMenu}>
+          {/* Conditionally render Hamburger or Cross icon */}
+          {menuOpen ? '×' : '☰'}
+        </button>
+
+       
+      </nav>
+      <div className={`phone-mobile-menu ${menuOpen ? 'open' : ''}`}>
+        <ul className="home-nav-links">
+        <li onClick={() => { navigate("/home-new");closeMenu();}}><a>Home</a></li>
       
+        <li onClick={() => { navigate("/dashboard");closeMenu(); }}><a>Records</a></li>
     
-              <h2>Menu</h2>
-              <ul className="menu-items">
-                <li
-                  onClick={() => {
-                    navigate("/home");
-                    
-                  }}
-                  title="Home"
-                >
-                  <FaHome className="home-icon" /> <span>Home</span>
-                </li>
-    
-                <li
-                  onClick={() => {
-                    navigate("/dashboard");
-                   
-                  }}
-                  className="menu-button"
-                  title="Dashboard"
-                >
-                  <FaTachometerAlt className="home-icon" /> <span>Records</span>
-                </li>
-                <li
-                  onClick={() => {
-                    handleUploadFile();
-                   
-                  }}
-                  className="menu-button"
-                  title="Upload reports"
-                >
-                  <FaFileUpload className="home-icon" /> <span>Uploads</span>
-                </li>
-                <li
-                  onClick={() => {
-                    navigate("/timeline");
-                   
-                  }}
-                  className="menu-button"
-                  title="Timeline"
-                >
-                  <MdTimeline className="home-icon" /> <span>TimeLine</span>
-                </li>
-    
-                        {/*
-                    <li onClick={() => { navigate("/calendar"); closeMenu(); }} className='menu-button' title="Calendar">
-                      <FaCalendarAlt /> 
-                    </li>
-                    <li onClick={() => { navigate("/chat"); closeMenu(); }} title="Chat">
-                    <FaComments /> 
-                  </li>
-                    */}
-              </ul>
-              
-            </div>
-          </div>
-    <div className="profile-page" onClick={() => {closeMenu(); }}>
-    <div className="form-container">
-      {/* Back Arrow */}
-      <div className="back-arrow" onClick={handleBack} style={{ cursor: "pointer" }}>
-        ← 
-      </div>
+    <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
+    <li onClick={() => { navigate("/timeline");closeMenu();}}><a>Timeline</a></li>
+    <li>
+    <a className="current-link">Profile</a>
+  </li>
 
-      <h4 className="h4-heading">PET DETAILS</h4>
-
-      {/* Fields */}
-      <img src={profilePicture} alt={petName} className="pet-photo" />
-      <label>
-      Pet Name :
-      <input
-        type="text"
-        value={petName}
-        onChange={(e) => setPetName(e.target.value)}
-        placeholder="Enter pet's name"
-        disabled={!isEditable}
-      />
-    </label>
-    <label>
-      Age
-      <div style={{ display: "flex", alignItems: "center" }}>
-        <input
-          type="tel"
-          value={ageYears}
-          onChange={(e) => setAgeYears(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
-          placeholder="Enter years"
-          disabled={!isEditable}
-          style={{ marginRight: "5px" }}
-        />
-        {ageYears && <span>years</span>}
+          
+        </ul>
       </div>
-      <div style={{ display: "flex", alignItems: "center", marginTop: "5px" }}>
-        <input
-          type="tel"
-          value={ageMonths}
-          onChange={(e) => setAgeMonths(e.target.value.replace(/[^0-9]/g, ""))} // Keep only numbers
-          placeholder="Enter months"
-          disabled={!isEditable}
-          style={{ marginRight: "5px" }}
-        />
-        {ageMonths && <span>months</span>}
-      </div>
-    </label>
+      <div className="heading-with-image-1">
      
-      <label>
-        Pet Type:
-        <input
-          type="text"
-          value={petType}
-          onChange={(e) => setPetType(e.target.value)}
-          placeholder="Enter pet type"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Sex:
-        <input
-          type="text"
-          value={sex}
-          onChange={(e) => setSex(e.target.value)}
-          placeholder="Enter sex"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Breed:
-        <input
-          type="text"
-          value={breed}
-          onChange={(e) => setBreed(e.target.value)}
-          placeholder="Enter breed"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Weight (in kg):
-        <input
-          type="text"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-          placeholder="Enter weight"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Food Brand:
-        <input
-          type="text"
-          value={foodBrand}
-          onChange={(e) => setFoodBrand(e.target.value)}
-          placeholder="Enter food brand"
-          disabled={!isEditable}
-        />
-      </label>
-      <label>
-        Quantity:
-        <input
-          type="text"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          placeholder="Enter food quantity"
-          disabled={!isEditable}
-        />
-      </label>
+  <h4 className="form-heading">Pet Details </h4>
+</div>
+<div className="left-section-wrapper">
+    {/* Left section with pet image and details */}
+    <div className="left-pet-container">
+      <img src={imageSrc} alt="Pet" className="pet-image" />
+      <h2 className="heading-one">{petName}</h2>
+      <h3 className="heading-two">{breed}</h3>
+    </div>
 
-      {/* Edit and Save Buttons */}
-      <div className="button-container">
-        {!isEditable ? (
-          <button className="edit-button" onClick={handleEdit}>Edit</button>
+    {/* Vertical line separating left and right sections */}
+    <div className="vertical-line-1"></div>
+
+    {/* Right section with pet details */}
+    <div className="right-side-wrapper">
+      <div className="right-side-container">
+      <p className="pet-detail">
+      <span className="age-label">Age : </span>
+      <div className="age-container">
+        {isEditable ? (
+          <>
+            <div className="input-box">
+              <input
+                type="date"
+                className="input-dob"
+                value={dob}
+                onChange={(e) => {
+                  setDob(e.target.value);
+                  calculateAgeFromDob(e.target.value);
+                }}
+              />
+              <span className="label-text">Date of Birth</span>
+            </div>
+          </>
         ) : (
-          <button className="save-button" onClick={handleSave}>Save</button>
+          <>
+            <span className="age-number">{ageYears}</span>
+            <span className="age-unit"> Years</span>
+            <span className="age-number">{ageMonths}</span>
+            <span className="age-unit"> Months</span>
+          </>
         )}
       </div>
+
+      </p>
+
+      <p className="pet-detail">
+  <span className="age-label">Sex : </span>
+  <span className="age-container">
+    {isEditable ? (
+      <select
+        value={sex}
+        onChange={(e) => setSex(e.target.value)}
+        className="sex-dropdown"
+      >
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    ) : (
+      <span className="age-number">{sex}</span>
+    )}
+  </span>
+</p>
+
+<p className="pet-detail">
+  <span className="age-label">Weight : </span>
+  <span className="age-container">
+    <span className="age-number">{weight}</span>
+    <span className="age-unit"> Kgs</span>
+    <span className="age-number">{ageMonths}</span>
+    <span className="age-unit"> Grams</span>
+  </span>
+</p>
+
+<p className="pet-detail">
+  <span className="age-label">Food Brand : </span>
+  <span className="age-container">
+    {isEditable ? (
+      <input
+        type="text"
+        value={foodBrand}
+        onChange={(e) => setFoodBrand(e.target.value)}
+        className="text-input"
+        placeholder="Enter Food Brand"
+      />
+    ) : (
+      <span className="age-number">{foodBrand}</span>
+    )}
+  </span>
+</p>
+
+<p className="pet-detail">
+  <span className="age-label">Quantity : </span>
+  <span className="age-container">
+    {isEditable ? (
+      <input
+        type="number"
+        value={quantity}
+        onChange={(e) => setQuantity(e.target.value)}
+        className="text-input"
+        placeholder="Enter Quantity"
+        min="0"
+      />
+    ) : (
+      <span className="age-number">{quantity}</span>
+    )}
+  </span>
+</p>
+{/*}
+<p className="pet-detail">
+  <span className="age-label">Notes : </span>
+  <span className="age-container">
+    {isEditable ? (
+      <textarea
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        className="text-input"
+        placeholder="Enter Notes"
+      />
+    ) : (
+      <span className="age-number">{notes || "No Notes"}</span>
+    )}
+  </span>
+</p>
+*/}
+
+<div className="edit-button-container">
+      <button
+        className="edit-button"
+        onClick={() => {
+          if (isEditable) {
+            handleSave(); // Trigger save action when in edit mode
+          } else {
+            handleEdit(); // Toggle edit mode when not in edit mode
+          }
+        }}
+      >
+        {isEditable ? 'Save' : 'Edit Details'}
+      </button>
+      </div>
+      </div>
     </div>
-    </div>
+  </div>
+
+
+
+
     </div>
   );
 };

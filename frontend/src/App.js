@@ -12,31 +12,65 @@ import LoginSignupPage from "./components/LoginSignupPage";
 import ErrorBoundary from "./components/ErrorBoundary";
 import Dashboard from "./components/Dashboard";
 import LandingPage from "./components/LandingPage";
+import UserPage from "./components/UserPage";
 import TermsAndConditions from "./components/TermsAndConditions";
-import UserProfilePage from "./components/UserPage";
 import Home from "./components/Home";
 import Timeline from "./components/Timeline";
 import ParentDetailsPage from "./components/ParentDetailsPage";
 import PetDetailsPage from './components/PetDetailsPage'; 
+import LoginPage from "./components/LoginPage";
+import HomeNew from './components/HomeNew'; 
+import TimelineNew from "./components/TimelineNew";
+import DashboardNew from "./components/DashboardNew";
+import Upload from "./components/Upload"
+import UserProfilePage from "./components/UserProfilePage";
+import Payments from "./components/Payments";
+{/*
+  import Upload from "./components/Upload"
 
 
 
-function FileUploadPage({ profile, selectedPetId }) {
-  return (
-    
-    <div className="app-container">
-      <div className="left-panel">
-        <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
+
+  function FileUploadPage({ profile, selectedPetId }) {
+    return (
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <ImageProcessingForm profile={profile} selectedPetId={selectedPetId}/>
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+      function FileUploadPage({ profile, selectedPetId }) {
+    return (
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <Upload profile={profile} selectedPetId={selectedPetId}/>
+        </div>
+      </div>
+    );
+  }
+  */}
+
+  function FileUploadPage({ profile, selectedPetId }) {
+    return (
+      
+      <div className="app-container">
+        <div className="left-panel">
+          <Upload profile={profile} selectedPetId={selectedPetId}/>
+        </div>
+      </div>
+    );
+  }
+
+
 
 function DashboardPage({ profile, logOut, reports, setReports, selectedPetId }) {
   return (
     <div className="app-container">
       <div className="left-panel">
-        <Dashboard
+        <DashboardNew
           profile={profile}
           logOut={logOut}
           reports={reports}
@@ -48,32 +82,8 @@ function DashboardPage({ profile, logOut, reports, setReports, selectedPetId }) 
   );
 }
 
-function HomePage({ profile, logOut, reports, setReports, selectedPetId }) {
-  return (
-    <div className="app-container">
-      <div className="left-panel">
-        <Home
-          profile={profile}
-          logOut={logOut}
-          reports={reports}
-          setReports={setReports}
-          selectedPetId={selectedPetId}
-        />
-      </div>
-    </div>
-  );
-}
-{/*
-function QR_DashboardPage({ reports, setReports, profile, setProfile }) {
-  return (
-    <div className="app-container">
-      <div className="left-panel">
-        <QR_Dashboard reports={reports} setReports={setReports} profile={profile} setProfile={setProfile} />
-      </div>
-    </div>
-  );
-}
-    */}
+
+
 
 function App() {
   const [profile, setProfile] = useState(null);
@@ -142,7 +152,7 @@ function App() {
                 )
               }
             />
-           
+           {/*}
             <Route
               path="/login"
               element={
@@ -152,9 +162,49 @@ function App() {
                 />
               }
             />
-            
             <Route
-              path="/file_upload"
+              path="/loginn"
+              element={
+                <LoginPage
+                  setProfile={setProfile}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+              }
+            />
+             <Route
+              path="/loginn"
+              element={
+                <LoginPage
+                  setProfile={setProfile}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+              }
+            />
+            */}
+            <Route
+              path="/login"
+              element={
+                <LoginSignupPage
+                  setProfile={setProfile}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+              }
+            />
+
+            <Route
+              path="/payments"
+              element={
+                isAuthenticated ? (
+                  <Payments profile={profile} logOut={logOut} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            {/*
+           
+              <Route
+              path="/upload"
               element={
                 isAuthenticated ? (
                   <FileUploadPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
@@ -163,23 +213,7 @@ function App() {
                 )
               }
             />
-            <Route
-              path="/dashboard"
-              element={
-                isAuthenticated ? (
-                  <DashboardPage
-                    profile={profile}
-                    logOut={logOut}
-                    reports={reports}
-                    setReports={setReports}
-                    selectedPetId={selectedPetId}
-                  />
-                ) : (
-                  <Navigate to="/" />
-                )
-              }
-            />
-            <Route
+             <Route
               path="/home"
               element={
                 isAuthenticated ? (
@@ -195,6 +229,53 @@ function App() {
                 )
               }
             />
+            */}
+              <Route
+              path="/file_upload"
+              element={
+                isAuthenticated ? (
+                  <FileUploadPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            
+            <Route
+              path="/dashboardnew"
+              element={
+                isAuthenticated ? (
+                  <DashboardPage
+                    profile={profile}
+                    logOut={logOut}
+                    reports={reports}
+                    setReports={setReports}
+                    selectedPetId={selectedPetId}
+                  />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+           
+            <Route
+              path="/home-new"
+              element={
+                isAuthenticated ? (
+                  <HomeNew
+                    profile={profile}
+                    logOut={logOut}
+                    reports={reports}
+                    setReports={setReports}
+                    selectedPetId={selectedPetId}
+                  />
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            
+
             {/*
             <Route
               path="/calendar"
@@ -251,12 +332,11 @@ function App() {
                 )
               }
             />
-            */}
-            <Route
+              <Route
               path="/profile"
               element={
                 isAuthenticated ? (
-                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
+                  <UserPage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
                 ) : (
                   <Navigate to="/" />
                 )
@@ -272,6 +352,30 @@ function App() {
                 )
               }
             />
+            */}
+          
+            <Route
+              path="/profile-new"
+              element={
+                isAuthenticated ? (
+                  <UserProfilePage profile={profile} logOut={logOut} selectedPetId={selectedPetId} setSelectedPetId={setSelectedPetId}/>
+                ) : (
+                  <Navigate to="/" />
+                )
+              }
+            />
+            
+            <Route
+            path="/timeline-new"
+            element={isAuthenticated ? (
+              <TimelineNew profile={profile} logOut={logOut} selectedPetId={selectedPetId} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+
+
             
 
           </Routes>

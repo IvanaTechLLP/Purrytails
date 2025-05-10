@@ -46,7 +46,7 @@ const Home1 = ({ profile, reports, setReports, selectedPetId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setUserDetails(data);
@@ -59,7 +59,7 @@ const Home1 = ({ profile, reports, setReports, selectedPetId }) => {
     if (!profile?.user_id) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/get_pet_details/${profile.user_id}`, {
+      const response = await fetch(`/api/get_pet_details/${profile.user_id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const Home1 = ({ profile, reports, setReports, selectedPetId }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+        `/api/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
       );
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);

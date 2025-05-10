@@ -35,7 +35,7 @@ const Payments = ({ profile }) => {
   const handleSubscription = async () => {
     try {
       // 1. Create order from your backend
-      const res = await fetch('http://localhost:5000/api/create-order', {
+      const res = await fetch('/api/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: profile.user_id }),
@@ -54,7 +54,7 @@ const Payments = ({ profile }) => {
         order_id: data.orderId,
         handler: async function (response) {
           try {
-            const verifyRes = await fetch('http://localhost:5000/api/verify-payment', {
+            const verifyRes = await fetch('/api/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -100,7 +100,7 @@ const Payments = ({ profile }) => {
 
   const handleFreeTrial = async () => {
     try {
-      const res = await fetch('http://localhost:5000/api/start-trial', {
+      const res = await fetch('/api/start-trial', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ user_id: profile.user_id }),

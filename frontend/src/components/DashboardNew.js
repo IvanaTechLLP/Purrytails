@@ -56,7 +56,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
 
     try {
       const response = await fetch(
-        `http://localhost:5000/user_dashboard/${profile.user_id}`
+        `/api/user_dashboard/${profile.user_id}`
       );
       const data = await response.json();
       setUserDetails(data);
@@ -70,7 +70,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
 
     try {
       const response = await fetch(
-        `http://localhost:5000/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
+        `/api/reports_dashboard/${profile.user_id}?pet_id=${selectedPetId}`
       );
       const data = await response.json();
       setReports(Array.isArray(data) ? data : []);
@@ -96,7 +96,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
     if (!reportToDelete) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/delete_report/${reportToDelete}`, {
+      const response = await fetch(`/api/delete_report/${reportToDelete}`, {
         method: "DELETE",
       });
 
@@ -155,7 +155,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
         console.log("Report ID:", reportId);         // Log reportId
         console.log("Email:", email);                 // Log email
 
-        const response = await fetch(`http://localhost:5000/api/share_report`, {
+        const response = await fetch(`/api/share_report`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

@@ -204,7 +204,7 @@ const Chatbot = ({ profile, setReports, showChatbot, setShowChatbot, selectedPet
           onKeyDown={handleKeyDown}
         />
         <button className="chatbot-send-button" type="button" onClick={sendMessage}>
-          <img src="/sent.png" alt="Send" width={20} height={20} />
+          <img src="/Sent.png" alt="Send" width={20} height={20} />
         </button>
       </div>
     </div>

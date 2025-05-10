@@ -168,7 +168,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   };
 
   const handleShowUserDetails = () => {
-    navigate("/profile", { state: { userDetails } });
+    navigate("/profile-new", { state: { userDetails } });
   };
 
 
@@ -374,7 +374,7 @@ const [menuOpen, setMenuOpen] = useState(false);
       <img src="/Stethoscope.png" alt="Icon 2" className="service-icon" />
       <h3 className="service-title">View Previous Reports</h3>
       <p className="service-description">Access and manage all your pet’s health records anytime, anywhere.</p>
-      <button className="service-button"  onClick={() => navigate('/dashboard')}>View Reports</button>
+      <button className="service-button"  onClick={() => navigate('/dashboardnew')}>View Reports</button>
     </div>
 
     <div className="service-box box3">
@@ -387,7 +387,7 @@ const [menuOpen, setMenuOpen] = useState(false);
       <img src="/TimeLine1.png" alt="Icon 4" className="service-icon" />
       <h3 className="service-title">Health Timeline</h3>
       <p className="service-description">Visualize your pet’s medical journey with an easy-to-read timeline.</p>
-      <button className="service-button" onClick={() => navigate('/timeline')}>View Timeline</button>
+      <button className="service-button" onClick={() => navigate('/timeline-new')}>View Timeline</button>
     </div>
   </div>
 </div>

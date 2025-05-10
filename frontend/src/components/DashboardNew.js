@@ -139,7 +139,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
   };
 
   const handleShowUserDetails = () => {
-    navigate("/profile", { state: { userDetails } });
+    navigate("/profile-new", { state: { userDetails } });
   };
 
 
@@ -310,11 +310,11 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
 
-    <li onClick={() => { navigate("/timeline");closeMenu(); }}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu(); }}><a>Timeline</a></li>
 
    
 
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
 </nav>
@@ -343,10 +343,10 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
     
     <li onClick={() => { handleUploadFile();closeMenu(); }}><a>Upload</a></li>
 
-    <li onClick={() => { navigate("/timeline");closeMenu(); }}><a>Timeline</a></li>
+    <li onClick={() => { navigate("/timeline-new");closeMenu(); }}><a>Timeline</a></li>
     
     
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
 
           
         </ul>

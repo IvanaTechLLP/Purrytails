@@ -147,7 +147,7 @@ const Payments = ({ profile }) => {
       </button>
   
       <button onClick={handleFreeTrial} className="payment-btn trial-btn">
-        🎁 Start Free Trial
+        🎁 PAWLYMPICS 2025 PROMO
       </button>
     </div>
   </div>

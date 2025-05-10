@@ -162,12 +162,29 @@ function App() {
                 />
               }
             />
-            */}
-
-          <Route
+            <Route
               path="/loginn"
               element={
                 <LoginPage
+                  setProfile={setProfile}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+              }
+            />
+             <Route
+              path="/loginn"
+              element={
+                <LoginPage
+                  setProfile={setProfile}
+                  setIsAuthenticated={setIsAuthenticated}
+                />
+              }
+            />
+            */}
+            <Route
+              path="/login"
+              element={
+                <LoginSignupPage
                   setProfile={setProfile}
                   setIsAuthenticated={setIsAuthenticated}
                 />

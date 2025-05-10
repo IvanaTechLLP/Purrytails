@@ -71,7 +71,7 @@ const LandingPage = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLoginClick = () => {
-    navigate("/loginn");
+    navigate("/login");
   };
 
 
@@ -173,7 +173,7 @@ const LandingPage = () => {
     */}
     <li><a onClick={() => scrollToSection("reviews")} className="right">Testimonials</a></li>
     <li><a onClick={() => scrollToSection("about")} className="right">Our Team</a></li>
-    <li onClick={handleLoginClick}><a href="/loginn" className="right">Login</a></li>
+    <li onClick={handleLoginClick}><a href="/login" className="right">Login</a></li>
   </ul>
 </nav>
 <div>
@@ -200,7 +200,7 @@ const LandingPage = () => {
 <a href="#perks" className="phone-nav-link" onClick={(e) => scrollToSectionMobile(e, 'journey')}>User Flow</a>
 <a href="#reviews" className="phone-nav-link" onClick={(e) => scrollToSectionMobile(e, 'reviews')}>Testimonials</a>
 <a href="#about" className="phone-nav-link" onClick={(e) => scrollToSectionMobile(e, 'about')}>Our Team</a>
-<a href="/loginn" className="phone-nav-link">Login</a>
+<a href="/login" className="phone-nav-link">Login</a>
 
           
         </ul>

@@ -759,6 +759,7 @@ bottom: 10px;
   justify-content: center; /* centers content horizontally */
   gap: 12px;
   margin-bottom: 1.5rem;
+  margin-top: 80px;
 }
 .heading-with-image-1 {
   display: flex;

@@ -865,9 +865,11 @@ const [menuOpen, setMenuOpen] = useState(false);
 
 
 <div className="payment-footer">
+  {/*}
   <div className="payment-methods">
     Payment Methods
   </div>
+  */}
 
   <div className="right-links">
     <p className="link-text"  onClick={() => {

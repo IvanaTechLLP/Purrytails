@@ -19,7 +19,7 @@ const Payments = ({ profile }) => {
     if (now < expiryDate) {
       // Payment or trial still valid
       if (profile.is_paid_user || profile.is_trial_user) {
-        navigate("/profile");
+        navigate("/profile-new");
       }
     } else {
       // Expired

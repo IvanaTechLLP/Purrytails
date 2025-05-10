@@ -9,6 +9,8 @@ services:
       - "0.0.0.0:3000:3000"  # Adjust the port as needed
     environment:
       REACT_APP_GOOGLE_CLIENT_ID: "922224099937-tveaqa81dhfp30pe09kdql6q5thlkg4s.apps.googleusercontent.com"
+      REACT_APP_RAZORPAY_KEY_ID: "rzp_live_CqKl2oKApdluM5"
+      REACT_APP_RAZORPAY_KEY_SECRET: "197HQXTWymu7DK2LPMNhXp9o"
     depends_on:
       - backend
 
@@ -30,3 +32,5 @@ services:
       FERNET_KEY: "ZC1bXy5zTWrS6IwnJhWNOmtMfZ2GEyzjI5Z7zXbrE9I="
       SMTP_USER: "meddoc001@gmail.com"
       SMTP_PASSWORD: "daol ubbo gqpc qtkx"
+      RAZORPAY_KEY_ID: "rzp_live_CqKl2oKApdluM5"
+      RAZORPAY_KEY_SECRET: "197HQXTWymu7DK2LPMNhXp9o"

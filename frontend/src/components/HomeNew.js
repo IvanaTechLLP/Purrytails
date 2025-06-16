@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import "./HomeNew.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import { set } from "date-fns";
 
 
 
@@ -23,6 +24,8 @@ const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPetBreed, setSelectedPetBreed] = useState("");
   const [selectedPetAge, setSelectedPetAge] = useState(null);
   const [selectedPetType, setSelectedPetType] = useState("");
+  const [specialEmail, setSpecialEmail] = useState("");
+  const [profileName, setProfileName] = useState(profile?.name || "User");
  
 
   const navigate = useNavigate();
@@ -31,22 +34,24 @@ const [menuOpen, setMenuOpen] = useState(false);
   const [showDetails, setShowDetails] = useState({});
   
   useEffect(() => {
-    if (state?.showPopup === false) {
-      setShowPopup(false);
-    }
-  }, [state?.showPopup]);
+      if (!accessToken) {
+        console.log("No access token found. Redirect to login.");
+        return;
+      }
+      
+      if (state?.showPopup === false) {
+        setShowPopup(false);
+      }
 
-  useEffect(() => {
-    if (profile?.user_id) {
-      fetchUserDetails();
-      fetchPetDetails();
-      fetchReports();
-    }
-  }, [profile?.user_id]);
-
-  useEffect(() => {
-    setFilteredReports(reports); // Set initial filtered reports to all reports
-  }, [reports]);
+      if (profile?.user_id) {
+        fetchUserDetails();
+        fetchPetDetails();
+        fetchReports();
+        setSpecialEmail(profile.email);
+        setProfileName(profile.name || "User");
+      }
+      setFilteredReports(reports); // Set initial filtered reports to all reports
+    }, [accessToken, profile?.user_id, state?.showPopup, reports]);
 
 
   const fetchUserDetails = async () => {
@@ -253,7 +258,7 @@ const [menuOpen, setMenuOpen] = useState(false);
     <div className="dashboard-wrapper-1" >
         <nav className="home-nav">
         <div className="home-logo" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
-        {profile.email === "darshthakkar09@gmail.com" && (
+        {specialEmail === "darshthakkar09@gmail.com" && (
     <img src="/anubis-tiger.webp" alt="Anubis Mode" className="logo-image" style={{ height: "60px" }} />
   )}
   <a href="#">
@@ -313,7 +318,7 @@ const [menuOpen, setMenuOpen] = useState(false);
   <div className="banner-text">
   <h2 className="welcome-text">
   <span className="welcome-back">Welcome Back </span>
-  <span className="user-name">{hasPet ? selectedPetName : profile.name}</span>
+  <span className="user-name">{hasPet ? selectedPetName : profileName}</span>
   <span className="welcome-back"> ! </span>
   </h2>
 

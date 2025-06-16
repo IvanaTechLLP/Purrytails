@@ -18,6 +18,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
   const [reportToShare, setReportToShare] = useState(null); // ID of the report to share
   const [selectedFilter, setSelectedFilter] = useState("latest");
   const [filteredReports, setFilteredReports] = useState([]);
+  const [specialEmail, setSpecialEmail] = useState("");
   // const [showMeetingPopup, setShowMeetingPopup] = useState(false);
   // const [meetLink, setMeetLink] = useState(null); // State to store the Meet link
   const [isOpen, setIsOpen] = useState(false);
@@ -42,6 +43,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
     if(profile?.user_id) {
       fetchUserDetails();
       fetchReports();
+      setSpecialEmail(profile.email);
     }
     
   }, [profile?.user_id]);
@@ -290,7 +292,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
     
       <nav className="home-nav">
       <div className="home-logo" style={{ display: "flex", alignItems: "center", gap: "30px" }}>
-        {profile.email === "darshthakkar09@gmail.com" && (
+        {specialEmail === "darshthakkar09@gmail.com" && (
     <img src="/anubis-tiger.webp" alt="Anubis Mode" className="logo-image" style={{ height: "60px" }} />
   )}
   <a href="#">
@@ -314,7 +316,7 @@ const DashboardNew = ({ profile, logOut, reports, setReports, selectedPetId }) =
 
    
 
-    <li onClick={() => { navigate("/profile");closeMenu();}}><a>Profile</a></li>
+    <li onClick={() => { navigate("/profile-new");closeMenu();}}><a>Profile</a></li>
   </ul>
 
 </nav>
